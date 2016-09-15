@@ -8,12 +8,14 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 public class ReservationServer implements Runnable {
 
+    public static final int DEFAULT_PORT = 8787;
+
     public static void main(String[] args) {
         new ReservationServer().run();
     }
 
     public void run() {
-        int httpPort = Integer.parseInt(System.getProperty("reservation.port"));
+        int httpPort = getHttpPort();
 
         Server server = new Server(httpPort);
         ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
@@ -22,7 +24,7 @@ public class ReservationServer implements Runnable {
             server.start();
             server.join();
         } catch (Exception e) {
-            e.printStackTrace(); // Une des rare fois qu'on peut!
+            e.printStackTrace();
         } finally {
             server.destroy();
         }
@@ -32,5 +34,13 @@ public class ReservationServer implements Runnable {
         ServletContainer container = new ServletContainer(new ResourceConfig().packages("ca.ulaval.glo4002.thunderbird.reservation"));
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
+    }
+
+    private int getHttpPort() {
+        try {
+            return Integer.parseInt(System.getProperty("reservation.port"));
+        } catch (NumberFormatException e) {
+            return DEFAULT_PORT;
+        }
     }
 }
