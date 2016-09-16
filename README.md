@@ -24,3 +24,6 @@ ul-glo4002-a16-equipe5 created by GitHub Classroom
 ### Test
 
 * Le nom des fonctions devront suivre cette structure : given*_when*_should*.
+
+###Code
+* Le code doit être écrit en anglais (incluant commentaire)
