@@ -1,6 +1,6 @@
-# ul-glo4002-a16-equipe5
+# Thunderbird
 
-[![Build Status](https://travis-ci.com/GLO4002UL/ul-glo4002-a16-equipe5.svg?token=929Wmi9HboocHyKUmiTr)](https://travis-ci.com/GLO4002UL/ul-glo4002-a16-equipe5)
+[![Build Status](https://travis-ci.com/GLO4002UL/ul-glo4002-a16-equipe5.svg?token=929Wmi9HboocHyKUmiTr&branch=master)](https://travis-ci.com/GLO4002UL/ul-glo4002-a16-equipe5)
 
 ul-glo4002-a16-equipe5 created by GitHub Classroom
 
