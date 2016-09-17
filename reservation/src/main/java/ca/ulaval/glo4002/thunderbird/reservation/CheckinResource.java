@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,13 +21,13 @@ public class CheckinResource {
 
     @POST
     public Response checkin(Checkin checkin) {
-        if (checkin.getBy() == null && checkin.getPassengerHash() == null) {
-            return Response.status(400).entity("by and passengerHas fields are required").build();
+        if (checkin.getBy() == null || checkin.getPassenger_hash() == null) {
+            return Response.status(400).entity(new StringBuilder("by and passengerHas fields are required")).build();
         }
 
-        String passengerHash = checkin.getPassengerHash();
+        String passengerHash = checkin.getPassenger_hash();
         if (!reservationRepository.passengerHasReservation(passengerHash)) {
-            return Response.status(404).entity("passenger reservation not found").build();
+            return Response.status(404).entity(new StringBuilder("passenger reservation not found")).build();
         }
 
         String checkinId = "checkinId";

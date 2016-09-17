@@ -4,9 +4,9 @@ package ca.ulaval.glo4002.thunderbird.reservation;
  * Created by alexandre on 2016-09-17.
  */
 public class Checkin {
-    private String passengerHash;
+    private String passenger_hash;
     private String by;
-    private String checkinId;
+    private String checkin_id;
 
     public Checkin() {
     }
@@ -19,24 +19,24 @@ public class Checkin {
         this.by = by;
     }
 
-    public String getCheckinId() {
-        return checkinId;
+    public String getCheckin_id() {
+        return checkin_id;
     }
 
-    public void setCheckinId(String checkinId) {
-        this.checkinId = checkinId;
+    public void setCheckin_id(String checkin_id) {
+        this.checkin_id = checkin_id;
     }
 
-    public String getPassengerHash() {
-        return passengerHash;
+    public String getPassenger_hash() {
+        return passenger_hash;
     }
 
-    public void setPassengerHash(String passengerHash) {
-        this.passengerHash = passengerHash;
+    public void setPassenger_hash(String passengerHash) {
+        this.passenger_hash = passengerHash;
     }
 
     public Checkin(String passengerHash, String by) {
-        this.passengerHash = passengerHash;
+        this.passenger_hash = passengerHash;
         this.by = by;
     }
 }
