@@ -11,6 +11,11 @@ public class Checkin {
     public Checkin() {
     }
 
+    public Checkin(String passengerHash, String by) {
+        this.passenger_hash = passengerHash;
+        this.by = by;
+    }
+
     public String getBy() {
         return by;
     }
@@ -33,10 +38,5 @@ public class Checkin {
 
     public void setPassenger_hash(String passengerHash) {
         this.passenger_hash = passengerHash;
-    }
-
-    public Checkin(String passengerHash, String by) {
-        this.passenger_hash = passengerHash;
-        this.by = by;
     }
 }
