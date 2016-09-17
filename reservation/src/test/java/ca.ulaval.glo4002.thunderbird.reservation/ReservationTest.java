@@ -24,5 +24,6 @@ public class ReservationTest {
         assertEquals(RESERVATION_NUMBER, newReservation.reservationNumber);
         assertEquals(RESERVATION_DATE, newReservation.reservationDate);
         assertEquals(RESERVATION_CONFIRMATION, newReservation.reservationConfirmation);
+        assertEquals(PAYMENT_LOCATION, newReservation.paymentLocation);
     }
 }
