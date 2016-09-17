@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding;
 
-import com.sun.xml.internal.org.jvnet.fastinfoset.stax.FastInfosetStreamReader;
 import org.junit.Before;
 import org.junit.Test;
 
