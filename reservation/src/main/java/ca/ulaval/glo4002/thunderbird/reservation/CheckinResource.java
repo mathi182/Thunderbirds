@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,6 +21,7 @@ public class CheckinResource {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(Checkin checkin) {
         if (checkin.getBy() == null || checkin.getPassenger_hash() == null) {
             return Response.status(400).entity(new StringBuilder("by and passengerHas fields are required")).build();
