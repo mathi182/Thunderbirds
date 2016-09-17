@@ -14,5 +14,6 @@ public class EventsRessource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/reservation-created")
     public void reservationCreated() {
+
     }
 }
