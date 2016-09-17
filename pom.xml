@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <modules>
+        <module>data</module>
         <module>boarding</module>
         <module>reservation</module>
         <module>app</module>
