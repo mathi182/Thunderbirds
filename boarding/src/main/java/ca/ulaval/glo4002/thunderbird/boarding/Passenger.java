@@ -10,9 +10,9 @@ public class Passenger {
     public int age;
     public String passportNumber = "";
     public String seatClass;
-    public String hash = "";
+    private String hash = "";
 
-    public Passenger(String firstName, String lastName,  int age, String passportNumber, String seatClass) {
+    public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -25,11 +25,14 @@ public class Passenger {
         this.age = age;
         this.seatClass = seatClass;
         this.generateHash();
-
     }
 
     private void generateHash(){
         SecureRandom random = new SecureRandom();
         this.hash = new BigInteger(130, random).toString(32);
+    }
+
+    public String getHash() {
+        return hash;
     }
 }

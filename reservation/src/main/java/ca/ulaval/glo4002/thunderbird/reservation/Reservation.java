@@ -2,10 +2,10 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 
 public class Reservation {
 
-    public int reservationNumber;
-    public String reservationDate;
-    public String reservationConfirmation;
-    public String paymentLocation;
+    private int reservationNumber;
+    private String reservationDate;
+    private String reservationConfirmation;
+    private String paymentLocation;
 
     public Reservation(int reservation_number,
                        String reservation_date,
@@ -15,5 +15,21 @@ public class Reservation {
         this.reservationDate = reservation_date;
         this.reservationConfirmation = reservation_confirmation;
         this.paymentLocation = paymentLocation;
+    }
+
+    public int getReservationNumber() {
+        return reservationNumber;
+    }
+
+    public String getReservationDate() {
+        return reservationDate;
+    }
+
+    public String getReservationConfirmation() {
+        return reservationConfirmation;
+    }
+
+    public String getPaymentLocation() {
+        return paymentLocation;
     }
 }

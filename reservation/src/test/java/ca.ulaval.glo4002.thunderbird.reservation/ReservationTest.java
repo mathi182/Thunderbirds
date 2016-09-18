@@ -14,16 +14,14 @@ public class ReservationTest {
 
     @Before
     public void newReservation() {
-
         newReservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE, RESERVATION_CONFIRMATION, PAYMENT_LOCATION);
     }
 
     @Test
     public void whenCreatingReservation_ShouldHaveNumberAndDateAndConfirmation() {
-
-        assertEquals(RESERVATION_NUMBER, newReservation.reservationNumber);
-        assertEquals(RESERVATION_DATE, newReservation.reservationDate);
-        assertEquals(RESERVATION_CONFIRMATION, newReservation.reservationConfirmation);
-        assertEquals(PAYMENT_LOCATION, newReservation.paymentLocation);
+        assertEquals(RESERVATION_NUMBER, newReservation.getReservationNumber());
+        assertEquals(RESERVATION_DATE, newReservation.getReservationDate());
+        assertEquals(RESERVATION_CONFIRMATION, newReservation.getReservationConfirmation());
+        assertEquals(PAYMENT_LOCATION, newReservation.getPaymentLocation());
     }
 }

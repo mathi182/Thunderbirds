@@ -18,7 +18,6 @@ public class PassengerTest {
 
     @Before
     public void newPassenger() {
-
         newPassengerWithAllInformation = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS );
         newPassengerWithMinimumInformation = new Passenger(AGE, SEAT_CLASS);
     }
@@ -30,19 +29,18 @@ public class PassengerTest {
         assertEquals(newPassengerWithAllInformation.age, AGE);
         assertEquals(newPassengerWithAllInformation.passportNumber, PASSPORT_NUMBER);
         assertEquals(newPassengerWithAllInformation.seatClass, SEAT_CLASS);
-
     }
 
     @Test
-    public void whenCreatingAPassenger_ShouldHaveAgeAndSeatClass() {
+    public void whenCreatingAPassengerWithMinimumInformations_ShouldHaveAgeAndSeatClass() {
         assertEquals(newPassengerWithMinimumInformation.age, AGE);
         assertEquals(newPassengerWithMinimumInformation.seatClass, SEAT_CLASS);
     }
 
     @Test
     public void whenCreatingAPassenger_ShouldGenerateHash(){
-        assertNotEquals(newPassengerWithAllInformation.hash, "");
-        assertNotEquals(newPassengerWithMinimumInformation.hash, "");
+        assertNotEquals(newPassengerWithAllInformation.getHash(), "");
+        assertNotEquals(newPassengerWithMinimumInformation.getHash(), "");
     }
 }
 
