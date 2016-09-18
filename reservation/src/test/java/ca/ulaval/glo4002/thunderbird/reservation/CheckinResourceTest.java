@@ -15,8 +15,7 @@ import javax.ws.rs.core.Response;
 
 import java.net.URI;
 
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
@@ -66,9 +65,8 @@ public class CheckinResourceTest {
         String locationActual = responseActual.getLocation().toString();
         int statusActual = responseActual.getStatus();
 
-        Response responseExpected = Response.created(URI.create(CHECKIN_CREATED_URI)).build();
-        String locationExpected = responseExpected.getLocation().toString();
-        int statusExpected = responseExpected.getStatus();
+        String locationExpected = CHECKIN_CREATED_URI;
+        int statusExpected = CREATED.getStatusCode();
         assertEquals(locationExpected, locationActual);
         assertEquals(statusExpected, statusActual);
     }
