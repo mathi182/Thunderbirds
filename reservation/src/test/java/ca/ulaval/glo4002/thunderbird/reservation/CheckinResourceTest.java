@@ -9,11 +9,14 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
+import javax.ws.rs.core.Response.Status.*;
 
 import javax.ws.rs.core.Response;
 
 import java.net.URI;
 
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
@@ -42,23 +45,23 @@ public class CheckinResourceTest {
     @Before
     public void setUp() throws Exception {
         this.checkinValid = new Checkin(PASSENGER_HASH_WITH_RESERVATION, AGENT_ID);
-        this.checkinNull = new Checkin();
+        this.checkinNull = new Checkin(null, null);
         this.checkinPassengerWithoutReservation = new Checkin(PASSENGER_HASH_WITHOUT_RESERVATION, AGENT_ID);
         when(this.reservationRepository.passengerHasReservation(PASSENGER_HASH_WITH_RESERVATION)).thenReturn(true);
         when(this.reservationRepository.passengerHasReservation(PASSENGER_HASH_WITHOUT_RESERVATION)).thenReturn(false);
     }
 
     @Test
-    public void checkinNull_checkin_notCreateCheckIn() throws Exception {
+    public void givenCheckinNull_whenCheckin_ShouldNotCreateCheckIn() throws Exception {
         Response responseActual = this.checkinResource.checkin(this.checkinNull);
         int statusActual = responseActual.getStatus();
 
-        int statusExpected = 400;
+        int statusExpected = BAD_REQUEST.getStatusCode();
         assertEquals(statusExpected, statusActual);
     }
 
     @Test
-    public void checkinPassengerWithReservation_checkin_createCheckIn() throws Exception {
+    public void givenCheckinPassengerWithReservation_WhenCheckin_ShouldCreateCheckIn() throws Exception {
         Response responseActual = this.checkinResource.checkin(this.checkinValid);
         String locationActual = responseActual.getLocation().toString();
         int statusActual = responseActual.getStatus();
@@ -71,11 +74,11 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void checkinPassengerWithoutReservation_checkin_notCreateCheckin() throws Exception {
+    public void givenCheckinPassengerWithoutReservation_whenCheckin_ShouldNotCreateCheckin() throws Exception {
         Response responseActual = this.checkinResource.checkin(this.checkinPassengerWithoutReservation);
         int statusActual = responseActual.getStatus();
 
-        int statusExpected = 404;
+        int statusExpected = NOT_FOUND.getStatusCode();
         assertEquals(statusExpected, statusActual);
     }
 }
