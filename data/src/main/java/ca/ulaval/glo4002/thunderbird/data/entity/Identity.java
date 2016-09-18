@@ -2,8 +2,10 @@ package ca.ulaval.glo4002.thunderbird.data.entity;
 
 import java.util.UUID;
 
+/*
+ * Created by maxime on 2016-09-16.
+ */
 public abstract class Identity {
-
     public final String id;
 
     public Identity() {
