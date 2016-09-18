@@ -8,7 +8,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
-import static ca.ulaval.glo4002.thunderbird.reservation.Util.isNullOrEmpty;
+import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
@@ -29,7 +29,7 @@ public class CheckinResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(Checkin checkin) {
-        if (isNullOrEmpty(checkin.agentId) || isNullOrEmpty(checkin.passengerHash)) {
+        if (isStringNullOrEmpty(checkin.agentId) || isStringNullOrEmpty(checkin.passengerHash)) {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
 
