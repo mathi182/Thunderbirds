@@ -37,9 +37,6 @@ public class EventsRessourceTest {
     @InjectMocks
     EventsRessource eventsRessource;
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
     @Before
     public void setUp() throws Exception {
         this.reservationValid = new Reservation(RESERVATION_NUMBER,
@@ -49,9 +46,7 @@ public class EventsRessourceTest {
                 FLIGHT_DATE,
                 PAYMENT_LOCATION,
                 PASSENGERS);
-
         this.reservationInvalid = new Reservation(0, null, null, null, null, null, new ArrayList<>());
-
     }
 
     @Test
@@ -59,7 +54,6 @@ public class EventsRessourceTest {
         Response responseActual = this.eventsRessource.createReservation(this.reservationValid);
         String locationActual = responseActual.getLocation().toString();
         int statusActual = responseActual.getStatus();
-        System.out.println(responseActual);
 
         String locationExpected = RESERVATION_CREATED_URI;
         int statusExpected = CREATED.getStatusCode();
@@ -71,9 +65,8 @@ public class EventsRessourceTest {
     public void givenReservationInvalid_whenCreatingReservation_shouldNotCreateNewReservation() throws Exception {
         Response responseActual = this.eventsRessource.createReservation(this.reservationInvalid);
         int statusActual = responseActual.getStatus();
-        System.out.println(responseActual);
+
         int statusExpected = BAD_REQUEST.getStatusCode();
         assertEquals(statusExpected, statusActual);
     }
-
 }
