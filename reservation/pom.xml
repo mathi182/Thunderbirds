@@ -36,5 +36,10 @@
             <artifactId>testng</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>ca.ulaval.glo4002</groupId>
+            <artifactId>boarding</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
