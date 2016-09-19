@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 
@@ -13,13 +15,14 @@ public class Reservation {
     private ArrayList<Passenger> passengers;
     private String paymentLocation;
 
-    public Reservation(int reservation_number,
-                       String reservation_date,
-                       String reservation_confirmation,
-                       String flightNumber,
-                       String flightDate,
-                       String paymentLocation,
-                       ArrayList<Passenger> passengers) {
+    @JsonCreator
+    public Reservation(@JsonProperty("reservation_number") int reservation_number,
+                       @JsonProperty("reservation_date") String reservation_date,
+                       @JsonProperty("reservation_confirmation") String reservation_confirmation,
+                       @JsonProperty("flight_number") String flightNumber,
+                       @JsonProperty("flight_date") String flightDate,
+                       @JsonProperty("payment_location") String paymentLocation,
+                       @JsonProperty("passengers") ArrayList<Passenger> passengers) {
         this.reservationNumber = reservation_number;
         this.reservationDate = reservation_date;
         this.reservationConfirmation = reservation_confirmation;

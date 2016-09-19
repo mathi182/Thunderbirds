@@ -35,8 +35,7 @@ public class CheckinResourceTest {
     @Mock
     ReservationRepository reservationRepository;
 
-    @InjectMocks
-    CheckinResource checkinResource;
+    @InjectMocks CheckinResource checkinResource;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
