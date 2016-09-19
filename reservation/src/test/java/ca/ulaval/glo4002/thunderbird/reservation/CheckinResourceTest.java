@@ -51,7 +51,7 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinNull_whenCheckin_ShouldNotCreateCheckIn() throws Exception {
+    public void givenCheckinNull_whenCheckin_shouldNotCreateCheckIn() throws Exception {
         Response responseActual = this.checkinResource.checkin(this.checkinNull);
         int statusActual = responseActual.getStatus();
 
@@ -60,7 +60,7 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerWithReservation_WhenCheckin_ShouldCreateCheckIn() throws Exception {
+    public void givenCheckinPassengerWithReservation_whenCheckin_shouldCreateCheckIn() throws Exception {
         Response responseActual = this.checkinResource.checkin(this.checkinValid);
         String locationActual = responseActual.getLocation().toString();
         int statusActual = responseActual.getStatus();
@@ -72,7 +72,7 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerWithoutReservation_whenCheckin_ShouldNotCreateCheckin() throws Exception {
+    public void givenCheckinPassengerWithoutReservation_whenCheckin_shouldNotCreateCheckin() throws Exception {
         Response responseActual = this.checkinResource.checkin(this.checkinPassengerWithoutReservation);
         int statusActual = responseActual.getStatus();
 
