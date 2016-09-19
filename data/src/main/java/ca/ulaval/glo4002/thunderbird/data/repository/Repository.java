@@ -5,9 +5,6 @@ import ca.ulaval.glo4002.thunderbird.data.entity.Identity;
 import java.util.Collection;
 import java.util.Optional;
 
-/*
- * Created by maxime on 2016-09-16.
- */
 public interface Repository<T extends Identity> {
     Optional<T> get(String id);
 

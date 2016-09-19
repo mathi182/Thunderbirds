@@ -4,9 +4,6 @@ import ca.ulaval.glo4002.thunderbird.data.entity.Identity;
 
 import java.util.*;
 
-/*
- * Created by maxime on 2016-09-16.
- */
 public abstract class InMemoryRepository<T extends Identity> implements Repository<T> {
     private Map<String, T> entities = new HashMap<>();
 
