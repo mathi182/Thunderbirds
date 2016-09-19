@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import java.net.URI;
 
 import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty;
-import static sun.security.timestamp.TSResponse.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 @Path("/events")
 @Produces(MediaType.APPLICATION_JSON)
