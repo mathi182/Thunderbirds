@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
 import static javax.ws.rs.core.Response.Status.CREATED;
-import static org.testng.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by rives on 9/18/2016.
