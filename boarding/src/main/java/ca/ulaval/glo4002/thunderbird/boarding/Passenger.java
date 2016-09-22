@@ -1,9 +1,11 @@
 package ca.ulaval.glo4002.thunderbird.boarding;
 
-import java.security.SecureRandom;
-import java.math.BigInteger;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Identity;
 
-public class Passenger {
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
+public class Passenger extends Identity {
 
     public String firstName = "";
     public String lastName = "";
