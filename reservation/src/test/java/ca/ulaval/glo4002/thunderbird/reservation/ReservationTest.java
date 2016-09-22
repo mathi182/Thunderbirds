@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 public class ReservationTest {
 
@@ -54,7 +54,6 @@ public class ReservationTest {
         Reservation reservationFound = Reservation.find(newReservation.getReservationNumber());
 
         assertEquals(reservationFound.getReservationNumber(), newReservation.getReservationNumber());
-        verify(PASSENGERS.get(0), times(1)).save();
     }
 
     @Test(expected = ReservationNotFoundException.class)
