@@ -80,9 +80,6 @@ public class Reservation {
             throw new ReservationAlreadySavedException(this.reservationNumber);
         }
         reservationStore.put(this.reservationNumber, new Reservation(this));
-        for (Passenger passenger : passengers) {
-            passenger.save();
-        }
     }
 
     public static Reservation find(int reservationNumber) {
