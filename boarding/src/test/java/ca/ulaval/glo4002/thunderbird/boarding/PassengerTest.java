@@ -15,6 +15,7 @@ public class PassengerTest {
     private static final int AGE = 18;
     private Passenger newPassengerWithMinimumInformation;
     private Passenger newPassengerWithAllInformation;
+    private String NON_EXISTENT_HASH = "0";
 
     @Before
     public void newPassenger() {
@@ -41,6 +42,27 @@ public class PassengerTest {
     public void whenCreatingAPassenger_ShouldGenerateHash(){
         assertNotEquals(newPassengerWithAllInformation.getHash(), "");
         assertNotEquals(newPassengerWithMinimumInformation.getHash(), "");
+    }
+
+    @Test
+    public void whenSaving_shouldActuallySave() {
+        newPassengerWithAllInformation.save();
+
+        Passenger passengerFound = Passenger.find(newPassengerWithAllInformation.getHash());
+
+        assertEquals(passengerFound.getHash(), newPassengerWithAllInformation.getHash());
+    }
+
+    @Test(expected = PassengerAlreadySavedException.class)
+    public void whenSavingAnExistingPassenger_shouldFail() {
+        newPassengerWithAllInformation.save();
+
+        newPassengerWithAllInformation.save();
+    }
+
+    @Test(expected = PassengerNotFoundException.class)
+    public void whenFindingNonExistentPassenger_shouldFail() {
+        Passenger passenger = Passenger.find(NON_EXISTENT_HASH);
     }
 }
 

@@ -6,20 +6,27 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+
 public class ReservationTest {
 
+    private int NON_EXISTENT_RESERVATION_NUMBER = 12345;
     private int RESERVATION_NUMBER = 37353;
     private String RESERVATION_DATE = "2016-01-31";
     private String RESERVATION_CONFIRMATION = "A3833";
     private String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
     private String FLIGHT_NUMBER = "AC1765";
     private String FLIGHT_DATE = "2016-10-30";
-    private ArrayList<Passenger> PASSENGERS = new ArrayList<>();
+    private ArrayList<Passenger> PASSENGERS = new ArrayList<Passenger>() {{
+        add(mock(Passenger.class));
+    }};
+
     private Reservation newReservation;
 
     @Before
     public void newReservation() {
+
         newReservation = new Reservation(RESERVATION_NUMBER,
                 RESERVATION_DATE,
                 RESERVATION_CONFIRMATION,
@@ -38,5 +45,27 @@ public class ReservationTest {
         assertEquals(FLIGHT_DATE, newReservation.getFlightDate());
         assertEquals(FLIGHT_NUMBER, newReservation.getFlightNumber());
         assertEquals(PASSENGERS, newReservation.getPassengers());
+    }
+
+    @Test
+    public void whenSaving_ActuallySave() {
+        newReservation.save();
+
+        Reservation reservationFound = Reservation.find(newReservation.getReservationNumber());
+
+        assertEquals(reservationFound.getReservationNumber(), newReservation.getReservationNumber());
+        verify(PASSENGERS.get(0), times(1)).save();
+    }
+
+    @Test(expected = ReservationNotFoundException.class)
+    public void whenFinding_ThrowIfNotFound() {
+        Reservation.find(NON_EXISTENT_RESERVATION_NUMBER);
+    }
+
+    @Test(expected = ReservationAlreadySavedException.class)
+    public void whenSavingAnExistingReservation_shouldFail() {
+        newReservation.save();
+
+        newReservation.save();
     }
 }

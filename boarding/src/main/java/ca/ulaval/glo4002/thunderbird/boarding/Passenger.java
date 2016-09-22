@@ -1,11 +1,13 @@
 package ca.ulaval.glo4002.thunderbird.boarding;
 
-import java.security.SecureRandom;
 import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.HashSet;
 
 
 public class Passenger {
+    private static final HashMap<String, Passenger> store = new HashMap<>();
 
     public String firstName = "";
     public String lastName = "";
@@ -23,6 +25,15 @@ public class Passenger {
         this.passportNumber = passportNumber;
         this.seatClass = seatClass;
         this.generateHash();
+    }
+
+    public Passenger(Passenger other) {
+        this.firstName = other.firstName;
+        this.lastName = other.lastName;
+        this.age = other.age;
+        this.passportNumber = other.passportNumber;
+        this.seatClass = other.seatClass;
+        this.hash = other.getHash();
     }
 
     public Passenger(int age, String seatClass) {
@@ -46,5 +57,22 @@ public class Passenger {
 
     public String getHash() {
         return hash;
+    }
+
+    public void save() {
+        if (store.containsKey(this.getHash())) {
+            throw new PassengerAlreadySavedException(this.getHash());
+        }
+
+        store.put(getHash(), new Passenger(this));
+    }
+
+    public static Passenger find(String hash) {
+        Passenger passenger = store.get(hash);
+        if (passenger == null) {
+            throw new PassengerNotFoundException(hash);
+        }
+
+        return store.get(hash);
     }
 }
