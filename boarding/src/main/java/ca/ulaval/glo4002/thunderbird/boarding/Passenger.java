@@ -59,20 +59,4 @@ public class Passenger {
         return hash;
     }
 
-    public void save() {
-        if (store.containsKey(this.getHash())) {
-            throw new PassengerAlreadySavedException(this.getHash());
-        }
-
-        store.put(getHash(), new Passenger(this));
-    }
-
-    public static Passenger find(String hash) {
-        Passenger passenger = store.get(hash);
-        if (passenger == null) {
-            throw new PassengerNotFoundException(hash);
-        }
-
-        return store.get(hash);
-    }
 }
