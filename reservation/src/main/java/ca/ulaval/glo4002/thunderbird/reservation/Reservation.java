@@ -3,9 +3,12 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.mockito.InjectMocks;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Reservation {
@@ -34,6 +37,9 @@ public class Reservation {
         this.flightDate = flightDate;
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
+        this.passengers.forEach(passenger -> {
+            passenger.reservationNumber = this.reservationNumber;
+        });
     }
 
     public Reservation(Reservation other) {
@@ -82,7 +88,7 @@ public class Reservation {
         reservationStore.put(this.reservationNumber, new Reservation(this));
     }
 
-    public static Reservation find(int reservationNumber) {
+    public static Reservation findByReservationNumber(int reservationNumber) {
         Reservation reservation = reservationStore.get(reservationNumber);
         if (reservation == null) {
             throw new ReservationNotFoundException(reservationNumber);
