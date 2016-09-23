@@ -6,7 +6,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertTrue;
+
 public class ReservationTest {
 
     private int RESERVATION_NUMBER = 37353;
@@ -30,13 +31,11 @@ public class ReservationTest {
     }
 
     @Test
-    public void whenCreatingReservation_shouldReservationFieldsAreNotNull() {
-        assertEquals(RESERVATION_NUMBER, newReservation.getReservationNumber());
-        assertEquals(RESERVATION_DATE, newReservation.getReservationDate());
-        assertEquals(RESERVATION_CONFIRMATION, newReservation.getReservationConfirmation());
-        assertEquals(PAYMENT_LOCATION, newReservation.getPaymentLocation());
-        assertEquals(FLIGHT_DATE, newReservation.getFlightDate());
-        assertEquals(FLIGHT_NUMBER, newReservation.getFlightNumber());
-        assertEquals(PASSENGERS, newReservation.getPassengers());
+    public void whenCreatingAReservation_shouldReservationBeValid() {
+        boolean isNewReservationValid = newReservation.isValid();
+
+        assertTrue(isNewReservationValid);
     }
+
+
 }

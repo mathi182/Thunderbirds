@@ -5,15 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 
+import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty;
+
 public class Reservation {
 
-    private int reservationNumber;
-    private String reservationDate;
-    private String reservationConfirmation;
-    private String flightNumber;
-    private String flightDate;
-    private ArrayList<Passenger> passengers;
-    private String paymentLocation;
+    public int reservationNumber;
+    public String reservationDate;
+    public String reservationConfirmation;
+    public String flightNumber;
+    public String flightDate;
+    public ArrayList<Passenger> passengers;
+    public String paymentLocation;
 
     @JsonCreator
     public Reservation(@JsonProperty("reservation_number") int reservation_number,
@@ -32,31 +34,17 @@ public class Reservation {
         this.passengers = new ArrayList<>(passengers);
     }
 
-    public int getReservationNumber() {
-        return reservationNumber;
+    public Reservation() {
+
     }
 
-    public String getReservationDate() {
-        return reservationDate;
+    public boolean isValid() {
+        return !(isStringNullOrEmpty(flightNumber)
+                || isStringNullOrEmpty(flightDate)
+                || reservationNumber == 0);
     }
 
-    public String getReservationConfirmation() {
-        return reservationConfirmation;
-    }
-
-    public String getPaymentLocation() {
-        return paymentLocation;
-    }
-
-    public String getFlightNumber() {
-        return flightNumber;
-    }
-
-    public String getFlightDate() {
-        return flightDate;
-    }
-
-    public ArrayList<Passenger> getPassengers() {
-        return passengers;
+    public static Reservation findByReservationNumber(int reservationNumber) {
+        return new Reservation();
     }
 }

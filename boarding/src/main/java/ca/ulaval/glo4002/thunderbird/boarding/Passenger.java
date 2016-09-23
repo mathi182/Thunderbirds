@@ -25,12 +25,6 @@ public class Passenger {
         this.generateHash();
     }
 
-    public Passenger(int age, String seatClass) {
-        this.age = age;
-        this.seatClass = seatClass;
-        this.generateHash();
-    }
-
     private void generateHash(){
         String possibleHash;
         int nbTries = 0;

@@ -2,12 +2,11 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
 import org.junit.Before;
-import org.junit.Rule;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
@@ -35,7 +34,7 @@ public class EventsRessourceTest {
     public static final String RESERVATION_CREATED_URI = "/reservations/" + RESERVATION_NUMBER;
 
     @InjectMocks
-    EventsRessource eventsRessource;
+    EventsResource eventsRessource;
 
     @Before
     public void setUp() throws Exception {
