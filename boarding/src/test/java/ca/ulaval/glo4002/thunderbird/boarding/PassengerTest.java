@@ -13,12 +13,18 @@ public class PassengerTest {
     private static final int AGE = 18;
     private Passenger newPassengerWithMinimumInformation;
     private Passenger newPassengerWithAllInformation;
+    private Passenger newPassengerWithoutFirstName;
+    private Passenger newPassengerWithoutLastName;
+    private Passenger newPassengerWithoutPassportNumber;
     private String NON_EXISTENT_HASH = "0";
 
     @Before
     public void newPassenger() {
         newPassengerWithAllInformation = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS );
         newPassengerWithMinimumInformation = new Passenger(AGE, SEAT_CLASS);
+        newPassengerWithoutPassportNumber = new Passenger(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS );
+        newPassengerWithoutLastName = new Passenger(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS );
+        newPassengerWithoutFirstName = new Passenger("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS );
     }
 
     @Test
@@ -48,8 +54,18 @@ public class PassengerTest {
     }
 
     @Test
-    public void givenInvalidPassengerForCheckin_whenIsValidForCheckin_thenShouldReturnFalse() throws Exception {
-        assertFalse(newPassengerWithMinimumInformation.isValidForCheckin());
+    public void givendPassengerWithoutFirstName_whenIsValidForCheckin_thenShouldReturnFalse() throws Exception {
+        assertFalse(newPassengerWithoutFirstName.isValidForCheckin());
+    }
+
+    @Test
+    public void givendPassengerWithoutLastName_whenIsValidForCheckin_thenShouldReturnFalse() throws Exception {
+        assertFalse(newPassengerWithoutLastName.isValidForCheckin());
+    }
+
+    @Test
+    public void givenPassengerWithoutPassportNumber_whenIsValidForCheckin_thenShouldReturnFalse() throws Exception {
+        assertFalse(newPassengerWithoutPassportNumber.isValidForCheckin());
     }
 }
 
