@@ -1,14 +1,20 @@
 package ca.ulaval.glo4002.thunderbird.boarding;
 
+import javassist.NotFoundException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static ca.ulaval.glo4002.thunderbird.boarding.Util.isStringNullOrEmpty;
+
 
 public class Passenger {
-    private static final HashMap<String, Passenger> store = new HashMap<>();
+    private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
 
+    public int reservationNumber = -1;
     public String firstName = "";
     public String lastName = "";
     public int age;
@@ -17,6 +23,17 @@ public class Passenger {
     private String hash = "";
     private HashSet<String> hashRepository = new HashSet<>();
 
+    public Passenger(int reservationNumber, String firstName, String lastName, int age, String passportNumber, String seatClass) {
+        this.reservationNumber = reservationNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.passportNumber = passportNumber;
+        this.seatClass = seatClass;
+        this.hash = hash;
+        this.hashRepository = hashRepository;
+        this.generateHash();
+    }
 
     public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
         this.firstName = firstName;
@@ -42,7 +59,7 @@ public class Passenger {
         this.generateHash();
     }
 
-    private void generateHash(){
+    private void generateHash() {
         String possibleHash;
         int nbTries = 0;
         do {
@@ -55,8 +72,18 @@ public class Passenger {
         this.hash = possibleHash;
     }
 
+    public static Passenger findByPassengerHash(String passengerHash) {
+        throw new NotImplementedException();
+    }
+
     public String getHash() {
         return hash;
     }
 
+    public boolean isValidForCheckin() {
+        boolean passengerHasFirstName = !isStringNullOrEmpty(this.firstName);
+        boolean passengerHasLastName = !isStringNullOrEmpty(this.lastName);
+        boolean passengerHasPassportNumber = !isStringNullOrEmpty(this.passportNumber);
+        return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber;
+    }
 }

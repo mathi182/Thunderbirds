@@ -3,11 +3,9 @@ package ca.ulaval.glo4002.thunderbird.boarding;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 public class PassengerTest {
-
     private static final String FIRST_NAME = "Uncle";
     private static final String LAST_NAME = "Bob";
     private static final String PASSPORT_NUMBER = "2564-5424";
@@ -24,7 +22,7 @@ public class PassengerTest {
     }
 
     @Test
-    public void whenCreatingAPassengerWithAllInformations_ShouldHaveSameInformations() {
+    public void whenCreatingAPassengerWithAllInformations_thenShouldHaveSameInformations() {
         assertEquals(newPassengerWithAllInformation.firstName, FIRST_NAME);
         assertEquals(newPassengerWithAllInformation.lastName, LAST_NAME);
         assertEquals(newPassengerWithAllInformation.age, AGE);
@@ -33,16 +31,25 @@ public class PassengerTest {
     }
 
     @Test
-    public void whenCreatingAPassengerWithMinimumInformations_ShouldHaveAgeAndSeatClass() {
+    public void whenCreatingAPassengerWithMinimumInformations_thenShouldHaveAgeAndSeatClass() {
         assertEquals(newPassengerWithMinimumInformation.age, AGE);
         assertEquals(newPassengerWithMinimumInformation.seatClass, SEAT_CLASS);
     }
 
     @Test
-    public void whenCreatingAPassenger_ShouldGenerateHash(){
+    public void whenCreatingAPassenger_thenShouldGenerateHash(){
         assertNotEquals(newPassengerWithAllInformation.getHash(), "");
         assertNotEquals(newPassengerWithMinimumInformation.getHash(), "");
     }
 
+    @Test
+    public void givenValidPassengerForCheckin_whenIsValidForCheckin_thenShouldReturnTrue() throws Exception {
+        assertTrue(newPassengerWithAllInformation.isValidForCheckin());
+    }
+
+    @Test
+    public void givenInvalidPassengerForCheckin_whenIsValidForCheckin_thenShouldReturnFalse() throws Exception {
+        assertFalse(newPassengerWithMinimumInformation.isValidForCheckin());
+    }
 }
 
