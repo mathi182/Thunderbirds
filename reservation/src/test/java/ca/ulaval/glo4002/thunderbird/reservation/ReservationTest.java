@@ -48,17 +48,25 @@ public class ReservationTest {
     }
 
     @Test
+    public void givenNewReservation_whenGetPassengers_shouldHavePassengersWithTheReservationNumber() throws Exception {
+        ArrayList<Passenger> passengers = newReservation.getPassengers();
+        passengers.forEach(passenger -> {
+            assertEquals(RESERVATION_NUMBER, passenger.reservationNumber);
+        });
+    }
+
+    @Test
     public void whenSaving_ActuallySave() {
         newReservation.save();
 
-        Reservation reservationFound = Reservation.find(newReservation.getReservationNumber());
+        Reservation reservationFound = Reservation.findByReservationNumber(newReservation.getReservationNumber());
 
         assertEquals(reservationFound.getReservationNumber(), newReservation.getReservationNumber());
     }
 
     @Test(expected = ReservationNotFoundException.class)
     public void whenFinding_ThrowIfNotFound() {
-        Reservation.find(NON_EXISTENT_RESERVATION_NUMBER);
+        Reservation.findByReservationNumber(NON_EXISTENT_RESERVATION_NUMBER);
     }
 
     @Test(expected = ReservationAlreadySavedException.class)
