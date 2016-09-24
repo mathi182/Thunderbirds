@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-public class RepositoryTest {
+public class InMemoryRepositoryTest {
     private final String ID_NON_EXISTENT = "IdNonExistent";
 
     @Spy
