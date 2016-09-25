@@ -81,6 +81,7 @@ public class Passenger {
     }
 
     public boolean isValidForCheckin() {
+        // TODO : Valider la réservation(reservationNumber) avec la ressource GET reservation
         boolean passengerHasFirstName = !isStringNullOrEmpty(this.firstName);
         boolean passengerHasLastName = !isStringNullOrEmpty(this.lastName);
         boolean passengerHasPassportNumber = !isStringNullOrEmpty(this.passportNumber);

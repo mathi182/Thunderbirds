@@ -45,7 +45,7 @@ public class CheckinResource {
         return Response.created(URI.create("/checkins/" + checkinId)).build();
     }
 
-    private Passenger findCheckinPassenger(String passengerHash) {
+    public Passenger findCheckinPassenger(String passengerHash) {
         return Passenger.findByPassengerHash(passengerHash);
     }
 }
