@@ -1,20 +1,26 @@
 package ca.ulaval.glo4002.thunderbird.boarding;
 
-import java.security.SecureRandom;
-import java.math.BigInteger;
-import java.util.HashSet;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Identity;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import static ca.ulaval.glo4002.thunderbird.boarding.Util.isStringNullOrEmpty;
 
+public class Passenger extends Identity {
 
-public class Passenger {
-
+    public int reservationNumber = -1;
     public String firstName = "";
     public String lastName = "";
     public int age;
     public String passportNumber = "";
     public String seatClass;
-    private String hash = "";
-    private HashSet<String> hashRepository = new HashSet<>();
 
+    public Passenger(int reservationNumber, String firstName, String lastName, int age, String passportNumber, String seatClass) {
+        this.reservationNumber = reservationNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.passportNumber = passportNumber;
+        this.seatClass = seatClass;
+    }
 
     public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
         this.firstName = firstName;
@@ -22,23 +28,31 @@ public class Passenger {
         this.age = age;
         this.passportNumber = passportNumber;
         this.seatClass = seatClass;
-        this.generateHash();
     }
 
-    private void generateHash(){
-        String possibleHash;
-        int nbTries = 0;
-        do {
-            SecureRandom random = new SecureRandom();
-            possibleHash = new BigInteger(130, random).toString(32);
-            if (++nbTries > 100)
-                throw new RuntimeException("Could not find an available hash in 100 tries.");
-        } while (hashRepository.contains(possibleHash));
-        hashRepository.add(possibleHash);
-        this.hash = possibleHash;
+    public Passenger(Passenger other) {
+        this.firstName = other.firstName;
+        this.lastName = other.lastName;
+        this.age = other.age;
+        this.passportNumber = other.passportNumber;
+        this.seatClass = other.seatClass;
     }
 
-    public String getHash() {
-        return hash;
+    public Passenger(int age, String seatClass) {
+        this.age = age;
+        this.seatClass = seatClass;
+    }
+
+    //TODO: Remove this when we will have a repository
+    public static Passenger findByPassengerHash(String passengerHash) {
+        throw new NotImplementedException();
+    }
+
+    public boolean isValidForCheckin() {
+        // TODO : Valider la réservation(reservationNumber) avec la ressource GET reservation
+        boolean passengerHasFirstName = !isStringNullOrEmpty(this.firstName);
+        boolean passengerHasLastName = !isStringNullOrEmpty(this.lastName);
+        boolean passengerHasPassportNumber = !isStringNullOrEmpty(this.passportNumber);
+        return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber;
     }
 }

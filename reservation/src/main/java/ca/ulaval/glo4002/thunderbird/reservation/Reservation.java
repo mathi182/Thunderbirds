@@ -1,14 +1,20 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
+
 import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty;
 
 public class Reservation {
 
+    private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
     public int reservationNumber;
     public String reservationDate;
     public String reservationConfirmation;
@@ -32,10 +38,20 @@ public class Reservation {
         this.flightDate = flightDate;
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
+        this.passengers.forEach(passenger -> {
+            passenger.reservationNumber = this.reservationNumber;
+        });
     }
 
-    public Reservation() {
-
+    public Reservation(Reservation other) {
+        this.reservationNumber = other.reservationNumber;
+        this.reservationDate = other.reservationDate;
+        this.reservationConfirmation = other.reservationConfirmation;
+        this.paymentLocation = other.paymentLocation;
+        this.flightDate = other.flightDate;
+        this.flightNumber = other.flightNumber;
+        this.passengers = new ArrayList<>(other.passengers.size());
+        this.passengers.addAll(other.passengers.stream().map(Passenger::new).collect(Collectors.toList()));
     }
 
     public boolean isValid() {
@@ -45,6 +61,17 @@ public class Reservation {
     }
 
     public static Reservation findByReservationNumber(int reservationNumber) {
-        return new Reservation();
+        Reservation reservation = reservationStore.get(reservationNumber);
+        if (reservation == null) {
+            throw new ReservationNotFoundException(reservationNumber);
+        }
+        return new Reservation(reservation);
+    }
+
+    public void save() {
+        if (reservationStore.containsKey(this.reservationNumber)) {
+            throw new ReservationAlreadySavedException(this.reservationNumber);
+        }
+        reservationStore.put(this.reservationNumber, new Reservation(this));
     }
 }
