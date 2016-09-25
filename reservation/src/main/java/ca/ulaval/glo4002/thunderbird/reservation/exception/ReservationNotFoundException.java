@@ -1,7 +1,7 @@
-package ca.ulaval.glo4002.thunderbird.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation.exception;
 
 public class ReservationNotFoundException extends RuntimeException {
-    int reservationNumber;
+    public int reservationNumber;
 
     public ReservationNotFoundException(int reservationNumber) {
         super();

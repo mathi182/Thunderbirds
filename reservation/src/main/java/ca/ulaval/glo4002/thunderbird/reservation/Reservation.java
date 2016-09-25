@@ -1,26 +1,27 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.mockito.InjectMocks;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.stream.Collectors;
+
+import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty;
 
 public class Reservation {
 
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
-    private int reservationNumber;
-    private String reservationDate;
-    private String reservationConfirmation;
-    private String flightNumber;
-    private String flightDate;
-    private ArrayList<Passenger> passengers;
-    private String paymentLocation;
+    public int reservationNumber;
+    public String reservationDate;
+    public String reservationConfirmation;
+    public String flightNumber;
+    public String flightDate;
+    public ArrayList<Passenger> passengers;
+    public String paymentLocation;
 
     @JsonCreator
     public Reservation(@JsonProperty("reservation_number") int reservation_number,
@@ -43,49 +44,20 @@ public class Reservation {
     }
 
     public Reservation(Reservation other) {
-        this.reservationNumber = other.getReservationNumber();
-        this.reservationDate = other.getReservationDate();
-        this.reservationConfirmation = other.getReservationConfirmation();
-        this.paymentLocation = other.getPaymentLocation();
-        this.flightDate = other.getFlightDate();
-        this.flightNumber = other.getFlightNumber();
-        this.passengers = new ArrayList<>(other.getPassengers().size());
+        this.reservationNumber = other.reservationNumber;
+        this.reservationDate = other.reservationDate;
+        this.reservationConfirmation = other.reservationConfirmation;
+        this.paymentLocation = other.paymentLocation;
+        this.flightDate = other.flightDate;
+        this.flightNumber = other.flightNumber;
+        this.passengers = new ArrayList<>(other.passengers.size());
         this.passengers.addAll(other.passengers.stream().map(Passenger::new).collect(Collectors.toList()));
     }
 
-    public int getReservationNumber() {
-        return reservationNumber;
-    }
-
-    public String getReservationDate() {
-        return reservationDate;
-    }
-
-    public String getReservationConfirmation() {
-        return reservationConfirmation;
-    }
-
-    public String getPaymentLocation() {
-        return paymentLocation;
-    }
-
-    public String getFlightNumber() {
-        return flightNumber;
-    }
-
-    public String getFlightDate() {
-        return flightDate;
-    }
-
-    public ArrayList<Passenger> getPassengers() {
-        return passengers;
-    }
-
-    public void save() {
-        if (reservationStore.containsKey(this.reservationNumber)) {
-            throw new ReservationAlreadySavedException(this.reservationNumber);
-        }
-        reservationStore.put(this.reservationNumber, new Reservation(this));
+    public boolean isValid() {
+        return !(isStringNullOrEmpty(flightNumber)
+                || isStringNullOrEmpty(flightDate)
+                || reservationNumber == 0);
     }
 
     public static Reservation findByReservationNumber(int reservationNumber) {
@@ -94,5 +66,12 @@ public class Reservation {
             throw new ReservationNotFoundException(reservationNumber);
         }
         return new Reservation(reservation);
+    }
+
+    public void save() {
+        if (reservationStore.containsKey(this.reservationNumber)) {
+            throw new ReservationAlreadySavedException(this.reservationNumber);
+        }
+        reservationStore.put(this.reservationNumber, new Reservation(this));
     }
 }

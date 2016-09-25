@@ -16,7 +16,6 @@ public class PassengerTest {
     private Passenger newPassengerWithoutFirstName;
     private Passenger newPassengerWithoutLastName;
     private Passenger newPassengerWithoutPassportNumber;
-    private String NON_EXISTENT_HASH = "0";
 
     @Before
     public void newPassenger() {
@@ -28,7 +27,7 @@ public class PassengerTest {
     }
 
     @Test
-    public void whenCreatingAPassengerWithAllInformations_thenShouldHaveSameInformations() {
+    public void whenCreatingAPassengerWithAllInformations_shouldHaveSameInformations() {
         assertEquals(newPassengerWithAllInformation.firstName, FIRST_NAME);
         assertEquals(newPassengerWithAllInformation.lastName, LAST_NAME);
         assertEquals(newPassengerWithAllInformation.age, AGE);
@@ -37,34 +36,28 @@ public class PassengerTest {
     }
 
     @Test
-    public void whenCreatingAPassengerWithMinimumInformations_thenShouldHaveAgeAndSeatClass() {
+    public void whenCreatingAPassengerWithMinimumInformations_shouldHaveAgeAndSeatClass() {
         assertEquals(newPassengerWithMinimumInformation.age, AGE);
         assertEquals(newPassengerWithMinimumInformation.seatClass, SEAT_CLASS);
     }
 
     @Test
-    public void whenCreatingAPassenger_thenShouldGenerateHash(){
-        assertNotEquals(newPassengerWithAllInformation.getHash(), "");
-        assertNotEquals(newPassengerWithMinimumInformation.getHash(), "");
-    }
-
-    @Test
-    public void givenValidPassengerForCheckin_whenIsValidForCheckin_thenShouldReturnTrue() throws Exception {
+    public void givenValidPassengerForCheckin_whenIsValidForCheckin_shouldReturnTrue() throws Exception {
         assertTrue(newPassengerWithAllInformation.isValidForCheckin());
     }
 
     @Test
-    public void givendPassengerWithoutFirstName_whenIsValidForCheckin_thenShouldReturnFalse() throws Exception {
+    public void givenPassengerWithoutFirstName_whenIsValidForCheckin_shouldReturnFalse() throws Exception {
         assertFalse(newPassengerWithoutFirstName.isValidForCheckin());
     }
 
     @Test
-    public void givendPassengerWithoutLastName_whenIsValidForCheckin_thenShouldReturnFalse() throws Exception {
+    public void givenPassengerWithoutLastName_whenIsValidForCheckin_shouldReturnFalse() throws Exception {
         assertFalse(newPassengerWithoutLastName.isValidForCheckin());
     }
 
     @Test
-    public void givenPassengerWithoutPassportNumber_whenIsValidForCheckin_thenShouldReturnFalse() throws Exception {
+    public void givenPassengerWithoutPassportNumber_whenIsValidForCheckin_shouldReturnFalse() throws Exception {
         assertFalse(newPassengerWithoutPassportNumber.isValidForCheckin());
     }
 }
