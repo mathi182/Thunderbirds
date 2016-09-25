@@ -1,11 +1,14 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -26,7 +29,6 @@ public class ReservationTest {
 
     @Before
     public void newReservation() {
-
         newReservation = new Reservation(RESERVATION_NUMBER,
                 RESERVATION_DATE,
                 RESERVATION_CONFIRMATION,
@@ -37,19 +39,15 @@ public class ReservationTest {
     }
 
     @Test
-    public void whenCreatingReservation_shouldReservationFieldsAreNotNull() {
-        assertEquals(RESERVATION_NUMBER, newReservation.getReservationNumber());
-        assertEquals(RESERVATION_DATE, newReservation.getReservationDate());
-        assertEquals(RESERVATION_CONFIRMATION, newReservation.getReservationConfirmation());
-        assertEquals(PAYMENT_LOCATION, newReservation.getPaymentLocation());
-        assertEquals(FLIGHT_DATE, newReservation.getFlightDate());
-        assertEquals(FLIGHT_NUMBER, newReservation.getFlightNumber());
-        assertEquals(PASSENGERS, newReservation.getPassengers());
+    public void whenCreatingAReservation_shouldReservationBeValid() {
+        boolean isNewReservationValid = newReservation.isValid();
+
+        assertTrue(isNewReservationValid);
     }
 
     @Test
     public void givenNewReservation_whenGetPassengers_shouldHavePassengersWithTheReservationNumber() throws Exception {
-        ArrayList<Passenger> passengers = newReservation.getPassengers();
+        ArrayList<Passenger> passengers = newReservation.passengers;
         passengers.forEach(passenger -> {
             assertEquals(RESERVATION_NUMBER, passenger.reservationNumber);
         });
@@ -59,9 +57,9 @@ public class ReservationTest {
     public void whenSaving_ActuallySave() {
         newReservation.save();
 
-        Reservation reservationFound = Reservation.findByReservationNumber(newReservation.getReservationNumber());
+        Reservation reservationFound = Reservation.findByReservationNumber(newReservation.reservationNumber);
 
-        assertEquals(reservationFound.getReservationNumber(), newReservation.getReservationNumber());
+        assertEquals(reservationFound.reservationNumber, newReservation.reservationNumber);
     }
 
     @Test(expected = ReservationNotFoundException.class)
