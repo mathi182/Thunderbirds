@@ -2,8 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.Identity;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-static ca.ulaval.glo4002.thunderbird.boarding.Util.isStringNullOrEmpty;
+import static ca.ulaval.glo4002.thunderbird.boarding.Util.isStringNullOrEmpty;
 
 public class Passenger extends Identity {
 
