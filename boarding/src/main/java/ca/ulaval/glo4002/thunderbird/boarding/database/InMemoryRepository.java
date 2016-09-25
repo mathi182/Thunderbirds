@@ -20,7 +20,7 @@ public abstract class InMemoryRepository<T extends Identity> implements Reposito
 
     @Override
     public void save(T entity) {
-        entities.put(entity.id, entity);
+        entities.put(entity.getId(), entity);
     }
 
     @Override

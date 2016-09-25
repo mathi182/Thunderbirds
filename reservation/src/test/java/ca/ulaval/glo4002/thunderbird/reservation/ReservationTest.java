@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,12 +61,5 @@ public class ReservationTest {
     @Test(expected = ReservationNotFoundException.class)
     public void whenFinding_ThrowIfNotFound() {
         Reservation.findByReservationNumber(NON_EXISTENT_RESERVATION_NUMBER);
-    }
-
-    @Test(expected = ReservationAlreadySavedException.class)
-    public void whenSavingAnExistingReservation_shouldFail() {
-        newReservation.save();
-
-        newReservation.save();
     }
 }

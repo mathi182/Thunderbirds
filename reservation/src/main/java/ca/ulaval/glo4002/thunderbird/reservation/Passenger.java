@@ -1,11 +1,16 @@
-package ca.ulaval.glo4002.thunderbird.boarding;
+package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Identity;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import static ca.ulaval.glo4002.thunderbird.boarding.Util.isStringNullOrEmpty;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 
-public class Passenger extends Identity {
+import java.util.HashMap;
+import java.util.UUID;
 
+import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty;
+
+public class Passenger {
+    private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
+
+    public String passengerHash;
     public int reservationNumber = -1;
     public String firstName = "";
     public String lastName = "";
@@ -14,15 +19,12 @@ public class Passenger extends Identity {
     public String seatClass;
 
     public Passenger(int reservationNumber, String firstName, String lastName, int age, String passportNumber, String seatClass) {
+        this(firstName, lastName, age, passportNumber, seatClass);
         this.reservationNumber = reservationNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.passportNumber = passportNumber;
-        this.seatClass = seatClass;
     }
 
     public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
+        this.passengerHash = UUID.randomUUID().toString();
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -30,22 +32,16 @@ public class Passenger extends Identity {
         this.seatClass = seatClass;
     }
 
-    public Passenger(Passenger other) {
-        this.firstName = other.firstName;
-        this.lastName = other.lastName;
-        this.age = other.age;
-        this.passportNumber = other.passportNumber;
-        this.seatClass = other.seatClass;
+    public static synchronized Passenger findByPassengerHash(String passengerHash) {
+        Passenger reservation = passengerStore.get(passengerHash);
+        if (reservation == null) {
+            throw new PassengerNotFoundException(passengerHash);
+        }
+        return reservation;
     }
 
-    public Passenger(int age, String seatClass) {
-        this.age = age;
-        this.seatClass = seatClass;
-    }
-
-    //TODO: Remove this when we will have a repository
-    public static Passenger findByPassengerHash(String passengerHash) {
-        throw new NotImplementedException();
+    public synchronized void save() {
+        passengerStore.put(this.passengerHash, this);
     }
 
     public boolean isValidForCheckin() {

@@ -3,24 +3,29 @@ package ca.ulaval.glo4002.thunderbird.boarding.database;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.Identity;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+
 import java.util.Collection;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 public class InMemoryRepositoryTest {
     private final String ID_NON_EXISTENT = "IdNonExistent";
 
     @Spy
     InMemoryRepository<Identity> repository;
-    @Spy
+    @Mock
     Identity elementA, elementB;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        when(elementA.getId()).thenReturn("elementA");
+        when(elementA.getId()).thenReturn("elementB");
     }
 
     @Test
@@ -65,7 +70,7 @@ public class InMemoryRepositoryTest {
     @Test
     public void givenWeAddAnElement_whenWeFindThisElement_shouldBePresent() {
         repository.save(elementA);
-        Optional<Identity> saveElement = repository.findById(elementA.id);
+        Optional<Identity> saveElement = repository.findById(elementA.getId());
         assertTrue(saveElement.isPresent());
     }
 
@@ -73,13 +78,13 @@ public class InMemoryRepositoryTest {
     public void givenWeAddAnElement_whenWeRemoveThisElement_shouldNotBePresent() {
         repository.save(elementA);
         repository.remove(elementA);
-        assertFalse(repository.findById(elementA.id).isPresent());
+        assertFalse(repository.findById(elementA.getId()).isPresent());
     }
 
     @Test
     public void givenWeAddAnElement_whenWeRemoveAnotherElement_shouldBePresent() {
         repository.save(elementA);
         repository.remove(elementB);
-        assertTrue(repository.findById(elementA.id).isPresent());
+        assertTrue(repository.findById(elementA.getId()).isPresent());
     }
 }
