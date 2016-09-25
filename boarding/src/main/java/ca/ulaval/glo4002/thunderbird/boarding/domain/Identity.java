@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.data.entity;
+package ca.ulaval.glo4002.thunderbird.boarding.domain;
 
 import java.util.UUID;
 

@@ -3,6 +3,9 @@
 .idea/
 test-output/
 
+### Infinitest
+infinitest.filters
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

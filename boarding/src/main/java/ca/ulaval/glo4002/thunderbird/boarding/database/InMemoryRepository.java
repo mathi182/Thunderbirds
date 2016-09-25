@@ -1,6 +1,7 @@
-package ca.ulaval.glo4002.thunderbird.data.repository;
+package ca.ulaval.glo4002.thunderbird.boarding.database;
 
-import ca.ulaval.glo4002.thunderbird.data.entity.Identity;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Identity;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Repository;
 
 import java.util.*;
 
@@ -8,12 +9,12 @@ public abstract class InMemoryRepository<T extends Identity> implements Reposito
     private Map<String, T> entities = new HashMap<>();
 
     @Override
-    public Optional<T> get(String id) {
+    public Optional<T> findById(String id) {
         return Optional.ofNullable(entities.getOrDefault(id, null));
     }
 
     @Override
-    public Collection<T> get() {
+    public Collection<T> findAll() {
         return Collections.unmodifiableCollection(entities.values());
     }
 
