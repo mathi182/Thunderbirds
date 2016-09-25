@@ -13,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 public class ReservationTest {
-
     private int NON_EXISTENT_RESERVATION_NUMBER = 12345;
     private int RESERVATION_NUMBER = 37353;
     private String RESERVATION_DATE = "2016-01-31";
@@ -41,7 +40,6 @@ public class ReservationTest {
     @Test
     public void whenCreatingAReservation_shouldReservationBeValid() {
         boolean isNewReservationValid = newReservation.isValid();
-
         assertTrue(isNewReservationValid);
     }
 
