@@ -46,9 +46,7 @@ public class ReservationTest {
     @Test
     public void givenNewReservation_whenGetPassengers_shouldHavePassengersWithTheReservationNumber() throws Exception {
         ArrayList<Passenger> passengers = newReservation.passengers;
-        passengers.forEach(passenger -> {
-            assertEquals(RESERVATION_NUMBER, passenger.reservationNumber);
-        });
+        passengers.forEach(passenger -> assertEquals(RESERVATION_NUMBER, passenger.reservationNumber));
     }
 
     @Test
