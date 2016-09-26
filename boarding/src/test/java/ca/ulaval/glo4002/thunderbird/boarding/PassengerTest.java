@@ -28,17 +28,17 @@ public class PassengerTest {
 
     @Test
     public void whenCreatingAPassengerWithAllInformations_shouldHaveSameInformations() {
-        assertEquals(newPassengerWithAllInformation.firstName, FIRST_NAME);
-        assertEquals(newPassengerWithAllInformation.lastName, LAST_NAME);
+        assertEquals(newPassengerWithAllInformation.first_name, FIRST_NAME);
+        assertEquals(newPassengerWithAllInformation.last_name, LAST_NAME);
         assertEquals(newPassengerWithAllInformation.age, AGE);
-        assertEquals(newPassengerWithAllInformation.passportNumber, PASSPORT_NUMBER);
-        assertEquals(newPassengerWithAllInformation.seatClass, SEAT_CLASS);
+        assertEquals(newPassengerWithAllInformation.passport_number, PASSPORT_NUMBER);
+        assertEquals(newPassengerWithAllInformation.seat_class, SEAT_CLASS);
     }
 
     @Test
     public void whenCreatingAPassengerWithMinimumInformations_shouldHaveAgeAndSeatClass() {
         assertEquals(newPassengerWithMinimumInformation.age, AGE);
-        assertEquals(newPassengerWithMinimumInformation.seatClass, SEAT_CLASS);
+        assertEquals(newPassengerWithMinimumInformation.seat_class, SEAT_CLASS);
     }
 
     @Test

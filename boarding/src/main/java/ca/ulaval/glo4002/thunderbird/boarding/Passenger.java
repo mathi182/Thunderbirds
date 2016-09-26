@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.Identity;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -9,12 +10,13 @@ import static ca.ulaval.glo4002.thunderbird.boarding.Util.isStringNullOrEmpty;
 
 public class Passenger extends Identity {
 
-    public int reservationNumber = -1;
-    public String firstName = "";
-    public String lastName = "";
-    public int age;
-    public String passportNumber = "";
-    public String seatClass;
+    public transient int reservationNumber = -1;
+    public String first_name = "";
+    public String last_name = "";
+    public boolean child;
+    public transient int age;
+    public String passport_number = "";
+    public String seat_class;
 
     @JsonCreator
     public Passenger(@JsonProperty("first_name") String firstName,
@@ -22,33 +24,33 @@ public class Passenger extends Identity {
                      @JsonProperty("age") int age,
                      @JsonProperty("passport_number") String passportNumber,
                      @JsonProperty("seat_class") String seatClass) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.first_name = firstName;
+        this.last_name = lastName;
         this.age = age;
-        this.passportNumber = passportNumber;
-        this.seatClass = seatClass;
+        this.passport_number = passportNumber;
+        this.seat_class = seatClass;
     }
 
     public Passenger(int reservationNumber, String firstName, String lastName, int age, String passportNumber, String seatClass) {
         this.reservationNumber = reservationNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.first_name = firstName;
+        this.last_name = lastName;
         this.age = age;
-        this.passportNumber = passportNumber;
-        this.seatClass = seatClass;
+        this.passport_number = passportNumber;
+        this.seat_class = seatClass;
     }
 
     public Passenger(Passenger other) {
-        this.firstName = other.firstName;
-        this.lastName = other.lastName;
+        this.first_name = other.first_name;
+        this.last_name = other.last_name;
         this.age = other.age;
-        this.passportNumber = other.passportNumber;
-        this.seatClass = other.seatClass;
+        this.passport_number = other.passport_number;
+        this.seat_class = other.seat_class;
     }
 
     public Passenger(int age, String seatClass) {
         this.age = age;
-        this.seatClass = seatClass;
+        this.seat_class = seatClass;
     }
 
     //TODO: Remove this when we will have a repository
@@ -56,11 +58,12 @@ public class Passenger extends Identity {
         throw new NotImplementedException();
     }
 
+    @JsonIgnore
     public boolean isValidForCheckin() {
         // TODO : Valider la réservation(reservationNumber) avec la ressource GET reservation
-        boolean passengerHasFirstName = !isStringNullOrEmpty(this.firstName);
-        boolean passengerHasLastName = !isStringNullOrEmpty(this.lastName);
-        boolean passengerHasPassportNumber = !isStringNullOrEmpty(this.passportNumber);
+        boolean passengerHasFirstName = !isStringNullOrEmpty(this.first_name);
+        boolean passengerHasLastName = !isStringNullOrEmpty(this.last_name);
+        boolean passengerHasPassportNumber = !isStringNullOrEmpty(this.passport_number);
         return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber;
     }
 }
