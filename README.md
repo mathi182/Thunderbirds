@@ -8,7 +8,7 @@ ul-glo4002-a16-equipe5 created by GitHub Classroom
 - Alexis Lessard
 - Antoine Beaulieu Lessard
 - Alexandre Rivest
-- Jean-Alexandre Beaumont
+- Jean-Alexandre Beaumont (ID Github : Enteris - Email : jean-alexandre.beaumont.1@ulaval.ca)
 - Myriam Moar
 - Maxime Trottier
 - Mathieu Boily
