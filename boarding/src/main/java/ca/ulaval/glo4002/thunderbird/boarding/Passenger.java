@@ -25,11 +25,13 @@ public class Passenger extends Identity {
     public transient int reservationNumber = -1;
 
     @JsonCreator
-    public Passenger(@JsonProperty("firstName") String firstName,
-                     @JsonProperty("lastName") String lastName,
+    public Passenger(@JsonProperty("reservation_number") int reservationNumber,
+                     @JsonProperty("first_name") String firstName,
+                     @JsonProperty("last_name") String lastName,
                      @JsonProperty("age") int age,
-                     @JsonProperty("passportNumber") String passportNumber,
-                     @JsonProperty("seatClass") String seatClass) {
+                     @JsonProperty("passport_number") String passportNumber,
+                     @JsonProperty("seat_class") String seatClass) {
+        this.reservationNumber = reservationNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -37,13 +39,8 @@ public class Passenger extends Identity {
         this.seatClass = seatClass;
     }
 
-    public Passenger(int reservationNumber, String firstName, String lastName, int age, String passportNumber, String seatClass) {
-        this.reservationNumber = reservationNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.passportNumber = passportNumber;
-        this.seatClass = seatClass;
+    public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
+        this(0, firstName, lastName, age, passportNumber, seatClass);
     }
 
     public Passenger(Passenger other) {
