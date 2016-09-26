@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
-import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -28,7 +28,7 @@ public class EventsResourceTest {
     @InjectMocks
     EventsResource eventsResource;
 
-    @After
+    @Before
     public void resetReservationStore() {
         Reservation.resetReservationStore();
     }
