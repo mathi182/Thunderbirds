@@ -20,7 +20,7 @@ public class EventsResource {
     public Response createReservation(Reservation reservation) {
         if (reservation.isValid()) {
             reservation.save();
-            return Response.created(URI.create("/reservations/" + reservation.reservation_number)).build();
+            return Response.created(URI.create("/reservations/" + reservation.reservationNumber)).build();
         }
         return Response.status(BAD_REQUEST).build();
     }

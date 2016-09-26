@@ -58,7 +58,7 @@ public class ReservationsResourceTest {
         Reservation reservationExpected = (Reservation) responseExpected.getEntity();
 
         assertEquals(statusExpected, statusActual);
-        assertEquals(reservationExpected.reservation_number, reservationActual.reservation_number);
+        assertEquals(reservationExpected.reservationNumber, reservationActual.reservationNumber);
     }
 
 }

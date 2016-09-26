@@ -21,7 +21,6 @@ public class ReservationsResource {
         try {
             Reservation reservation = Reservation.findByReservationNumber(reservationNumber);
             if (reservation.isValid()) {
-
                 return Response.ok(reservation, MediaType.APPLICATION_JSON).build();
             }
             return Response.status(NOT_FOUND).build();

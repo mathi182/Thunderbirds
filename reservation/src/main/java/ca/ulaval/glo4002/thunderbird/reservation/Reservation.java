@@ -17,13 +17,16 @@ import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty
 public class Reservation {
 
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
-    public int reservation_number;
+    @JsonProperty("reservation_number")
+    public int reservationNumber;
+    @JsonProperty("flight_number")
+    public String flightNumber;
+    @JsonProperty("flight_date")
+    public String flightDate;
+    public ArrayList<Passenger> passengers;
     public transient String reservationDate;
     public transient String reservationConfirmation;
-    public String flight_number;
-    public String flight_date;
     public transient String paymentLocation;
-    public ArrayList<Passenger> passengers;
 
     @JsonCreator
     public Reservation(@JsonProperty("reservation_number") int reservation_number,
@@ -33,26 +36,26 @@ public class Reservation {
                        @JsonProperty("flight_date") String flightDate,
                        @JsonProperty("payment_location") String paymentLocation,
                        @JsonProperty("passengers") ArrayList<Passenger> passengers) {
-        this.reservation_number = reservation_number;
+        this.reservationNumber = reservation_number;
         this.reservationDate = reservation_date;
         this.reservationConfirmation = reservation_confirmation;
         this.paymentLocation = paymentLocation;
-        this.flight_date = flightDate;
-        this.flight_number = flight_number;
+        this.flightDate = flightDate;
+        this.flightNumber = flight_number;
         this.passengers = new ArrayList<>(passengers);
         this.passengers.forEach(passenger -> passenger.reservationNumber = reservation_number);
     }
 
     public Reservation(Reservation other) {
-        this.reservation_number = other.reservation_number;
+        this.reservationNumber = other.reservationNumber;
         this.reservationDate = other.reservationDate;
         this.reservationConfirmation = other.reservationConfirmation;
         this.paymentLocation = other.paymentLocation;
-        this.flight_date = other.flight_date;
-        this.flight_number = other.flight_number;
+        this.flightDate = other.flightDate;
+        this.flightNumber = other.flightNumber;
         this.passengers = new ArrayList<>(other.passengers.size());
         this.passengers.addAll(other.passengers.stream().map(Passenger::new).collect(Collectors.toList()));
-        this.passengers.forEach(passenger -> passenger.reservationNumber = reservation_number);
+        this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
     }
 
     public static Reservation findByReservationNumber(int reservationNumber) {
@@ -69,15 +72,15 @@ public class Reservation {
 
     @JsonIgnore
     public boolean isValid() {
-        return !(isStringNullOrEmpty(flight_number)
-                || isStringNullOrEmpty(flight_date)
-                || reservation_number == 0);
+        return !(isStringNullOrEmpty(flightNumber)
+                || isStringNullOrEmpty(flightDate)
+                || reservationNumber <= 0);
     }
 
     public void save() {
-        if (reservationStore.containsKey(this.reservation_number)) {
-            throw new ReservationAlreadySavedException(this.reservation_number);
+        if (reservationStore.containsKey(this.reservationNumber)) {
+            throw new ReservationAlreadySavedException(this.reservationNumber);
         }
-        reservationStore.put(this.reservation_number, new Reservation(this));
+        reservationStore.put(this.reservationNumber, new Reservation(this));
     }
 }

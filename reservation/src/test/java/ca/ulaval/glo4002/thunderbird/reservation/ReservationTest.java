@@ -56,12 +56,12 @@ public class ReservationTest {
     }
 
     @Test
-    public void whenSaving_ActuallySave() {
+    public void whenSavingReservation_shouldSuccessfullySave() {
         newReservation.save();
 
-        Reservation reservationFound = Reservation.findByReservationNumber(newReservation.reservation_number);
+        Reservation reservationFound = Reservation.findByReservationNumber(newReservation.reservationNumber);
 
-        assertEquals(reservationFound.reservation_number, newReservation.reservation_number);
+        assertEquals(reservationFound.reservationNumber, newReservation.reservationNumber);
     }
 
     @Test(expected = ReservationNotFoundException.class)
