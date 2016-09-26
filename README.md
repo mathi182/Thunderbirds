@@ -11,7 +11,7 @@ ul-glo4002-a16-equipe5 created by GitHub Classroom
 - Jean-Alexandre Beaumont (ID Github : Enteris - Email : jean-alexandre.beaumont.1@ulaval.ca)
 - Myriam Moar
 - Maxime Trottier
-- Mathieu Boily
+- Mathieu Boily (ID Github : mathi182 - Email : mathiboily@hotmail.com)
 
 ## Normes
 
