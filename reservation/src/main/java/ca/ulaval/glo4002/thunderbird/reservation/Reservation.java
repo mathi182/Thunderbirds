@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
+import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -53,7 +54,10 @@ public class Reservation {
     }
 
     public synchronized void save() {
-        reservationStore.put(this.reservationNumber, this);
+        if (reservationStore.containsKey(reservationNumber)) {
+            throw new ReservationAlreadySavedException(this.reservationNumber);
+        }
+        reservationStore.put(reservationNumber, this);
         passengers.forEach(Passenger::save);
     }
 }
