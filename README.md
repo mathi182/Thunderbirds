@@ -4,7 +4,7 @@
 
 ul-glo4002-a16-equipe5 created by GitHub Classroom
 
-- Alexandre Brillant
+- Alexandre Brillant (ID Github : alexbrillant - Email : abrillant23@gmail.com)
 - Alexis Lessard ( ID Github : AlexisLessard - Email : alexislessard95@gmail.com)
 - Antoine Beaulieu Lessard
 - Alexandre Rivest
