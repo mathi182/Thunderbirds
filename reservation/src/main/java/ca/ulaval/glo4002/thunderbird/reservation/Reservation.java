@@ -40,7 +40,7 @@ public class Reservation {
         this.flight_date = flightDate;
         this.flight_number = flight_number;
         this.passengers = new ArrayList<>(passengers);
-        this.passengers.forEach(passenger -> passenger.reservationNumber = this.reservation_number);
+        this.passengers.forEach(passenger -> passenger.reservationNumber = reservation_number);
     }
 
     public Reservation(Reservation other) {
@@ -52,6 +52,7 @@ public class Reservation {
         this.flight_number = other.flight_number;
         this.passengers = new ArrayList<>(other.passengers.size());
         this.passengers.addAll(other.passengers.stream().map(Passenger::new).collect(Collectors.toList()));
+        this.passengers.forEach(passenger -> passenger.reservationNumber = reservation_number);
     }
 
     public static Reservation findByReservationNumber(int reservationNumber) {

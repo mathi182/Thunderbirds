@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain;
 import java.util.UUID;
 
 public abstract class Identity {
-    public final String id;
+    public transient final String id;
 
     public Identity() {
         this.id = UUID.randomUUID().toString();

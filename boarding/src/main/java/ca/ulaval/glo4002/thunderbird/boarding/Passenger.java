@@ -17,6 +17,7 @@ public class Passenger extends Identity {
     public transient int age;
     public String passport_number = "";
     public String seat_class;
+    public String passenger_hash = super.id;
 
     @JsonCreator
     public Passenger(@JsonProperty("first_name") String firstName,
