@@ -20,8 +20,8 @@ public class Reservation {
     public String reservationConfirmation;
     public String flightNumber;
     public String flightDate;
-    public ArrayList<Passenger> passengers;
     public String paymentLocation;
+    public ArrayList<Passenger> passengers;
 
     @JsonCreator
     public Reservation(@JsonProperty("reservation_number") int reservation_number,
@@ -38,9 +38,7 @@ public class Reservation {
         this.flightDate = flightDate;
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
-        this.passengers.forEach(passenger -> {
-            passenger.reservationNumber = this.reservationNumber;
-        });
+        this.passengers.forEach(passenger -> passenger.reservationNumber = this.reservationNumber);
     }
 
     public Reservation(Reservation other) {
@@ -54,18 +52,22 @@ public class Reservation {
         this.passengers.addAll(other.passengers.stream().map(Passenger::new).collect(Collectors.toList()));
     }
 
-    public boolean isValid() {
-        return !(isStringNullOrEmpty(flightNumber)
-                || isStringNullOrEmpty(flightDate)
-                || reservationNumber == 0);
-    }
-
     public static Reservation findByReservationNumber(int reservationNumber) {
         Reservation reservation = reservationStore.get(reservationNumber);
         if (reservation == null) {
             throw new ReservationNotFoundException(reservationNumber);
         }
         return new Reservation(reservation);
+    }
+
+    public static void resetReservationStore() {
+        reservationStore.clear();
+    }
+
+    public boolean isValid() {
+        return !(isStringNullOrEmpty(flightNumber)
+                || isStringNullOrEmpty(flightDate)
+                || reservationNumber == 0);
     }
 
     public void save() {

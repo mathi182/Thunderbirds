@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,6 +36,11 @@ public class ReservationTest {
                 FLIGHT_DATE,
                 PAYMENT_LOCATION,
                 PASSENGERS);
+    }
+
+    @After
+    public void resetReservationStore() {
+        Reservation.resetReservationStore();
     }
 
     @Test

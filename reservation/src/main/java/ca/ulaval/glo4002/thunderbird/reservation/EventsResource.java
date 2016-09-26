@@ -19,6 +19,7 @@ public class EventsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createReservation(Reservation reservation) {
         if (reservation.isValid()) {
+            reservation.save();
             return Response.created(URI.create("/reservations/" + reservation.reservationNumber)).build();
         }
         return Response.status(BAD_REQUEST).build();

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,6 +28,11 @@ public class EventsResourceTest {
     @InjectMocks
     EventsResource eventsResource;
 
+    @After
+    public void resetReservationStore() {
+        Reservation.resetReservationStore();
+    }
+
     @Test
     public void givenReservationValid_whenCreatingReservation_shouldCreateNewReservation() throws Exception {
         Reservation validReservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE,
@@ -48,5 +54,16 @@ public class EventsResourceTest {
 
         int statusActual = responseActual.getStatus();
         assertEquals(BAD_REQUEST.getStatusCode(), statusActual);
+    }
+
+    @Test
+    public void givenValidReservation_whenCreatingReservation_shouldBeSavedInTheStore() {
+        Reservation validReservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE,
+                RESERVATION_CONFIRMATION, FLIGHT_NUMBER, FLIGHT_DATE, PAYMENT_LOCATION, PASSENGERS);
+
+        this.eventsResource.createReservation(validReservation);
+
+        Reservation savedReservation = Reservation.findByReservationNumber(RESERVATION_NUMBER);
+        assertEquals(validReservation.reservationNumber, savedReservation.reservationNumber);
     }
 }
