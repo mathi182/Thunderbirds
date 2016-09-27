@@ -10,19 +10,14 @@ import static ca.ulaval.glo4002.thunderbird.boarding.Util.isStringNullOrEmpty;
 
 public class Passenger extends Identity {
 
-    @JsonProperty("first_name")
-    public String firstName = "";
-    @JsonProperty("last_name")
-    public String lastName = "";
-    @JsonProperty("passport_number")
-    public String passportNumber = "";
-    @JsonProperty("seat_class")
-    public String seatClass;
-    @JsonProperty("passenger_hash")
-    public String hash = super.id;
+    @JsonProperty("first_name") public String firstName = "";
+    @JsonProperty("last_name") public String lastName = "";
+    @JsonProperty("passport_number") public String passportNumber = "";
+    @JsonProperty("seat_class") public String seatClass;
+    @JsonProperty("passenger_hash") public String hash = super.id;
     public boolean child;
-    public transient int age;
-    public transient int reservationNumber = -1;
+    @JsonIgnore public int age;
+    @JsonIgnore public int reservationNumber = -1;
 
     @JsonCreator
     public Passenger(@JsonProperty("reservation_number") int reservationNumber,

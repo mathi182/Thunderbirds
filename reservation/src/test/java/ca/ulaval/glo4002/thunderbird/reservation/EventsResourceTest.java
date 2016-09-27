@@ -35,8 +35,14 @@ public class EventsResourceTest {
 
     @Test
     public void givenValidReservation_whenCreatingReservation_shouldCreateNewReservation() throws Exception {
-        Reservation validReservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE,
-                RESERVATION_CONFIRMATION, FLIGHT_NUMBER, FLIGHT_DATE, PAYMENT_LOCATION, PASSENGERS);
+        Reservation validReservation = new Reservation(
+                RESERVATION_NUMBER,
+                RESERVATION_DATE,
+                RESERVATION_CONFIRMATION,
+                FLIGHT_NUMBER,
+                FLIGHT_DATE,
+                PAYMENT_LOCATION,
+                PASSENGERS);
 
         Response responseActual = this.eventsResource.createReservation(validReservation);
 
@@ -58,8 +64,14 @@ public class EventsResourceTest {
 
     @Test
     public void givenValidReservation_whenCreatingReservation_shouldBeSavedInTheStore() {
-        Reservation validReservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE,
-                RESERVATION_CONFIRMATION, FLIGHT_NUMBER, FLIGHT_DATE, PAYMENT_LOCATION, PASSENGERS);
+        Reservation validReservation = new Reservation(
+                RESERVATION_NUMBER,
+                RESERVATION_DATE,
+                RESERVATION_CONFIRMATION,
+                FLIGHT_NUMBER,
+                FLIGHT_DATE,
+                PAYMENT_LOCATION,
+                PASSENGERS);
 
         this.eventsResource.createReservation(validReservation);
 

@@ -16,20 +16,13 @@ import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty
 public class Reservation {
 
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
-    @JsonProperty("reservation_number")
-    public int reservationNumber;
-    @JsonProperty("flight_number")
-    public String flightNumber;
-    @JsonProperty("flight_date")
-    public String flightDate;
-    @JsonProperty("passengers")
-    public ArrayList<Passenger> passengers;
-    @JsonIgnore
-    public String reservationDate;
-    @JsonIgnore
-    public String reservationConfirmation;
-    @JsonIgnore
-    public String paymentLocation;
+    @JsonProperty("reservation_number") public int reservationNumber;
+    @JsonProperty("flight_number") public String flightNumber;
+    @JsonProperty("flight_date") public String flightDate;
+    @JsonProperty("passengers") public ArrayList<Passenger> passengers;
+    @JsonIgnore public String reservationDate;
+    @JsonIgnore public String reservationConfirmation;
+    @JsonIgnore public String paymentLocation;
 
     @JsonCreator
     public Reservation(@JsonProperty("reservation_number") int reservationNumber,
@@ -49,15 +42,15 @@ public class Reservation {
         this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
     }
 
-    public Reservation(Reservation other) {
-        this.reservationNumber = other.reservationNumber;
-        this.reservationDate = other.reservationDate;
-        this.reservationConfirmation = other.reservationConfirmation;
-        this.paymentLocation = other.paymentLocation;
-        this.flightDate = other.flightDate;
-        this.flightNumber = other.flightNumber;
-        this.passengers = new ArrayList<>(other.passengers.size());
-        this.passengers.addAll(other.passengers.stream().map(Passenger::new).collect(Collectors.toList()));
+    public Reservation(Reservation reservationToCopy) {
+        this.reservationNumber = reservationToCopy.reservationNumber;
+        this.reservationDate = reservationToCopy.reservationDate;
+        this.reservationConfirmation = reservationToCopy.reservationConfirmation;
+        this.paymentLocation = reservationToCopy.paymentLocation;
+        this.flightDate = reservationToCopy.flightDate;
+        this.flightNumber = reservationToCopy.flightNumber;
+        this.passengers = new ArrayList<>(reservationToCopy.passengers.size());
+        this.passengers.addAll(reservationToCopy.passengers.stream().map(Passenger::new).collect(Collectors.toList()));
         this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
     }
 
@@ -81,9 +74,9 @@ public class Reservation {
     }
 
     public void save() {
-        if (reservationStore.containsKey(this.reservationNumber)) {
-            throw new ReservationAlreadySavedException(this.reservationNumber);
+        if (reservationStore.containsKey(reservationNumber)) {
+            throw new ReservationAlreadySavedException(reservationNumber);
         }
-        reservationStore.put(this.reservationNumber, new Reservation(this));
+        reservationStore.put(reservationNumber, new Reservation(this));
     }
 }
