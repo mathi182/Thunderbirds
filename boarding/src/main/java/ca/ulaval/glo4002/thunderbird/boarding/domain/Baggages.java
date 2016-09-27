@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain;
 
 public class Baggages implements Identity {
-    public String passengerHash;
+    private String passengerHash;
 
     @Override
     public String getId() {
