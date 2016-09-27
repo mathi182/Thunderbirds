@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -23,27 +22,31 @@ public class Reservation {
     public String flightNumber;
     @JsonProperty("flight_date")
     public String flightDate;
+    @JsonProperty("passengers")
     public ArrayList<Passenger> passengers;
-    public transient String reservationDate;
-    public transient String reservationConfirmation;
-    public transient String paymentLocation;
+    @JsonIgnore
+    public String reservationDate;
+    @JsonIgnore
+    public String reservationConfirmation;
+    @JsonIgnore
+    public String paymentLocation;
 
     @JsonCreator
-    public Reservation(@JsonProperty("reservation_number") int reservation_number,
-                       @JsonProperty("reservation_date") String reservation_date,
-                       @JsonProperty("reservation_confirmation") String reservation_confirmation,
-                       @JsonProperty("flight_number") String flight_number,
+    public Reservation(@JsonProperty("reservation_number") int reservationNumber,
+                       @JsonProperty("reservation_date") String reservationDate,
+                       @JsonProperty("reservation_confirmation") String reservationConfirmation,
+                       @JsonProperty("flight_number") String flightNumber,
                        @JsonProperty("flight_date") String flightDate,
                        @JsonProperty("payment_location") String paymentLocation,
                        @JsonProperty("passengers") ArrayList<Passenger> passengers) {
-        this.reservationNumber = reservation_number;
-        this.reservationDate = reservation_date;
-        this.reservationConfirmation = reservation_confirmation;
+        this.reservationNumber = reservationNumber;
+        this.reservationDate = reservationDate;
+        this.reservationConfirmation = reservationConfirmation;
         this.paymentLocation = paymentLocation;
         this.flightDate = flightDate;
-        this.flightNumber = flight_number;
+        this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
-        this.passengers.forEach(passenger -> passenger.reservationNumber = reservation_number);
+        this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
     }
 
     public Reservation(Reservation other) {
