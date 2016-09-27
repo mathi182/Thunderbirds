@@ -7,7 +7,7 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 - Alexandre Brillant
 - Alexis Lessard
 - Antoine Beaulieu Lessard
-- Alexandre Rivest
+- Alexandre Rivest  -GitID: tiaaaa123 -email: rivest123@hotmail.com
 - Jean-Alexandre Beaumont
 - Myriam Moar
 - Maxime Trottier

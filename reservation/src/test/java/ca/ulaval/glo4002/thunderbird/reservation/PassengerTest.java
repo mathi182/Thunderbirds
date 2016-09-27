@@ -3,7 +3,8 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PassengerTest {
     private static final String FIRST_NAME = "Uncle";
@@ -22,15 +23,6 @@ public class PassengerTest {
         newPassengerWithoutPassportNumber = new Passenger(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
         newPassengerWithoutLastName = new Passenger(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
         newPassengerWithoutFirstName = new Passenger("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
-    }
-
-    @Test
-    public void whenCreatingAPassengerWithAllInformations_shouldHaveSameInformations() {
-        assertEquals(newPassengerWithAllInformation.firstName, FIRST_NAME);
-        assertEquals(newPassengerWithAllInformation.lastName, LAST_NAME);
-        assertEquals(newPassengerWithAllInformation.age, AGE);
-        assertEquals(newPassengerWithAllInformation.passportNumber, PASSPORT_NUMBER);
-        assertEquals(newPassengerWithAllInformation.seatClass, SEAT_CLASS);
     }
 
     @Test
@@ -53,4 +45,3 @@ public class PassengerTest {
         assertFalse(newPassengerWithoutPassportNumber.isValidForCheckin());
     }
 }
-

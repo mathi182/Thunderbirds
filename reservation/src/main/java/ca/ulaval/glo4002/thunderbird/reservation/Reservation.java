@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -13,36 +14,34 @@ import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty
 public class Reservation {
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
 
-    public int reservationNumber;
-    public String reservationDate;
-    public String reservationConfirmation;
-    public String flightNumber;
-    public String flightDate;
-    public ArrayList<Passenger> passengers;
-    public String paymentLocation;
+    @JsonProperty("reservation_number") public int reservationNumber;
+    @JsonProperty("flight_number") public String flightNumber;
+    @JsonProperty("flight_date") public String flightDate;
+    @JsonProperty("passengers") public ArrayList<Passenger> passengers;
+    @JsonIgnore public String reservationDate;
+    @JsonIgnore public String reservationConfirmation;
+    @JsonIgnore public String paymentLocation;
 
     @JsonCreator
-    public Reservation(@JsonProperty("reservation_number") int reservation_number,
-                       @JsonProperty("reservation_date") String reservation_date,
-                       @JsonProperty("reservation_confirmation") String reservation_confirmation,
+    public Reservation(@JsonProperty("reservation_number") int reservationNumber,
+                       @JsonProperty("reservation_date") String reservationDate,
+                       @JsonProperty("reservation_confirmation") String reservationConfirmation,
                        @JsonProperty("flight_number") String flightNumber,
                        @JsonProperty("flight_date") String flightDate,
                        @JsonProperty("payment_location") String paymentLocation,
                        @JsonProperty("passengers") ArrayList<Passenger> passengers) {
-        this.reservationNumber = reservation_number;
-        this.reservationDate = reservation_date;
-        this.reservationConfirmation = reservation_confirmation;
+        this.reservationNumber = reservationNumber;
+        this.reservationDate = reservationDate;
+        this.reservationConfirmation = reservationConfirmation;
         this.paymentLocation = paymentLocation;
         this.flightDate = flightDate;
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
-        this.passengers.forEach(passenger -> passenger.reservationNumber = this.reservationNumber);
+        this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
     }
 
-    public boolean isValid() {
-        return !(isStringNullOrEmpty(flightNumber)
-                || isStringNullOrEmpty(flightDate)
-                || reservationNumber == 0);
+    public static void resetReservationStore() {
+        reservationStore.clear();
     }
 
     public static synchronized Reservation findByReservationNumber(int reservationNumber) {
@@ -53,9 +52,16 @@ public class Reservation {
         return reservation;
     }
 
+    @JsonIgnore
+    public boolean isValid() {
+        return !(isStringNullOrEmpty(flightNumber)
+                || isStringNullOrEmpty(flightDate)
+                || reservationNumber <= 0);
+    }
+
     public synchronized void save() {
         if (reservationStore.containsKey(reservationNumber)) {
-            throw new ReservationAlreadySavedException(this.reservationNumber);
+            throw new ReservationAlreadySavedException(reservationNumber);
         }
         reservationStore.put(reservationNumber, this);
         passengers.forEach(Passenger::save);

@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,6 +37,11 @@ public class ReservationTest {
                 PASSENGERS);
     }
 
+    @After
+    public void resetReservationStore() {
+        Reservation.resetReservationStore();
+    }
+
     @Test
     public void whenCreatingAReservation_shouldReservationBeValid() {
         boolean isNewReservationValid = newReservation.isValid();
@@ -45,13 +51,11 @@ public class ReservationTest {
     @Test
     public void givenNewReservation_whenGetPassengers_shouldHavePassengersWithTheReservationNumber() throws Exception {
         ArrayList<Passenger> passengers = newReservation.passengers;
-        passengers.forEach(passenger -> {
-            assertEquals(RESERVATION_NUMBER, passenger.reservationNumber);
-        });
+        passengers.forEach(passenger -> assertEquals(RESERVATION_NUMBER, passenger.reservationNumber));
     }
 
     @Test
-    public void whenSaving_ActuallySave() {
+    public void whenSavingReservation_shouldSuccessfullySave() {
         newReservation.save();
 
         Reservation reservationFound = Reservation.findByReservationNumber(newReservation.reservationNumber);
