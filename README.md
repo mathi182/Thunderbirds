@@ -24,6 +24,7 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 ### Test
 
 * Le nom des fonctions devront suivre cette structure : given*_when*_should*.
+* Toujours séparer les sections du test d'une ligne vide, meme si la section ne contient qu'une ligne.
 
 ###Code
 * Le code doit être écrit en anglais (incluant commentaire)
