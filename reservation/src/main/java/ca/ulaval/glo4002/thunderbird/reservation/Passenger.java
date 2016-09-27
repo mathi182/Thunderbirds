@@ -1,23 +1,31 @@
-package ca.ulaval.glo4002.thunderbird.boarding;
+package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Identity;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import static ca.ulaval.glo4002.thunderbird.boarding.Util.isStringNullOrEmpty;
+import java.util.HashMap;
+import java.util.UUID;
 
-public class Passenger extends Identity {
+import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty;
 
+public class Passenger {
+    private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
+    private static final int AGE_MAJORITY = 18;
+
+    @JsonProperty("passenger_hash") public String id;
     @JsonProperty("first_name") public String firstName = "";
     @JsonProperty("last_name") public String lastName = "";
     @JsonProperty("passport_number") public String passportNumber = "";
     @JsonProperty("seat_class") public String seatClass;
-    @JsonProperty("passenger_hash") public String hash = super.id;
-    public boolean child;
     @JsonIgnore public int age;
     @JsonIgnore public int reservationNumber = -1;
+
+    @JsonProperty("child")
+    public boolean isAChild() {
+        return age < AGE_MAJORITY;
+    }
 
     @JsonCreator
     public Passenger(@JsonProperty("reservation_number") int reservationNumber,
@@ -26,6 +34,7 @@ public class Passenger extends Identity {
                      @JsonProperty("age") int age,
                      @JsonProperty("passport_number") String passportNumber,
                      @JsonProperty("seat_class") String seatClass) {
+        this.id = UUID.randomUUID().toString();
         this.reservationNumber = reservationNumber;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,22 +47,16 @@ public class Passenger extends Identity {
         this(0, firstName, lastName, age, passportNumber, seatClass);
     }
 
-    public Passenger(Passenger other) {
-        this.firstName = other.firstName;
-        this.lastName = other.lastName;
-        this.age = other.age;
-        this.passportNumber = other.passportNumber;
-        this.seatClass = other.seatClass;
+    public static synchronized Passenger findByPassengerHash(String passengerHash) {
+        Passenger reservation = passengerStore.get(passengerHash);
+        if (reservation == null) {
+            throw new PassengerNotFoundException(passengerHash);
+        }
+        return reservation;
     }
 
-    public Passenger(int age, String seatClass) {
-        this.age = age;
-        this.seatClass = seatClass;
-    }
-
-    //TODO: Remove this when we will have a repository
-    public static Passenger findByPassengerHash(String passengerHash) {
-        throw new NotImplementedException();
+    public synchronized void save() {
+        passengerStore.put(id, this);
     }
 
     @JsonIgnore

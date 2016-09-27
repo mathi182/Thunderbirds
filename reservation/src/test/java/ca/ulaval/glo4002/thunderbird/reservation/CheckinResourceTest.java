@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

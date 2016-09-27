@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.boarding.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,13 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty;
 
 public class Reservation {
-
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
+
     @JsonProperty("reservation_number") public int reservationNumber;
     @JsonProperty("flight_number") public String flightNumber;
     @JsonProperty("flight_date") public String flightDate;
@@ -42,28 +40,16 @@ public class Reservation {
         this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
     }
 
-    public Reservation(Reservation reservationToCopy) {
-        this.reservationNumber = reservationToCopy.reservationNumber;
-        this.reservationDate = reservationToCopy.reservationDate;
-        this.reservationConfirmation = reservationToCopy.reservationConfirmation;
-        this.paymentLocation = reservationToCopy.paymentLocation;
-        this.flightDate = reservationToCopy.flightDate;
-        this.flightNumber = reservationToCopy.flightNumber;
-        this.passengers = new ArrayList<>(reservationToCopy.passengers.size());
-        this.passengers.addAll(reservationToCopy.passengers.stream().map(Passenger::new).collect(Collectors.toList()));
-        this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
+    public static void resetReservationStore() {
+        reservationStore.clear();
     }
 
-    public static Reservation findByReservationNumber(int reservationNumber) {
+    public static synchronized Reservation findByReservationNumber(int reservationNumber) {
         Reservation reservation = reservationStore.get(reservationNumber);
         if (reservation == null) {
             throw new ReservationNotFoundException(reservationNumber);
         }
-        return new Reservation(reservation);
-    }
-
-    public static void resetReservationStore() {
-        reservationStore.clear();
+        return reservation;
     }
 
     @JsonIgnore
@@ -73,10 +59,11 @@ public class Reservation {
                 || reservationNumber <= 0);
     }
 
-    public void save() {
+    public synchronized void save() {
         if (reservationStore.containsKey(reservationNumber)) {
             throw new ReservationAlreadySavedException(reservationNumber);
         }
-        reservationStore.put(reservationNumber, new Reservation(this));
+        reservationStore.put(reservationNumber, this);
+        passengers.forEach(Passenger::save);
     }
 }

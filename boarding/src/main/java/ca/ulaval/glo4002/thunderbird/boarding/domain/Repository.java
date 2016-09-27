@@ -11,7 +11,7 @@ public interface Repository<T extends Identity> {
     void save(T entity);
 
     default void remove(T entity) {
-        remove(entity.id);
+        remove(entity.getId());
     }
 
     void remove(String id);

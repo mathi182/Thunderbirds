@@ -1,9 +1,10 @@
-package ca.ulaval.glo4002.thunderbird.boarding;
+package ca.ulaval.glo4002.thunderbird.reservation;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PassengerTest {
     private static final String FIRST_NAME = "Uncle";
@@ -11,7 +12,6 @@ public class PassengerTest {
     private static final String PASSPORT_NUMBER = "2564-5424";
     private static final String SEAT_CLASS = "economy";
     private static final int AGE = 18;
-    private Passenger newPassengerWithMinimumInformation;
     private Passenger newPassengerWithAllInformation;
     private Passenger newPassengerWithoutFirstName;
     private Passenger newPassengerWithoutLastName;
@@ -19,17 +19,10 @@ public class PassengerTest {
 
     @Before
     public void newPassenger() {
-        newPassengerWithAllInformation = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS );
-        newPassengerWithMinimumInformation = new Passenger(AGE, SEAT_CLASS);
+        newPassengerWithAllInformation = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         newPassengerWithoutPassportNumber = new Passenger(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
         newPassengerWithoutLastName = new Passenger(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
         newPassengerWithoutFirstName = new Passenger("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
-    }
-
-    @Test
-    public void whenCreatingAPassengerWithMinimumInformations_shouldHaveAgeAndSeatClass() {
-        assertEquals(newPassengerWithMinimumInformation.age, AGE);
-        assertEquals(newPassengerWithMinimumInformation.seatClass, SEAT_CLASS);
     }
 
     @Test
@@ -52,4 +45,3 @@ public class PassengerTest {
         assertFalse(newPassengerWithoutPassportNumber.isValidForCheckin());
     }
 }
-
