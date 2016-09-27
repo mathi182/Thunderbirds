@@ -7,9 +7,9 @@ ul-glo4002-a16-equipe5 created by GitHub Classroom
 - Alexandre Brillant (ID Github : alexbrillant - Email : abrillant23@gmail.com)
 - Alexis Lessard ( ID Github : AlexisLessard - Email : alexislessard95@gmail.com)
 - Antoine Beaulieu Lessard (ID Github : litelite - Email : antoine222_@hotmail.com)
-- Alexandre Rivest
+- Alexandre Rivest (ID Github : tiaaaa123 - Email : rivest123@hotmail.com)
 - Jean-Alexandre Beaumont (ID Github : Enteris - Email : jean-alexandre.beaumont.1@ulaval.ca)
-- Myriam Moar
+- Myriam Moar (ID Github : mr0ar - Email : myriam.moar@gmail.com)
 - Maxime Trottier ( ID Github : trottierm - Email : maxime.trottier@outlook.com)
 - Mathieu Boily (ID Github : mathi182 - Email : mathiboily@hotmail.com)
 
