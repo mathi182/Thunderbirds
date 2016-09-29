@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation.heartbeat;
 
 public class Heartbeat {
     public final String token;

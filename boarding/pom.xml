@@ -33,6 +33,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
             <groupId>ca.ulaval.glo4002</groupId>
             <artifactId>reservation</artifactId>
             <version>1.0-SNAPSHOT</version>
