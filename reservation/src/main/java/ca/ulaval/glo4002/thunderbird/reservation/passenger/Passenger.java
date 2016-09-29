@@ -11,12 +11,12 @@ public class Passenger {
     private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
 
-    @JsonProperty("passenger_hash") public String id;
-    @JsonProperty("first_name") public String firstName = "";
-    @JsonProperty("last_name") public String lastName = "";
-    @JsonProperty("passport_number") public String passportNumber = "";
-    @JsonProperty("seat_class") public String seatClass;
-    @JsonIgnore public int age;
+    @JsonProperty("passenger_hash") private String id;
+    @JsonProperty("first_name") private String firstName = "";
+    @JsonProperty("last_name") private String lastName = "";
+    @JsonProperty("passport_number") private String passportNumber = "";
+    @JsonProperty("seat_class") private String seatClass;
+    @JsonIgnore private int age;
     @JsonIgnore public int reservationNumber = -1;
 
     @JsonProperty("child")
@@ -63,5 +63,14 @@ public class Passenger {
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
         return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber;
+    }
+
+    public void setReservationNumber(int reservationNumber) {
+        this.reservationNumber = reservationNumber;
+    }
+
+    @JsonIgnore
+    public int getReservationNumber() {
+        return reservationNumber;
     }
 }

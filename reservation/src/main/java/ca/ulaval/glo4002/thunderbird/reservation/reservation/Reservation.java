@@ -7,19 +7,27 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Reservation {
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
 
-    @JsonProperty("reservation_number") public int reservationNumber;
-    @JsonProperty("flight_number") public String flightNumber;
-    @JsonProperty("flight_date") public String flightDate;
-    @JsonProperty("passengers") public ArrayList<Passenger> passengers;
-    @JsonIgnore public String reservationDate;
-    @JsonIgnore public String reservationConfirmation;
-    @JsonIgnore public String paymentLocation;
+    @JsonProperty("reservation_number")
+    public int reservationNumber;
+    @JsonProperty("flight_number")
+    public String flightNumber;
+    @JsonProperty("flight_date")
+    public String flightDate;
+    @JsonProperty("passengers")
+    public ArrayList<Passenger> passengers;
+    @JsonIgnore
+    public String reservationDate;
+    @JsonIgnore
+    public String reservationConfirmation;
+    @JsonIgnore
+    public String paymentLocation;
 
     @JsonCreator
     public Reservation(@JsonProperty("reservation_number") int reservationNumber,
@@ -36,7 +44,8 @@ public class Reservation {
         this.flightDate = flightDate;
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
-        this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
+        this.passengers.forEach(passenger -> passenger.setReservationNumber(reservationNumber));
+        //this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
     }
 
     public static void resetReservationStore() {
