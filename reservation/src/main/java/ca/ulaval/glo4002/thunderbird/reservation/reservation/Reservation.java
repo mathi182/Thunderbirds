@@ -1,15 +1,14 @@
-package ca.ulaval.glo4002.thunderbird.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static ca.ulaval.glo4002.thunderbird.reservation.Util.isStringNullOrEmpty;
 
 public class Reservation {
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
@@ -54,8 +53,8 @@ public class Reservation {
 
     @JsonIgnore
     public boolean isValid() {
-        return !(isStringNullOrEmpty(flightNumber)
-                || isStringNullOrEmpty(flightDate)
+        return !(Strings.isNullOrEmpty(flightNumber)
+                || Strings.isNullOrEmpty(flightDate)
                 || reservationNumber <= 0);
     }
 
