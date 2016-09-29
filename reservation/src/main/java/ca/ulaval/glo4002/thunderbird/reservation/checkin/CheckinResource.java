@@ -27,11 +27,11 @@ public class CheckinResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(Checkin checkin) {
-        if (Strings.isNullOrEmpty(checkin.agentId) || Strings.isNullOrEmpty(checkin.passengerHash)) {
+        if (!checkin.isAgentIdValid()||!checkin.isPassengerHashValid()) {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
 
-        String passengerHash = checkin.passengerHash;
+        String passengerHash = checkin.getPassengerHash();
         Passenger passengerFound = findCheckinPassenger(passengerHash);
         if (passengerFound == null) {
             return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
