@@ -2,8 +2,6 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,12 +10,9 @@ import java.util.ArrayList;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
 public class ReservationTest {
-    Passenger mockPassenger = mock(Passenger.class);
-
     private int NON_EXISTENT_RESERVATION_NUMBER = 12345;
     private int RESERVATION_NUMBER = 37353;
     private String RESERVATION_DATE = "2016-01-31";
@@ -26,16 +21,13 @@ public class ReservationTest {
     private String FLIGHT_NUMBER = "AC1765";
     private String FLIGHT_DATE = "2016-10-30";
     private ArrayList<Passenger> PASSENGERS = new ArrayList<Passenger>() {{
-        add(mockPassenger);
+        add(mock(Passenger.class));
     }};
 
     private Reservation newReservation;
 
     @Before
     public void newReservation() {
-
-        willReturn(RESERVATION_NUMBER).given(mockPassenger).getReservationNumber();
-
         newReservation = new Reservation(RESERVATION_NUMBER,
                 RESERVATION_DATE,
                 RESERVATION_CONFIRMATION,
@@ -59,7 +51,7 @@ public class ReservationTest {
     @Test
     public void givenNewReservation_whenGetPassengers_shouldHavePassengersWithTheReservationNumber() throws Exception {
         ArrayList<Passenger> passengers = newReservation.passengers;
-        passengers.forEach(passenger -> assertEquals(RESERVATION_NUMBER, passenger.getReservationNumber()));
+        passengers.forEach(passenger -> assertEquals(RESERVATION_NUMBER, passenger.reservationNumber));
     }
 
     @Test

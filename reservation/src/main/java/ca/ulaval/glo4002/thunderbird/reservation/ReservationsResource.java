@@ -1,7 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.reservation.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
