@@ -15,19 +15,19 @@ public class Reservation {
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
 
     @JsonProperty("reservation_number")
-    public int reservationNumber;
+    private int reservationNumber;
     @JsonProperty("flight_number")
-    public String flightNumber;
+    private String flightNumber;
     @JsonProperty("flight_date")
-    public String flightDate;
+    private String flightDate;
     @JsonProperty("passengers")
-    public ArrayList<Passenger> passengers;
+    private ArrayList<Passenger> passengers;
     @JsonIgnore
-    public String reservationDate;
+    private String reservationDate;
     @JsonIgnore
-    public String reservationConfirmation;
+    private String reservationConfirmation;
     @JsonIgnore
-    public String paymentLocation;
+    private String paymentLocation;
 
     @JsonCreator
     public Reservation(@JsonProperty("reservation_number") int reservationNumber,
@@ -73,5 +73,9 @@ public class Reservation {
         }
         reservationStore.put(reservationNumber, this);
         passengers.forEach(Passenger::save);
+    }
+
+    public int getReservationNumber() {
+        return reservationNumber;
     }
 }
