@@ -45,7 +45,6 @@ public class Reservation {
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
         this.passengers.forEach(passenger -> passenger.setReservationNumber(reservationNumber));
-        //this.passengers.forEach(passenger -> passenger.reservationNumber = reservationNumber);
     }
 
     public static void resetReservationStore() {
