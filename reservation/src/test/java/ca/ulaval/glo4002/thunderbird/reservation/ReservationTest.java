@@ -56,19 +56,30 @@ public class ReservationTest {
         assertTrue(isNewReservationValid);
     }
 
+
+    @Test
+    public void givenNewReservation_whenGettingReservationNumber_shouldReturnCorrectReservationNumber(){
+
+        int actualValue = newReservation.getReservationNumber();
+        int expectedValue = RESERVATION_NUMBER;
+
+        assertEquals(expectedValue,actualValue);
+    }
+
+    /*
     @Test
     public void givenNewReservation_whenGetPassengers_shouldHavePassengersWithTheReservationNumber() throws Exception {
         ArrayList<Passenger> passengers = newReservation.passengers;
         passengers.forEach(passenger -> assertEquals(RESERVATION_NUMBER, passenger.getReservationNumber()));
     }
-
+*/
     @Test
     public void whenSavingReservation_shouldSuccessfullySave() {
         newReservation.save();
 
-        Reservation reservationFound = Reservation.findByReservationNumber(newReservation.reservationNumber);
+        Reservation reservationFound = Reservation.findByReservationNumber(newReservation.getReservationNumber());
 
-        assertEquals(reservationFound.reservationNumber, newReservation.reservationNumber);
+        assertEquals(reservationFound.getReservationNumber(), newReservation.getReservationNumber());
     }
 
     @Test(expected = ReservationNotFoundException.class)

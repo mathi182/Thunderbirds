@@ -78,6 +78,6 @@ public class EventsResourceTest {
         this.eventsResource.createReservation(validReservation);
 
         Reservation savedReservation = Reservation.findByReservationNumber(RESERVATION_NUMBER);
-        assertEquals(validReservation.reservationNumber, savedReservation.reservationNumber);
+        assertEquals(validReservation.getReservationNumber(), savedReservation.getReservationNumber());
     }
 }
