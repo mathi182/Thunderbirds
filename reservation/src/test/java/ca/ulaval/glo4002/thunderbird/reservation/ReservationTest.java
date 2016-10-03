@@ -55,7 +55,6 @@ public class ReservationTest {
         assertTrue(isNewReservationValid);
     }
 
-
     @Test
     public void givenNewReservation_whenGettingReservationNumber_shouldReturnCorrectReservationNumber(){
         int actualValue = newReservation.getReservationNumber();
@@ -64,13 +63,6 @@ public class ReservationTest {
         assertEquals(expectedValue,actualValue);
     }
 
-    /*
-    @Test
-    public void givenNewReservation_whenGetPassengers_shouldHavePassengersWithTheReservationNumber() throws Exception {
-        ArrayList<Passenger> passengers = newReservation.passengers;
-        passengers.forEach(passenger -> assertEquals(RESERVATION_NUMBER, passenger.getReservationNumber()));
-    }
-*/
     @Test
     public void whenSavingReservation_shouldSuccessfullySave() {
         newReservation.save();
