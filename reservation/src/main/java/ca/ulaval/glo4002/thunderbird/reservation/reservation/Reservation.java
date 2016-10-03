@@ -22,12 +22,9 @@ public class Reservation {
     private String flightDate;
     @JsonProperty("passengers")
     private ArrayList<Passenger> passengers;
-    @JsonIgnore
-    private String reservationDate;
-    @JsonIgnore
-    private String reservationConfirmation;
-    @JsonIgnore
-    private String paymentLocation;
+    @JsonIgnore private String reservationDate;
+    @JsonIgnore private String reservationConfirmation;
+    @JsonIgnore private String paymentLocation;
 
     @JsonCreator
     public Reservation(@JsonProperty("reservation_number") int reservationNumber,
