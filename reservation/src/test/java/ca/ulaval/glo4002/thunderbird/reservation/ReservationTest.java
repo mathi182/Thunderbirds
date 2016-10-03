@@ -28,7 +28,6 @@ public class ReservationTest {
     private ArrayList<Passenger> PASSENGERS = new ArrayList<Passenger>() {{
         add(mockPassenger);
     }};
-
     private Reservation newReservation;
 
     @Before
@@ -68,7 +67,6 @@ public class ReservationTest {
         newReservation.save();
 
         Reservation reservationFound = Reservation.findByReservationNumber(newReservation.getReservationNumber());
-
         assertEquals(reservationFound.getReservationNumber(), newReservation.getReservationNumber());
     }
 
