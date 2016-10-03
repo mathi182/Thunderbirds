@@ -17,6 +17,7 @@ public class Checkin {
     public boolean isAgentIdValid(){
         return !(Strings.isNullOrEmpty(agentId));
     }
+
     public boolean isPassengerHashValid(){
         return !(Strings.isNullOrEmpty(passengerHash));
     }

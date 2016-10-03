@@ -11,6 +11,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
@@ -27,7 +28,7 @@ public class CheckinResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(Checkin checkin) {
-        if (!checkin.isAgentIdValid()||!checkin.isPassengerHashValid()) {
+        if (!checkin.isAgentIdValid() || !checkin.isPassengerHashValid()) {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
 

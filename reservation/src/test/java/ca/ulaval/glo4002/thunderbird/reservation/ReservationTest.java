@@ -33,7 +33,6 @@ public class ReservationTest {
 
     @Before
     public void newReservation() {
-
         willReturn(RESERVATION_NUMBER).given(mockPassenger).getReservationNumber();
 
         newReservation = new Reservation(RESERVATION_NUMBER,
@@ -59,7 +58,6 @@ public class ReservationTest {
 
     @Test
     public void givenNewReservation_whenGettingReservationNumber_shouldReturnCorrectReservationNumber(){
-
         int actualValue = newReservation.getReservationNumber();
         int expectedValue = RESERVATION_NUMBER;
 
