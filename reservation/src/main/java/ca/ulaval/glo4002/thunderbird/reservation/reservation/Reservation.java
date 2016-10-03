@@ -14,14 +14,10 @@ import java.util.HashMap;
 public class Reservation {
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
 
-    @JsonProperty("reservation_number")
-    private int reservationNumber;
-    @JsonProperty("flight_number")
-    private String flightNumber;
-    @JsonProperty("flight_date")
-    private String flightDate;
-    @JsonProperty("passengers")
-    private ArrayList<Passenger> passengers;
+    @JsonProperty("reservation_number") private int reservationNumber;
+    @JsonProperty("flight_number") private String flightNumber;
+    @JsonProperty("flight_date") private String flightDate;
+    @JsonProperty("passengers") private ArrayList<Passenger> passengers;
     @JsonIgnore private String reservationDate;
     @JsonIgnore private String reservationConfirmation;
     @JsonIgnore private String paymentLocation;
