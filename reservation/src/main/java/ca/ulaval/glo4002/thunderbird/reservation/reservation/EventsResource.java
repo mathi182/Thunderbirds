@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -20,7 +20,7 @@ public class EventsResource {
     public Response createReservation(Reservation reservation) {
         if (reservation.isValid()) {
             reservation.save();
-            return Response.created(URI.create("/reservations/" + reservation.reservationNumber)).build();
+            return Response.created(URI.create("/reservations/" + reservation.getReservationNumber())).build();
         }
         return Response.status(BAD_REQUEST).build();
     }

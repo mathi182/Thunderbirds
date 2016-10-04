@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.EventsResource;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,6 +78,6 @@ public class EventsResourceTest {
         this.eventsResource.createReservation(validReservation);
 
         Reservation savedReservation = Reservation.findByReservationNumber(RESERVATION_NUMBER);
-        assertEquals(validReservation.reservationNumber, savedReservation.reservationNumber);
+        assertEquals(validReservation.getReservationNumber(), savedReservation.getReservationNumber());
     }
 }

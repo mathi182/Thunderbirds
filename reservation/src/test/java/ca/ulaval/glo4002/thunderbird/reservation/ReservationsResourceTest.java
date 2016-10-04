@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,6 +60,6 @@ public class ReservationsResourceTest {
         Reservation reservationExpected = (Reservation) responseExpected.getEntity();
 
         assertEquals(statusExpected, statusActual);
-        assertEquals(reservationExpected.reservationNumber, reservationActual.reservationNumber);
+        assertEquals(reservationExpected.getReservationNumber(), reservationActual.getReservationNumber());
     }
 }

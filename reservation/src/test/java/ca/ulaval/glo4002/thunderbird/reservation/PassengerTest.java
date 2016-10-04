@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Test;
 
