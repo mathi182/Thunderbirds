@@ -40,7 +40,8 @@ public class CheckinResource {
             return Response.status(BAD_REQUEST).entity(Entity.json(PASSENGER_RESERVATION_NOT_VALID)).build();
         }
 
-        String checkinId = "checkinId";
+        String checkinId = checkin.getCheckinId();
+        checkin.save();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
     }
 
