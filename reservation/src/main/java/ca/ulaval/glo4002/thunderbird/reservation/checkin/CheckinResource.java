@@ -2,6 +2,9 @@ package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.ReservationRessources;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -47,8 +50,13 @@ public class CheckinResource {
 
     public Passenger findCheckinPassenger(String passengerHash) {
         Passenger passengerFound = Passenger.findByPassengerHash(passengerHash);
-        ReservationRessources reservationRessources = new ReservationRessources();
-        reservationRessources.getReservation(passengerFound.reservationNumber);
+        ReservationsResource reservationRessources = new ReservationsResource();
+        // TODO: Valider le réservation number ! et changer les tests de checkin évidemment
+        /**
+            Pour myriam et alexis :D
+         Response fetchReservationResponse = reservationRessources.fetchReservation(passengerFound.reservationNumber);
+         fetchReservationResponse.getEntity();
+        **/
         return passengerFound;
     }
 }
