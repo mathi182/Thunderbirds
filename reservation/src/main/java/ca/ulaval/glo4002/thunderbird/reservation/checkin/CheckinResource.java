@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
+import ca.ulaval.glo4002.thunderbird.reservation.ReservationRessources;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -9,7 +10,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
-
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
@@ -46,6 +46,9 @@ public class CheckinResource {
     }
 
     public Passenger findCheckinPassenger(String passengerHash) {
-        return Passenger.findByPassengerHash(passengerHash);
+        Passenger passengerFound = Passenger.findByPassengerHash(passengerHash);
+        ReservationRessources reservationRessources = new ReservationRessources();
+        reservationRessources.getReservation(passengerFound.reservationNumber);
+        return passengerFound;
     }
 }
