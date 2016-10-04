@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
+import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,6 +38,9 @@ public class Checkin {
     }
 
     public synchronized void save() {
+        if (checkinStore.containsKey(checkinId)) {
+            throw new CheckinAlreadySavedException(checkinId);
+        }
         checkinStore.put(this.checkinId, this);
     }
 
