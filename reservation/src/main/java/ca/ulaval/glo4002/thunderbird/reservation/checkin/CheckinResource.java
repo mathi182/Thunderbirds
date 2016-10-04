@@ -1,8 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
-import com.google.common.base.Strings;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

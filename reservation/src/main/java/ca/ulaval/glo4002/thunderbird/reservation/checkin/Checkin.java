@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
+import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Strings;
 
 public class Checkin {
     private String passengerHash;

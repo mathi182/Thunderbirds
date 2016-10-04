@@ -3,11 +3,10 @@ package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Strings;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Strings;
 import java.util.HashMap;
 import java.util.UUID;
 
