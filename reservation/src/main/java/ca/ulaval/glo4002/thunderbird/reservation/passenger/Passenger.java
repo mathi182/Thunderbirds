@@ -87,7 +87,11 @@ public class Passenger {
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
         boolean passengerHasReservationNumber = (reservationNumber != INITIAL_RESERVATION_NUMBER);
-        return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber && passengerHasReservationNumber && reservationIsValid;
+        return passengerHasFirstName
+                && passengerHasLastName
+                && passengerHasPassportNumber
+                && passengerHasReservationNumber
+                && reservationIsValid;
     }
 
     public void setReservationNumber(int reservationNumber) {
