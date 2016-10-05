@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.EventsResource;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class EventsResourceTest {
     public static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
     public static final String FLIGHT_NUMBER = "AC1765";
     public static final String FLIGHT_DATE = "2016-10-30";
-    public static final ArrayList<Passenger> PASSENGERS = new ArrayList<>();
+    public static final ArrayList<PassengerStorage> PASSENGERS = new ArrayList<>();
     public static final String RESERVATION_CREATED_URI = "/reservations/" + RESERVATION_NUMBER;
 
     @InjectMocks

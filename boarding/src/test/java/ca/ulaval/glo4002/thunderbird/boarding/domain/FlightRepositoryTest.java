@@ -10,8 +10,9 @@ public class FlightRepositoryTest {
     String FLIGHT_NUMBER = "RD3213";
 
     @Test
-    public void givenANewFlightNumber_whenUpdatingTheFlightRepository_APlaneModelIsAssigned() {
+    public void givenANewFlightNumber_whenUpdatingTheFlightRepository_shouldAPlaneModelIsAssigned() {
         //repository.addFlight(FLIGHT_NUMBER);
         assertTrue(true); //TODO REMOVE ME!
     }
+
 }

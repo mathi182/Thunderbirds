@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,7 +31,7 @@ public class CheckinResource {
         }
 
         String passengerHash = checkin.getPassengerHash();
-        Passenger passengerFound = findCheckinPassenger(passengerHash);
+        PassengerStorage passengerFound = findCheckinPassenger(passengerHash);
         if (passengerFound == null) {
             return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
         }
@@ -44,7 +44,7 @@ public class CheckinResource {
         return Response.created(URI.create("/checkins/" + checkinId)).build();
     }
 
-    public Passenger findCheckinPassenger(String passengerHash) {
-        return Passenger.findByPassengerHash(passengerHash);
+    public PassengerStorage findCheckinPassenger(String passengerHash) {
+        return PassengerStorage.findByPassengerHash(passengerHash);
     }
 }
