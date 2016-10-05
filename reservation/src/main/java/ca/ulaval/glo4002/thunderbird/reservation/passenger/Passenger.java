@@ -8,16 +8,14 @@ import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javassist.bytecode.stackmap.BasicBlock;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.UUID;
 
 public class Passenger {
     private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
-    private static final int INITIAL_RESERVATION_NUMBER = -1;
+    private static final int NULL_RESERVATION_NUMBER = -1;
 
     @JsonProperty("passenger_hash")
     private String id;
@@ -32,7 +30,7 @@ public class Passenger {
     @JsonIgnore
     private int age;
     @JsonIgnore
-    public int reservationNumber = INITIAL_RESERVATION_NUMBER;
+    public int reservationNumber = NULL_RESERVATION_NUMBER;
 
     @JsonProperty("child")
     public boolean isAChild() {
@@ -56,7 +54,7 @@ public class Passenger {
     }
 
     public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
-        this(INITIAL_RESERVATION_NUMBER, firstName, lastName, age, passportNumber, seatClass);
+        this(NULL_RESERVATION_NUMBER, firstName, lastName, age, passportNumber, seatClass);
     }
 
     public static synchronized Passenger findByPassengerHash(String passengerHash) {
@@ -76,17 +74,20 @@ public class Passenger {
 
     @JsonIgnore
     public boolean isValidForCheckin() {
-        boolean reservationIsValid = false;
-        if (reservationNumber != INITIAL_RESERVATION_NUMBER) try {
-            Reservation checkinReservation = Reservation.findByReservationNumber(reservationNumber);
-            reservationIsValid = checkinReservation.isValid();
-        } catch (ReservationNotFoundException e) {
-            return false;
+        boolean reservationIsValid = true;
+        if (reservationNumber != NULL_RESERVATION_NUMBER){
+            try {
+                Reservation checkinReservation = Reservation.findByReservationNumber(reservationNumber);
+                reservationIsValid = true;
+            } catch (ReservationNotFoundException e) {
+                reservationIsValid = false;
+            }
         }
+
         boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
-        boolean passengerHasReservationNumber = (reservationNumber != INITIAL_RESERVATION_NUMBER);
+        boolean passengerHasReservationNumber = (reservationNumber != NULL_RESERVATION_NUMBER);
         return passengerHasFirstName
                 && passengerHasLastName
                 && passengerHasPassportNumber
