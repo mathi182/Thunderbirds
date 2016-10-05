@@ -50,11 +50,6 @@ public class CheckinResource {
 
     public Passenger findCheckinPassenger(String passengerHash) {
         Passenger passengerFound = Passenger.findByPassengerHash(passengerHash);
-        /**
-            Pour myriam et alexis :D
-         Response fetchReservationResponse = reservationRessources.fetchReservation(passengerFound.reservationNumber);
-         fetchReservationResponse.getEntity();
-        **/
         return passengerFound;
     }
 }
