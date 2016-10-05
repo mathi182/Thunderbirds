@@ -50,8 +50,6 @@ public class CheckinResource {
 
     public Passenger findCheckinPassenger(String passengerHash) {
         Passenger passengerFound = Passenger.findByPassengerHash(passengerHash);
-        ReservationsResource reservationRessources = new ReservationsResource();
-        // TODO: Valider le réservation number ! et changer les tests de checkin évidemment
         /**
             Pour myriam et alexis :D
          Response fetchReservationResponse = reservationRessources.fetchReservation(passengerFound.reservationNumber);
