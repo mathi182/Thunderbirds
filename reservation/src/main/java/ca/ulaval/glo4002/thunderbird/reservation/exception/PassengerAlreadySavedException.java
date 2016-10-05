@@ -7,7 +7,6 @@ public class PassengerAlreadySavedException extends RuntimeException {
     public String passengerId;
 
     public PassengerAlreadySavedException(String passengerId) {
-        super();
         this.passengerId = passengerId;
     }
 }

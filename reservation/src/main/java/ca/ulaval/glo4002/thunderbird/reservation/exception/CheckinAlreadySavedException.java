@@ -7,7 +7,6 @@ public class CheckinAlreadySavedException extends RuntimeException{
     public String checkinId;
 
     public CheckinAlreadySavedException(String checkinId) {
-        super();
         this.checkinId = checkinId;
     }
 }
