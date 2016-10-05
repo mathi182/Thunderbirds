@@ -4,12 +4,22 @@ import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundEx
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Reservation.class)
 
 public class PassengerTest {
     private static final String FIRST_NAME = "Uncle";
@@ -23,27 +33,26 @@ public class PassengerTest {
     private Passenger newPassengerWithoutFirstName;
     private Passenger newPassengerWithoutLastName;
     private Passenger newPassengerWithoutPassportNumber;
-    private Passenger passengerWithInvalidReservationNumber;
+    private Passenger passengerWithNonExistentReservationNumber;
     private Passenger newPassengerWithAllInformation;
 
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Before
     public void newPassenger() {
+        PowerMockito.mockStatic(Reservation.class);
         newPassengerWithAllInformationExceptReservationNumber = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         newPassengerWithAllInformation = new Passenger(EXISTENT_RESERVATION_NUMBER,FIRST_NAME,LAST_NAME,AGE,PASSPORT_NUMBER,SEAT_CLASS);
         newPassengerWithoutPassportNumber = new Passenger(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
         newPassengerWithoutLastName = new Passenger(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
         newPassengerWithoutFirstName = new Passenger("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
-        passengerWithInvalidReservationNumber = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
-
-        passengerWithInvalidReservationNumber.setReservationNumber(NONEXISTENT_RESERVATION_NUMBER);
-
-
-
+        passengerWithNonExistentReservationNumber = new Passenger(NONEXISTENT_RESERVATION_NUMBER,FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
     }
 
     @Test
     public void givenValidPassengerForCheckin_whenIsValidForCheckin_shouldReturnTrue() throws Exception {
+        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(null);
         assertTrue(newPassengerWithAllInformation.isValidForCheckin());
     }
 
@@ -67,10 +76,10 @@ public class PassengerTest {
         assertFalse(newPassengerWithAllInformationExceptReservationNumber.isValidForCheckin());
     }
 
-    /*
+
     @Test
     public void givenPassengerWithNonExistentReservation_whenIsValidForCheckin_ShouldReturnFalse() throws Exception {
-        assertFalse(passengerWithInvalidReservationNumber.isValidForCheckin());
+        BDDMockito.given(Reservation.findByReservationNumber(NONEXISTENT_RESERVATION_NUMBER)).willThrow(new ReservationNotFoundException(NONEXISTENT_RESERVATION_NUMBER));
+        assertFalse(passengerWithNonExistentReservationNumber.isValidForCheckin());
     }
-    */
 }

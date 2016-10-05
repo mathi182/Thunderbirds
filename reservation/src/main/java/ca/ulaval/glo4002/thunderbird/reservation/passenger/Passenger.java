@@ -1,4 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
+
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
@@ -18,13 +19,20 @@ public class Passenger {
     private static final int AGE_MAJORITY = 18;
     private static final int INITIAL_RESERVATION_NUMBER = -1;
 
-    @JsonProperty("passenger_hash") private String id;
-    @JsonProperty("first_name") private String firstName = "";
-    @JsonProperty("last_name") private String lastName = "";
-    @JsonProperty("passport_number") private String passportNumber = "";
-    @JsonProperty("seat_class") private String seatClass;
-    @JsonIgnore private int age;
-    @JsonIgnore public int reservationNumber = INITIAL_RESERVATION_NUMBER;
+    @JsonProperty("passenger_hash")
+    private String id;
+    @JsonProperty("first_name")
+    private String firstName = "";
+    @JsonProperty("last_name")
+    private String lastName = "";
+    @JsonProperty("passport_number")
+    private String passportNumber = "";
+    @JsonProperty("seat_class")
+    private String seatClass;
+    @JsonIgnore
+    private int age;
+    @JsonIgnore
+    public int reservationNumber = INITIAL_RESERVATION_NUMBER;
 
     @JsonProperty("child")
     public boolean isAChild() {
@@ -69,6 +77,12 @@ public class Passenger {
     @JsonIgnore
     public boolean isValidForCheckin() {
         // TODO : Valider la réservation(reservationNumber) avec la ressource GET reservation
+
+        if (reservationNumber != INITIAL_RESERVATION_NUMBER) try {
+            Reservation.findByReservationNumber(reservationNumber);
+        } catch (ReservationNotFoundException e) {
+            return false;
+        }
 
         boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
