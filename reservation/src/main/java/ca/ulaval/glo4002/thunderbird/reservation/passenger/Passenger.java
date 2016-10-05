@@ -76,8 +76,10 @@ public class Passenger {
 
     @JsonIgnore
     public boolean isValidForCheckin() {
+        boolean reservationIsValid = false;
         if (reservationNumber != INITIAL_RESERVATION_NUMBER) try {
-            Reservation.findByReservationNumber(reservationNumber);
+            Reservation checkinReservation = Reservation.findByReservationNumber(reservationNumber);
+            reservationIsValid = checkinReservation.isValid();
         } catch (ReservationNotFoundException e) {
             return false;
         }
@@ -85,7 +87,7 @@ public class Passenger {
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
         boolean passengerHasReservationNumber = (reservationNumber != INITIAL_RESERVATION_NUMBER);
-        return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber && passengerHasReservationNumber;
+        return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber && passengerHasReservationNumber && reservationIsValid;
     }
 
     public void setReservationNumber(int reservationNumber) {
