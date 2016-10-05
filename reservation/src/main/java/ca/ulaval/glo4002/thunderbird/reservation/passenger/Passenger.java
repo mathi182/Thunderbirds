@@ -1,16 +1,22 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javassist.bytecode.stackmap.BasicBlock;
+
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Passenger {
     private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
+    private static final int INITIAL_RESERVATION_NUMBER = -1;
 
     @JsonProperty("passenger_hash") private String id;
     @JsonProperty("first_name") private String firstName = "";
@@ -18,7 +24,7 @@ public class Passenger {
     @JsonProperty("passport_number") private String passportNumber = "";
     @JsonProperty("seat_class") private String seatClass;
     @JsonIgnore private int age;
-    @JsonIgnore public int reservationNumber = -1;
+    @JsonIgnore public int reservationNumber = INITIAL_RESERVATION_NUMBER;
 
     @JsonProperty("child")
     public boolean isAChild() {
@@ -42,7 +48,7 @@ public class Passenger {
     }
 
     public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
-        this(0, firstName, lastName, age, passportNumber, seatClass);
+        this(INITIAL_RESERVATION_NUMBER, firstName, lastName, age, passportNumber, seatClass);
     }
 
     public static synchronized Passenger findByPassengerHash(String passengerHash) {
@@ -63,10 +69,12 @@ public class Passenger {
     @JsonIgnore
     public boolean isValidForCheckin() {
         // TODO : Valider la réservation(reservationNumber) avec la ressource GET reservation
+
         boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
-        return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber;
+        boolean passengerHasReservationNumber = (reservationNumber != INITIAL_RESERVATION_NUMBER);
+        return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber && passengerHasReservationNumber;
     }
 
     public void setReservationNumber(int reservationNumber) {
