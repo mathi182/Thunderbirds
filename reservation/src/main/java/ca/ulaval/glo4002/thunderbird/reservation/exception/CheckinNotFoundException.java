@@ -7,7 +7,6 @@ public class CheckinNotFoundException extends RuntimeException {
     public String checkinId;
 
     public CheckinNotFoundException(String checkinId) {
-        super();
         this.checkinId = checkinId;
     }
 }
