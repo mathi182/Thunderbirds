@@ -76,14 +76,11 @@ public class Passenger {
 
     @JsonIgnore
     public boolean isValidForCheckin() {
-        // TODO : Valider la réservation(reservationNumber) avec la ressource GET reservation
-
         if (reservationNumber != INITIAL_RESERVATION_NUMBER) try {
             Reservation.findByReservationNumber(reservationNumber);
         } catch (ReservationNotFoundException e) {
             return false;
         }
-
         boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
