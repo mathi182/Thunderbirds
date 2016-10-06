@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
 
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -46,6 +47,7 @@ public class CheckinResource {
 
         checkin.save();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
+
     }
 
 }
