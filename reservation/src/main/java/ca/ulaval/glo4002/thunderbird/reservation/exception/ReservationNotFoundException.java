@@ -4,7 +4,6 @@ public class ReservationNotFoundException extends RuntimeException {
     public int reservationNumber;
 
     public ReservationNotFoundException(int reservationNumber) {
-        super();
         this.reservationNumber = reservationNumber;
     }
 }

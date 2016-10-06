@@ -1,15 +1,21 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
+
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashMap;
 import java.util.UUID;
 
 public class Passenger {
     private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
+    private static final int NULL_RESERVATION_NUMBER = -1;
 
     @JsonProperty("passenger_hash") private String id;
     @JsonProperty("first_name") private String firstName = "";
@@ -17,10 +23,8 @@ public class Passenger {
     @JsonProperty("passport_number") private String passportNumber = "";
     @JsonProperty("seat_class") private String seatClass;
     @JsonIgnore private int age;
-    @JsonIgnore public int reservationNumber = -1;
-
-    @JsonProperty("child")
-    public boolean isAChild() {
+    @JsonIgnore public int reservationNumber = NULL_RESERVATION_NUMBER;
+    @JsonProperty("child") public boolean isAChild() {
         return age < AGE_MAJORITY;
     }
 
@@ -41,7 +45,7 @@ public class Passenger {
     }
 
     public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
-        this(0, firstName, lastName, age, passportNumber, seatClass);
+        this(NULL_RESERVATION_NUMBER, firstName, lastName, age, passportNumber, seatClass);
     }
 
     public static synchronized Passenger findByPassengerHash(String passengerHash) {
@@ -53,24 +57,41 @@ public class Passenger {
     }
 
     public synchronized void save() {
-        passengerStore.put(id, this);
+        if (passengerStore.containsKey(this.id)) {
+            throw new PassengerAlreadySavedException(this.id);
+        }
+        passengerStore.put(this.id, this);
     }
 
-    @JsonIgnore
-    public boolean isValidForCheckin() {
-        // TODO : Valider la réservation(reservationNumber) avec la ressource GET reservation
+
+    @JsonIgnore public boolean isValidForCheckin() {
+        boolean reservationIsValid = true;
+        if (reservationNumber != NULL_RESERVATION_NUMBER){
+            try {
+                Reservation checkinReservation = Reservation.findByReservationNumber(reservationNumber);
+                reservationIsValid = true;
+            } catch (ReservationNotFoundException e) {
+                reservationIsValid = false;
+            }
+        }
+
         boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
-        return passengerHasFirstName && passengerHasLastName && passengerHasPassportNumber;
+        boolean passengerHasReservationNumber = (reservationNumber != NULL_RESERVATION_NUMBER);
+        return passengerHasFirstName
+                && passengerHasLastName
+                && passengerHasPassportNumber
+                && passengerHasReservationNumber
+                && reservationIsValid;
     }
 
     public void setReservationNumber(int reservationNumber) {
         this.reservationNumber = reservationNumber;
     }
 
-    @JsonIgnore
-    public int getReservationNumber() {
+
+    @JsonIgnore public int getReservationNumber() {
         return reservationNumber;
     }
 }
