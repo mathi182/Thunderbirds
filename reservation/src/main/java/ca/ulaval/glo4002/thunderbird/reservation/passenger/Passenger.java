@@ -17,23 +17,14 @@ public class Passenger {
     private static final int AGE_MAJORITY = 18;
     private static final int NULL_RESERVATION_NUMBER = -1;
 
-    @JsonProperty("passenger_hash")
-    private String id;
-    @JsonProperty("first_name")
-    private String firstName = "";
-    @JsonProperty("last_name")
-    private String lastName = "";
-    @JsonProperty("passport_number")
-    private String passportNumber = "";
-    @JsonProperty("seat_class")
-    private String seatClass;
-    @JsonIgnore
-    private int age;
-    @JsonIgnore
-    public int reservationNumber = NULL_RESERVATION_NUMBER;
-
-    @JsonProperty("child")
-    public boolean isAChild() {
+    @JsonProperty("passenger_hash") private String id;
+    @JsonProperty("first_name") private String firstName = "";
+    @JsonProperty("last_name") private String lastName = "";
+    @JsonProperty("passport_number") private String passportNumber = "";
+    @JsonProperty("seat_class") private String seatClass;
+    @JsonIgnore private int age;
+    @JsonIgnore public int reservationNumber = NULL_RESERVATION_NUMBER;
+    @JsonProperty("child") public boolean isAChild() {
         return age < AGE_MAJORITY;
     }
 
@@ -72,8 +63,8 @@ public class Passenger {
         passengerStore.put(this.id, this);
     }
 
-    @JsonIgnore
-    public boolean isValidForCheckin() {
+
+    @JsonIgnore public boolean isValidForCheckin() {
         boolean reservationIsValid = true;
         if (reservationNumber != NULL_RESERVATION_NUMBER){
             try {
@@ -99,8 +90,8 @@ public class Passenger {
         this.reservationNumber = reservationNumber;
     }
 
-    @JsonIgnore
-    public int getReservationNumber() {
+
+    @JsonIgnore public int getReservationNumber() {
         return reservationNumber;
     }
 }
