@@ -27,7 +27,7 @@ public class CheckinResource {
         }
 
         String passengerHash = checkin.getPassengerHash();
-        Passenger passengerFound = findCheckinPassenger(passengerHash);
+        Passenger passengerFound = Passenger.findByPassengerHash(passengerHash);
         if (passengerFound == null) {
             return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
         }
@@ -39,10 +39,5 @@ public class CheckinResource {
         String checkinId = checkin.getCheckinId();
         checkin.save();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
-    }
-
-    public Passenger findCheckinPassenger(String passengerHash) {
-        Passenger passengerFound = Passenger.findByPassengerHash(passengerHash);
-        return passengerFound;
     }
 }
