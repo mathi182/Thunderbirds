@@ -1,10 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
-import ca.ulaval.glo4002.thunderbird.reservation.ReservationRessources;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,9 +12,6 @@ import java.net.URI;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
-/**
- * Created by alexandre on 2016-09-17.
- */
 @Path("/checkins")
 @Produces(MediaType.APPLICATION_JSON)
 public class CheckinResource {

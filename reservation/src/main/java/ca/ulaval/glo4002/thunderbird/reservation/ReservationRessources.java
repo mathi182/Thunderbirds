@@ -6,9 +6,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-/**
- * Created by Myriam Moar on 2016-09-25.
- */
 @Path("/reservations")
 @Produces(MediaType.APPLICATION_JSON)
 public class ReservationRessources {
