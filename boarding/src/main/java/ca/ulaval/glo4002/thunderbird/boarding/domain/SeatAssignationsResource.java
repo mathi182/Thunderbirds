@@ -22,7 +22,7 @@ public class SeatAssignationsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response assignSeat(SeatAssignations seatAssignations) {
         try {
-            
+            seatAssignations.assignSeat();
             return Response.created(URI.create("/seat-assignations/" + seatAssignations.getId())).entity(seatAssignations).build();
         } catch (PassengerNotFoundException e) {
             return Response.status(NOT_FOUND).build();

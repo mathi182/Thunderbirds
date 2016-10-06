@@ -7,7 +7,8 @@ import static org.junit.Assert.*;
 
 public class FlightRepositoryTest {
 
-    private static final FlightRepository repository = new FlightRepository();
+    private FlightRepository repository = FlightRepository.INSTANCE;
+
     private static final String NEW_FLIGHT_NUMBER = "RD3213";
     private static final String DASH_FLIGHT_NUMBER = "QK-918";
     private static final String A320_FLIGHT_NUMBER = "NK-750";
@@ -17,32 +18,24 @@ public class FlightRepositoryTest {
     private static final String A320_MODEL = "a320";
 
     @After
-    public void setUp() {
+    public void tearDown() {
         repository.clear();
     }
 
     @Test
-    public void givenANewFlightNumber_whenAddingToTheFlightRepository_shouldContainTheFlight() {
-        repository.addFlight(NEW_FLIGHT_NUMBER);
+    public void givenANewFlightNumber_whenRetrievingTheModel_shouldRepositoryContainTheFlight() {
+        repository.getPlaneModel(NEW_FLIGHT_NUMBER);
         assertTrue(repository.contains(NEW_FLIGHT_NUMBER));
     }
 
     @Test
-    public void givenANewFlightNumber_whenAddingToTheFlightRepository_shouldHaveAPlaneModel() {
-        repository.addFlight(NEW_FLIGHT_NUMBER);
+    public void givenANewFlightNumber_whenRetrievingTheModel_shouldHaveAPlaneModel() {
         assertNotNull(repository.getPlaneModel(NEW_FLIGHT_NUMBER));
     }
 
     @Test
-    public void givenANewFlightNumber_whenRetrievingTheModel_shouldReturnNull() {
-        String actualResult = repository.getPlaneModel(NEW_FLIGHT_NUMBER);
-
-        assertNull(actualResult);
-    }
-
-    @Test
     public void givenANonEmptyRepository_whenClearingTheRepository_shouldBeEmpty() {
-        repository.addFlight(NEW_FLIGHT_NUMBER);
+        repository.getPlaneModel(NEW_FLIGHT_NUMBER);
 
         repository.clear();
 
@@ -60,6 +53,8 @@ public class FlightRepositoryTest {
         assertEquals(repository.getPlaneModel(DASH_FLIGHT_NUMBER),DASH_MODEL);
         assertEquals(repository.getPlaneModel(A320_FLIGHT_NUMBER),A320_MODEL);
     }
+
+
 
 
 
