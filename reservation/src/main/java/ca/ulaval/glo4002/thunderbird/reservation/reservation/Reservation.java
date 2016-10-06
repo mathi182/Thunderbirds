@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -68,5 +69,13 @@ public class Reservation {
 
     public int getReservationNumber() {
         return reservationNumber;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public String getFlightDate() {
+        return flightDate;
     }
 }
