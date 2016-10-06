@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -16,6 +18,8 @@ public class Passenger {
     private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
     private static final int NULL_RESERVATION_NUMBER = -1;
+    private static final long MAX_LATE_CHECKIN_IN_MILLIS = 60 * 60 * 6 * 1000L;
+    private static final long MAX_EARLY_CHECKIN_IN_MILLIS = 60 * 60 * 48 * 1000L;
 
     @JsonProperty("passenger_hash") private String id;
     @JsonProperty("first_name") private String firstName = "";
@@ -64,7 +68,8 @@ public class Passenger {
     }
 
 
-    @JsonIgnore public boolean isValidForCheckin() {
+    @JsonIgnore
+    public boolean isValidForCheckin() {
         boolean reservationIsValid = true;
         if (reservationNumber != NULL_RESERVATION_NUMBER){
             try {
@@ -84,6 +89,35 @@ public class Passenger {
                 && passengerHasPassportNumber
                 && passengerHasReservationNumber
                 && reservationIsValid;
+    }
+
+    @JsonIgnore
+    public boolean isValidForSelfCheckin() {
+        boolean checkinIsValid = true;
+        boolean reservationIsValid = this.isValidForCheckin();
+        try {
+            Reservation checkinReservation = Reservation.findByReservationNumber(reservationNumber);
+
+        } catch (ReservationNotFoundException e) {
+            checkinIsValid = false;
+        }
+
+        return checkinIsValid && reservationIsValid;
+    }
+
+    @JsonIgnore
+    private boolean isSelfCheckinOnTime(String flightDate) {
+        boolean isOnTime = true;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+            long parsedFlightDate = format.parse(flightDate.replaceAll("Z$", "+0000")).getTime();
+            long maxEarlySelfCheckinDate = parsedFlightDate - MAX_EARLY_CHECKIN_IN_MILLIS;
+            long maxLateSelfCheckinDate = parsedFlightDate - MAX_LATE_CHECKIN_IN_MILLIS;
+            //TODO: Ecrire le if pour determiner le range
+        } catch (ParseException e) {
+            isOnTime = false;
+        }
+        return isOnTime;
     }
 
     public void setReservationNumber(int reservationNumber) {

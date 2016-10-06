@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinNotFoundExcept
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -12,17 +13,23 @@ public class Checkin {
     private static final HashMap<String, Checkin> checkinStore = new HashMap<>();
     private String checkinId;
     private String passengerHash;
-    private String agentId;
+    private String by;
+    private static final String SELF_CHECKIN = "SELF";
 
     @JsonCreator
-    public Checkin(@JsonProperty("passenger_hash") String passengerHash, @JsonProperty("by") String agentId) {
+
+    public Checkin(@JsonProperty("passenger_hash") String passengerHash, @JsonProperty("by") String by) {
         this.checkinId = UUID.randomUUID().toString();
         this.passengerHash = passengerHash;
-        this.agentId = agentId;
+        this.by = by;
     }
 
-    public boolean isAgentIdValid(){
-        return !(Strings.isNullOrEmpty(agentId));
+    public boolean isByValid() {
+        return !(Strings.isNullOrEmpty(by));
+    }
+
+    public boolean isSelfCheckin() {
+        return by.equals(SELF_CHECKIN);
     }
 
     public boolean isPassengerHashValid(){

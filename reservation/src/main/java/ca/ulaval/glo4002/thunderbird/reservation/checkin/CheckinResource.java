@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -8,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
+
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
@@ -22,7 +23,7 @@ public class CheckinResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(Checkin checkin) {
-        if (!checkin.isAgentIdValid() || !checkin.isPassengerHashValid()) {
+        if (!checkin.isByValid() || !checkin.isPassengerHashValid()) {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
 
@@ -37,7 +38,14 @@ public class CheckinResource {
         }
 
         String checkinId = checkin.getCheckinId();
+
+        //TODO: this stuff
+        /*if (checkin.isSelfCheckin()) {
+
+        }*/
+
         checkin.save();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
     }
+
 }
