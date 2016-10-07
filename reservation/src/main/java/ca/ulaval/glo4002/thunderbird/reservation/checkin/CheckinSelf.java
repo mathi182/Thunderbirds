@@ -14,7 +14,7 @@ public class CheckinSelf extends Checkin {
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
     public static final String SELF = "SELF";
 
-    public CheckinSelf(@JsonProperty("passenger_hash") String passengerHash) {
+    public CheckinSelf(String passengerHash) {
         super(passengerHash, SELF);
     }
 
@@ -22,7 +22,6 @@ public class CheckinSelf extends Checkin {
         super(checkin);
     }
 
-    @JsonIgnore
     private boolean isSelfCheckinOnTime() {
         Reservation reservation = Reservation.findByReservationNumber(getPassenger().getReservationNumber());
         String flightDate = reservation.getFlightDate();
@@ -40,13 +39,11 @@ public class CheckinSelf extends Checkin {
         return isOnTime;
     }
 
-    @JsonIgnore
     @Override
     public boolean isValid() {
         return super.isValid() && isSelfCheckinOnTime();
     }
 
-    @JsonIgnore
     @Override
     public boolean isSelfCheckin(){
         return true;
