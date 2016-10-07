@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -78,5 +79,15 @@ public class PassengerStorage {
     @JsonIgnore
     public String getId(){
         return id;
+    }
+
+    @JsonIgnore
+    public String getFlightNumber() {
+        return Reservation.findByReservationNumber(reservationNumber).getFlightNumber();
+    }
+
+    @JsonIgnore
+    public String getFlightDate() {
+        return Reservation.findByReservationNumber(reservationNumber).getFlightDate();
     }
 }

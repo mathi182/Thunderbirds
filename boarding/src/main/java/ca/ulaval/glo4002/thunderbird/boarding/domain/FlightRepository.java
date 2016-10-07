@@ -5,6 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import ca.ulaval.glo4002.thunderbird.boarding.exception.FlightNumberNotFoundException;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public enum FlightRepository {
     INSTANCE;
 
@@ -35,7 +42,25 @@ public enum FlightRepository {
 
     private List<String> getModelSeatsList(String planeModel) {
         List<String> listSeats = new ArrayList<>();
-        //TODO Implement ca avec un GET vers http://glo3000.ift.ulaval.ca/plane-blueprint/planes/{planeModel}/seats.json
+        Client client = Client.create();
+        String url = "http://glo3000.ift.ulaval.ca/plane-blueprint/planes/" + planeModel + "/seats.json";
+        WebResource webResource = client.resource(url);
+        ClientResponse response = webResource.accept("application/json").get(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Failed to retrieve JSON at : " + url + "\n With status : " + response.getStatus());
+        }
+
+        String output = response.getEntity(String.class);
+        JSONObject blueprint = new JSONObject(output);
+        JSONArray seats = blueprint.getJSONArray("seats");
+        int nbSeats = seats.length();
+
+        for (int i = 0; i < nbSeats; i++) {
+            JSONObject seat = seats.getJSONObject(i);
+            listSeats.add(seat.getInt("row") + "-" + seat.getString("seat"));
+        }
+
         return listSeats;
     }
 
@@ -49,6 +74,10 @@ public enum FlightRepository {
         //If the flightDate was not already entered, create an empty one.
         List<String> availableSeatsList = flightMap.get(flightDate);
         if (availableSeatsList == null) {
+            if (flightModelRepository.get(flightNumber) == null) {
+                addFlightModel(flightNumber);
+            }
+
             availableSeatsList = getModelSeatsList(flightModelRepository.get(flightNumber));
             flightMap.put(flightDate, availableSeatsList);
         }
