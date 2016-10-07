@@ -4,9 +4,6 @@ import ca.ulaval.glo4002.thunderbird.reservation.exception.MissingInfoException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by alexandre on 2016-10-07.
- */
 public class CheckinAssembler {
     public static final String SELF = "SELF";
     @JsonProperty("passenger_hash")

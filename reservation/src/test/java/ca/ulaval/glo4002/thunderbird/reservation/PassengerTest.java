@@ -111,38 +111,4 @@ public class PassengerTest {
 
         assertTrue(newPassengerWithAllInformation.isValidForCheckin());
     }
-
-    @Test
-    public void givenPassengerWithValidReservationAndValidFlightDate_WhenisValidForSelfCheckin_ShouldCheckFlightDate() throws Exception{
-        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-        willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
-
-        newPassengerWithAllInformation.isValidForCheckin();
-
-        verify(reservationMock).getFlightDate();
-    }
-
-    @Test
-    public void givenPassengerWithValidReservationAndTooEarlyFlightDate_WhenIsValidForSelfCheckin_ShouldReturnFalse() throws Exception{
-        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-        willReturn(TOO_EARLY_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
-
-        assertFalse(newPassengerWithAllInformation.isValidForCheckin());
-    }
-
-    @Test
-    public void givenPassengerWithValidReservationAndTooLateFlightDate_WhenIsValidForSelfCheckin_ShouldReturnFalse() throws Exception{
-        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-        willReturn(TOO_LATE_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
-
-        assertFalse(newPassengerWithAllInformation.isValidForCheckin());
-    }
-
-    @Test
-    public void givenPassengerInvalidForCheckinAndValidFlightDate_WhenIsValidForSelfCheckin_ShouldReturnFalse() throws Exception{
-        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-        willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
-
-        assertFalse(newPassengerWithoutPassportNumber.isValidForCheckin());
-    }
 }

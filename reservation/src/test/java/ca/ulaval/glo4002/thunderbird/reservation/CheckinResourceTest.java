@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -31,6 +32,7 @@ public class CheckinResourceTest {
     public static final String AGENT_ID = "agentId";
     public static final String PASSENGER_HASH_WITH_RESERVATION = "passenger_hash_with_reservation";
     public static final String PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO = "passenger_hash_with_reservation_and_missing_info";
+    public static final String CHECKIN_ID = "checkinId";
 
     @Mock
     public Passenger invalidReservationPassenger = new Passenger(12345, "", "", 21, "", "seatClass");
@@ -41,8 +43,9 @@ public class CheckinResourceTest {
     @Mock
     public Passenger invalidSelfCheckinPassenger = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
 
-    private CheckinAssembler checkinValid;
-    private CheckinAssembler checkinNull;
+    private CheckinAssembler checkinAssemblerMock;
+    private CheckinAssembler checkinAssemblerNull;
+    private Checkin checkinMock;
 
     @Mock Checkin checkinSelfInvalidDate;
 
@@ -55,15 +58,19 @@ public class CheckinResourceTest {
     @Before
     public void setUp() throws Exception {
         PowerMockito.mockStatic(Passenger.class);
+        checkinAssemblerMock = mock(CheckinAssembler.class);
+        checkinMock = mock(Checkin.class);
+
+        willReturn(checkinMock).given(checkinAssemblerMock).toDomain();
     }
 
     @Test
     public void givenCheckinNull_whenCheckin_shouldNotCreateCheckIn() throws Exception {
-        this.checkinNull = new CheckinAssembler();
-        this.checkinNull.passengerHash = null;
-        this.checkinNull.passengerHash = null;
+        this.checkinAssemblerNull = new CheckinAssembler();
+        this.checkinAssemblerNull.passengerHash = null;
+        this.checkinAssemblerNull.passengerHash = null;
 
-        Response responseActual = this.checkinResource.checkin(this.checkinNull);
+        Response responseActual = this.checkinResource.checkin(this.checkinAssemblerNull);
         int statusActual = responseActual.getStatus();
 
         int statusExpected = BAD_REQUEST.getStatusCode();
@@ -71,27 +78,21 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerValid_whenCheckin_shouldCreateCheckIn() throws Exception {
-        this.checkinValid = new CheckinAssembler();
-        when(validReservationPassenger.isValidForCheckin()).thenReturn(true);
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(validReservationPassenger);
-        this.checkinValid.passengerHash = PASSENGER_HASH_WITH_RESERVATION;
-        this.checkinValid.agentId = AGENT_ID;
+    public void givenCheckinPassengerValid_whenCheckin_ShouldCreateCheckIn() throws Exception{
+        willReturn(true).given(checkinMock).isValid();
+        willReturn(true).given(checkinMock).passengerExist();
+        willReturn(true).given(checkinMock).isComplete();
+        willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
+        Response responseActual = this.checkinResource.checkin(checkinAssemblerMock);
 
-        Checkin checkin = this.checkinValid.toDomain();
-        when(this.checkinValid.toDomain()).thenReturn(checkin);
-
-        Response responseActual = this.checkinResource.checkin(this.checkinValid);
-        String locationActual = responseActual.getLocation().toString();
-        int statusActual = responseActual.getStatus();
-
-        String checkinId = checkin.getCheckinId();
-        String locationExpected = "/checkins/"+checkinId;
         int statusExpected = CREATED.getStatusCode();
-        assertEquals(locationExpected, locationActual);
-        assertEquals(statusExpected, statusActual);
-        assertEquals(Checkin.findByCheckinId(checkinId), this.checkinValid);
+        int statusActual = responseActual.getStatus();
+        String actualLocation = responseActual.getLocation().toString();
+        String expectedLocation = "/checkins/" + checkinMock.getCheckinId();
+        assertEquals(statusExpected , statusActual);
+        assertEquals(expectedLocation, actualLocation);
     }
+
 
     @Test
     public void givenCheckinPassengerWithInvalidInfo_whenCheckin_shouldNotCreateCheckin() throws Exception {
