@@ -23,9 +23,7 @@ import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by alexandre on 2016-09-17.
- */
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Passenger.class)
 public class CheckinResourceTest {
