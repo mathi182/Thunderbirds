@@ -9,19 +9,15 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
-
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
-/**
- * Created by alexandre on 2016-09-17.
- */
 @Path("/checkins")
 @Produces(MediaType.APPLICATION_JSON)
 public class CheckinResource {
-    private final String FIELDS_REQUIRED_MESSAGE = "by and passengerHas fields are required";
-    private final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
-    private final String PASSENGER_RESERVATION_NOT_VALID = "passenger information missing in the reservation. full name and passport number fields are required.";
+    private static final String FIELDS_REQUIRED_MESSAGE = "by and passengerHas fields are required";
+    private static final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
+    private static final String PASSENGER_RESERVATION_NOT_VALID = "passenger information missing in the reservation. full name and passport number fields are required.";
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -31,7 +27,9 @@ public class CheckinResource {
         }
 
         String passengerHash = checkin.getPassengerHash();
+
         PassengerStorage passengerFound = findCheckinPassenger(passengerHash);
+
         if (passengerFound == null) {
             return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
         }
@@ -40,11 +38,12 @@ public class CheckinResource {
             return Response.status(BAD_REQUEST).entity(Entity.json(PASSENGER_RESERVATION_NOT_VALID)).build();
         }
 
-        String checkinId = "checkinId";
+        String checkinId = checkin.getCheckinId();
+        checkin.save();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
     }
 
-    public PassengerStorage findCheckinPassenger(String passengerHash) {
+    private PassengerStorage findCheckinPassenger(String passengerHash) {
         return PassengerStorage.findByPassengerHash(passengerHash);
     }
 }

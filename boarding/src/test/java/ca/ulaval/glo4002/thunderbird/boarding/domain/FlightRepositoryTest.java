@@ -32,7 +32,7 @@ public class FlightRepositoryTest {
 
     @Test
     public void givenANewFlightNumber_whenRetrievingTheModel_shouldHaveAPlaneModel() {
-        String planeModelReceived = repository.getPlaneModel(NEW_FLIGHT_NUMBER);
+        Object planeModelReceived = repository.getPlaneModel(NEW_FLIGHT_NUMBER);
         
         assertNotNull(planeModelReceived);
     }
@@ -54,9 +54,9 @@ public class FlightRepositoryTest {
         boolean repositoryContainsBoeingFlight = repository.contains(BOEING_FLIGHT_NUMBER);
         boolean repositoryContainsA320Flight = repository.contains(A320_FLIGHT_NUMBER);
         boolean repositoryContainsDashFlight = repository.contains(DASH_FLIGHT_NUMBER);
-        String planeModelBoeing = repository.getPlaneModel(BOEING_FLIGHT_NUMBER);
-        String planeModelDash = repository.getPlaneModel(DASH_FLIGHT_NUMBER);
-        String planeModelA320 = repository.getPlaneModel(A320_FLIGHT_NUMBER);
+        Object planeModelBoeing = repository.getPlaneModel(BOEING_FLIGHT_NUMBER);
+        Object planeModelDash = repository.getPlaneModel(DASH_FLIGHT_NUMBER);
+        Object planeModelA320 = repository.getPlaneModel(A320_FLIGHT_NUMBER);
         assertTrue(repositoryContainsBoeingFlight);
         assertTrue(repositoryContainsA320Flight);
         assertTrue(repositoryContainsDashFlight);

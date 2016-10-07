@@ -5,14 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import ca.ulaval.glo4002.thunderbird.boarding.exception.FlightNumberNotFoundException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public enum FlightRepository {
+enum FlightRepository {
     INSTANCE;
 
     private static final String DASH_FLIGHT_NUMBER = "QK-918";
@@ -23,8 +22,8 @@ public enum FlightRepository {
     private static final String BOEING_MODEL = "boeing-777-300";
 
     private Random generator = new Random();
-    private static HashMap<String, String> flightModelRepository = new HashMap();
-    private static HashMap<String, HashMap<String, List<String>>> flightAvailableSeatsRepository = new HashMap();
+    private static HashMap<String, String> flightModelRepository = new HashMap<>();
+    private static HashMap<String, HashMap<String, List<String>>> flightAvailableSeatsRepository = new HashMap<>();
     private String[] modelSet = {"dash-8", "a320", "boeing-777-300"};
 
     private String addFlightModel(String flightNumber) {
@@ -33,14 +32,14 @@ public enum FlightRepository {
         return planeModel;
     }
 
-    public String getPlaneModel(String flightNumber) {
-        String planeModel = flightModelRepository.get(flightNumber);
+    public Object getPlaneModel(String flightNumber) {
+        Object planeModel = flightModelRepository.get(flightNumber);
         if (planeModel == null)
             planeModel = addFlightModel(flightNumber);
         return planeModel;
     }
 
-    private List<String> getModelSeatsList(String planeModel) {
+    private List<String> getModelSeatsList(Object planeModel) {
         List<String> listSeats = new ArrayList<>();
         Client client = Client.create();
         String url = "http://glo3000.ift.ulaval.ca/plane-blueprint/planes/" + planeModel + "/seats.json";

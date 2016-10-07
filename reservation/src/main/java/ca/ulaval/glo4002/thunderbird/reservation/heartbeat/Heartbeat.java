@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.reservation.heartbeat;
 
-public class Heartbeat {
-    public final String token;
-    public final long date;
+class Heartbeat {
+    private final String token;
+    private final long date;
 
-    public Heartbeat(String token) {
+    Heartbeat(String token) {
         this.token = token;
         this.date = System.currentTimeMillis();
     }

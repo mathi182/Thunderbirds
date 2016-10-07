@@ -4,7 +4,6 @@ public class PassengerNotFoundException extends RuntimeException {
     public String passengerHash;
 
     public PassengerNotFoundException(String passengerHash) {
-        super();
         this.passengerHash = passengerHash;
     }
 }

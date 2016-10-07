@@ -23,8 +23,6 @@ import static org.powermock.api.mockito.PowerMockito.doThrow;
 @RunWith(PowerMockRunner.class)
 public class SeatAssignationsResourceTest {
 
-    private PassengerStorage passenger;
-    private String PASSENGER_HASH = "12345";
     private SeatAssignations seatAssignations;
 
     private static final String SEAT_ASSIGNATION_URI = "/seat-assignations/666";
@@ -40,14 +38,13 @@ public class SeatAssignationsResourceTest {
 
     @Before
     public void setUp() {
-        passenger = mock(PassengerStorage.class);
-
         seatAssignations = mock(SeatAssignations.class);
     }
 
     @Test
     @Ignore
     public void givenInvalidPassengerHash_whenAssigningSeat_shouldReturnNotFound() {
+        String PASSENGER_HASH = "12345";
         doThrow(new PassengerNotFoundException(PASSENGER_HASH)).when(PassengerStorage.findByPassengerHash(PASSENGER_HASH));
 
         Response responseActual = seatAssignationsResource.assignSeat(seatAssignations);
@@ -66,10 +63,9 @@ public class SeatAssignationsResourceTest {
         int statusActual = responseActual.getStatus();
         String locationActual = responseActual.getLocation().toString();
 
-        String locationExpected = SEAT_ASSIGNATION_URI;
         int statusExpected = CREATED.getStatusCode();
         assertEquals(statusExpected, statusActual);
-        assertEquals(locationExpected, locationActual);
+        assertEquals(SEAT_ASSIGNATION_URI, locationActual);
     }
 
 

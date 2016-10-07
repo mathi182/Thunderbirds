@@ -26,13 +26,10 @@ import static org.mockito.Mockito.when;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(PassengerStorage.class)
 public class CheckinResourceTest {
-    public static final String AGENT_ID = "agentId";
-    public static final String CHECKIN_CREATED_URI = "/checkins/checkinId";
-
-    public static final String PASSENGER_HASH_WITHOUT_RESERVATION = "passenger_hash_without_reservation";
-    public static final String PASSENGER_HASH_WITH_RESERVATION = "passenger_hash_with_reservation";
-
-    public static final String PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO = "passenger_hash_with_reservation_and_missing_info";
+    private static final String AGENT_ID = "agentId";
+    private static final String PASSENGER_HASH_WITHOUT_RESERVATION = "passenger_hash_without_reservation";
+    private static final String PASSENGER_HASH_WITH_RESERVATION = "passenger_hash_with_reservation";
+    private static final String PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO = "passenger_hash_with_reservation_and_missing_info";
 
     @Mock
     public static final PassengerStorage INVALID_RESERVATION_PASSENGER = new PassengerStorage(12345, "", "", 21, "", "seatClass");
@@ -82,10 +79,12 @@ public class CheckinResourceTest {
         String locationActual = responseActual.getLocation().toString();
         int statusActual = responseActual.getStatus();
 
-        String locationExpected = CHECKIN_CREATED_URI;
+        String checkinId = this.checkinValid.getCheckinId();
+        String locationExpected = "/checkins/"+checkinId;
         int statusExpected = CREATED.getStatusCode();
         assertEquals(locationExpected, locationActual);
         assertEquals(statusExpected, statusActual);
+        assertEquals(Checkin.findByCheckinId(checkinId), this.checkinValid);
     }
 
     @Test
