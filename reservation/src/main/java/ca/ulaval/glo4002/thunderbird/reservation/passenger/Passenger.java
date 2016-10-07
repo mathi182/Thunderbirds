@@ -74,10 +74,10 @@ public class Passenger {
 
     @JsonIgnore
     public boolean isValidForCheckin() {
-        boolean reservationIsValid = true;
+        boolean reservationIsValid = false;
         if (reservationNumber != NULL_RESERVATION_NUMBER){
             try {
-                Reservation checkinReservation = Reservation.findByReservationNumber(reservationNumber);
+                Reservation.findByReservationNumber(reservationNumber);
                 reservationIsValid = true;
             } catch (ReservationNotFoundException e) {
                 reservationIsValid = false;
