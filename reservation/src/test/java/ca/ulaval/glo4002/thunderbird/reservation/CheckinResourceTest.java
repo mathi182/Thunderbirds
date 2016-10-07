@@ -1,9 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.Checkin;
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinAssembler;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinSelf;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,13 +16,12 @@ import org.mockito.junit.MockitoRule;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import sun.reflect.annotation.ExceptionProxy;
 
-import javax.print.DocFlavor;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
@@ -31,31 +29,22 @@ import static org.mockito.Mockito.when;
 @PrepareForTest(Passenger.class)
 public class CheckinResourceTest {
     public static final String AGENT_ID = "agentId";
-    public static final String SELF_CHECKING = "SELF";
-    public static final String PASSENGER_HASH_WITHOUT_RESERVATION = "passenger_hash_without_reservation";
     public static final String PASSENGER_HASH_WITH_RESERVATION = "passenger_hash_with_reservation";
     public static final String PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO = "passenger_hash_with_reservation_and_missing_info";
-    public static final String PASSENGER_HASH_WITH_INVALID_SELF_CHECKIN = "passenger_hash_with_invalid_self_checkin";
 
     @Mock
-    public static final Passenger INVALID_RESERVATION_PASSENGER = new Passenger(12345, "", "", 21, "", "seatClass");
+    public Passenger invalidReservationPassenger = new Passenger(12345, "", "", 21, "", "seatClass");
 
     @Mock
-    public static final Passenger VALID_RESERVATION_PASSENGER = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
+    public Passenger validReservationPassenger = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
 
     @Mock
-    public static final Passenger INVALID_SELF_CHECKIN_PASSENGER = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
+    public Passenger invalidSelfCheckinPassenger = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
 
-    @Mock
-    public static final CheckinSelf SELF_CHECKIN = new CheckinSelf(PASSENGER_HASH_WITH_RESERVATION, SELF_CHECKING);
+    private CheckinAssembler checkinValid;
+    private CheckinAssembler checkinNull;
 
-
-    private Checkin checkinValid;
-    private Checkin checkinPassengerWithoutReservation;
-    private Checkin checkinNull;
-    private Checkin checkinPassengerWithReservationButMissingInfo;
-    private Checkin selfCheckinPassengerValid;
-    private Checkin selfCheckinPassengerInvalid;
+    @Mock Checkin checkinSelfInvalidDate;
 
     @InjectMocks
     CheckinResource checkinResource;
@@ -66,26 +55,14 @@ public class CheckinResourceTest {
     @Before
     public void setUp() throws Exception {
         PowerMockito.mockStatic(Passenger.class);
-        this.checkinValid = new Checkin(PASSENGER_HASH_WITH_RESERVATION, AGENT_ID);
-        this.checkinNull = new Checkin(null, null);
-        this.checkinPassengerWithoutReservation = new Checkin(PASSENGER_HASH_WITHOUT_RESERVATION, AGENT_ID);
-        this.checkinPassengerWithReservationButMissingInfo = new Checkin(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO, AGENT_ID);
-        this.selfCheckinPassengerValid = new Checkin(PASSENGER_HASH_WITH_RESERVATION,SELF_CHECKING);
-        this.selfCheckinPassengerInvalid =new Checkin(PASSENGER_HASH_WITH_INVALID_SELF_CHECKIN,SELF_CHECKING);
-
-        when(VALID_RESERVATION_PASSENGER.isValidForCheckin()).thenReturn(true);
-        when(INVALID_RESERVATION_PASSENGER.isValidForCheckin()).thenReturn(false);
-        when(INVALID_SELF_CHECKIN_PASSENGER.isValidForCheckin()).thenReturn(true);
-
-
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(VALID_RESERVATION_PASSENGER);
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITHOUT_RESERVATION)).willThrow(new PassengerNotFoundException(PASSENGER_HASH_WITHOUT_RESERVATION));
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn(INVALID_RESERVATION_PASSENGER);
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_INVALID_SELF_CHECKIN)).willReturn(INVALID_SELF_CHECKIN_PASSENGER);
     }
 
     @Test
     public void givenCheckinNull_whenCheckin_shouldNotCreateCheckIn() throws Exception {
+        this.checkinNull = new CheckinAssembler();
+        this.checkinNull.passengerHash = null;
+        this.checkinNull.passengerHash = null;
+
         Response responseActual = this.checkinResource.checkin(this.checkinNull);
         int statusActual = responseActual.getStatus();
 
@@ -94,12 +71,21 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerWithReservation_whenCheckin_shouldCreateCheckIn() throws Exception {
+    public void givenCheckinPassengerValid_whenCheckin_shouldCreateCheckIn() throws Exception {
+        this.checkinValid = new CheckinAssembler();
+        when(validReservationPassenger.isValidForCheckin()).thenReturn(true);
+        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(validReservationPassenger);
+        this.checkinValid.passengerHash = PASSENGER_HASH_WITH_RESERVATION;
+        this.checkinValid.agentId = AGENT_ID;
+
+        Checkin checkin = this.checkinValid.toDomain();
+        when(this.checkinValid.toDomain()).thenReturn(checkin);
+
         Response responseActual = this.checkinResource.checkin(this.checkinValid);
         String locationActual = responseActual.getLocation().toString();
         int statusActual = responseActual.getStatus();
 
-        String checkinId = this.checkinValid.getCheckinId();
+        String checkinId = checkin.getCheckinId();
         String locationExpected = "/checkins/"+checkinId;
         int statusExpected = CREATED.getStatusCode();
         assertEquals(locationExpected, locationActual);
@@ -108,45 +94,20 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerWithoutReservation_whenCheckin_shouldNotCreateCheckin() throws Exception {
-        Response responseActual = this.checkinResource.checkin(this.checkinPassengerWithoutReservation);
-        int statusActual = responseActual.getStatus();
-
-        int statusExpected = NOT_FOUND.getStatusCode();
-        assertEquals(statusExpected, statusActual);
-    }
-
-    @Test
     public void givenCheckinPassengerWithInvalidInfo_whenCheckin_shouldNotCreateCheckin() throws Exception {
+        CheckinAssembler checkinPassengerWithReservationButMissingInfo = mock(CheckinAssembler.class);
+        Checkin checkin = mock(Checkin.class);
+        when(checkinPassengerWithReservationButMissingInfo.toDomain()).thenReturn(checkin);
+
+        when(invalidReservationPassenger.isValidForCheckin()).thenReturn(false);
+        this.checkinPassengerWithReservationButMissingInfo.passengerHash = PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO;
+        this.checkinPassengerWithReservationButMissingInfo.agentId = AGENT_ID;
+        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn(invalidReservationPassenger);
+
         Response responseActual = this.checkinResource.checkin(this.checkinPassengerWithReservationButMissingInfo);
         int statusActual = responseActual.getStatus();
 
         int statusExpected = BAD_REQUEST.getStatusCode();
         assertEquals(statusExpected, statusActual);
-    }
-
-    @Test
-    public void givenSelfCheckinPassengerWithValidInfo_whenCheckin_shouldCreateCheckin() throws Exception{
-        when(SELF_CHECKIN.isSelfCheckin()).thenReturn(true);
-        when(SELF_CHECKIN.isValid()).thenReturn(true);
-        when(SELF_CHECKIN.isComplete()).thenReturn(true);
-        when(SELF_CHECKIN.passengerExist()).thenReturn(true);
-
-        Response responseActual = this.checkinResource.checkin(SELF_CHECKIN);
-        int statusActual = responseActual.getStatus();
-
-        int statusExpected = CREATED.getStatusCode();
-        assertEquals(statusExpected,statusActual);
-    }
-
-    @Test
-    public void givenInvalidSelfCheckinPassengerWithValidInfo_whenCheckin_shouldNotCreateCheckin() throws Exception{
-        when(SELF_CHECKIN.isSelfCheckin()).thenReturn(true);
-        when(SELF_CHECKIN.isValid()).thenReturn(false);
-        Response responseActual = this.checkinResource.checkin(SELF_CHECKIN);
-        int statusActual = responseActual.getStatus();
-
-        int statusExpected = BAD_REQUEST.getStatusCode();
-        assertEquals(statusExpected,statusActual);
     }
 }
