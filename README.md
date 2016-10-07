@@ -25,6 +25,11 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 
 ##Utilisation
 
+Pour lancer les serveurs (par défaut sur les ports 8888 et 8787), lancer la commande :
+```
+mvn exec:java -pl app
+```
+
 ###Tests
 
 Pour effectuer les tests, il suffit de faire:
