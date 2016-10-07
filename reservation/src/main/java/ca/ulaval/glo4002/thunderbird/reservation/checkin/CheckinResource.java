@@ -25,13 +25,10 @@ public class CheckinResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(CheckinAssembler checkinAssembler) {
         Checkin checkin;
-        try{
+        try {
             checkin = checkinAssembler.toDomain();
-        }catch (MissingInfoException ex){
-            return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
-
-        if (!checkin.isComplete()) {
+        catch (MissingInfoException ex) {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
 
