@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
+import ca.ulaval.glo4002.thunderbird.reservation.util.DateLong;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.Assert.assertFalse;
@@ -23,7 +25,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Reservation.class)
+@PrepareForTest({Reservation.class,DateLong.class})
 
 public class PassengerTest {
     private static final String FIRST_NAME = "Uncle";
@@ -34,7 +36,7 @@ public class PassengerTest {
     private static final int NONEXISTENT_RESERVATION_NUMBER = 3;
     private static final int EXISTENT_RESERVATION_NUMBER = 5;
     private static final int INVALID_RESERVATION_NUMBER = 4;
-    private static final String TODAYS_DATE = "2016-09-06T13:00:00Z";
+    private static final long TODAYS_DATE = 1473166800000L; // 2016-09-06T13:00
     private static final String VALID_FOR_CHECKIN_FLIGHT_DATE = "2016-09-06T21:00:00Z";
     private static final String TOO_LATE_FOR_CHECKIN_FLIGHT_DATE = "2016-09-06T14:00:00Z";
     private static final String TOO_EARLY_FOR_CHECKIN_FLIGHT_DATE = "2016-09-02T21:00:00Z";;
@@ -54,6 +56,7 @@ public class PassengerTest {
     @Before
     public void newPassenger() {
         PowerMockito.mockStatic(Reservation.class);
+        PowerMockito.mockStatic(DateLong.class);
         newPassengerWithAllInformationExceptReservationNumber = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         newPassengerWithAllInformation = new Passenger(EXISTENT_RESERVATION_NUMBER,FIRST_NAME,LAST_NAME,AGE,PASSPORT_NUMBER,SEAT_CLASS);
         newPassengerWithoutPassportNumber = new Passenger(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
@@ -63,6 +66,8 @@ public class PassengerTest {
         newPassengerWithInvalidReservation = new Passenger(INVALID_RESERVATION_NUMBER,FIRST_NAME,LAST_NAME, AGE,PASSPORT_NUMBER,SEAT_CLASS);
 
         reservationMock = mock(Reservation.class);
+
+        BDDMockito.given(DateLong.getLongCurrentDate()).willReturn(TODAYS_DATE);
     }
 
     @Test
@@ -99,9 +104,29 @@ public class PassengerTest {
     }
 
     @Test
-    public void givenPassengerWithValidReservation_WhenIsValidForSelfCheckin_ShouldReturnFalse() throws  Exception{
+    public void givenPassengerWithValidReservation_WhenFlightDateIsValidForSelfCheckin_ShouldReturnTrue() throws  Exception{
+        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
+
+        willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
+
+        assertTrue(newPassengerWithAllInformation.isValidForSelfCheckin());
+    }
+
+    @Test
+    public void givenPassengerWithValidReservationAndValidFlightDate_WhenisValidForSelfCheckin_ShouldCheckFlightDate() throws Exception{
         BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
+
+        newPassengerWithAllInformation.isValidForSelfCheckin();
+
+        verify(reservationMock).getFlightDate();
+    }
+
+    @Test
+    public void givenPassengerWithValidReservationAndTooEarlyFlightDate_WhenIsValidForSelfCheckin_ShouldReturnFalse() throws Exception{
+        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
+        willReturn(TOO_EARLY_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
+
         assertFalse(newPassengerWithAllInformation.isValidForSelfCheckin());
     }
 }
