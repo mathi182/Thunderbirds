@@ -17,11 +17,15 @@ public class CheckinSelf extends Checkin {
         super(passengerHash, by);
     }
 
+    public CheckinSelf(Checkin checkin){
+        super(checkin);
+    }
+
     @JsonIgnore
     private boolean isSelfCheckinOnTime() {
         Reservation reservation = Reservation.findByReservationNumber(getPassenger().getReservationNumber());
         String flightDate = reservation.getFlightDate();
-        boolean isOnTime = true;
+        boolean isOnTime = false;
         try {
             SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
             long parsedFlightDate = format.parse(flightDate.replaceAll("Z$", "+0000")).getTime();

@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.Checkin;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinSelf;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,6 +19,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import sun.reflect.annotation.ExceptionProxy;
 
+import javax.print.DocFlavor;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.Response.Status.*;
@@ -36,10 +39,16 @@ public class CheckinResourceTest {
 
     @Mock
     public static final Passenger INVALID_RESERVATION_PASSENGER = new Passenger(12345, "", "", 21, "", "seatClass");
+
     @Mock
     public static final Passenger VALID_RESERVATION_PASSENGER = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
+
     @Mock
     public static final Passenger INVALID_SELF_CHECKIN_PASSENGER = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
+
+    @Mock
+    public static final CheckinSelf SELF_CHECKIN = new CheckinSelf(PASSENGER_HASH_WITH_RESERVATION, SELF_CHECKING);
+
 
     private Checkin checkinValid;
     private Checkin checkinPassengerWithoutReservation;
@@ -67,12 +76,10 @@ public class CheckinResourceTest {
         when(VALID_RESERVATION_PASSENGER.isValidForCheckin()).thenReturn(true);
         when(INVALID_RESERVATION_PASSENGER.isValidForCheckin()).thenReturn(false);
         when(INVALID_SELF_CHECKIN_PASSENGER.isValidForCheckin()).thenReturn(true);
-        when(VALID_RESERVATION_PASSENGER.isValidForSelfCheckin()).thenReturn(true);
-        when(INVALID_RESERVATION_PASSENGER.isValidForSelfCheckin()).thenReturn(false);
-        when(INVALID_SELF_CHECKIN_PASSENGER.isValidForSelfCheckin()).thenReturn(false);
+
 
         BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(VALID_RESERVATION_PASSENGER);
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITHOUT_RESERVATION)).willReturn(null);
+        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITHOUT_RESERVATION)).willThrow(new PassengerNotFoundException(PASSENGER_HASH_WITHOUT_RESERVATION));
         BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn(INVALID_RESERVATION_PASSENGER);
         BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_INVALID_SELF_CHECKIN)).willReturn(INVALID_SELF_CHECKIN_PASSENGER);
     }
@@ -120,7 +127,12 @@ public class CheckinResourceTest {
 
     @Test
     public void givenSelfCheckinPassengerWithValidInfo_whenCheckin_shouldCreateCheckin() throws Exception{
-        Response responseActual = this.checkinResource.checkin(this.selfCheckinPassengerValid);
+        when(SELF_CHECKIN.isSelfCheckin()).thenReturn(true);
+        when(SELF_CHECKIN.isValid()).thenReturn(true);
+        when(SELF_CHECKIN.isComplete()).thenReturn(true);
+        when(SELF_CHECKIN.passengerExist()).thenReturn(true);
+
+        Response responseActual = this.checkinResource.checkin(SELF_CHECKIN);
         int statusActual = responseActual.getStatus();
 
         int statusExpected = CREATED.getStatusCode();
@@ -129,7 +141,9 @@ public class CheckinResourceTest {
 
     @Test
     public void givenInvalidSelfCheckinPassengerWithValidInfo_whenCheckin_shouldNotCreateCheckin() throws Exception{
-        Response responseActual = this.checkinResource.checkin(this.selfCheckinPassengerInvalid);
+        when(SELF_CHECKIN.isSelfCheckin()).thenReturn(true);
+        when(SELF_CHECKIN.isValid()).thenReturn(false);
+        Response responseActual = this.checkinResource.checkin(SELF_CHECKIN);
         int statusActual = responseActual.getStatus();
 
         int statusExpected = BAD_REQUEST.getStatusCode();

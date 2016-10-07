@@ -25,30 +25,29 @@ public class CheckinResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(Checkin checkin) {
-        if (!checkin.isValid()) {
+
+        Checkin activeCheckin = checkin;
+
+        if(activeCheckin.isSelfCheckin()){
+            activeCheckin = new CheckinSelf(checkin);
+        }
+
+        if (!activeCheckin.isComplete()) {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
 
-        String passengerHash = checkin.getPassengerHash();
-        Passenger passengerFound = Passenger.findByPassengerHash(passengerHash);
-        if (passengerFound == null) {
+        if (!activeCheckin.passengerExist()) {
             return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
         }
 
-        if (!passengerFound.isValidForCheckin()) {
+        if (!activeCheckin.isValid()) {
             return Response.status(BAD_REQUEST).entity(Entity.json(PASSENGER_RESERVATION_NOT_VALID)).build();
         }
 
-        String checkinId = checkin.getCheckinId();
-
-
-        if (checkin.isSelfCheckin() && !passengerFound.isValidForSelfCheckin()) {
-            return Response.status(BAD_REQUEST).entity(Entity.json(PASSENGER_CHECKIN_NOT_IN_TIME)).build();
-        }
+        String checkinId = activeCheckin.getCheckinId();
 
         checkin.save();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
-
     }
 
 }
