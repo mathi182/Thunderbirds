@@ -31,10 +31,6 @@ public class CheckinResource {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
 
-        if(checkin.isSelfCheckin()){
-            checkin = new CheckinSelf(checkin);
-        }
-
         if (!checkin.isComplete()) {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }

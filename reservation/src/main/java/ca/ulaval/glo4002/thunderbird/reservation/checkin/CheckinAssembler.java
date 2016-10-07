@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.MissingInfoException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -14,6 +15,7 @@ public class CheckinAssembler {
     @JsonProperty("by")
     public String agentId;
 
+    @JsonIgnore
     public Checkin toDomain() {
         if(agentId == null){
             throw new MissingInfoException("by");

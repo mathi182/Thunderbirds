@@ -19,9 +19,7 @@ public class Checkin {
     private String by;
     private static final String SELF_CHECKIN = "SELF";
 
-    @JsonCreator
-
-    public Checkin(@JsonProperty("passenger_hash") String passengerHash, @JsonProperty("by") String by) {
+    public Checkin(String passengerHash,String by) {
         this.checkinId = UUID.randomUUID().toString();
         this.passengerHash = passengerHash;
         this.by = by;
@@ -37,7 +35,6 @@ public class Checkin {
         return !(Strings.isNullOrEmpty(by));
     }
 
-    @JsonIgnore
     public boolean isSelfCheckin() {
         return SELF_CHECKIN.equals(by);
     }
