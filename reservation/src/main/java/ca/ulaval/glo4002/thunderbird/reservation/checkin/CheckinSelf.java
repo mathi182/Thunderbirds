@@ -12,9 +12,10 @@ public class CheckinSelf extends Checkin {
     private static final long MAX_LATE_CHECKIN_IN_MILLIS = 60 * 60 * 6 * 1000L;
     private static final long MAX_EARLY_CHECKIN_IN_MILLIS = 60 * 60 * 48 * 1000L;
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+    public static final String SELF = "SELF";
 
-    public CheckinSelf(@JsonProperty("passenger_hash") String passengerHash, @JsonProperty("by") String by) {
-        super(passengerHash, by);
+    public CheckinSelf(@JsonProperty("passenger_hash") String passengerHash) {
+        super(passengerHash, SELF);
     }
 
     public CheckinSelf(Checkin checkin){

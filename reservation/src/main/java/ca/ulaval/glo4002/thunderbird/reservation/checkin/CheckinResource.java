@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.MissingInfoException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -20,31 +20,34 @@ public class CheckinResource {
     private final String FIELDS_REQUIRED_MESSAGE = "by and passengerHas fields are required";
     private final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
     private final String PASSENGER_RESERVATION_NOT_VALID = "passenger information missing in the reservation. full name and passport number fields are required.";
-    private final String PASSENGER_CHECKIN_NOT_IN_TIME = "self checkin is too late or too early";
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response checkin(Checkin checkin) {
-
-        Checkin activeCheckin = checkin;
-
-        if(activeCheckin.isSelfCheckin()){
-            activeCheckin = new CheckinSelf(checkin);
-        }
-
-        if (!activeCheckin.isComplete()) {
+    public Response checkin(CheckinAssembler checkinAssembler) {
+        Checkin checkin;
+        try{
+            checkin = checkinAssembler.toDomain();
+        }catch (MissingInfoException ex){
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
 
-        if (!activeCheckin.passengerExist()) {
+        if(checkin.isSelfCheckin()){
+            checkin = new CheckinSelf(checkin);
+        }
+
+        if (!checkin.isComplete()) {
+            return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
+        }
+
+        if (!checkin.passengerExist()) {
             return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
         }
 
-        if (!activeCheckin.isValid()) {
+        if (!checkin.isValid()) {
             return Response.status(BAD_REQUEST).entity(Entity.json(PASSENGER_RESERVATION_NOT_VALID)).build();
         }
 
-        String checkinId = activeCheckin.getCheckinId();
+        String checkinId = checkin.getCheckinId();
 
         checkin.save();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
