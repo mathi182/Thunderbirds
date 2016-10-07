@@ -26,12 +26,14 @@ public class FlightRepositoryTest {
     public void givenANewFlightNumber_whenRetrievingTheModel_shouldRepositoryContainTheFlight() {
         repository.getPlaneModel(NEW_FLIGHT_NUMBER);
         boolean planeModelContainsFlightNumber = repository.contains(NEW_FLIGHT_NUMBER);
+
         assertTrue(planeModelContainsFlightNumber);
     }
 
     @Test
     public void givenANewFlightNumber_whenRetrievingTheModel_shouldHaveAPlaneModel() {
         String planeModelReceived = repository.getPlaneModel(NEW_FLIGHT_NUMBER);
+        
         assertNotNull(planeModelReceived);
     }
 
