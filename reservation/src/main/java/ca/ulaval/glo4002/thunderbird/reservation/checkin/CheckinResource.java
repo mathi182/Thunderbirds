@@ -20,6 +20,7 @@ public class CheckinResource {
     private final String FIELDS_REQUIRED_MESSAGE = "by and passengerHas fields are required";
     private final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
     private final String PASSENGER_RESERVATION_NOT_VALID = "passenger information missing in the reservation. full name and passport number fields are required.";
+    private final String PASSENGER_CHECKIN_NOT_IN_TIME = "self checkin is too late or too early";
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -40,10 +41,10 @@ public class CheckinResource {
 
         String checkinId = checkin.getCheckinId();
 
-        //TODO: this stuff
-        /*if (checkin.isSelfCheckin()) {
 
-        }*/
+        if (checkin.isSelfCheckin() && !passengerFound.isValidForSelfCheckin()) {
+            return Response.status(BAD_REQUEST).entity(Entity.json(PASSENGER_CHECKIN_NOT_IN_TIME)).build();
+        }
 
         checkin.save();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
