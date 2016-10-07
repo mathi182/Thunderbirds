@@ -69,4 +69,8 @@ public class Reservation {
     public int getReservationNumber() {
         return reservationNumber;
     }
+
+    public String getFlightDate() {
+        return flightDate;
+    }
 }

@@ -20,6 +20,7 @@ public class Passenger {
     private static final int NULL_RESERVATION_NUMBER = -1;
     private static final long MAX_LATE_CHECKIN_IN_MILLIS = 60 * 60 * 6 * 1000L;
     private static final long MAX_EARLY_CHECKIN_IN_MILLIS = 60 * 60 * 48 * 1000L;
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     @JsonProperty("passenger_hash") private String id;
     @JsonProperty("first_name") private String firstName = "";
@@ -93,6 +94,7 @@ public class Passenger {
 
     @JsonIgnore
     public boolean isValidForSelfCheckin() {
+        /*
         boolean checkinIsValid = true;
         boolean reservationIsValid = this.isValidForCheckin();
         try {
@@ -103,13 +105,15 @@ public class Passenger {
         }
 
         return checkinIsValid && reservationIsValid;
+        */
+        return false;
     }
 
     @JsonIgnore
     private boolean isSelfCheckinOnTime(String flightDate) {
         boolean isOnTime = true;
         try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+            SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
             long parsedFlightDate = format.parse(flightDate.replaceAll("Z$", "+0000")).getTime();
             long maxEarlySelfCheckinDate = parsedFlightDate - MAX_EARLY_CHECKIN_IN_MILLIS;
             long maxLateSelfCheckinDate = parsedFlightDate - MAX_LATE_CHECKIN_IN_MILLIS;

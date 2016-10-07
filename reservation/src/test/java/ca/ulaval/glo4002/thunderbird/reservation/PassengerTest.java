@@ -13,6 +13,9 @@ import org.mockito.junit.MockitoRule;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.util.Date;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
@@ -31,6 +34,11 @@ public class PassengerTest {
     private static final int NONEXISTENT_RESERVATION_NUMBER = 3;
     private static final int EXISTENT_RESERVATION_NUMBER = 5;
     private static final int INVALID_RESERVATION_NUMBER = 4;
+    private static final String TODAYS_DATE = "2016-09-06T13:00:00Z";
+    private static final String VALID_FOR_CHECKIN_FLIGHT_DATE = "2016-09-06T21:00:00Z";
+    private static final String TOO_LATE_FOR_CHECKIN_FLIGHT_DATE = "2016-09-06T14:00:00Z";
+    private static final String TOO_EARLY_FOR_CHECKIN_FLIGHT_DATE = "2016-09-02T21:00:00Z";;
+
     private Passenger newPassengerWithAllInformationExceptReservationNumber;
     private Passenger newPassengerWithoutFirstName;
     private Passenger newPassengerWithoutLastName;
@@ -88,5 +96,12 @@ public class PassengerTest {
     public void givenPassengerWithNonExistentReservation_whenIsValidForCheckin_ShouldReturnFalse() throws Exception {
         BDDMockito.given(Reservation.findByReservationNumber(NONEXISTENT_RESERVATION_NUMBER)).willThrow(new ReservationNotFoundException(NONEXISTENT_RESERVATION_NUMBER));
         assertFalse(passengerWithNonExistentReservationNumber.isValidForCheckin());
+    }
+
+    @Test
+    public void givenPassengerWithValidReservation_WhenIsValidForSelfCheckin_ShouldReturnFalse() throws  Exception{
+        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
+        willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
+        assertFalse(newPassengerWithAllInformation.isValidForSelfCheckin());
     }
 }
