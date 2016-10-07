@@ -21,15 +21,15 @@ public class Checkin {
         this.agentId = agentId;
     }
 
-    public boolean isAgentIdValid(){
+    boolean isAgentIdValid(){
         return !(Strings.isNullOrEmpty(agentId));
     }
 
-    public boolean isPassengerHashValid(){
+    boolean isPassengerHashValid(){
         return !(Strings.isNullOrEmpty(passengerHash));
     }
 
-    public String getPassengerHash() {
+    String getPassengerHash() {
         return passengerHash;
     }
 

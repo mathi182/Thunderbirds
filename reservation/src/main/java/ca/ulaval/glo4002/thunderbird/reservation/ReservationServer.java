@@ -8,7 +8,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 public class ReservationServer implements Runnable {
 
-    public static final int DEFAULT_PORT = 8787;
+    private static final int DEFAULT_PORT = 8787;
 
     public static void main(String[] args) {
         new ReservationServer().run();
