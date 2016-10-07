@@ -4,17 +4,11 @@ import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadySaved
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import ca.ulaval.glo4002.thunderbird.reservation.util.DateLong;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.TimeZone;
 import java.util.UUID;
 
 public class Passenger {
@@ -71,7 +65,6 @@ public class Passenger {
         passengerStore.put(this.id, this);
     }
 
-
     @JsonIgnore
     public boolean isValidForCheckin() {
         boolean reservationIsValid = false;
@@ -95,42 +88,12 @@ public class Passenger {
                 && reservationIsValid;
     }
 
-    @JsonIgnore
-    public boolean isValidForSelfCheckin() {
-        if(isValidForCheckin()) {
-            String flightDate = Reservation.findByReservationNumber(reservationNumber).getFlightDate();
-            return isSelfCheckinOnTime(flightDate);
-        }
-        else
-            return false;
-    }
-
-    @JsonIgnore
-    private boolean isSelfCheckinOnTime(String flightDate) {
-        boolean isOnTime = true;
-        try {
-            SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
-            long parsedFlightDate = format.parse(flightDate.replaceAll("Z$", "+0000")).getTime();
-            long maxEarlySelfCheckinDate = parsedFlightDate - MAX_EARLY_CHECKIN_IN_MILLIS;
-            long maxLateSelfCheckinDate = parsedFlightDate - MAX_LATE_CHECKIN_IN_MILLIS;
-            long currentTime = DateLong.getLongCurrentDate();
-
-            isOnTime = (currentTime>maxEarlySelfCheckinDate) && (currentTime<maxLateSelfCheckinDate);
-        } catch (ParseException e) {
-            isOnTime = false;
-        }
-        return isOnTime;
-    }
-
     public void setReservationNumber(int reservationNumber) {
         this.reservationNumber = reservationNumber;
     }
-
-
 
     @JsonIgnore
     public int getReservationNumber() {
         return reservationNumber;
     }
-
 }

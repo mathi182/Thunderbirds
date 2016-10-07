@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,16 +25,20 @@ public class Checkin {
         this.by = by;
     }
 
-    public boolean isByValid() {
+    private boolean isByValid() {
         return !(Strings.isNullOrEmpty(by));
     }
 
-    public boolean isSelfCheckin() {
+    private boolean isSelfCheckin() {
         return by.equals(SELF_CHECKIN);
     }
 
-    public boolean isPassengerHashValid(){
+    private boolean isPassengerHashValid(){
         return !(Strings.isNullOrEmpty(passengerHash));
+    }
+
+    public boolean isValid() {
+       return isByValid() && isPassengerHashValid();
     }
 
     public String getPassengerHash() {
@@ -57,5 +62,9 @@ public class Checkin {
             throw new CheckinNotFoundException(checkinId);
         }
         return checkin;
+    }
+
+    protected Passenger getPassenger(){
+        return Passenger.findByPassengerHash(passengerHash);
     }
 }

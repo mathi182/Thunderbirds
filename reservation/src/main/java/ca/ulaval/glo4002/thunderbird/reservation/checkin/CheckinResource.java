@@ -25,7 +25,7 @@ public class CheckinResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(Checkin checkin) {
-        if (!checkin.isByValid() || !checkin.isPassengerHashValid()) {
+        if (!checkin.isValid()) {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
         }
 
