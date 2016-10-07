@@ -25,12 +25,14 @@ public class FlightRepositoryTest {
     @Test
     public void givenANewFlightNumber_whenRetrievingTheModel_shouldRepositoryContainTheFlight() {
         repository.getPlaneModel(NEW_FLIGHT_NUMBER);
-        assertTrue(repository.contains(NEW_FLIGHT_NUMBER));
+        boolean planeModelContainsFlightNumber = repository.contains(NEW_FLIGHT_NUMBER);
+        assertTrue(planeModelContainsFlightNumber);
     }
 
     @Test
     public void givenANewFlightNumber_whenRetrievingTheModel_shouldHaveAPlaneModel() {
-        assertNotNull(repository.getPlaneModel(NEW_FLIGHT_NUMBER));
+        String planeModelReceived = repository.getPlaneModel(NEW_FLIGHT_NUMBER);
+        assertNotNull(planeModelReceived);
     }
 
     @Test
@@ -39,23 +41,25 @@ public class FlightRepositoryTest {
 
         repository.clear();
 
-        assertTrue(repository.size() == 0);
+        boolean isSizeEmpty = repository.size() == 0;
+        assertTrue(isSizeEmpty);
     }
 
     @Test
     public void whenUsingDemoSetup_shouldHaveSpecificFlightModelInRepository() {
         repository.demoSetup();
 
-        assertTrue(repository.contains(BOEING_FLIGHT_NUMBER));
-        assertTrue(repository.contains(DASH_FLIGHT_NUMBER));
-        assertTrue(repository.contains(A320_FLIGHT_NUMBER));
-        assertEquals(repository.getPlaneModel(BOEING_FLIGHT_NUMBER),BOEING_MODEL);
-        assertEquals(repository.getPlaneModel(DASH_FLIGHT_NUMBER),DASH_MODEL);
-        assertEquals(repository.getPlaneModel(A320_FLIGHT_NUMBER),A320_MODEL);
+        boolean repositoryContainsBoeingFlight = repository.contains(BOEING_FLIGHT_NUMBER);
+        boolean repositoryContainsA320Flight = repository.contains(A320_FLIGHT_NUMBER);
+        boolean repositoryContainsDashFlight = repository.contains(DASH_FLIGHT_NUMBER);
+        String planeModelBoeing = repository.getPlaneModel(BOEING_FLIGHT_NUMBER);
+        String planeModelDash = repository.getPlaneModel(DASH_FLIGHT_NUMBER);
+        String planeModelA320 = repository.getPlaneModel(A320_FLIGHT_NUMBER);
+        assertTrue(repositoryContainsBoeingFlight);
+        assertTrue(repositoryContainsA320Flight);
+        assertTrue(repositoryContainsDashFlight);
+        assertEquals(planeModelBoeing, BOEING_MODEL);
+        assertEquals(planeModelDash, DASH_MODEL);
+        assertEquals(planeModelA320, A320_MODEL);
     }
-
-
-
-
-
 }

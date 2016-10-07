@@ -66,12 +66,12 @@ public enum FlightRepository {
 
     public List<String> getFlightAvailableSeats(String flightNumber, String flightDate) {
         HashMap<String, List<String>> flightMap = flightAvailableSeatsRepository.get(flightNumber);
-        //If the flight was not already entered, create an empty one.
+
         if (flightMap == null) {
             flightMap = new HashMap<>();
             flightAvailableSeatsRepository.put(flightNumber, flightMap);
         }
-        //If the flightDate was not already entered, create an empty one.
+
         List<String> availableSeatsList = flightMap.get(flightDate);
         if (availableSeatsList == null) {
             if (flightModelRepository.get(flightNumber) == null) {
@@ -107,5 +107,3 @@ public enum FlightRepository {
         flightModelRepository.put(A320_FLIGHT_NUMBER, A320_MODEL);
     }
 }
-
-

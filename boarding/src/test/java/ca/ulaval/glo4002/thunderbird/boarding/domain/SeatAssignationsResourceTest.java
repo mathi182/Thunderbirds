@@ -18,6 +18,7 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
 
 @RunWith(PowerMockRunner.class)
 public class SeatAssignationsResourceTest {
@@ -45,20 +46,9 @@ public class SeatAssignationsResourceTest {
     }
 
     @Test
-    public void whenAssigningASeat_shouldReturnASeat() {
-        Response responseActual = seatAssignationsResource.assignSeat(seatAssignations);
-        //TODO
-    }
-
-    @Test
-    public void givenReservationFull_whenAssigningSeat_shouldReturnBadRequest() {
-
-    }
-
-    @Test
     @Ignore
     public void givenInvalidPassengerHash_whenAssigningSeat_shouldReturnNotFound() {
-        PowerMockito.doThrow(new PassengerNotFoundException(PASSENGER_HASH)).when(PassengerStorage.findByPassengerHash(PASSENGER_HASH));
+        doThrow(new PassengerNotFoundException(PASSENGER_HASH)).when(PassengerStorage.findByPassengerHash(PASSENGER_HASH));
 
         Response responseActual = seatAssignationsResource.assignSeat(seatAssignations);
         int statusActual = responseActual.getStatus();
