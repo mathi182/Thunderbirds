@@ -100,11 +100,11 @@ public class CheckinResourceTest {
         when(checkinPassengerWithReservationButMissingInfo.toDomain()).thenReturn(checkin);
 
         when(invalidReservationPassenger.isValidForCheckin()).thenReturn(false);
-        this.checkinPassengerWithReservationButMissingInfo.passengerHash = PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO;
-        this.checkinPassengerWithReservationButMissingInfo.agentId = AGENT_ID;
+        checkinPassengerWithReservationButMissingInfo.passengerHash = PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO;
+        checkinPassengerWithReservationButMissingInfo.agentId = AGENT_ID;
         BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn(invalidReservationPassenger);
 
-        Response responseActual = this.checkinResource.checkin(this.checkinPassengerWithReservationButMissingInfo);
+        Response responseActual = this.checkinResource.checkin(checkinPassengerWithReservationButMissingInfo);
         int statusActual = responseActual.getStatus();
 
         int statusExpected = BAD_REQUEST.getStatusCode();

@@ -45,4 +45,10 @@ public class CheckinSelf extends Checkin {
     public boolean isValid() {
         return super.isValid() && isSelfCheckinOnTime();
     }
+
+    @JsonIgnore
+    @Override
+    public boolean isSelfCheckin(){
+        return true;
+    }
 }
