@@ -97,21 +97,12 @@ public class Passenger {
 
     @JsonIgnore
     public boolean isValidForSelfCheckin() {
-        /*
-        boolean checkinIsValid = true;
-        boolean reservationIsValid = this.isValidForCheckin();
-        try {
-            Reservation checkinReservation = Reservation.findByReservationNumber(reservationNumber);
-
-        } catch (ReservationNotFoundException e) {
-            checkinIsValid = false;
+        if(isValidForCheckin()) {
+            String flightDate = Reservation.findByReservationNumber(reservationNumber).getFlightDate();
+            return isSelfCheckinOnTime(flightDate);
         }
-
-        return checkinIsValid && reservationIsValid;
-        */
-        String flightDate = Reservation.findByReservationNumber(reservationNumber).getFlightDate();
-
-        return isSelfCheckinOnTime(flightDate);
+        else
+            return false;
     }
 
     @JsonIgnore

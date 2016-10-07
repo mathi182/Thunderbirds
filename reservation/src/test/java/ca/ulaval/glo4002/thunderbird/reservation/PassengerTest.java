@@ -129,4 +129,20 @@ public class PassengerTest {
 
         assertFalse(newPassengerWithAllInformation.isValidForSelfCheckin());
     }
+
+    @Test
+    public void givenPassengerWithValidReservationAndTooLateFlightDate_WhenIsValidForSelfCheckin_ShouldReturnFalse() throws Exception{
+        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
+        willReturn(TOO_LATE_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
+
+        assertFalse(newPassengerWithAllInformation.isValidForSelfCheckin());
+    }
+
+    @Test
+    public void givenPassengerInvalidForCheckinAndValidFlightDate_WhenIsValidForSelfCheckin_ShouldReturnFalse() throws Exception{
+        BDDMockito.given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
+        willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
+
+        assertFalse(newPassengerWithoutPassportNumber.isValidForCheckin());
+    }
 }
