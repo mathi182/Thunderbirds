@@ -12,30 +12,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class PassengerStorage {
-    private static final HashMap<String, PassengerStorage> passengerStore = new HashMap<>();
+public class PassengerAssembly {
+    private static final HashMap<String, PassengerAssembly> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
     private static final int NULL_RESERVATION_NUMBER = -1;
 
-    @JsonProperty("passenger_hash") private String id;
-    @JsonProperty("first_name") private String firstName = "";
-    @JsonProperty("last_name") private String lastName = "";
-    @JsonProperty("passport_number") private String passportNumber = "";
-    @JsonProperty("seat_class") private String seatClass;
+    @JsonProperty("passenger_hash")
+    private String id;
+    @JsonProperty("first_name")
+    private String firstName = "";
+    @JsonProperty("last_name")
+    private String lastName = "";
+    @JsonProperty("passport_number")
+    private String passportNumber = "";
+    @JsonProperty("seat_class")
+    private String seatClass;
     private int age;
 
-    @JsonIgnore public int reservationNumber = NULL_RESERVATION_NUMBER;
-    @JsonProperty("child") public boolean isAChild() {
+    @JsonIgnore
+    private int reservationNumber = NULL_RESERVATION_NUMBER;
+
+    @JsonProperty("child")
+    public boolean isAChild() {
         return age < AGE_MAJORITY;
     }
 
     @JsonCreator
-    public PassengerStorage(@JsonProperty("reservation_number") int reservationNumber,
-                            @JsonProperty("first_name") String firstName,
-                            @JsonProperty("last_name") String lastName,
-                            @JsonProperty("age") int age,
-                            @JsonProperty("passport_number") String passportNumber,
-                            @JsonProperty("seat_class") String seatClass) {
+    public PassengerAssembly(@JsonProperty("reservation_number") int reservationNumber,
+                             @JsonProperty("first_name") String firstName,
+                             @JsonProperty("last_name") String lastName,
+                             @JsonProperty("age") int age,
+                             @JsonProperty("passport_number") String passportNumber,
+                             @JsonProperty("seat_class") String seatClass) {
         this.id = UUID.randomUUID().toString();
         this.reservationNumber = reservationNumber;
         this.firstName = firstName;
@@ -45,7 +53,7 @@ public class PassengerStorage {
         this.seatClass = seatClass;
     }
 
-    public PassengerStorage(String firstName, String lastName, int age, String
+    public PassengerAssembly(String firstName, String lastName, int age, String
             passportNumber, String seatClass) {
         this(NULL_RESERVATION_NUMBER, firstName, lastName, age, passportNumber, seatClass);
     }
@@ -57,11 +65,13 @@ public class PassengerStorage {
         passengerStore.put(this.id, this);
     }
 
-    @JsonIgnore public boolean isValidForCheckin() {
-        boolean reservationIsValid = true;
-        if (reservationNumber != NULL_RESERVATION_NUMBER){
+    @JsonIgnore
+    public boolean isValidForCheckin() {
+        boolean reservationIsValid = false;
+
+        if (reservationNumber != NULL_RESERVATION_NUMBER) {
             try {
-                Reservation checkinReservation = Reservation.findByReservationNumber(reservationNumber);
+                Reservation.findByReservationNumber(reservationNumber);
                 reservationIsValid = true;
             } catch (ReservationNotFoundException e) {
                 reservationIsValid = false;
@@ -80,8 +90,8 @@ public class PassengerStorage {
     }
 
     @JsonIgnore
-    public static synchronized PassengerStorage findByPassengerHash(String passengerHash) {
-        PassengerStorage passenger = passengerStore.get(passengerHash);
+    public static synchronized PassengerAssembly findByPassengerHash(String passengerHash) {
+        PassengerAssembly passenger = passengerStore.get(passengerHash);
         if (passenger == null) {
             throw new PassengerNotFoundException(passengerHash);
         }
@@ -92,7 +102,8 @@ public class PassengerStorage {
         this.reservationNumber = reservationNumber;
     }
 
-    @JsonIgnore public int getReservationNumber() {
+    @JsonIgnore
+    public int getReservationNumber() {
         return reservationNumber;
     }
 

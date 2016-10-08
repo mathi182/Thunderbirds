@@ -31,7 +31,8 @@ public class ReservationServer implements Runnable {
     }
 
     private void configurerJersey(ServletContextHandler servletContextHandler) {
-        ServletContainer container = new ServletContainer(new ResourceConfig().packages("ca.ulaval.glo4002.thunderbird.reservation"));
+        ServletContainer container = new ServletContainer(new ResourceConfig().packages("ca.ulaval" +
+                ".glo4002.thunderbird.reservation"));
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
     }

@@ -1,10 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinAlreadySavedException;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -12,25 +11,17 @@ public class Checkin {
     private static final HashMap<String, Checkin> checkinStore = new HashMap<>();
     private String checkinId;
     private String passengerHash;
-    private String agentId;
+    private String by;
+    private static final String SELF_CHECKIN = "SELF";
 
-    @JsonCreator
-    public Checkin(@JsonProperty("passenger_hash") String passengerHash, @JsonProperty("by") String agentId) {
+    Checkin(String passengerHash, String by) {
         this.checkinId = UUID.randomUUID().toString();
         this.passengerHash = passengerHash;
-        this.agentId = agentId;
+        this.by = by;
     }
 
-    boolean isAgentIdValid(){
-        return !(Strings.isNullOrEmpty(agentId));
-    }
-
-    boolean isPassengerHashValid(){
-        return !(Strings.isNullOrEmpty(passengerHash));
-    }
-
-    String getPassengerHash() {
-        return passengerHash;
+    public boolean isSelfCheckin() {
+        return SELF_CHECKIN.equals(by);
     }
 
     public String getCheckinId() {
@@ -44,11 +35,20 @@ public class Checkin {
         checkinStore.put(this.checkinId, this);
     }
 
-    public static synchronized Checkin findByCheckinId(String checkinId) {
-        Checkin checkin = checkinStore.get(checkinId);
-        if (checkin == null) {
-            throw new CheckinNotFoundException(checkinId);
+    protected PassengerAssembly getPassenger() {
+        return PassengerAssembly.findByPassengerHash(passengerHash);
+    }
+
+    public boolean passengerExist() {
+        try {
+            PassengerAssembly.findByPassengerHash(passengerHash);
+        } catch (PassengerNotFoundException e) {
+            return false;
         }
-        return checkin;
+        return true;
+    }
+
+    public boolean isValid() {
+        return getPassenger().isValidForCheckin();
     }
 }

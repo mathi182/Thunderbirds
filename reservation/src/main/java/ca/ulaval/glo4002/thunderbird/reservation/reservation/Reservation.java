@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,7 +17,7 @@ public class Reservation {
     @JsonProperty("reservation_number") private int reservationNumber;
     @JsonProperty("flight_number") private String flightNumber;
     @JsonProperty("flight_date") private String flightDate;
-    @JsonProperty("passengers") private ArrayList<PassengerStorage> passengers;
+    @JsonProperty("passengers") private ArrayList<PassengerAssembly> passengers;
     @JsonIgnore private String reservationDate;
     @JsonIgnore private String reservationConfirmation;
     @JsonIgnore private String paymentLocation;
@@ -29,7 +29,7 @@ public class Reservation {
                        @JsonProperty("flight_number") String flightNumber,
                        @JsonProperty("flight_date") String flightDate,
                        @JsonProperty("payment_location") String paymentLocation,
-                       @JsonProperty("passengers") ArrayList<PassengerStorage> passengers) {
+                       @JsonProperty("passengers") ArrayList<PassengerAssembly> passengers) {
         this.reservationNumber = reservationNumber;
         this.reservationDate = reservationDate;
         this.reservationConfirmation = reservationConfirmation;
@@ -64,7 +64,7 @@ public class Reservation {
             throw new ReservationAlreadySavedException(reservationNumber);
         }
         reservationStore.put(reservationNumber, this);
-        passengers.forEach(PassengerStorage::save);
+        passengers.forEach(PassengerAssembly::save);
     }
 
     public int getReservationNumber() {
