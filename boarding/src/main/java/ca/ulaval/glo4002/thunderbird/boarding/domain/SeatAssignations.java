@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain;
 
 import ca.ulaval.glo4002.thunderbird.boarding.exception.SeatNotAvailableException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,7 +30,7 @@ class SeatAssignations {
     }
 
     String assignSeat() {
-        PassengerStorage passenger = PassengerStorage.findByPassengerHash(passengerHash);
+        PassengerAssembly passenger = PassengerAssembly.findByPassengerHash(passengerHash);
         String flightNumber = passenger.getFlightNumber();
         String flightDate = passenger.getFlightDate();
 

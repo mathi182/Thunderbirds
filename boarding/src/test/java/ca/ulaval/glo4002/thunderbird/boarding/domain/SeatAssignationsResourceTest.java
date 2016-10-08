@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class SeatAssignationsResourceTest {
 
     @PrepareForTest
     public void preparation() {
-        PowerMockito.mockStatic(PassengerStorage.class);
+        PowerMockito.mockStatic(PassengerAssembly.class);
     }
 
     @Before
@@ -45,7 +45,7 @@ public class SeatAssignationsResourceTest {
     @Ignore
     public void givenInvalidPassengerHash_whenAssigningSeat_shouldReturnNotFound() {
         String PASSENGER_HASH = "12345";
-        doThrow(new PassengerNotFoundException(PASSENGER_HASH)).when(PassengerStorage.findByPassengerHash(PASSENGER_HASH));
+        doThrow(new PassengerNotFoundException(PASSENGER_HASH)).when(PassengerAssembly.findByPassengerHash(PASSENGER_HASH));
 
         Response responseActual = seatAssignationsResource.assignSeat(seatAssignations);
         int statusActual = responseActual.getStatus();
