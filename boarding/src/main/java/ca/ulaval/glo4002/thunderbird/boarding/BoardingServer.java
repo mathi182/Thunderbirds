@@ -8,7 +8,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 public class BoardingServer implements Runnable {
 
-    public static final int DEFAULT_PORT = 8888;
+    private static final int DEFAULT_PORT = 8888;
 
     public static void main(String[] args) {
         new BoardingServer().run();

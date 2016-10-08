@@ -8,7 +8,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 public class ReservationServer implements Runnable {
 
-    public static final int DEFAULT_PORT = 8787;
+    private static final int DEFAULT_PORT = 8787;
 
     public static void main(String[] args) {
         new ReservationServer().run();
@@ -31,7 +31,8 @@ public class ReservationServer implements Runnable {
     }
 
     private void configurerJersey(ServletContextHandler servletContextHandler) {
-        ServletContainer container = new ServletContainer(new ResourceConfig().packages("ca.ulaval.glo4002.thunderbird.reservation"));
+        ServletContainer container = new ServletContainer(new ResourceConfig().packages("ca.ulaval" +
+                ".glo4002.thunderbird.reservation"));
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
     }
