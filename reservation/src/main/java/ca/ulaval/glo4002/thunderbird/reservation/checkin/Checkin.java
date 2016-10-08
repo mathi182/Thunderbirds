@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ public class Checkin {
     private String by;
     private static final String SELF_CHECKIN = "SELF";
 
-    public Checkin(String passengerHash,String by) {
+    public Checkin(String passengerHash, String by) {
         this.checkinId = UUID.randomUUID().toString();
         this.passengerHash = passengerHash;
         this.by = by;
@@ -34,20 +35,20 @@ public class Checkin {
         checkinStore.put(this.checkinId, this);
     }
 
-    protected PassengerAssembly getPassenger(){
+    protected PassengerAssembly getPassenger() {
         return PassengerAssembly.findByPassengerHash(passengerHash);
     }
 
-    public boolean passengerExist(){
-        try{
+    public boolean passengerExist() {
+        try {
             PassengerAssembly.findByPassengerHash(passengerHash);
-        }catch (PassengerNotFoundException e){
+        } catch (PassengerNotFoundException e) {
             return false;
         }
         return true;
     }
 
-    public boolean isValid(){
+    public boolean isValid() {
         return getPassenger().isValidForCheckin();
     }
 }
