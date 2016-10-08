@@ -51,23 +51,26 @@ public class ReservationTest {
     @Test
     public void whenCreatingAReservation_shouldReservationBeValid() {
         boolean isNewReservationValid = newReservation.isValid();
+
         assertTrue(isNewReservationValid);
     }
 
     @Test
-    public void givenNewReservation_whenGettingReservationNumber_shouldReturnCorrectReservationNumber(){
+    public void givenNewReservation_whenGettingReservationNumber_shouldReturnCorrectReservationNumber() {
         int actualValue = newReservation.getReservationNumber();
-        int expectedValue = RESERVATION_NUMBER;
 
-        assertEquals(expectedValue,actualValue);
+        int expectedValue = RESERVATION_NUMBER;
+        assertEquals(expectedValue, actualValue);
     }
 
     @Test
     public void whenSavingReservation_shouldSuccessfullySave() {
         newReservation.save();
-
         Reservation reservationFound = Reservation.findByReservationNumber(newReservation.getReservationNumber());
-        assertEquals(reservationFound.getReservationNumber(), newReservation.getReservationNumber());
+        int actualReservationNumber = reservationFound.getReservationNumber();
+
+        int expectedReservationNumber = newReservation.getReservationNumber();
+        assertEquals(expectedReservationNumber, actualReservationNumber);
     }
 
     @Test(expected = ReservationNotFoundException.class)

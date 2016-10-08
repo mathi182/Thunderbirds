@@ -15,10 +15,9 @@ public class CheckinAssembler {
 
     @JsonIgnore
     public Checkin toDomain() {
-        if ((Strings.isNullOrEmpty(agentId))) {
+        if (Strings.isNullOrEmpty(agentId)) {
             throw new MissingInfoException("by");
-        }
-        else if ((Strings.isNullOrEmpty(passengerHash))) {
+        } else if (Strings.isNullOrEmpty(passengerHash)) {
             throw new MissingInfoException("passenger_hash");
         }
 

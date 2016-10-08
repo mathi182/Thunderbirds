@@ -55,10 +55,10 @@ public class ReservationsResourceTest {
         int statusActual = 200;
         int statusExpected = OK.getStatusCode();
 
-        Reservation reservationActual = (Reservation) responseActual.getEntity();
-        Reservation reservationExpected = (Reservation) responseExpected.getEntity();
+        int reservationActual = ((Reservation) responseActual.getEntity()).getReservationNumber();
+        int reservationExpected = ((Reservation) responseExpected.getEntity()).getReservationNumber();
 
         assertEquals(statusExpected, statusActual);
-        assertEquals(reservationExpected.getReservationNumber(), reservationActual.getReservationNumber());
+        assertEquals(reservationExpected, reservationActual);
     }
 }

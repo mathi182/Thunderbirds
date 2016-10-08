@@ -53,7 +53,8 @@ public class PassengerAssemblyTest {
                 new PassengerAssembly(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         newPassengerWithAllInformation =
-                new PassengerAssembly(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new PassengerAssembly(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
+                        SEAT_CLASS);
 
         newPassengerWithoutPassportNumber =
                 new PassengerAssembly(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
@@ -65,13 +66,15 @@ public class PassengerAssemblyTest {
                 new PassengerAssembly("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         passengerWithNonExistentReservationNumber =
-                new PassengerAssembly(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new PassengerAssembly(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
+                        SEAT_CLASS);
 
         newPassengerWithAllInformationExceptReservationNumber =
                 new PassengerAssembly(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         newPassengerWithAllInformation =
-                new PassengerAssembly(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new PassengerAssembly(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
+                        SEAT_CLASS);
 
         newPassengerWithoutPassportNumber =
                 new PassengerAssembly(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
@@ -83,7 +86,8 @@ public class PassengerAssemblyTest {
                 new PassengerAssembly("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         passengerWithNonExistentReservationNumber =
-                new PassengerAssembly(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new PassengerAssembly(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
+                        SEAT_CLASS);
 
         reservationMock = mock(Reservation.class);
         given(DateLong.getLongCurrentDate()).willReturn(TODAYS_DATE);
@@ -92,43 +96,57 @@ public class PassengerAssemblyTest {
     @Test
     public void givenValidPassengerForCheckin_whenIsValidForCheckin_shouldReturnTrue() {
         given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-        assertTrue(newPassengerWithAllInformation.isValidForCheckin());
+
+        boolean isValidForCheckin = newPassengerWithAllInformation.isValidForCheckin();
+
+        assertTrue(isValidForCheckin);
     }
 
     @Test
     public void givenPassengerWithoutFirstName_whenIsValidForCheckin_shouldReturnFalse() {
-        assertFalse(newPassengerWithoutFirstName.isValidForCheckin());
+        boolean isValidForCheckin = newPassengerWithoutFirstName.isValidForCheckin();
+
+        assertFalse(isValidForCheckin);
     }
 
     @Test
     public void givenPassengerWithoutLastName_whenIsValidForCheckin_shouldReturnFalse() {
-        assertFalse(newPassengerWithoutLastName.isValidForCheckin());
+        boolean isValidForCheckin = newPassengerWithoutLastName.isValidForCheckin();
+
+        assertFalse(isValidForCheckin);
     }
 
     @Test
     public void givenPassengerWithoutPassportNumber_whenIsValidForCheckin_shouldReturnFalse() {
-        assertFalse(newPassengerWithoutPassportNumber.isValidForCheckin());
+        boolean isValidForCheckin = newPassengerWithoutPassportNumber.isValidForCheckin();
+
+        assertFalse(isValidForCheckin);
     }
 
     @Test
     public void givenPassengerWithoutReservationNumber_whenIsValidForCheckin_shouldReturnFalse() {
-        assertFalse(newPassengerWithAllInformationExceptReservationNumber.isValidForCheckin());
+        boolean isValidForCheckin = newPassengerWithAllInformationExceptReservationNumber.isValidForCheckin();
+
+        assertFalse(isValidForCheckin);
     }
 
-
     @Test
-    public void givenPassengerWithNonExistentReservation_whenIsValidForCheckin_ShouldReturnFalse() {
+    public void givenPassengerWithNonExistentReservation_whenIsValidForCheckin_shouldReturnFalse() {
         given(Reservation.findByReservationNumber(NONEXISTENT_RESERVATION_NUMBER))
                 .willThrow(new ReservationNotFoundException(NONEXISTENT_RESERVATION_NUMBER));
 
-        assertFalse(passengerWithNonExistentReservationNumber.isValidForCheckin());
+        boolean isValidForCheckin = passengerWithNonExistentReservationNumber.isValidForCheckin();
+
+        assertFalse(isValidForCheckin);
     }
 
     @Test
-    public void givenPassengerWithValidReservation_WhenFlightDateIsValidForSelfCheckin_ShouldReturnTrue() {
+    public void givenPassengerWithValidReservation_whenFlightDateIsValidForSelfCheckin_shouldReturnTrue() {
         given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
 
-        assertTrue(newPassengerWithAllInformation.isValidForCheckin());
+        boolean isValidForCheckin = newPassengerWithAllInformation.isValidForCheckin();
+
+        assertTrue(isValidForCheckin);
     }
 }

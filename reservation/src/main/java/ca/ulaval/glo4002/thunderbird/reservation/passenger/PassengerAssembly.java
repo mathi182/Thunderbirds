@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -16,15 +17,23 @@ public class PassengerAssembly {
     private static final int AGE_MAJORITY = 18;
     private static final int NULL_RESERVATION_NUMBER = -1;
 
-    @JsonProperty("passenger_hash") private String id;
-    @JsonProperty("first_name") private String firstName = "";
-    @JsonProperty("last_name") private String lastName = "";
-    @JsonProperty("passport_number") private String passportNumber = "";
-    @JsonProperty("seat_class") private String seatClass;
+    @JsonProperty("passenger_hash")
+    private String id;
+    @JsonProperty("first_name")
+    private String firstName = "";
+    @JsonProperty("last_name")
+    private String lastName = "";
+    @JsonProperty("passport_number")
+    private String passportNumber = "";
+    @JsonProperty("seat_class")
+    private String seatClass;
     private int age;
 
-    @JsonIgnore public int reservationNumber = NULL_RESERVATION_NUMBER;
-    @JsonProperty("child") public boolean isAChild() {
+    @JsonIgnore
+    private int reservationNumber = NULL_RESERVATION_NUMBER;
+
+    @JsonProperty("child")
+    public boolean isAChild() {
         return age < AGE_MAJORITY;
     }
 
@@ -60,7 +69,7 @@ public class PassengerAssembly {
     public boolean isValidForCheckin() {
         boolean reservationIsValid = false;
 
-        if (reservationNumber != NULL_RESERVATION_NUMBER){
+        if (reservationNumber != NULL_RESERVATION_NUMBER) {
             try {
                 Reservation.findByReservationNumber(reservationNumber);
                 reservationIsValid = true;

@@ -14,7 +14,7 @@ public class Checkin {
     private String by;
     private static final String SELF_CHECKIN = "SELF";
 
-    public Checkin(String passengerHash, String by) {
+    Checkin(String passengerHash, String by) {
         this.checkinId = UUID.randomUUID().toString();
         this.passengerHash = passengerHash;
         this.by = by;
