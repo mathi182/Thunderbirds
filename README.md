@@ -18,10 +18,8 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 - Réservation: Événement - nouvelle réservation (Terminé)
 - Réservation: Obtenir l'information sur une réservation (Terminé)
 - Checkin: Enregistrement par un agent (Terminé)
-- Checkin: Enregistrement en ligne (En cours)
-- Siège: Assignation du siège d'un passager (aléatoire) (En cours)
-- Bagage enregistré: Classe économique (En cours)
-- Bagages: Obtenir la liste par passager (En cours)
+- Checkin: Enregistrement en ligne (Terminé)
+- Siège: Assignation du siège d'un passager (aléatoire) (Terminé)
 
 ##Utilisation
 
