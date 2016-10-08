@@ -1,17 +1,17 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-enum FlightRepository {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+public enum FlightRepository {
     INSTANCE;
 
     private static final String DASH_FLIGHT_NUMBER = "QK-918";
@@ -25,6 +25,10 @@ enum FlightRepository {
     private static HashMap<String, String> flightModelRepository = new HashMap<>();
     private static HashMap<String, HashMap<String, List<String>>> flightAvailableSeatsRepository = new HashMap<>();
     private String[] modelSet = {"dash-8", "a320", "boeing-777-300"};
+
+    FlightRepository() {
+
+    }
 
     private String addFlightModel(String flightNumber) {
         String planeModel = modelSet[generator.nextInt(3)];
@@ -100,9 +104,14 @@ enum FlightRepository {
         return flightModelRepository.size();
     }
 
-    public void demoSetup() {
+    public static void demoSetup() {
         flightModelRepository.put(BOEING_FLIGHT_NUMBER, BOEING_MODEL);
         flightModelRepository.put(DASH_FLIGHT_NUMBER, DASH_MODEL);
         flightModelRepository.put(A320_FLIGHT_NUMBER, A320_MODEL);
+    }
+
+    static {
+        if (Boolean.getBoolean("demo.status"))
+            demoSetup();
     }
 }
