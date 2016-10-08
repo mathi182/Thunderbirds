@@ -27,8 +27,9 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 
 Pour lancer les serveurs (par défaut sur les ports 8888 et 8787), lancer la commande :
 ```
-mvn exec:java -pl app
+mvn exec:java -Dreservation.port=8888 -Dboarding.port=9999 -Ddemo.status=true -pl app
 ```
+Le flag -Ddemo.status permet de remplir le FlightRepository avec les avions de demo quand il est a true.
 
 ###Tests
 
