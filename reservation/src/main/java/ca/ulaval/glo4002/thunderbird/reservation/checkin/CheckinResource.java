@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.MissingInfoException;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -28,27 +29,21 @@ public class CheckinResource {
         Checkin checkin;
         try {
             checkin = checkinAssembler.toDomain();
-        }
-        catch (MissingInfoException ex) {
+        } catch (MissingInfoException ex) {
             return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
-        }
-
-        if (!checkin.passengerExist()) {
-            return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
         }
 
         if (!checkin.isValid()) {
             return Response.status(BAD_REQUEST).entity(Entity.json(PASSENGER_RESERVATION_NOT_VALID)).build();
         }
 
-        String checkinId = checkin.getCheckinId();
+        if (!checkin.passengerExist()) {
+            return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
+        }
 
+        String checkinId = checkin.getCheckinId();
         checkin.save();
+
         return Response.created(URI.create("/checkins/" + checkinId)).build();
     }
-
-    private PassengerAssembly findCheckinPassenger(String passengerHash) {
-        return PassengerAssembly.findByPassengerHash(passengerHash);
-    }
-
 }

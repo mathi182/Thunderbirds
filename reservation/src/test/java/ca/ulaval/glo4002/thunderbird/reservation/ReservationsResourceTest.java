@@ -32,9 +32,9 @@ public class ReservationsResourceTest {
     }};
 
     private Reservation newReservation;
+
     @InjectMocks
     private ReservationsResource reservationsResource;
-
 
     @Before
     public void newReservationStored() {

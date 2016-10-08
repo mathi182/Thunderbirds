@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
@@ -95,9 +94,10 @@ public class CheckinResourceTest {
 
 
     @Test
-    public void givenCheckinPassengerWithInvalidInfo_whenCheckin_shouldNotCreateCheckin() {
+    public void givenCheckinPassengerWithInvalidInfo_whenCheckin_shouldReturnBadRequest() {
         CheckinAssembler checkinPassengerWithReservationButMissingInfo = mock(CheckinAssembler.class);
         Checkin checkin = mock(Checkin.class);
+        when(checkin.passengerExist()).thenReturn(true);
         when(checkinPassengerWithReservationButMissingInfo.toDomain()).thenReturn(checkin);
         when(invalidReservationPassenger.isValidForCheckin()).thenReturn(false);
         checkinPassengerWithReservationButMissingInfo.passengerHash = PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO;
@@ -108,6 +108,25 @@ public class CheckinResourceTest {
         int statusActual = responseActual.getStatus();
 
         int statusExpected = BAD_REQUEST.getStatusCode();
+        assertEquals(statusExpected, statusActual);
+    }
+
+    @Test
+    public void givenCheckinPassengerWithInvalidPassenger_whenCheckin_shouldReturnNotFound() {
+        CheckinAssembler checkinPassengerWithReservationButMissingInfo = mock(CheckinAssembler.class);
+        Checkin checkin = mock(Checkin.class);
+        when(checkinPassengerWithReservationButMissingInfo.toDomain()).thenReturn(checkin);
+        when(checkin.isValid()).thenReturn(true);
+        when(checkin.passengerExist()).thenReturn(false);
+        when(invalidReservationPassenger.isValidForCheckin()).thenReturn(false);
+        checkinPassengerWithReservationButMissingInfo.passengerHash = PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO;
+        checkinPassengerWithReservationButMissingInfo.agentId = AGENT_ID;
+        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn(invalidReservationPassenger);
+
+        Response responseActual = checkinResource.checkin(checkinPassengerWithReservationButMissingInfo);
+        int statusActual = responseActual.getStatus();
+
+        int statusExpected = NOT_FOUND.getStatusCode();
         assertEquals(statusExpected, statusActual);
     }
 }
