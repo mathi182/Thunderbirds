@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.util.DateLong;
 import org.junit.Before;
@@ -17,7 +17,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Reservation.class, Passenger.class,DateLong.class})
+@PrepareForTest({Reservation.class, PassengerStorage.class,DateLong.class})
 public class CheckinTest {
     private static final String PASSENGER_HASH = "passenger_hash";
     private static final int RESERVATION_NUMBER = 15;
@@ -37,13 +37,13 @@ public class CheckinTest {
     private CheckinSelf checkinSelf;
     private CheckinSelf invalidCheckinSelf;
 
-    private Passenger passengerMock;
+    private PassengerStorage passengerMock;
     private Reservation reservationMock;
 
     @Before
     public void setup() throws Exception{
         PowerMockito.mockStatic(Reservation.class);
-        PowerMockito.mockStatic(Passenger.class);
+        PowerMockito.mockStatic(PassengerStorage.class);
         PowerMockito.mockStatic(DateLong.class);
 
         this.checkinValid = new Checkin(PASSENGER_HASH_WITH_RESERVATION, AGENT_ID);
@@ -51,7 +51,7 @@ public class CheckinTest {
         this.checkinWithInvalidPassenger = new Checkin(PASSENGER_HASH_WITH_INVALID_PASSENGER,AGENT_ID);
         this.checkinSelf = new CheckinSelf(PASSENGER_HASH_WITH_RESERVATION);
 
-        passengerMock = mock(Passenger.class);
+        passengerMock = mock(PassengerStorage.class);
         reservationMock = mock(Reservation.class);
 
         BDDMockito.given(DateLong.getLongCurrentDate()).willReturn(TODAYS_DATE);
@@ -82,21 +82,21 @@ public class CheckinTest {
     }
     @Test
     public void givenCheckinValid_WhenPassengerExist_PassengerShouldExist() throws Exception{
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
 
         assertTrue(checkinValid.passengerExist());
     }
 
     @Test
     public void givenCheckinValid_WhenPassengerDoesNotExist_PassengerShouldNotExist() throws Exception{
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willThrow(new PassengerNotFoundException(PASSENGER_HASH_WITH_RESERVATION));
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willThrow(new PassengerNotFoundException(PASSENGER_HASH_WITH_RESERVATION));
 
         assertFalse(checkinValid.passengerExist());
     }
 
     @Test
     public void givenCheckinValid_WhenIsValid_ShouldBeValid() throws Exception{
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(true).given(passengerMock).isValidForCheckin();
 
         assertTrue(checkinValid.isValid());
@@ -104,7 +104,7 @@ public class CheckinTest {
 
     @Test
     public void givenCheckinWithInvalidPassenger_WhenIsValid_ShouldNotBeValid() throws Exception{
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_INVALID_PASSENGER)).willReturn(passengerMock);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_INVALID_PASSENGER)).willReturn(passengerMock);
         willReturn(false).given(passengerMock).isValidForCheckin();
 
         assertFalse(checkinWithInvalidPassenger.isValid());
@@ -112,7 +112,7 @@ public class CheckinTest {
 
     @Test
     public void givenSelfCheckinValid_whenIsValid_ShoulBeValid() throws Exception{
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         BDDMockito.given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
@@ -123,7 +123,7 @@ public class CheckinTest {
 
     @Test
     public void givenSelfCheckinAndTooEarlyDate_whenIsValid_ShouldNotBeValid() throws Exception{
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         BDDMockito.given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(TOO_EARLY_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
@@ -134,7 +134,7 @@ public class CheckinTest {
 
     @Test
     public void givenSelfCheckinAndTooLateDate_whenIsValid_shouldNotBeValid() throws Exception{
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         BDDMockito.given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(TOO_LATE_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
@@ -145,7 +145,7 @@ public class CheckinTest {
 
     @Test
     public void givenSelfCheckinWithCorrectDateAndInvalidPassenger_whenIsValid_shouldNotBeValid() throws Exception{
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         BDDMockito.given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();

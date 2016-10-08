@@ -2,11 +2,12 @@ package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,7 +17,7 @@ public class Reservation {
     @JsonProperty("reservation_number") private int reservationNumber;
     @JsonProperty("flight_number") private String flightNumber;
     @JsonProperty("flight_date") private String flightDate;
-    @JsonProperty("passengers") private ArrayList<Passenger> passengers;
+    @JsonProperty("passengers") private ArrayList<PassengerStorage> passengers;
     @JsonIgnore private String reservationDate;
     @JsonIgnore private String reservationConfirmation;
     @JsonIgnore private String paymentLocation;
@@ -28,7 +29,7 @@ public class Reservation {
                        @JsonProperty("flight_number") String flightNumber,
                        @JsonProperty("flight_date") String flightDate,
                        @JsonProperty("payment_location") String paymentLocation,
-                       @JsonProperty("passengers") ArrayList<Passenger> passengers) {
+                       @JsonProperty("passengers") ArrayList<PassengerStorage> passengers) {
         this.reservationNumber = reservationNumber;
         this.reservationDate = reservationDate;
         this.reservationConfirmation = reservationConfirmation;
@@ -63,11 +64,15 @@ public class Reservation {
             throw new ReservationAlreadySavedException(reservationNumber);
         }
         reservationStore.put(reservationNumber, this);
-        passengers.forEach(Passenger::save);
+        passengers.forEach(PassengerStorage::save);
     }
 
     public int getReservationNumber() {
         return reservationNumber;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
     }
 
     public String getFlightDate() {

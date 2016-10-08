@@ -3,11 +3,8 @@ package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.CheckinNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -47,7 +44,7 @@ public class Checkin {
        return isByValid() && isPassengerHashValid();
     }
 
-    public String getPassengerHash() {
+    String getPassengerHash() {
         return passengerHash;
     }
 
@@ -70,13 +67,13 @@ public class Checkin {
         return checkin;
     }
 
-    protected Passenger getPassenger(){
-        return Passenger.findByPassengerHash(passengerHash);
+    protected PassengerStorage getPassenger(){
+        return PassengerStorage.findByPassengerHash(passengerHash);
     }
 
     public boolean passengerExist(){
         try{
-            Passenger.findByPassengerHash(passengerHash);
+            PassengerStorage.findByPassengerHash(passengerHash);
         }catch (PassengerNotFoundException e){
             return false;
         }
