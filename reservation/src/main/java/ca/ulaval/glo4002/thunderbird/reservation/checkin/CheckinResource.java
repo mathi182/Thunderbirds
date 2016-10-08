@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,9 +15,9 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 @Path("/checkins")
 @Produces(MediaType.APPLICATION_JSON)
 public class CheckinResource {
-    private final String FIELDS_REQUIRED_MESSAGE = "by and passengerHas fields are required";
-    private final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
-    private final String PASSENGER_RESERVATION_NOT_VALID = "passenger information missing in the reservation. full name and passport number fields are required.";
+    private static final String FIELDS_REQUIRED_MESSAGE = "by and passengerHas fields are required";
+    private static final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
+    private static final String PASSENGER_RESERVATION_NOT_VALID = "passenger information missing in the reservation. full name and passport number fields are required.";
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -27,7 +27,9 @@ public class CheckinResource {
         }
 
         String passengerHash = checkin.getPassengerHash();
-        Passenger passengerFound = Passenger.findByPassengerHash(passengerHash);
+
+        PassengerStorage passengerFound = findCheckinPassenger(passengerHash);
+
         if (passengerFound == null) {
             return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
         }
@@ -39,5 +41,9 @@ public class CheckinResource {
         String checkinId = checkin.getCheckinId();
         checkin.save();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
+    }
+
+    private PassengerStorage findCheckinPassenger(String passengerHash) {
+        return PassengerStorage.findByPassengerHash(passengerHash);
     }
 }

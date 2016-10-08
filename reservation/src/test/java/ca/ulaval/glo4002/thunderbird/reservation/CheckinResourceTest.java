@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.Checkin;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerStorage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,22 +22,20 @@ import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by alexandre on 2016-09-17.
- */
+
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Passenger.class)
+@PrepareForTest(PassengerStorage.class)
 public class CheckinResourceTest {
-    public static final String AGENT_ID = "agentId";
-    public static final String PASSENGER_HASH_WITHOUT_RESERVATION = "passenger_hash_without_reservation";
-    public static final String PASSENGER_HASH_WITH_RESERVATION = "passenger_hash_with_reservation";
-    public static final String PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO = "passenger_hash_with_reservation_and_missing_info";
+    private static final String AGENT_ID = "agentId";
+    private static final String PASSENGER_HASH_WITHOUT_RESERVATION = "passenger_hash_without_reservation";
+    private static final String PASSENGER_HASH_WITH_RESERVATION = "passenger_hash_with_reservation";
+    private static final String PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO = "passenger_hash_with_reservation_and_missing_info";
 
     @Mock
-    public static final Passenger INVALID_RESERVATION_PASSENGER = new Passenger(12345, "", "", 21, "", "seatClass");
+    public static final PassengerStorage INVALID_RESERVATION_PASSENGER = new PassengerStorage(12345, "", "", 21, "", "seatClass");
 
     @Mock
-    public static final Passenger VALID_RESERVATION_PASSENGER = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
+    public static final PassengerStorage VALID_RESERVATION_PASSENGER = new PassengerStorage(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
 
     private Checkin checkinValid;
     private Checkin checkinPassengerWithoutReservation;
@@ -52,7 +50,7 @@ public class CheckinResourceTest {
 
     @Before
     public void setUp() throws Exception {
-        PowerMockito.mockStatic(Passenger.class);
+        PowerMockito.mockStatic(PassengerStorage.class);
         this.checkinValid = new Checkin(PASSENGER_HASH_WITH_RESERVATION, AGENT_ID);
         this.checkinNull = new Checkin(null, null);
         this.checkinPassengerWithoutReservation = new Checkin(PASSENGER_HASH_WITHOUT_RESERVATION, AGENT_ID);
@@ -61,9 +59,9 @@ public class CheckinResourceTest {
         when(VALID_RESERVATION_PASSENGER.isValidForCheckin()).thenReturn(true);
         when(INVALID_RESERVATION_PASSENGER.isValidForCheckin()).thenReturn(false);
 
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(VALID_RESERVATION_PASSENGER);
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITHOUT_RESERVATION)).willReturn(null);
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn(INVALID_RESERVATION_PASSENGER);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(VALID_RESERVATION_PASSENGER);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITHOUT_RESERVATION)).willReturn(null);
+        BDDMockito.given(PassengerStorage.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn(INVALID_RESERVATION_PASSENGER);
     }
 
     @Test
