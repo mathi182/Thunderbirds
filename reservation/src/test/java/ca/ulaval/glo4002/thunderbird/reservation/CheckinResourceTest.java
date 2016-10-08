@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.Checkin;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinAssembler;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,20 +28,20 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Passenger.class)
+@PrepareForTest(PassengerAssembly.class)
 public class CheckinResourceTest {
     private static final String AGENT_ID = "agentId";
     private static final String PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO = "passenger_hash_with_reservation_and_missing_info";
     private static final String CHECKIN_ID = "checkinId";
 
     @Mock
-    public Passenger invalidReservationPassenger = new Passenger(12345, "", "", 21, "", "seatClass");
+    public PassengerAssembly invalidReservationPassenger = new PassengerAssembly(12345, "", "", 21, "", "seatClass");
 
     @Mock
-    public Passenger validReservationPassenger = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
+    public PassengerAssembly validReservationPassenger = new PassengerAssembly(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
 
     @Mock
-    public Passenger invalidSelfCheckinPassenger = new Passenger(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
+    public PassengerAssembly invalidSelfCheckinPassenger = new PassengerAssembly(12345, "alex", "brillant", 21, "passportNumbe", "seatClass");
 
     private CheckinAssembler checkinAssemblerMock;
     private CheckinAssembler checkinAssemblerNull;
@@ -56,7 +57,7 @@ public class CheckinResourceTest {
 
     @Before
     public void setUp() throws Exception {
-        mockStatic(Passenger.class);
+        mockStatic(PassengerAssembly.class);
         checkinAssemblerMock = mock(CheckinAssembler.class);
         checkinMock = mock(Checkin.class);
 
@@ -101,7 +102,7 @@ public class CheckinResourceTest {
         when(invalidReservationPassenger.isValidForCheckin()).thenReturn(false);
         checkinPassengerWithReservationButMissingInfo.passengerHash = PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO;
         checkinPassengerWithReservationButMissingInfo.agentId = AGENT_ID;
-        BDDMockito.given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn(invalidReservationPassenger);
+        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn(invalidReservationPassenger);
 
         Response responseActual = checkinResource.checkin(checkinPassengerWithReservationButMissingInfo);
         int statusActual = responseActual.getStatus();
