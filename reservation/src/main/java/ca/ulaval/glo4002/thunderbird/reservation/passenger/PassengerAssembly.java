@@ -28,6 +28,7 @@ public class PassengerAssembly {
     @JsonProperty("seat_class")
     private String seatClass;
     private int age;
+    private boolean checkedIn;
 
     @JsonIgnore
     private int reservationNumber = NULL_RESERVATION_NUMBER;
@@ -51,6 +52,7 @@ public class PassengerAssembly {
         this.age = age;
         this.passportNumber = passportNumber;
         this.seatClass = seatClass;
+        this.checkedIn = false;
     }
 
     public PassengerAssembly(String firstName, String lastName, int age, String
@@ -78,11 +80,13 @@ public class PassengerAssembly {
             }
         }
 
+        boolean isCheckedIn = checkedIn;
         boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
         boolean passengerHasReservationNumber = (reservationNumber != NULL_RESERVATION_NUMBER);
-        return passengerHasFirstName
+        return isCheckedIn
+                && passengerHasFirstName
                 && passengerHasLastName
                 && passengerHasPassportNumber
                 && passengerHasReservationNumber
@@ -115,5 +119,9 @@ public class PassengerAssembly {
     @JsonIgnore
     public String getFlightDate() {
         return Reservation.findByReservationNumber(reservationNumber).getFlightDate();
+    }
+
+    public void setCheckedIn(boolean checkedIn) {
+        this.checkedIn = checkedIn;
     }
 }

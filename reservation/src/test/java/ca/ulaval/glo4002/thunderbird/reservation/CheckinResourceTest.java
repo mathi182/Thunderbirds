@@ -21,8 +21,7 @@ import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
@@ -37,7 +36,7 @@ public class CheckinResourceTest {
     public PassengerAssembly invalidReservationPassenger = new PassengerAssembly(12345, "", "", 21, "", "seatClass");
 
     @Mock
-    public PassengerAssembly validReservationPassenger = new PassengerAssembly(12345, "alex", "brillant", 21,
+    public PassengerAssembly validReservationPassengerAlreadyCheckedIn = new PassengerAssembly(12345, "alex", "brillant", 21,
             "passportNumbe", "seatClass");
 
     @Mock
@@ -91,7 +90,25 @@ public class CheckinResourceTest {
         int statusExpected = CREATED.getStatusCode();
         assertEquals(statusExpected, statusActual);
         String expectedLocation = "/checkins/" + checkinMock.getCheckinId();
+        verify(checkinMock, times(1)).setPassengerCheckedIn();
         assertEquals(expectedLocation, actualLocation);
+    }
+
+    @Test
+    public void givenCheckinPassengerAlreadyCheckedIn_whenCheckin_shouldReturnBadRequest() throws Exception {
+        willReturn(true).given(checkinMock).isValid();
+        willReturn(true).given(checkinMock).passengerExist();
+        willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
+        PassengerAssembly validReservationPassengerAlreadyCheckedIn = new PassengerAssembly(12345, "alex", "brillant", 21,
+            "passportNumbe", "seatClass");
+        validReservationPassengerAlreadyCheckedIn.setCheckedIn(true);
+        willReturn(validReservationPassengerAlreadyCheckedIn).given(checkinMock).getPassenger();
+
+        Response responseActual = checkinResource.checkin(checkinAssemblerMock);
+
+        int statusActual = responseActual.getStatus();
+        int statusExpected = BAD_REQUEST.getStatusCode();
+        assertEquals(statusExpected, statusActual);
     }
 
     @Test
