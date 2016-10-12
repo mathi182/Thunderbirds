@@ -19,7 +19,9 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 public class CheckinResource {
     private static final String FIELDS_REQUIRED_MESSAGE = "by and passengerHas fields are required";
     private static final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
-    private static final String PASSENGER_RESERVATION_NOT_VALID = "passenger information missing in the reservation. full name and passport number fields are required.";
+    private static final String PASSENGER_RESERVATION_NOT_VALID =
+            "Checkin couldn't be completed. Verify if the reservation is complete, if time is correct or if the passenger hasn't been checked in before";
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
