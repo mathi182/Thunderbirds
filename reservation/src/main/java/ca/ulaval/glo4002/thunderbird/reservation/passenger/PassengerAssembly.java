@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
@@ -123,5 +124,14 @@ public class PassengerAssembly {
 
     public void setCheckedIn(boolean checkedIn) {
         this.checkedIn = checkedIn;
+    }
+
+    public void checkin() {
+        if(!checkedIn) {
+            checkedIn = true;
+        }
+        else{
+            throw new PassengerAlreadyCheckedInException(id);
+        }
     }
 }

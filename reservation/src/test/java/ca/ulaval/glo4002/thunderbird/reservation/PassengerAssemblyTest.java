@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadyCheckedInException;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
@@ -143,10 +145,24 @@ public class PassengerAssemblyTest {
     @Test
     public void givenPassengerWithValidReservation_whenFlightDateIsValidForSelfCheckin_shouldReturnTrue() {
         given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-        willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
 
         boolean isValidForCheckin = newPassengerWithAllInformation.isValidForCheckin();
 
         assertTrue(isValidForCheckin);
+    }
+
+    @Test
+    public void givenPassengerWithValidReservation_whenCheckingIn_shoudNotThrowExceptions() {
+        given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
+
+        newPassengerWithAllInformation.checkin();
+    }
+
+    @Test(expected = PassengerAlreadyCheckedInException.class)
+    public void givenPassengerWithValidReservation_whenCheckingInTwoTimes_shouldThrowPassengerAlreadyCheckedInException(){
+        given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
+
+        newPassengerWithAllInformation.checkin();
+        newPassengerWithAllInformation.checkin();
     }
 }
