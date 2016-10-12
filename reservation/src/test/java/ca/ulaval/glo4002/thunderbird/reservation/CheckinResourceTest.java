@@ -3,13 +3,13 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.Checkin;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinAssembler;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.MissingInfoException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -19,35 +19,17 @@ import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(PassengerAssembly.class)
 public class CheckinResourceTest {
-    private static final String AGENT_ID = "agentId";
-    private static final String PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO =
-            "passenger_hash_with_reservation_and_missing_info";
-    private static final String CHECKIN_ID = "checkinId";
-
-    @Mock
-    public PassengerAssembly invalidReservationPassenger = new PassengerAssembly(12345, "", "", 21, "", "seatClass");
-
-    @Mock
-    public PassengerAssembly validReservationPassengerAlreadyCheckedIn = new PassengerAssembly(12345, "alex", "brillant", 21,
-            "passportNumbe", "seatClass");
-
-    @Mock
-    public PassengerAssembly invalidSelfCheckinPassenger = new PassengerAssembly(12345, "alex", "brillant", 21,
-            "passportNumbe", "seatClass");
-
+    public static final String CHECKIN_ID = "checkinId";
     private CheckinAssembler checkinAssemblerMock;
     private Checkin checkinMock;
-
-    @Mock
-    Checkin checkinSelfInvalidDate;
 
     @InjectMocks
     CheckinResource checkinResource;
@@ -79,34 +61,42 @@ public class CheckinResourceTest {
 
     @Test
     public void givenCheckinPassengerValid_whenCheckin_shouldCreateCheckIn() {
-        willReturn(true).given(checkinMock).isValid();
-        willReturn(true).given(checkinMock).passengerExist();
+        willReturn(true).given(checkinMock.isValid());
+        willReturn(true).given(checkinMock.passengerExist());
         willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
-        Response responseActual = checkinResource.checkin(checkinAssemblerMock);
 
+        Response responseActual = checkinResource.checkin(checkinAssemblerMock);
         int statusActual = responseActual.getStatus();
         String actualLocation = responseActual.getLocation().toString();
 
         int statusExpected = CREATED.getStatusCode();
         assertEquals(statusExpected, statusActual);
-        String expectedLocation = "/checkins/" + checkinMock.getCheckinId();
         verify(checkinMock, times(1)).completeCheckin();
+        String expectedLocation = "/checkins/" + checkinMock.getCheckinId();
         assertEquals(expectedLocation, actualLocation);
     }
 
     @Test
-    public void givenCheckinPassengerWithInvalidInfo_whenCheckin_shouldReturnBadRequest() {
-        CheckinAssembler checkinPassengerWithReservationButMissingInfo = mock(CheckinAssembler.class);
-        Checkin checkin = mock(Checkin.class);
-        when(checkin.passengerExist()).thenReturn(true);
-        when(checkinPassengerWithReservationButMissingInfo.toDomain()).thenReturn(checkin);
-        when(invalidReservationPassenger.isValidForCheckin()).thenReturn(false);
-        checkinPassengerWithReservationButMissingInfo.passengerHash = PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO;
-        checkinPassengerWithReservationButMissingInfo.agentId = AGENT_ID;
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn
-                (invalidReservationPassenger);
+    public void givenInvalidCheckinAssembler_whenCheckin_shouldReturnBadRequest() throws Exception {
+        CheckinAssembler checkinAssembler = mock(CheckinAssembler.class);
+        willThrow(MissingInfoException.class).given(checkinAssembler).toDomain();
 
-        Response responseActual = checkinResource.checkin(checkinPassengerWithReservationButMissingInfo);
+        Response responseActual = checkinResource.checkin(checkinAssembler);
+        int statusActual = responseActual.getStatus();
+
+        int statusExpected = BAD_REQUEST.getStatusCode();
+        assertEquals(statusExpected, statusActual);
+    }
+
+    @Test
+    public void givenInvalidCheckin_whenCheckin_shouldReturnBadRequest() {
+        willReturn(true).given(checkinMock).isValid();
+        willReturn(true).given(checkinMock).passengerExist();
+        CheckinAssembler checkinAssembler = mock(CheckinAssembler.class);
+        willReturn(checkinMock).given(checkinAssembler).toDomain();
+        willReturn(false).given(checkinMock).isValid();
+
+        Response responseActual = checkinResource.checkin(checkinAssembler);
         int statusActual = responseActual.getStatus();
 
         int statusExpected = BAD_REQUEST.getStatusCode();
@@ -115,18 +105,13 @@ public class CheckinResourceTest {
 
     @Test
     public void givenCheckinPassengerWithInvalidPassenger_whenCheckin_shouldReturnNotFound() {
-        CheckinAssembler checkinPassengerWithReservationButMissingInfo = mock(CheckinAssembler.class);
-        Checkin checkin = mock(Checkin.class);
-        when(checkinPassengerWithReservationButMissingInfo.toDomain()).thenReturn(checkin);
-        when(checkin.isValid()).thenReturn(true);
-        when(checkin.passengerExist()).thenReturn(false);
-        when(invalidReservationPassenger.isValidForCheckin()).thenReturn(false);
-        checkinPassengerWithReservationButMissingInfo.passengerHash = PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO;
-        checkinPassengerWithReservationButMissingInfo.agentId = AGENT_ID;
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION_AND_MISSING_INFO)).willReturn
-                (invalidReservationPassenger);
+        willReturn(true).given(checkinMock).isValid();
+        willReturn(false).given(checkinMock).passengerExist();
+        CheckinAssembler checkinAssembler = mock(CheckinAssembler.class);
+        willReturn(checkinMock).given(checkinAssembler).toDomain();
+        willReturn(false).given(checkinMock).passengerExist();
 
-        Response responseActual = checkinResource.checkin(checkinPassengerWithReservationButMissingInfo);
+        Response responseActual = checkinResource.checkin(checkinAssembler);
         int statusActual = responseActual.getStatus();
 
         int statusExpected = NOT_FOUND.getStatusCode();
