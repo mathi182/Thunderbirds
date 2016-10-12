@@ -62,9 +62,6 @@ public class PassengerAssembly {
     }
 
     public synchronized void save() {
-        if (passengerStore.containsKey(this.id)) {
-            throw new PassengerAlreadySavedException(this.id);
-        }
         passengerStore.put(this.id, this);
     }
 
