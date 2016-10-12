@@ -122,10 +122,7 @@ public class PassengerAssembly {
         return Reservation.findByReservationNumber(reservationNumber).getFlightDate();
     }
 
-    public void setCheckedIn(boolean checkedIn) {
-        this.checkedIn = checkedIn;
-    }
-
+    @JsonIgnore
     public void checkin() {
         if(!checkedIn) {
             checkedIn = true;

@@ -90,7 +90,7 @@ public class CheckinResourceTest {
         int statusExpected = CREATED.getStatusCode();
         assertEquals(statusExpected, statusActual);
         String expectedLocation = "/checkins/" + checkinMock.getCheckinId();
-        verify(checkinMock, times(1)).setPassengerCheckedIn();
+        verify(checkinMock, times(1)).completeCheckin();
         assertEquals(expectedLocation, actualLocation);
     }
 
@@ -99,10 +99,7 @@ public class CheckinResourceTest {
         willReturn(true).given(checkinMock).isValid();
         willReturn(true).given(checkinMock).passengerExist();
         willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
-        PassengerAssembly validReservationPassengerAlreadyCheckedIn = new PassengerAssembly(12345, "alex", "brillant", 21,
-            "passportNumbe", "seatClass");
-        validReservationPassengerAlreadyCheckedIn.setCheckedIn(true);
-        willReturn(validReservationPassengerAlreadyCheckedIn).given(checkinMock).getPassenger();
+
 
         Response responseActual = checkinResource.checkin(checkinAssemblerMock);
 

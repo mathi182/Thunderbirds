@@ -35,7 +35,7 @@ public class Checkin {
         checkinStore.put(this.checkinId, this);
     }
 
-    public PassengerAssembly getPassenger() {
+    protected PassengerAssembly getPassenger() {
         return PassengerAssembly.findByPassengerHash(passengerHash);
     }
 
@@ -52,9 +52,9 @@ public class Checkin {
         return getPassenger().isValidForCheckin();
     }
 
-    public void setPassengerCheckedIn () {
+    public void completeCheckin() {
         PassengerAssembly passengerAssembly = getPassenger();
-        passengerAssembly.setCheckedIn(true);
+        passengerAssembly.checkin();
         passengerAssembly.save();
     }
 }

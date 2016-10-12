@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.MissingInfoException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -43,7 +42,7 @@ public class CheckinResource {
         String checkinId = checkin.getCheckinId();
         checkin.save();
 
-        checkin.setPassengerCheckedIn();
+        checkin.completeCheckin();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
     }
 }

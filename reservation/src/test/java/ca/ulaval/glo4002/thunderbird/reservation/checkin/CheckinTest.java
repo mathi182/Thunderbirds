@@ -14,6 +14,7 @@ import static org.mockito.BDDMockito.given;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
@@ -160,5 +161,23 @@ public class CheckinTest {
         boolean isCheckinValid = checkinSelf.isValid();
 
         assertFalse(isCheckinValid);
+    }
+
+    @Test
+    public void givenValidCheckin_whenCompletingCheckin_shouldCheckInPassenger(){
+        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+
+        checkinValid.completeCheckin();
+
+        verify(passengerMock).checkin();
+    }
+
+    @Test
+    public void givenValidCheckin_whenCompletingCheckin_shouldSavePassenger(){
+        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+
+        checkinValid.completeCheckin();
+
+        verify(passengerMock).save();
     }
 }
