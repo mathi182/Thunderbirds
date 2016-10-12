@@ -90,7 +90,7 @@ public class CheckinResourceTest {
         int statusExpected = CREATED.getStatusCode();
         assertEquals(statusExpected, statusActual);
         String expectedLocation = "/checkins/" + checkinMock.getCheckinId();
-        verify(checkinMock, times(1)).completeCheckin();
+        verify(checkinMock, times(1)).completePassengerCheckin();
         assertEquals(expectedLocation, actualLocation);
     }
 
