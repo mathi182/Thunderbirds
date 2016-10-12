@@ -95,20 +95,6 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerAlreadyCheckedIn_whenCheckin_shouldReturnBadRequest() throws Exception {
-        willReturn(true).given(checkinMock).isValid();
-        willReturn(true).given(checkinMock).passengerExist();
-        willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
-
-
-        Response responseActual = checkinResource.checkin(checkinAssemblerMock);
-
-        int statusActual = responseActual.getStatus();
-        int statusExpected = BAD_REQUEST.getStatusCode();
-        assertEquals(statusExpected, statusActual);
-    }
-
-    @Test
     public void givenCheckinPassengerWithInvalidInfo_whenCheckin_shouldReturnBadRequest() {
         CheckinAssembler checkinPassengerWithReservationButMissingInfo = mock(CheckinAssembler.class);
         Checkin checkin = mock(Checkin.class);
