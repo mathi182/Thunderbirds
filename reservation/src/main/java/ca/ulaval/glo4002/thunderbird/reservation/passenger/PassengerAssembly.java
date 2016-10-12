@@ -80,12 +80,12 @@ public class PassengerAssembly {
             }
         }
 
-        boolean isCheckedIn = checkedIn;
+        boolean isNotCheckedIn = !checkedIn;
         boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
         boolean passengerHasReservationNumber = (reservationNumber != NULL_RESERVATION_NUMBER);
-        return isCheckedIn
+        return isNotCheckedIn
                 && passengerHasFirstName
                 && passengerHasLastName
                 && passengerHasPassportNumber
