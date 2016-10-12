@@ -121,10 +121,10 @@ public class PassengerAssembly {
 
     @JsonIgnore
     public void checkin() {
-        if(!checkedIn) {
+        if (!checkedIn) {
             checkedIn = true;
         }
-        else{
+        else {
             throw new PassengerAlreadyCheckedInException(id);
         }
     }
