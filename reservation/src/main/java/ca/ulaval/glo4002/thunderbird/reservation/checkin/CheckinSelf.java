@@ -16,6 +16,11 @@ class CheckinSelf extends Checkin {
         super(passengerHash, SELF);
     }
 
+    @Override
+    public boolean isValid() {
+        return super.isValid() && isSelfCheckinOnTime();
+    }
+
     private boolean isSelfCheckinOnTime() {
         Reservation reservation = Reservation.findByReservationNumber(getPassenger().getReservationNumber());
         String flightDate = reservation.getFlightDate();
@@ -29,11 +34,6 @@ class CheckinSelf extends Checkin {
         } catch (ParseException e) {
             return false;
         }
-    }
-
-    @Override
-    public boolean isValid() {
-        return super.isValid() && isSelfCheckinOnTime();
     }
 
     @Override
