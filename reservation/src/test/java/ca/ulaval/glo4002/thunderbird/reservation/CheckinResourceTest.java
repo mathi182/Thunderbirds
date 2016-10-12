@@ -64,15 +64,15 @@ public class CheckinResourceTest {
         willReturn(true).given(checkinMock.isValid());
         willReturn(true).given(checkinMock.passengerExist());
         willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
-
         Response responseActual = checkinResource.checkin(checkinAssemblerMock);
         int statusActual = responseActual.getStatus();
         String actualLocation = responseActual.getLocation().toString();
 
         int statusExpected = CREATED.getStatusCode();
         assertEquals(statusExpected, statusActual);
-        verify(checkinMock, times(1)).completeCheckin();
+
         String expectedLocation = "/checkins/" + checkinMock.getCheckinId();
+        verify(checkinMock, times(1)).completePassengerCheckin();
         assertEquals(expectedLocation, actualLocation);
     }
 

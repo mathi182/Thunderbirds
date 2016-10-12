@@ -143,26 +143,14 @@ public class PassengerAssemblyTest {
     }
 
     @Test
-    public void givenPassengerWithValidReservation_whenFlightDateIsValidForSelfCheckin_shouldReturnTrue() {
-        given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-
-        boolean isValidForCheckin = newPassengerWithAllInformation.isValidForCheckin();
-
-        assertTrue(isValidForCheckin);
-    }
-
-    @Test
     public void givenPassengerWithValidReservation_whenCheckingIn_shoudNotThrowExceptions() {
-        given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-
         newPassengerWithAllInformation.checkin();
     }
 
     @Test(expected = PassengerAlreadyCheckedInException.class)
     public void givenPassengerWithValidReservation_whenCheckingInTwoTimes_shouldThrowPassengerAlreadyCheckedInException(){
-        given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-
         newPassengerWithAllInformation.checkin();
+
         newPassengerWithAllInformation.checkin();
     }
 }

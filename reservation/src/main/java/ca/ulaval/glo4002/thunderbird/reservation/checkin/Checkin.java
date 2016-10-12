@@ -29,9 +29,6 @@ public class Checkin {
     }
 
     public synchronized void save() {
-        if (checkinStore.containsKey(checkinId)) {
-            throw new CheckinAlreadySavedException(checkinId);
-        }
         checkinStore.put(this.checkinId, this);
     }
 
@@ -52,7 +49,7 @@ public class Checkin {
         return getPassenger().isValidForCheckin();
     }
 
-    public void completeCheckin() {
+    public void completePassengerCheckin() {
         PassengerAssembly passengerAssembly = getPassenger();
         passengerAssembly.checkin();
         passengerAssembly.save();

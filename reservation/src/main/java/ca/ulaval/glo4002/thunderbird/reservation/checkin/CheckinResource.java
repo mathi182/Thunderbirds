@@ -44,7 +44,7 @@ public class CheckinResource {
         String checkinId = checkin.getCheckinId();
         checkin.save();
 
-        checkin.completeCheckin();
+        checkin.completePassengerCheckin();
         return Response.created(URI.create("/checkins/" + checkinId)).build();
     }
 }

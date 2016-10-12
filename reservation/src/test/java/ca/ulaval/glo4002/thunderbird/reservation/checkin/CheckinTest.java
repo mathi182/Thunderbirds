@@ -167,7 +167,7 @@ public class CheckinTest {
     public void givenValidCheckin_whenCompletingCheckin_shouldCheckInPassenger(){
         given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
 
-        checkinValid.completeCheckin();
+        checkinValid.completePassengerCheckin();
 
         verify(passengerMock).checkin();
     }
@@ -176,7 +176,7 @@ public class CheckinTest {
     public void givenValidCheckin_whenCompletingCheckin_shouldSavePassenger(){
         given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
 
-        checkinValid.completeCheckin();
+        checkinValid.completePassengerCheckin();
 
         verify(passengerMock).save();
     }
