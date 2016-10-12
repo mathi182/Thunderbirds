@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadyCheckedInException;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
@@ -29,7 +28,7 @@ public class PassengerAssembly {
     @JsonProperty("seat_class")
     private String seatClass;
     private int age;
-    private boolean checkedIn;
+    private boolean isCheckedIn;
 
     @JsonIgnore
     private int reservationNumber = NULL_RESERVATION_NUMBER;
@@ -53,7 +52,7 @@ public class PassengerAssembly {
         this.age = age;
         this.passportNumber = passportNumber;
         this.seatClass = seatClass;
-        this.checkedIn = false;
+        this.isCheckedIn = false;
     }
 
     public PassengerAssembly(String firstName, String lastName, int age, String
@@ -78,7 +77,7 @@ public class PassengerAssembly {
             }
         }
 
-        boolean isNotCheckedIn = !checkedIn;
+        boolean isNotCheckedIn = !isCheckedIn;
         boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
@@ -121,11 +120,11 @@ public class PassengerAssembly {
 
     @JsonIgnore
     public void checkin() {
-        if (!checkedIn) {
-            checkedIn = true;
-        }
-        else {
+        if(isCheckedIn){
             throw new PassengerAlreadyCheckedInException(id);
+        }
+        else{
+            isCheckedIn = true;
         }
     }
 }
