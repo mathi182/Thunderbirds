@@ -14,9 +14,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
 import javax.ws.rs.core.Response;
-
 import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
@@ -61,8 +59,8 @@ public class CheckinResourceTest {
 
     @Test
     public void givenCheckinPassengerValid_whenCheckin_shouldCreateCheckIn() {
-        willReturn(true).given(checkinMock.isValid());
-        willReturn(true).given(checkinMock.passengerExist());
+        willReturn(true).given(checkinMock).isValid();
+        willReturn(true).given(checkinMock).passengerExist();
         willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
         Response responseActual = checkinResource.checkin(checkinAssemblerMock);
         int statusActual = responseActual.getStatus();
