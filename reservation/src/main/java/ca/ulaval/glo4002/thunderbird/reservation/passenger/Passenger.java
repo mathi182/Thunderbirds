@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class PassengerAssembly {
-    private static final HashMap<String, PassengerAssembly> passengerStore = new HashMap<>();
+public class Passenger {
+    private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
     private static final int NULL_RESERVATION_NUMBER = -1;
 
@@ -39,12 +39,12 @@ public class PassengerAssembly {
     }
 
     @JsonCreator
-    public PassengerAssembly(@JsonProperty("reservation_number") int reservationNumber,
-                             @JsonProperty("first_name") String firstName,
-                             @JsonProperty("last_name") String lastName,
-                             @JsonProperty("age") int age,
-                             @JsonProperty("passport_number") String passportNumber,
-                             @JsonProperty("seat_class") String seatClass) {
+    public Passenger(@JsonProperty("reservation_number") int reservationNumber,
+                     @JsonProperty("first_name") String firstName,
+                     @JsonProperty("last_name") String lastName,
+                     @JsonProperty("age") int age,
+                     @JsonProperty("passport_number") String passportNumber,
+                     @JsonProperty("seat_class") String seatClass) {
         this.id = UUID.randomUUID().toString();
         this.reservationNumber = reservationNumber;
         this.firstName = firstName;
@@ -55,7 +55,7 @@ public class PassengerAssembly {
         this.isCheckedIn = false;
     }
 
-    public PassengerAssembly(String firstName, String lastName, int age, String
+    public Passenger(String firstName, String lastName, int age, String
             passportNumber, String seatClass) {
         this(NULL_RESERVATION_NUMBER, firstName, lastName, age, passportNumber, seatClass);
     }
@@ -91,8 +91,8 @@ public class PassengerAssembly {
     }
 
     @JsonIgnore
-    public static synchronized PassengerAssembly findByPassengerHash(String passengerHash) {
-        PassengerAssembly passenger = passengerStore.get(passengerHash);
+    public static synchronized Passenger findByPassengerHash(String passengerHash) {
+        Passenger passenger = passengerStore.get(passengerHash);
         if (passenger == null) {
             throw new PassengerNotFoundException(passengerHash);
         }

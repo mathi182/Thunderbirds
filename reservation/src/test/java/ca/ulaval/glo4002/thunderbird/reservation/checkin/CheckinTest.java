@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.util.DateLong;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Reservation.class, PassengerAssembly.class, DateLong.class})
+@PrepareForTest({Reservation.class, Passenger.class, DateLong.class})
 public class CheckinTest {
     private static final String PASSENGER_HASH = "passenger_hash";
     private static final int RESERVATION_NUMBER = 15;
@@ -34,7 +34,7 @@ public class CheckinTest {
     private Checkin checkinValid;
     private Checkin checkinWithInvalidPassenger;
     private CheckinSelf checkinSelf;
-    private PassengerAssembly passengerMock;
+    private Passenger passengerMock;
     private Reservation reservationMock;
 
     @Before
@@ -42,14 +42,14 @@ public class CheckinTest {
         mockStatic(Reservation.class);
         mockStatic(DateLong.class);
         mockStatic(Reservation.class);
-        mockStatic(PassengerAssembly.class);
+        mockStatic(Passenger.class);
         mockStatic(DateLong.class);
 
         checkinValid = new Checkin(PASSENGER_HASH_WITH_RESERVATION, AGENT_ID);
         checkinWithInvalidPassenger = new Checkin(PASSENGER_HASH_WITH_INVALID_PASSENGER, AGENT_ID);
         checkinSelf = new CheckinSelf(PASSENGER_HASH_WITH_RESERVATION);
 
-        passengerMock = mock(PassengerAssembly.class);
+        passengerMock = mock(Passenger.class);
         reservationMock = mock(Reservation.class);
 
         given(DateLong.getLongCurrentDate()).willReturn(TODAYS_DATE);
@@ -74,7 +74,7 @@ public class CheckinTest {
 
     @Test
     public void givenCheckinValid_whenCheckingIfPassengerExist_shouldPassengerExist() {
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
 
         boolean passengerExist = checkinValid.passengerExist();
 
@@ -83,7 +83,7 @@ public class CheckinTest {
 
     @Test
     public void givenCheckinValid_WhenPassengerDoesNotExist_PassengerShouldNotExist() {
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION))
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION))
                 .willThrow(new PassengerNotFoundException(PASSENGER_HASH_WITH_RESERVATION));
 
         boolean passengerExist = checkinValid.passengerExist();
@@ -93,7 +93,7 @@ public class CheckinTest {
 
     @Test
     public void givenCheckinValid_WhenIsValid_ShouldBeValid() {
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(true).given(passengerMock).isValidForCheckin();
 
         boolean isCheckinValid = checkinValid.isValid();
@@ -103,7 +103,7 @@ public class CheckinTest {
 
     @Test
     public void givenCheckinWithInvalidPassenger_WhenIsValid_ShouldNotBeValid() {
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_INVALID_PASSENGER)).willReturn(passengerMock);
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_INVALID_PASSENGER)).willReturn(passengerMock);
         willReturn(false).given(passengerMock).isValidForCheckin();
 
         boolean isCheckinValid = checkinWithInvalidPassenger.isValid();
@@ -113,7 +113,7 @@ public class CheckinTest {
 
     @Test
     public void givenSelfCheckinValid_whenIsValid_ShoulBeValid() {
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
@@ -126,7 +126,7 @@ public class CheckinTest {
 
     @Test
     public void givenSelfCheckinAndTooEarlyDate_whenIsValid_ShouldNotBeValid() {
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(TOO_EARLY_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
@@ -139,7 +139,7 @@ public class CheckinTest {
 
     @Test
     public void givenSelfCheckinAndTooLateDate_whenIsValid_shouldNotBeValid() {
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(TOO_LATE_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
@@ -152,7 +152,7 @@ public class CheckinTest {
 
     @Test
     public void givenSelfCheckinWithCorrectDateAndInvalidPassenger_whenIsValid_shouldNotBeValid() {
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
         willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
@@ -165,7 +165,7 @@ public class CheckinTest {
 
     @Test
     public void givenValidCheckin_whenCompletingCheckin_shouldCheckInPassenger(){
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
 
         checkinValid.completePassengerCheckin();
 
@@ -174,7 +174,7 @@ public class CheckinTest {
 
     @Test
     public void givenValidCheckin_whenCompletingCheckin_shouldSavePassenger(){
-        given(PassengerAssembly.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
+        given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
 
         checkinValid.completePassengerCheckin();
 
