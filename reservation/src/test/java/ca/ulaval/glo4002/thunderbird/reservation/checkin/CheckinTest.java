@@ -86,9 +86,9 @@ public class CheckinTest {
         given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION))
                 .willThrow(new PassengerNotFoundException(PASSENGER_HASH_WITH_RESERVATION));
 
-        boolean passengerExist = checkinValid.passengerExist();
+        boolean passengerExists = checkinValid.passengerExist();
 
-        assertFalse(passengerExist);
+        assertFalse(passengerExists);
     }
 
     @Test
@@ -96,9 +96,9 @@ public class CheckinTest {
         given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(true).given(passengerMock).isValidForCheckin();
 
-        boolean isCheckinValid = checkinValid.isValid();
+        boolean isValid = checkinValid.isValid();
 
-        assertTrue(isCheckinValid);
+        assertTrue(isValid);
     }
 
     @Test

@@ -37,7 +37,7 @@ public class Checkin {
 
     public boolean passengerExist() {
         try {
-            Passenger.findByPassengerHash(passengerHash);
+            getPassenger();
         } catch (PassengerNotFoundException e) {
             return false;
         }
