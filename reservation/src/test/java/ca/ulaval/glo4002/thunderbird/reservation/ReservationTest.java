@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
 public class ReservationTest {
-    private PassengerAssembly mockPassenger = mock(PassengerAssembly.class);
+    private Passenger mockPassenger = mock(Passenger.class);
 
     private static final int NON_EXISTENT_RESERVATION_NUMBER = 12345;
     private int RESERVATION_NUMBER = 37353;
@@ -25,7 +25,7 @@ public class ReservationTest {
     private static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
     private static final String FLIGHT_NUMBER = "AC1765";
     private static final String FLIGHT_DATE = "2016-10-30";
-    private ArrayList<PassengerAssembly> PASSENGERS = new ArrayList<PassengerAssembly>() {{
+    private ArrayList<Passenger> PASSENGERS = new ArrayList<Passenger>() {{
         add(mockPassenger);
     }};
     private Reservation newReservation;

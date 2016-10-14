@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadySavedException;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class PassengerAssembly {
-    private static final HashMap<String, PassengerAssembly> passengerStore = new HashMap<>();
+public class Passenger {
+    private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
     private static final int NULL_RESERVATION_NUMBER = -1;
 
@@ -28,6 +28,7 @@ public class PassengerAssembly {
     @JsonProperty("seat_class")
     private String seatClass;
     private int age;
+    private boolean isCheckedIn;
 
     @JsonIgnore
     private int reservationNumber = NULL_RESERVATION_NUMBER;
@@ -38,12 +39,12 @@ public class PassengerAssembly {
     }
 
     @JsonCreator
-    public PassengerAssembly(@JsonProperty("reservation_number") int reservationNumber,
-                             @JsonProperty("first_name") String firstName,
-                             @JsonProperty("last_name") String lastName,
-                             @JsonProperty("age") int age,
-                             @JsonProperty("passport_number") String passportNumber,
-                             @JsonProperty("seat_class") String seatClass) {
+    public Passenger(@JsonProperty("reservation_number") int reservationNumber,
+                     @JsonProperty("first_name") String firstName,
+                     @JsonProperty("last_name") String lastName,
+                     @JsonProperty("age") int age,
+                     @JsonProperty("passport_number") String passportNumber,
+                     @JsonProperty("seat_class") String seatClass) {
         this.id = UUID.randomUUID().toString();
         this.reservationNumber = reservationNumber;
         this.firstName = firstName;
@@ -51,17 +52,15 @@ public class PassengerAssembly {
         this.age = age;
         this.passportNumber = passportNumber;
         this.seatClass = seatClass;
+        this.isCheckedIn = false;
     }
 
-    public PassengerAssembly(String firstName, String lastName, int age, String
+    public Passenger(String firstName, String lastName, int age, String
             passportNumber, String seatClass) {
         this(NULL_RESERVATION_NUMBER, firstName, lastName, age, passportNumber, seatClass);
     }
 
     public synchronized void save() {
-        if (passengerStore.containsKey(this.id)) {
-            throw new PassengerAlreadySavedException(this.id);
-        }
         passengerStore.put(this.id, this);
     }
 
@@ -78,11 +77,13 @@ public class PassengerAssembly {
             }
         }
 
+        boolean isNotCheckedIn = !isCheckedIn;
         boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
         boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
         boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
         boolean passengerHasReservationNumber = (reservationNumber != NULL_RESERVATION_NUMBER);
-        return passengerHasFirstName
+        return isNotCheckedIn
+                && passengerHasFirstName
                 && passengerHasLastName
                 && passengerHasPassportNumber
                 && passengerHasReservationNumber
@@ -90,8 +91,8 @@ public class PassengerAssembly {
     }
 
     @JsonIgnore
-    public static synchronized PassengerAssembly findByPassengerHash(String passengerHash) {
-        PassengerAssembly passenger = passengerStore.get(passengerHash);
+    public static synchronized Passenger findByPassengerHash(String passengerHash) {
+        Passenger passenger = passengerStore.get(passengerHash);
         if (passenger == null) {
             throw new PassengerNotFoundException(passengerHash);
         }
@@ -115,5 +116,15 @@ public class PassengerAssembly {
     @JsonIgnore
     public String getFlightDate() {
         return Reservation.findByReservationNumber(reservationNumber).getFlightDate();
+    }
+
+    @JsonIgnore
+    public void checkin() {
+        if(isCheckedIn){
+            throw new PassengerAlreadyCheckedInException(id);
+        }
+        else{
+            isCheckedIn = true;
+        }
     }
 }

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
+import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadyCheckedInException;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.util.DateLong;
@@ -16,14 +17,13 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Reservation.class, DateLong.class})
 
-public class PassengerAssemblyTest {
+public class PassengerTest {
     private static final String FIRST_NAME = "Uncle";
     private static final String LAST_NAME = "Bob";
     private static final String PASSPORT_NUMBER = "2564-5424";
@@ -34,12 +34,12 @@ public class PassengerAssemblyTest {
     private static final long TODAYS_DATE = 1473166800000L; // 2016-09-06T13:00
     private static final String VALID_FOR_CHECKIN_FLIGHT_DATE = "2016-09-06T21:00:00Z";
 
-    private PassengerAssembly newPassengerWithAllInformationExceptReservationNumber;
-    private PassengerAssembly newPassengerWithoutFirstName;
-    private PassengerAssembly newPassengerWithoutLastName;
-    private PassengerAssembly newPassengerWithoutPassportNumber;
-    private PassengerAssembly passengerWithNonExistentReservationNumber;
-    private PassengerAssembly newPassengerWithAllInformation;
+    private Passenger newPassengerWithAllInformationExceptReservationNumber;
+    private Passenger newPassengerWithoutFirstName;
+    private Passenger newPassengerWithoutLastName;
+    private Passenger newPassengerWithoutPassportNumber;
+    private Passenger passengerWithNonExistentReservationNumber;
+    private Passenger newPassengerWithAllInformation;
     private Reservation reservationMock;
 
     @Rule
@@ -50,43 +50,43 @@ public class PassengerAssemblyTest {
         PowerMockito.mockStatic(Reservation.class);
         PowerMockito.mockStatic(DateLong.class);
         newPassengerWithAllInformationExceptReservationNumber =
-                new PassengerAssembly(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         newPassengerWithAllInformation =
-                new PassengerAssembly(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
+                new Passenger(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
                         SEAT_CLASS);
 
         newPassengerWithoutPassportNumber =
-                new PassengerAssembly(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
+                new Passenger(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
 
         newPassengerWithoutLastName =
-                new PassengerAssembly(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new Passenger(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         newPassengerWithoutFirstName =
-                new PassengerAssembly("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new Passenger("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         passengerWithNonExistentReservationNumber =
-                new PassengerAssembly(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
+                new Passenger(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
                         SEAT_CLASS);
 
         newPassengerWithAllInformationExceptReservationNumber =
-                new PassengerAssembly(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         newPassengerWithAllInformation =
-                new PassengerAssembly(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
+                new Passenger(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
                         SEAT_CLASS);
 
         newPassengerWithoutPassportNumber =
-                new PassengerAssembly(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
+                new Passenger(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
 
         newPassengerWithoutLastName =
-                new PassengerAssembly(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new Passenger(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         newPassengerWithoutFirstName =
-                new PassengerAssembly("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new Passenger("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         passengerWithNonExistentReservationNumber =
-                new PassengerAssembly(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
+                new Passenger(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
                         SEAT_CLASS);
 
         reservationMock = mock(Reservation.class);
@@ -141,12 +141,14 @@ public class PassengerAssemblyTest {
     }
 
     @Test
-    public void givenPassengerWithValidReservation_whenFlightDateIsValidForSelfCheckin_shouldReturnTrue() {
-        given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
-        willReturn(VALID_FOR_CHECKIN_FLIGHT_DATE).given(reservationMock).getFlightDate();
+    public void givenPassengerWithValidReservation_whenCheckingIn_shoudNotThrowExceptions() {
+        newPassengerWithAllInformation.checkin();
+    }
 
-        boolean isValidForCheckin = newPassengerWithAllInformation.isValidForCheckin();
+    @Test(expected = PassengerAlreadyCheckedInException.class)
+    public void givenPassengerWithValidReservation_whenCheckingInTwoTimes_shouldThrowPassengerAlreadyCheckedInException(){
+        newPassengerWithAllInformation.checkin();
 
-        assertTrue(isValidForCheckin);
+        newPassengerWithAllInformation.checkin();
     }
 }

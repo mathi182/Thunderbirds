@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain;
 
 import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAssembly;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -17,32 +17,32 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(PassengerAssembly.class)
+@PrepareForTest(Passenger.class)
 public class SeatAssignationsTest {
 
     private final String VALID_PASSENGER_HASH = "1203dsa2s";
-    private PassengerAssembly passengerAssembly;
+    private Passenger passenger;
 
     @Before
     public void setUp() {
-        passengerAssembly = mock(PassengerAssembly.class);
-        PowerMockito.mockStatic(PassengerAssembly.class);
+        passenger = mock(Passenger.class);
+        PowerMockito.mockStatic(Passenger.class);
     }
 
     @Test
     @Ignore
     public void givenAValidPassengerHash_whenAssigningASeat_shouldGetAPassenger(){
         doThrow(new PassengerNotFoundException(VALID_PASSENGER_HASH))
-                .when(PassengerAssembly.findByPassengerHash(VALID_PASSENGER_HASH));
+                .when(Passenger.findByPassengerHash(VALID_PASSENGER_HASH));
     }
 
     @Test
     public void givenAValidPassenger_whenAssigningASeat_shouldGetASeatNumber() {
-        when(PassengerAssembly.findByPassengerHash(VALID_PASSENGER_HASH)).thenReturn(passengerAssembly);
+        when(Passenger.findByPassengerHash(VALID_PASSENGER_HASH)).thenReturn(passenger);
         String FLIGHT_NUMBER = "a320";
-        willReturn(FLIGHT_NUMBER).given(passengerAssembly).getFlightNumber();
+        willReturn(FLIGHT_NUMBER).given(passenger).getFlightNumber();
         String FLIGHT_DATE = "2016-10-30T00:00:00Z";
-        willReturn(FLIGHT_DATE).given(passengerAssembly).getFlightDate();
+        willReturn(FLIGHT_DATE).given(passenger).getFlightDate();
 
         String MODE = "RANDOM";
         SeatAssignations seatAssignations = new SeatAssignations(VALID_PASSENGER_HASH, MODE);
