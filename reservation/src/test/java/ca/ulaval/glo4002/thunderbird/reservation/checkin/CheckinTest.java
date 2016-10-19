@@ -20,20 +20,19 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Reservation.class, Passenger.class, DateLong.class})
 public class CheckinTest {
-    private static final String PASSENGER_HASH = "passenger_hash";
     private static final int RESERVATION_NUMBER = 15;
     private static final String AGENT_ID = "agentId";
-    private static final String SELF_CHECKING = "SELF";
     private static final String PASSENGER_HASH_WITH_RESERVATION = "passenger_hash_with_reservation";
     private static final String PASSENGER_HASH_WITH_INVALID_PASSENGER = "passenger_hash_with_invalid_passenger";
     private static final long TODAYS_DATE = 1473166800000L; // 2016-09-06T13:00
     private static final String VALID_FOR_CHECKIN_FLIGHT_DATE = "2016-09-06T21:00:00Z";
     private static final String TOO_LATE_FOR_CHECKIN_FLIGHT_DATE = "2016-09-06T14:00:00Z";
     private static final String TOO_EARLY_FOR_CHECKIN_FLIGHT_DATE = "2016-09-02T21:00:00Z";
+    public static final String SELF = "SELF";
 
-    private CheckinAgentId checkinValid;
-    private CheckinAgentId checkinWithInvalidPassenger;
-    private CheckinSelf checkinSelf;
+    private Checkin checkinValid;
+    private Checkin checkinWithInvalidPassenger;
+    private Checkin checkinSelf;
     private Passenger passengerMock;
     private Reservation reservationMock;
 
@@ -45,31 +44,14 @@ public class CheckinTest {
         mockStatic(Passenger.class);
         mockStatic(DateLong.class);
 
-        checkinValid = new CheckinAgentId(PASSENGER_HASH_WITH_RESERVATION, AGENT_ID);
-        checkinWithInvalidPassenger = new CheckinAgentId(PASSENGER_HASH_WITH_INVALID_PASSENGER, AGENT_ID);
-        checkinSelf = new CheckinSelf(PASSENGER_HASH_WITH_RESERVATION);
+        checkinValid = new Checkin(PASSENGER_HASH_WITH_RESERVATION, AGENT_ID);
+        checkinWithInvalidPassenger = new Checkin(PASSENGER_HASH_WITH_INVALID_PASSENGER, AGENT_ID);
+        checkinSelf = new Checkin(PASSENGER_HASH_WITH_RESERVATION, SELF);
 
         passengerMock = mock(Passenger.class);
         reservationMock = mock(Reservation.class);
 
         given(DateLong.getLongCurrentDate()).willReturn(TODAYS_DATE);
-    }
-
-    @Test
-    public void whenCreatingNewSelfCheckin_shouldBeSelfCheckin() {
-        CheckinAgentId checkintest = new CheckinAgentId(PASSENGER_HASH, SELF_CHECKING);
-
-        boolean isSelfCheckin = checkintest.isSelfCheckin();
-        assertTrue(isSelfCheckin);
-    }
-
-    @Test
-    public void whenCreatingNewCheckin_shouldNotBeSelfCheckin() {
-        CheckinAgentId checkintest = new CheckinAgentId(PASSENGER_HASH, AGENT_ID);
-
-        boolean isSelfCheckin = checkintest.isSelfCheckin();
-
-        assertFalse(isSelfCheckin);
     }
 
     @Test
