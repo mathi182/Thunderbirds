@@ -6,13 +6,13 @@ import ca.ulaval.glo4002.thunderbird.reservation.util.DateLong;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-class CheckinSelf extends Checkin {
+class CheckinSelf extends CheckinAgentId {
     private static final long MAX_LATE_CHECKIN_IN_MILLIS = 60 * 60 * 6 * 1000L;
     private static final long MAX_EARLY_CHECKIN_IN_MILLIS = 60 * 60 * 48 * 1000L;
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
     private static final String SELF = "SELF";
 
-    CheckinSelf(String passengerHash) {
+    public CheckinSelf(String passengerHash) {
         super(passengerHash, SELF);
     }
 
@@ -34,10 +34,5 @@ class CheckinSelf extends Checkin {
         } catch (ParseException e) {
             return false;
         }
-    }
-
-    @Override
-    public boolean isSelfCheckin() {
-        return true;
     }
 }

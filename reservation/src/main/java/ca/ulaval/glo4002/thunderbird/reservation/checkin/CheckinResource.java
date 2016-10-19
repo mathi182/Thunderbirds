@@ -20,13 +20,13 @@ public class CheckinResource {
     private static final String FIELDS_REQUIRED_MESSAGE = "by and passengerHas fields are required";
     private static final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
     private static final String PASSENGER_RESERVATION_NOT_VALID =
-            "Checkin couldn't be completed. Verify if the reservation is complete, if time is correct or if the passenger hasn't been checked in before";
+            "CheckinAgentId couldn't be completed. Verify if the reservation is complete, if time is correct or if the passenger hasn't been checked in before";
 
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(CheckinAssembler checkinAssembler) {
-        Checkin checkin;
+        CheckinAgentId checkin;
         try {
             checkin = checkinAssembler.toDomain();
         } catch (MissingInfoException ex) {

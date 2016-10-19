@@ -6,21 +6,16 @@ import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Checkin {
+public abstract class Checkin {
     private static final HashMap<String, Checkin> checkinStore = new HashMap<>();
     private String checkinId;
     private String passengerHash;
     private String by;
-    private static final String SELF_CHECKIN = "SELF";
 
-    Checkin(String passengerHash, String by) {
+    public Checkin(String passengerHash, String by) {
         this.checkinId = UUID.randomUUID().toString();
         this.passengerHash = passengerHash;
         this.by = by;
-    }
-
-    public boolean isSelfCheckin() {
-        return SELF_CHECKIN.equals(by);
     }
 
     public String getCheckinId() {

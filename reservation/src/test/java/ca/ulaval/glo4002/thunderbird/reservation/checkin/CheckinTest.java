@@ -31,8 +31,8 @@ public class CheckinTest {
     private static final String TOO_LATE_FOR_CHECKIN_FLIGHT_DATE = "2016-09-06T14:00:00Z";
     private static final String TOO_EARLY_FOR_CHECKIN_FLIGHT_DATE = "2016-09-02T21:00:00Z";
 
-    private Checkin checkinValid;
-    private Checkin checkinWithInvalidPassenger;
+    private CheckinAgentId checkinValid;
+    private CheckinAgentId checkinWithInvalidPassenger;
     private CheckinSelf checkinSelf;
     private Passenger passengerMock;
     private Reservation reservationMock;
@@ -45,8 +45,8 @@ public class CheckinTest {
         mockStatic(Passenger.class);
         mockStatic(DateLong.class);
 
-        checkinValid = new Checkin(PASSENGER_HASH_WITH_RESERVATION, AGENT_ID);
-        checkinWithInvalidPassenger = new Checkin(PASSENGER_HASH_WITH_INVALID_PASSENGER, AGENT_ID);
+        checkinValid = new CheckinAgentId(PASSENGER_HASH_WITH_RESERVATION, AGENT_ID);
+        checkinWithInvalidPassenger = new CheckinAgentId(PASSENGER_HASH_WITH_INVALID_PASSENGER, AGENT_ID);
         checkinSelf = new CheckinSelf(PASSENGER_HASH_WITH_RESERVATION);
 
         passengerMock = mock(Passenger.class);
@@ -57,7 +57,7 @@ public class CheckinTest {
 
     @Test
     public void whenCreatingNewSelfCheckin_shouldBeSelfCheckin() {
-        Checkin checkintest = new Checkin(PASSENGER_HASH, SELF_CHECKING);
+        CheckinAgentId checkintest = new CheckinAgentId(PASSENGER_HASH, SELF_CHECKING);
 
         boolean isSelfCheckin = checkintest.isSelfCheckin();
         assertTrue(isSelfCheckin);
@@ -65,7 +65,7 @@ public class CheckinTest {
 
     @Test
     public void whenCreatingNewCheckin_shouldNotBeSelfCheckin() {
-        Checkin checkintest = new Checkin(PASSENGER_HASH, AGENT_ID);
+        CheckinAgentId checkintest = new CheckinAgentId(PASSENGER_HASH, AGENT_ID);
 
         boolean isSelfCheckin = checkintest.isSelfCheckin();
 

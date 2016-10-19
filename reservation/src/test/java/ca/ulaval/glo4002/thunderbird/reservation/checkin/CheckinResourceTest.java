@@ -1,8 +1,5 @@
-package ca.ulaval.glo4002.thunderbird.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.Checkin;
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinAssembler;
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
 import ca.ulaval.glo4002.thunderbird.reservation.exception.MissingInfoException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import org.junit.Before;
@@ -27,7 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class CheckinResourceTest {
     public static final String CHECKIN_ID = "checkinId";
     private CheckinAssembler checkinAssemblerMock;
-    private Checkin checkinMock;
+    private CheckinAgentId checkinMock;
 
     @InjectMocks
     CheckinResource checkinResource;
@@ -39,7 +36,7 @@ public class CheckinResourceTest {
     public void setUp() throws Exception {
         mockStatic(Passenger.class);
         checkinAssemblerMock = mock(CheckinAssembler.class);
-        checkinMock = mock(Checkin.class);
+        checkinMock = mock(CheckinAgentId.class);
 
         willReturn(checkinMock).given(checkinAssemblerMock).toDomain();
     }
