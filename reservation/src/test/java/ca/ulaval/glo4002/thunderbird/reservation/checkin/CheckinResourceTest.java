@@ -1,9 +1,5 @@
-package ca.ulaval.glo4002.thunderbird.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.Checkin;
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinAssembler;
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.MissingInfoException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,7 +14,6 @@ import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.Response.Status.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -26,7 +21,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest(Passenger.class)
 public class CheckinResourceTest {
     public static final String CHECKIN_ID = "checkinId";
-    private CheckinAssembler checkinAssemblerMock;
     private Checkin checkinMock;
 
     @InjectMocks
@@ -38,23 +32,7 @@ public class CheckinResourceTest {
     @Before
     public void setUp() throws Exception {
         mockStatic(Passenger.class);
-        checkinAssemblerMock = mock(CheckinAssembler.class);
         checkinMock = mock(Checkin.class);
-
-        willReturn(checkinMock).given(checkinAssemblerMock).toDomain();
-    }
-
-    @Test
-    public void givenCheckinNull_whenCheckin_shouldNotCreateCheckIn() {
-        CheckinAssembler checkinAssemblerNull = new CheckinAssembler();
-        checkinAssemblerNull.passengerHash = null;
-        checkinAssemblerNull.passengerHash = null;
-
-        Response responseActual = checkinResource.checkin(checkinAssemblerNull);
-        int statusActual = responseActual.getStatus();
-
-        int statusExpected = BAD_REQUEST.getStatusCode();
-        assertEquals(statusExpected, statusActual);
     }
 
     @Test
@@ -62,7 +40,7 @@ public class CheckinResourceTest {
         willReturn(true).given(checkinMock).isValid();
         willReturn(true).given(checkinMock).passengerExist();
         willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
-        Response responseActual = checkinResource.checkin(checkinAssemblerMock);
+        Response responseActual = checkinResource.checkin(checkinMock);
         int statusActual = responseActual.getStatus();
         String actualLocation = responseActual.getLocation().toString();
 
@@ -75,26 +53,12 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenInvalidCheckinAssembler_whenCheckin_shouldReturnBadRequest() throws Exception {
-        CheckinAssembler checkinAssembler = mock(CheckinAssembler.class);
-        willThrow(MissingInfoException.class).given(checkinAssembler).toDomain();
-
-        Response responseActual = checkinResource.checkin(checkinAssembler);
-        int statusActual = responseActual.getStatus();
-
-        int statusExpected = BAD_REQUEST.getStatusCode();
-        assertEquals(statusExpected, statusActual);
-    }
-
-    @Test
     public void givenInvalidCheckin_whenCheckin_shouldReturnBadRequest() {
         willReturn(true).given(checkinMock).isValid();
         willReturn(true).given(checkinMock).passengerExist();
-        CheckinAssembler checkinAssembler = mock(CheckinAssembler.class);
-        willReturn(checkinMock).given(checkinAssembler).toDomain();
         willReturn(false).given(checkinMock).isValid();
 
-        Response responseActual = checkinResource.checkin(checkinAssembler);
+        Response responseActual = checkinResource.checkin(checkinMock);
         int statusActual = responseActual.getStatus();
 
         int statusExpected = BAD_REQUEST.getStatusCode();
@@ -105,11 +69,9 @@ public class CheckinResourceTest {
     public void givenCheckinPassengerWithInvalidPassenger_whenCheckin_shouldReturnNotFound() {
         willReturn(true).given(checkinMock).isValid();
         willReturn(false).given(checkinMock).passengerExist();
-        CheckinAssembler checkinAssembler = mock(CheckinAssembler.class);
-        willReturn(checkinMock).given(checkinAssembler).toDomain();
         willReturn(false).given(checkinMock).passengerExist();
 
-        Response responseActual = checkinResource.checkin(checkinAssembler);
+        Response responseActual = checkinResource.checkin(checkinMock);
         int statusActual = responseActual.getStatus();
 
         int statusExpected = NOT_FOUND.getStatusCode();

@@ -17,7 +17,6 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 @Path("/checkins")
 @Produces(MediaType.APPLICATION_JSON)
 public class CheckinResource {
-    private static final String FIELDS_REQUIRED_MESSAGE = "by and passengerHas fields are required";
     private static final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
     private static final String PASSENGER_RESERVATION_NOT_VALID =
             "Checkin couldn't be completed. Verify if the reservation is complete, if time is correct or if the passenger hasn't been checked in before";
@@ -25,14 +24,7 @@ public class CheckinResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response checkin(CheckinAssembler checkinAssembler) {
-        Checkin checkin;
-        try {
-            checkin = checkinAssembler.toDomain();
-        } catch (MissingInfoException ex) {
-            return Response.status(BAD_REQUEST).entity(Entity.json(FIELDS_REQUIRED_MESSAGE)).build();
-        }
-
+    public Response checkin(Checkin checkin) {
         if (!checkin.passengerExist()) {
             return Response.status(NOT_FOUND).entity(Entity.json(PASSENGER_RESERVATION_NOT_FOUND_MESSAGE)).build();
         }
