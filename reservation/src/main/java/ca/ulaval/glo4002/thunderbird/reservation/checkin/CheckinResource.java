@@ -19,7 +19,7 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 public class CheckinResource {
     private static final String PASSENGER_RESERVATION_NOT_FOUND_MESSAGE = "passenger reservation not found";
     private static final String PASSENGER_RESERVATION_NOT_VALID =
-            "CheckinAgentId couldn't be completed. Verify if the reservation is complete, if time is correct or if the passenger hasn't been checked in before";
+            "Checkin couldn't be completed. Verify if the reservation is complete, if time is correct or if the passenger hasn't been checked in before";
 
 
     @POST
