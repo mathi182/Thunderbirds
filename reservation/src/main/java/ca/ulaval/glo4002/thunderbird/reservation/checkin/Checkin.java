@@ -48,17 +48,28 @@ public class Checkin {
     public boolean passengerExist() {
         try {
             getPassenger();
-        } catch (PassengerNotFoundException e) {
+        }
+        catch (PassengerNotFoundException e) {
             return false;
         }
         return true;
     }
 
     public boolean isValid() {
+        boolean isValid;
         Passenger passenger = getPassenger();
-        boolean checkinOnTime = !this.agentId.equals(SELF) || isSelfCheckinOnTime();
         boolean passengerValidForCheckin = passenger.isValidForCheckin();
-        return  checkinOnTime && passengerValidForCheckin;
+        if (isSelfCheckin()) {
+            isValid = passengerValidForCheckin && isSelfCheckinOnTime();
+        }
+        else {
+            isValid = passengerValidForCheckin;
+        }
+        return isValid;
+    }
+
+    private boolean isSelfCheckin () {
+        return this.agentId.equals(SELF);
     }
 
     public void completePassengerCheckin() {
