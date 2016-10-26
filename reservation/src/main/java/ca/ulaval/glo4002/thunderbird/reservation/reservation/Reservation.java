@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -50,6 +48,11 @@ public class Reservation {
             throw new ReservationNotFoundException(reservationNumber);
         }
         return reservation;
+    }
+
+    public static synchronized boolean reservationExists(int reservationNumber) {
+        Reservation reservation = reservationStore.get(reservationNumber);
+        return reservation != null;
     }
 
     @JsonIgnore

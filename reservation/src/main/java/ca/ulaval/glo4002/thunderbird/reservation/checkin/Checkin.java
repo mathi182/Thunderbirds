@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.util.DateLong;
+import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Checkin {
+    private static final String PASSENGER_HASH_FIELD = "passenger_hash";
+    private static final String AGENT_ID_FIELD = "by";
     private static final HashMap<String, Checkin> checkinStore = new HashMap<>();
     private static final long MAX_LATE_CHECKIN_IN_MILLIS = 60 * 60 * 6 * 1000L;
     private static final long MAX_EARLY_CHECKIN_IN_MILLIS = 60 * 60 * 48 * 1000L;
@@ -20,14 +22,21 @@ public class Checkin {
     private static final String SELF = "SELF";
     private String checkinId;
 
-    @JsonProperty("passenger_hash")
+    @JsonProperty(PASSENGER_HASH_FIELD)
     private String passengerHash;
 
-    @JsonProperty("by")
+    @JsonProperty(AGENT_ID_FIELD)
     private String agentId;
 
     @JsonCreator
     public Checkin(@JsonProperty("passenger_hash") String passengerHash, @JsonProperty("by") String agentId) {
+        if (Strings.isNullOrEmpty(passengerHash)) {
+            throw new MissingCheckinFieldException(PASSENGER_HASH_FIELD);
+        }
+        if (Strings.isNullOrEmpty(agentId)) {
+            throw new MissingCheckinFieldException(AGENT_ID_FIELD);
+        }
+
         this.checkinId = UUID.randomUUID().toString();
         this.passengerHash = passengerHash;
         this.agentId = agentId;
@@ -45,37 +54,18 @@ public class Checkin {
         return Passenger.findByPassengerHash(passengerHash);
     }
 
-    public boolean passengerExist() {
-        try {
-            getPassenger();
-        }
-        catch (PassengerNotFoundException e) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isValid() {
-        boolean isValid;
-        Passenger passenger = getPassenger();
-        boolean passengerValidForCheckin = passenger.isValidForCheckin();
-        if (isSelfCheckin()) {
-            isValid = passengerValidForCheckin && isSelfCheckinOnTime();
-        }
-        else {
-            isValid = passengerValidForCheckin;
-        }
-        return isValid;
-    }
-
-    private boolean isSelfCheckin () {
-        return this.agentId.equals(SELF);
-    }
-
     public void completePassengerCheckin() {
+        if (isSelfCheckin() && !isSelfCheckinOnTime()) {
+            throw new CheckinNotOnTimeException();
+        }
+
         Passenger passenger = getPassenger();
         passenger.checkin();
         passenger.save();
+    }
+
+    private boolean isSelfCheckin() {
+        return agentId.equals(SELF);
     }
 
     private boolean isSelfCheckinOnTime() {
@@ -88,8 +78,7 @@ public class Checkin {
             long maxLateSelfCheckinDate = parsedFlightDate - MAX_LATE_CHECKIN_IN_MILLIS;
             long currentTime = DateLong.getLongCurrentDate();
             return (currentTime > maxEarlySelfCheckinDate) && (currentTime < maxLateSelfCheckinDate);
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             return false;
         }
     }

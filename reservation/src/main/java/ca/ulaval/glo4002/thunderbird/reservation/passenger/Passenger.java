@@ -1,9 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadyCheckedInException;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.MissingCheckinInformationException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -65,32 +64,6 @@ public class Passenger {
     }
 
     @JsonIgnore
-    public boolean isValidForCheckin() {
-        boolean reservationIsValid = false;
-
-        if (reservationNumber != NULL_RESERVATION_NUMBER) {
-            try {
-                Reservation.findByReservationNumber(reservationNumber);
-                reservationIsValid = true;
-            } catch (ReservationNotFoundException e) {
-                reservationIsValid = false;
-            }
-        }
-
-        boolean isNotCheckedIn = !isCheckedIn;
-        boolean passengerHasFirstName = !Strings.isNullOrEmpty(firstName);
-        boolean passengerHasLastName = !Strings.isNullOrEmpty(lastName);
-        boolean passengerHasPassportNumber = !Strings.isNullOrEmpty(passportNumber);
-        boolean passengerHasReservationNumber = (reservationNumber != NULL_RESERVATION_NUMBER);
-        return isNotCheckedIn
-                && passengerHasFirstName
-                && passengerHasLastName
-                && passengerHasPassportNumber
-                && passengerHasReservationNumber
-                && reservationIsValid;
-    }
-
-    @JsonIgnore
     public static synchronized Passenger findByPassengerHash(String passengerHash) {
         Passenger passenger = passengerStore.get(passengerHash);
         if (passenger == null) {
@@ -120,11 +93,27 @@ public class Passenger {
 
     @JsonIgnore
     public void checkin() {
+        if (!Reservation.reservationExists(reservationNumber)) {
+            throw new ReservationNotFoundException(reservationNumber);
+        }
+
         if(isCheckedIn){
             throw new PassengerAlreadyCheckedInException(id);
         }
-        else{
-            isCheckedIn = true;
+        if (Strings.isNullOrEmpty(firstName)) {
+            throw new MissingCheckinInformationException("firstName");
         }
+        if (Strings.isNullOrEmpty(lastName)) {
+            throw new MissingCheckinInformationException("lastName");
+        }
+        if (Strings.isNullOrEmpty(passportNumber)) {
+            throw new MissingCheckinInformationException("passportNumber");
+        }
+
+        isCheckedIn = true;
+    }
+
+    public boolean isCheckedIn() {
+        return isCheckedIn;
     }
 }

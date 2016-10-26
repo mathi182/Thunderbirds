@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerNotFoundException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -10,11 +10,9 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Passenger.class)

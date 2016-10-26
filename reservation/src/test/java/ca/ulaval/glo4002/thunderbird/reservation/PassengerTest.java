@@ -1,9 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exception.PassengerAlreadyCheckedInException;
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.MissingCheckinInformationException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.util.DateLong;
 import org.junit.Before;
 import org.junit.Rule;
@@ -15,10 +16,9 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyInt;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Reservation.class, DateLong.class})
@@ -31,16 +31,12 @@ public class PassengerTest {
     private static final int AGE = 18;
     private static final int NONEXISTENT_RESERVATION_NUMBER = 3;
     private static final int EXISTENT_RESERVATION_NUMBER = 5;
-    private static final long TODAYS_DATE = 1473166800000L; // 2016-09-06T13:00
-    private static final String VALID_FOR_CHECKIN_FLIGHT_DATE = "2016-09-06T21:00:00Z";
 
-    private Passenger newPassengerWithAllInformationExceptReservationNumber;
     private Passenger newPassengerWithoutFirstName;
     private Passenger newPassengerWithoutLastName;
     private Passenger newPassengerWithoutPassportNumber;
     private Passenger passengerWithNonExistentReservationNumber;
     private Passenger newPassengerWithAllInformation;
-    private Reservation reservationMock;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -49,8 +45,6 @@ public class PassengerTest {
     public void newPassenger() {
         PowerMockito.mockStatic(Reservation.class);
         PowerMockito.mockStatic(DateLong.class);
-        newPassengerWithAllInformationExceptReservationNumber =
-                new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         newPassengerWithAllInformation =
                 new Passenger(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
@@ -69,9 +63,6 @@ public class PassengerTest {
                 new Passenger(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
                         SEAT_CLASS);
 
-        newPassengerWithAllInformationExceptReservationNumber =
-                new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
-
         newPassengerWithAllInformation =
                 new Passenger(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
                         SEAT_CLASS);
@@ -88,65 +79,58 @@ public class PassengerTest {
         passengerWithNonExistentReservationNumber =
                 new Passenger(NONEXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER,
                         SEAT_CLASS);
-
-        reservationMock = mock(Reservation.class);
-        given(DateLong.getLongCurrentDate()).willReturn(TODAYS_DATE);
     }
 
     @Test
-    public void givenValidPassengerForCheckin_whenIsValidForCheckin_shouldReturnTrue() {
-        given(Reservation.findByReservationNumber(EXISTENT_RESERVATION_NUMBER)).willReturn(reservationMock);
+    public void givenValidPassengerForCheckin_whenIsValidForCheckin_shouldBeCheckedIn() {
+        given(Reservation.reservationExists(EXISTENT_RESERVATION_NUMBER)).willReturn(true);
 
-        boolean isValidForCheckin = newPassengerWithAllInformation.isValidForCheckin();
+        newPassengerWithAllInformation.checkin();
 
-        assertTrue(isValidForCheckin);
+        boolean passengerIsCheckedIn = newPassengerWithAllInformation.isCheckedIn();
+        assertTrue(passengerIsCheckedIn);
     }
 
-    @Test
-    public void givenPassengerWithoutFirstName_whenIsValidForCheckin_shouldReturnFalse() {
-        boolean isValidForCheckin = newPassengerWithoutFirstName.isValidForCheckin();
+    @Test(expected = MissingCheckinInformationException.class)
+    public void givenPassengerWithoutFirstName_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
+        given(Reservation.reservationExists(anyInt())).willReturn(true);
 
-        assertFalse(isValidForCheckin);
+        newPassengerWithoutFirstName.checkin();
     }
 
-    @Test
-    public void givenPassengerWithoutLastName_whenIsValidForCheckin_shouldReturnFalse() {
-        boolean isValidForCheckin = newPassengerWithoutLastName.isValidForCheckin();
+    @Test(expected = MissingCheckinInformationException.class)
+    public void givenPassengerWithoutLastName_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
+        given(Reservation.reservationExists(anyInt())).willReturn(true);
 
-        assertFalse(isValidForCheckin);
+        newPassengerWithoutLastName.checkin();
     }
 
-    @Test
-    public void givenPassengerWithoutPassportNumber_whenIsValidForCheckin_shouldReturnFalse() {
-        boolean isValidForCheckin = newPassengerWithoutPassportNumber.isValidForCheckin();
+    @Test(expected = MissingCheckinInformationException.class)
+    public void givenPassengerWithoutPassportNumber_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
+        given(Reservation.reservationExists(anyInt())).willReturn(true);
 
-        assertFalse(isValidForCheckin);
+        newPassengerWithoutPassportNumber.checkin();
     }
 
-    @Test
-    public void givenPassengerWithoutReservationNumber_whenIsValidForCheckin_shouldReturnFalse() {
-        boolean isValidForCheckin = newPassengerWithAllInformationExceptReservationNumber.isValidForCheckin();
-
-        assertFalse(isValidForCheckin);
-    }
-
-    @Test
-    public void givenPassengerWithNonExistentReservation_whenIsValidForCheckin_shouldReturnFalse() {
-        given(Reservation.findByReservationNumber(NONEXISTENT_RESERVATION_NUMBER))
+    @Test(expected = ReservationNotFoundException.class)
+    public void givenPassengerWithNonExistentReservation_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
+        given(Reservation.findByReservationNumber(anyInt()))
                 .willThrow(new ReservationNotFoundException(NONEXISTENT_RESERVATION_NUMBER));
 
-        boolean isValidForCheckin = passengerWithNonExistentReservationNumber.isValidForCheckin();
-
-        assertFalse(isValidForCheckin);
+        passengerWithNonExistentReservationNumber.checkin();
     }
 
     @Test
     public void givenPassengerWithValidReservation_whenCheckingIn_shoudNotThrowExceptions() {
+        given(Reservation.reservationExists(anyInt())).willReturn(true);
+
         newPassengerWithAllInformation.checkin();
     }
 
     @Test(expected = PassengerAlreadyCheckedInException.class)
     public void givenPassengerWithValidReservation_whenCheckingInTwoTimes_shouldThrowPassengerAlreadyCheckedInException(){
+        given(Reservation.reservationExists(anyInt())).willReturn(true);
+
         newPassengerWithAllInformation.checkin();
 
         newPassengerWithAllInformation.checkin();

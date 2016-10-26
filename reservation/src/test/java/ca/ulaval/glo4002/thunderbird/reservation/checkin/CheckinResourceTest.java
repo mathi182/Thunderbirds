@@ -1,5 +1,8 @@
-package ca.ulaval.glo4002.thunderbird.reservation.checkin;
+package ca.ulaval.glo4002.thunderbird.reservation;
 
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.Checkin;
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.MissingCheckinFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Rule;
@@ -10,10 +13,13 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
 import javax.ws.rs.core.Response;
-import static javax.ws.rs.core.Response.Status.*;
+
+import static javax.ws.rs.core.Response.Status.CREATED;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -36,45 +42,36 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerValid_whenCheckin_shouldCreateCheckIn() {
-        willReturn(true).given(checkinMock).isValid();
-        willReturn(true).given(checkinMock).passengerExist();
+    public void givenCheckinPassengerValid_whenCheckin_locationShouldBeAdequate() {
         willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
+
         Response responseActual = checkinResource.checkin(checkinMock);
-        int statusActual = responseActual.getStatus();
         String actualLocation = responseActual.getLocation().toString();
 
-        int statusExpected = CREATED.getStatusCode();
-        assertEquals(statusExpected, statusActual);
-
-        String expectedLocation = "/checkins/" + checkinMock.getCheckinId();
-        verify(checkinMock, times(1)).completePassengerCheckin();
-        assertEquals(expectedLocation, actualLocation);
+        String expectedLocation = "/checkins/" + CHECKIN_ID;
+        assertEquals(expectedLocation,actualLocation);
     }
 
     @Test
+    public void givenCheckinPassengerValid_whenCheckin_shouldCompletePassengerCheckin() {
+        checkinResource.checkin(checkinMock);
+
+        verify(checkinMock,times(1)).completePassengerCheckin();
+    }
+
+    @Test
+    public void givenCheckinPassengerValid_whenCheckin_shouldReturnCreatedStatusCode() {
+        Response responseActual = checkinResource.checkin(checkinMock);
+        int actualStatus = responseActual.getStatus();
+
+        int expectedStatus = CREATED.getStatusCode();
+        assertEquals(expectedStatus,actualStatus);
+    }
+
+    @Test(expected = MissingCheckinFieldException.class)
     public void givenInvalidCheckin_whenCheckin_shouldReturnBadRequest() {
-        willReturn(true).given(checkinMock).isValid();
-        willReturn(true).given(checkinMock).passengerExist();
-        willReturn(false).given(checkinMock).isValid();
+        willThrow(MissingCheckinFieldException.class).given(checkinMock).completePassengerCheckin();
 
         Response responseActual = checkinResource.checkin(checkinMock);
-        int statusActual = responseActual.getStatus();
-
-        int statusExpected = BAD_REQUEST.getStatusCode();
-        assertEquals(statusExpected, statusActual);
-    }
-
-    @Test
-    public void givenCheckinPassengerWithInvalidPassenger_whenCheckin_shouldReturnNotFound() {
-        willReturn(true).given(checkinMock).isValid();
-        willReturn(false).given(checkinMock).passengerExist();
-        willReturn(false).given(checkinMock).passengerExist();
-
-        Response responseActual = checkinResource.checkin(checkinMock);
-        int statusActual = responseActual.getStatus();
-
-        int statusExpected = NOT_FOUND.getStatusCode();
-        assertEquals(statusExpected, statusActual);
     }
 }

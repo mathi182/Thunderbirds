@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationAlreadySavedException;
-import ca.ulaval.glo4002.thunderbird.reservation.exception.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationAlreadySavedException;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationNotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
@@ -71,6 +72,22 @@ public class ReservationTest {
 
         int expectedReservationNumber = newReservation.getReservationNumber();
         assertEquals(expectedReservationNumber, actualReservationNumber);
+    }
+
+    @Test
+    public void whenChekingIfReservationExists_ifNotExists_shouldReturnFalse() {
+        boolean reservationExists = Reservation.reservationExists(NON_EXISTENT_RESERVATION_NUMBER);
+
+        assertFalse(reservationExists);
+    }
+
+    @Test
+    public void whenCheckingIfReservationExists_ifExists_shouldReturnTrue() {
+        newReservation.save();
+
+        boolean reservationExists = Reservation.reservationExists(RESERVATION_NUMBER);
+
+        assertTrue(reservationExists);
     }
 
     @Test(expected = ReservationNotFoundException.class)
