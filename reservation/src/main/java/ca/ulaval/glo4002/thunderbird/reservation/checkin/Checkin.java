@@ -16,7 +16,6 @@ public class Checkin {
     private static final HashMap<String, Checkin> checkinStore = new HashMap<>();
     private static final long MAX_LATE_CHECKIN_IN_MILLIS = 60 * 60 * 6 * 1000L;
     private static final long MAX_EARLY_CHECKIN_IN_MILLIS = 60 * 60 * 48 * 1000L;
-    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
     private static final String SELF = "SELF";
     private String checkinId;
 
@@ -69,7 +68,6 @@ public class Checkin {
     private boolean isSelfCheckinOnTime(Instant currentDate) {
         Reservation reservation = Reservation.findByReservationNumber(getPassenger().getReservationNumber());
 
-        Instant asdf = reservation.getFlightDate();
         Instant maxEarlySelfCheckinDate = reservation.getFlightDate().minusMillis(MAX_EARLY_CHECKIN_IN_MILLIS);
         Instant maxLateSelfCheckinDate = reservation.getFlightDate().minusMillis(MAX_LATE_CHECKIN_IN_MILLIS);
 

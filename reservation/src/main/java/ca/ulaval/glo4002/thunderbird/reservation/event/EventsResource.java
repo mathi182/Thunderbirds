@@ -21,5 +21,4 @@ public class EventsResource {
         reservation.save();
         return Response.created(URI.create("/reservations/" + reservation.getReservationNumber())).build();
     }
-
 }
