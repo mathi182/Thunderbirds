@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
-import ca.ulaval.glo4002.thunderbird.reservation.rest.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

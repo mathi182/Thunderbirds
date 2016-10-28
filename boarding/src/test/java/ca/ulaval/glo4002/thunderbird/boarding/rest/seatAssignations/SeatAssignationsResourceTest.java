@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignations;
-import ca.ulaval.glo4002.thunderbird.reservation.rest.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.reservation.rest.passenger.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerNotFoundException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
