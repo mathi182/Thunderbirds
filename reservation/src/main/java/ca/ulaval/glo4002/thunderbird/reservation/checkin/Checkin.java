@@ -2,13 +2,11 @@ package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import ca.ulaval.glo4002.thunderbird.reservation.util.DateLong;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -54,8 +52,8 @@ public class Checkin {
         return Passenger.findByPassengerHash(passengerHash);
     }
 
-    public void completePassengerCheckin() {
-        if (isSelfCheckin() && !isSelfCheckinOnTime()) {
+    public void completePassengerCheckin(Instant currentDate) {
+        if (isSelfCheckin() && !isSelfCheckinOnTime(currentDate)) {
             throw new CheckinNotOnTimeException();
         }
 
@@ -68,18 +66,13 @@ public class Checkin {
         return agentId.equals(SELF);
     }
 
-    private boolean isSelfCheckinOnTime() {
+    private boolean isSelfCheckinOnTime(Instant currentDate) {
         Reservation reservation = Reservation.findByReservationNumber(getPassenger().getReservationNumber());
-        String flightDate = reservation.getFlightDate();
-        try {
-            SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
-            long parsedFlightDate = format.parse(flightDate.replaceAll("Z$", "+0000")).getTime();
-            long maxEarlySelfCheckinDate = parsedFlightDate - MAX_EARLY_CHECKIN_IN_MILLIS;
-            long maxLateSelfCheckinDate = parsedFlightDate - MAX_LATE_CHECKIN_IN_MILLIS;
-            long currentTime = DateLong.getLongCurrentDate();
-            return (currentTime > maxEarlySelfCheckinDate) && (currentTime < maxLateSelfCheckinDate);
-        } catch (ParseException e) {
-            return false;
-        }
+
+        Instant asdf = reservation.getFlightDate();
+        Instant maxEarlySelfCheckinDate = reservation.getFlightDate().minusMillis(MAX_EARLY_CHECKIN_IN_MILLIS);
+        Instant maxLateSelfCheckinDate = reservation.getFlightDate().minusMillis(MAX_LATE_CHECKIN_IN_MILLIS);
+
+        return (currentDate.isAfter(maxEarlySelfCheckinDate) && currentDate.isBefore(maxLateSelfCheckinDate));
     }
 }

@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
@@ -31,7 +32,7 @@ class SeatAssignations {
     String assignSeat() {
         Passenger passenger = Passenger.findByPassengerHash(passengerHash);
         String flightNumber = passenger.getFlightNumber();
-        String flightDate = passenger.getFlightDate();
+        Instant flightDate = passenger.getFlightDate();
 
         List<String> availableSeatsList = repository.getFlightAvailableSeats(flightNumber, flightDate);
         seat = availableSeatsList.get(new Random().nextInt(availableSeatsList.size()));

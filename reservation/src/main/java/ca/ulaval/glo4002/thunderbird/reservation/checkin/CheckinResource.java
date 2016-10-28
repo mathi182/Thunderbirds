@@ -7,6 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.time.Instant;
 
 @Path("/checkins")
 @Produces(MediaType.APPLICATION_JSON)
@@ -15,7 +16,7 @@ public class CheckinResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(Checkin checkin) {
-        checkin.completePassengerCheckin();
+        checkin.completePassengerCheckin(Instant.now());
         checkin.save();
 
         String checkinId = checkin.getCheckinId();

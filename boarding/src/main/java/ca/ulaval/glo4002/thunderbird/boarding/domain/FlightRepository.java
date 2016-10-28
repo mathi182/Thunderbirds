@@ -6,6 +6,7 @@ import com.sun.jersey.api.client.WebResource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,14 +21,25 @@ public enum FlightRepository {
     private static final String DASH_MODEL = "dash-8";
     private static final String A320_MODEL = "a320";
     private static final String BOEING_MODEL = "boeing-777-300";
+    private static HashMap<String, String> flightModelRepository = new HashMap<>();
+    private static HashMap<String, HashMap<Instant, List<String>>> flightAvailableSeatsRepository = new HashMap<>();
+
+    static {
+        if (Boolean.getBoolean("demo.status"))
+            demoSetup();
+    }
 
     private Random generator = new Random();
-    private static HashMap<String, String> flightModelRepository = new HashMap<>();
-    private static HashMap<String, HashMap<String, List<String>>> flightAvailableSeatsRepository = new HashMap<>();
     private String[] modelSet = {"dash-8", "a320", "boeing-777-300"};
 
     FlightRepository() {
 
+    }
+
+    public static void demoSetup() {
+        flightModelRepository.put(BOEING_FLIGHT_NUMBER, BOEING_MODEL);
+        flightModelRepository.put(DASH_FLIGHT_NUMBER, DASH_MODEL);
+        flightModelRepository.put(A320_FLIGHT_NUMBER, A320_MODEL);
     }
 
     private String addFlightModel(String flightNumber) {
@@ -67,8 +79,8 @@ public enum FlightRepository {
         return listSeats;
     }
 
-    public List<String> getFlightAvailableSeats(String flightNumber, String flightDate) {
-        HashMap<String, List<String>> flightMap = flightAvailableSeatsRepository.get(flightNumber);
+    public List<String> getFlightAvailableSeats(String flightNumber, Instant flightDate) {
+        HashMap<Instant, List<String>> flightMap = flightAvailableSeatsRepository.get(flightNumber);
 
         if (flightMap == null) {
             flightMap = new HashMap<>();
@@ -87,7 +99,7 @@ public enum FlightRepository {
         return availableSeatsList;
     }
 
-    public boolean takeSeat(String flightNumber, String flightDate, String seatNumber) {
+    public boolean takeSeat(String flightNumber, Instant flightDate, String seatNumber) {
         List<String> availableSeatsList = getFlightAvailableSeats(flightNumber, flightDate);
         return availableSeatsList.remove(seatNumber);
     }
@@ -102,16 +114,5 @@ public enum FlightRepository {
 
     public int size() {
         return flightModelRepository.size();
-    }
-
-    public static void demoSetup() {
-        flightModelRepository.put(BOEING_FLIGHT_NUMBER, BOEING_MODEL);
-        flightModelRepository.put(DASH_FLIGHT_NUMBER, DASH_MODEL);
-        flightModelRepository.put(A320_FLIGHT_NUMBER, A320_MODEL);
-    }
-
-    static {
-        if (Boolean.getBoolean("demo.status"))
-            demoSetup();
     }
 }

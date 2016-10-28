@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -87,7 +88,7 @@ public class Passenger {
     }
 
     @JsonIgnore
-    public String getFlightDate() {
+    public Instant getFlightDate() {
         return Reservation.findByReservationNumber(reservationNumber).getFlightDate();
     }
 
