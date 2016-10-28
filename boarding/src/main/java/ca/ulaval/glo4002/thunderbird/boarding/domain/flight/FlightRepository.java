@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -20,14 +20,25 @@ public enum FlightRepository {
     private static final String DASH_MODEL = "dash-8";
     private static final String A320_MODEL = "a320";
     private static final String BOEING_MODEL = "boeing-777-300";
-
-    private Random generator = new Random();
     private static HashMap<String, String> flightModelRepository = new HashMap<>();
     private static HashMap<String, HashMap<String, List<String>>> flightAvailableSeatsRepository = new HashMap<>();
+
+    static {
+        if (Boolean.getBoolean("demo.status"))
+            demoSetup();
+    }
+
+    private Random generator = new Random();
     private String[] modelSet = {"dash-8", "a320", "boeing-777-300"};
 
     FlightRepository() {
 
+    }
+
+    public static void demoSetup() {
+        flightModelRepository.put(BOEING_FLIGHT_NUMBER, BOEING_MODEL);
+        flightModelRepository.put(DASH_FLIGHT_NUMBER, DASH_MODEL);
+        flightModelRepository.put(A320_FLIGHT_NUMBER, A320_MODEL);
     }
 
     private String addFlightModel(String flightNumber) {
@@ -102,16 +113,5 @@ public enum FlightRepository {
 
     public int size() {
         return flightModelRepository.size();
-    }
-
-    public static void demoSetup() {
-        flightModelRepository.put(BOEING_FLIGHT_NUMBER, BOEING_MODEL);
-        flightModelRepository.put(DASH_FLIGHT_NUMBER, DASH_MODEL);
-        flightModelRepository.put(A320_FLIGHT_NUMBER, A320_MODEL);
-    }
-
-    static {
-        if (Boolean.getBoolean("demo.status"))
-            demoSetup();
     }
 }

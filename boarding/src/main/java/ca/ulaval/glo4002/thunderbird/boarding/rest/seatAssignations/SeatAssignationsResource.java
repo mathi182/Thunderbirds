@@ -1,4 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
+
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignations;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

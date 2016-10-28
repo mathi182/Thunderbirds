@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
 import org.junit.After;
 import org.junit.Test;
@@ -7,8 +7,6 @@ import static org.junit.Assert.*;
 
 public class FlightRepositoryTest {
 
-    private FlightRepository repository = FlightRepository.INSTANCE;
-
     private static final String NEW_FLIGHT_NUMBER = "RD3213";
     private static final String DASH_FLIGHT_NUMBER = "QK-918";
     private static final String A320_FLIGHT_NUMBER = "NK-750";
@@ -16,6 +14,7 @@ public class FlightRepositoryTest {
     private static final String BOEING_MODEL = "boeing-777-300";
     private static final String DASH_MODEL = "dash-8";
     private static final String A320_MODEL = "a320";
+    private FlightRepository repository = FlightRepository.INSTANCE;
 
     @After
     public void tearDown() {
@@ -33,7 +32,7 @@ public class FlightRepositoryTest {
     @Test
     public void givenANewFlightNumber_whenRetrievingTheModel_shouldHaveAPlaneModel() {
         Object planeModelReceived = repository.getPlaneModel(NEW_FLIGHT_NUMBER);
-        
+
         assertNotNull(planeModelReceived);
     }
 

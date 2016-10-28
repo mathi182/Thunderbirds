@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerNotFoundException;
@@ -29,7 +29,7 @@ public class SeatAssignationsTest {
 
     @Test
     @Ignore
-    public void givenAValidPassengerHash_whenAssigningASeat_shouldGetAPassenger(){
+    public void givenAValidPassengerHash_whenAssigningASeat_shouldGetAPassenger() {
         doThrow(new PassengerNotFoundException(VALID_PASSENGER_HASH))
                 .when(Passenger.findByPassengerHash(VALID_PASSENGER_HASH));
     }

@@ -50,7 +50,7 @@ public class CheckinTest {
     }
 
     @Test
-    public void givenValidCheckin_whenCompletingPassengerCheckin_shouldCompleteCheckin(){
+    public void givenValidCheckin_whenCompletingPassengerCheckin_shouldCompleteCheckin() {
         given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
@@ -59,7 +59,7 @@ public class CheckinTest {
     }
 
     @Test
-    public  void givenSelfCheckinAndValidDate_whenCompletingPassengerCheckin_shouldCompleteCheckin(){
+    public void givenSelfCheckinAndValidDate_whenCompletingPassengerCheckin_shouldCompleteCheckin() {
         given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
         willReturn(RESERVATION_NUMBER).given(passengerMock).getReservationNumber();
         given(Reservation.findByReservationNumber(RESERVATION_NUMBER)).willReturn(reservationMock);
@@ -91,7 +91,7 @@ public class CheckinTest {
     }
 
     @Test
-    public void givenValidCheckin_whenCompletingCheckin_shouldCheckInPassenger(){
+    public void givenValidCheckin_whenCompletingCheckin_shouldCheckInPassenger() {
         given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
 
         checkinValid.completePassengerCheckin();
@@ -100,7 +100,7 @@ public class CheckinTest {
     }
 
     @Test
-    public void givenValidCheckin_whenCompletingCheckin_shouldSavePassenger(){
+    public void givenValidCheckin_whenCompletingCheckin_shouldSavePassenger() {
         given(Passenger.findByPassengerHash(PASSENGER_HASH_WITH_RESERVATION)).willReturn(passengerMock);
 
         checkinValid.completePassengerCheckin();

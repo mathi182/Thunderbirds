@@ -1,7 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation.event;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.EventsResource;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import org.junit.After;
 import org.junit.Before;

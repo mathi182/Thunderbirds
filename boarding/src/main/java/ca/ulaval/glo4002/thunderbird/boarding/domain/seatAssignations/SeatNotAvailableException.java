@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -21,5 +21,4 @@ public class SeatNotAvailableException extends WebApplicationException {
     public Response getResponse() {
         return status(Status.BAD_REQUEST).build();
     }
-
 }

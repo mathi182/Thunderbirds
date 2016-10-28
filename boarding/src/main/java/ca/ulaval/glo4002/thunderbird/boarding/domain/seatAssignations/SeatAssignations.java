@@ -1,5 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Random;
 
-class SeatAssignations {
+public class SeatAssignations {
 
     private FlightRepository repository = FlightRepository.INSTANCE;
     private String passengerHash;
@@ -17,18 +18,18 @@ class SeatAssignations {
     private int id;
 
     @JsonCreator
-    SeatAssignations(@JsonProperty("passenger_hash") String passengerHash,
-                     @JsonProperty("mode") String mode) {
+    public SeatAssignations(@JsonProperty("passenger_hash") String passengerHash,
+                            @JsonProperty("mode") String mode) {
         this.passengerHash = passengerHash;
         this.mode = mode;
         this.id = new Random().nextInt(Integer.MAX_VALUE);
     }
 
-    int getId() {
+    public int getId() {
         return id;
     }
 
-    String assignSeat() {
+    public String assignSeat() {
         Passenger passenger = Passenger.findByPassengerHash(passengerHash);
         String flightNumber = passenger.getFlightNumber();
         String flightDate = passenger.getFlightDate();

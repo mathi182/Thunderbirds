@@ -1,4 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.reservation.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation.event;
+
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

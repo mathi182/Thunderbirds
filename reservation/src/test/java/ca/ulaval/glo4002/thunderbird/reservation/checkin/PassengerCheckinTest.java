@@ -1,6 +1,5 @@
-package ca.ulaval.glo4002.thunderbird.reservation;
+package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.MissingCheckinInformationException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
@@ -78,7 +77,7 @@ public class PassengerCheckinTest {
     }
 
     @Test(expected = PassengerAlreadyCheckedInException.class)
-    public void givenPassengerWithValidReservation_whenCheckingInTwoTimes_shouldThrowPassengerAlreadyCheckedInException(){
+    public void givenPassengerWithValidReservation_whenCheckingInTwoTimes_shouldThrowPassengerAlreadyCheckedInException() {
         given(Reservation.reservationExists(anyInt())).willReturn(true);
 
         validPassenger.checkin();
