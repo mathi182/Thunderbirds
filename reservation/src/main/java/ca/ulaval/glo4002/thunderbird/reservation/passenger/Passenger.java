@@ -32,11 +32,6 @@ public class Passenger {
     @JsonIgnore
     private int reservationNumber = NULL_RESERVATION_NUMBER;
 
-    @JsonProperty("child")
-    public boolean isAChild() {
-        return age < AGE_MAJORITY;
-    }
-
     @JsonCreator
     public Passenger(@JsonProperty("reservation_number") int reservationNumber,
                      @JsonProperty("first_name") String firstName,
@@ -59,12 +54,8 @@ public class Passenger {
         this(NULL_RESERVATION_NUMBER, firstName, lastName, age, passportNumber, seatClass);
     }
 
-    public synchronized void save() {
-        passengerStore.put(this.id, this);
-    }
-
     @JsonIgnore
-    public static synchronized Passenger findByPassengerHash(String passengerHash) {
+    public static Passenger findByPassengerHash(String passengerHash) {
         Passenger passenger = passengerStore.get(passengerHash);
         if (passenger == null) {
             throw new PassengerNotFoundException(passengerHash);
@@ -72,13 +63,22 @@ public class Passenger {
         return passenger;
     }
 
-    public void setReservationNumber(int reservationNumber) {
-        this.reservationNumber = reservationNumber;
+    @JsonProperty("child")
+    public boolean isAChild() {
+        return age < AGE_MAJORITY;
+    }
+
+    public synchronized void save() {
+        passengerStore.put(this.id, this);
     }
 
     @JsonIgnore
     public int getReservationNumber() {
         return reservationNumber;
+    }
+
+    public void setReservationNumber(int reservationNumber) {
+        this.reservationNumber = reservationNumber;
     }
 
     @JsonIgnore
