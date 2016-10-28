@@ -5,9 +5,6 @@ import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,9 +14,7 @@ import static javax.ws.rs.core.Response.Status.OK;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ReservationsResourceTest {
-
     private static final int VALID_RESERVATION_NUMBER = 37353;
     private static final int RESERVATION_NUMBER = 37353;
     private static final String RESERVATION_DATE = "2016-01-31";
@@ -32,12 +27,12 @@ public class ReservationsResourceTest {
     }};
 
     private Reservation newReservation;
-
-    @InjectMocks
     private ReservationsResource reservationsResource;
 
     @Before
     public void newReservationStored() {
+        reservationsResource = new ReservationsResource();
+
         newReservation = new Reservation(RESERVATION_NUMBER,
                 RESERVATION_DATE,
                 RESERVATION_CONFIRMATION,
