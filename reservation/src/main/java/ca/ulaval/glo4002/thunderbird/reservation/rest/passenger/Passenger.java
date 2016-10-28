@@ -55,7 +55,7 @@ public class Passenger {
     }
 
     @JsonIgnore
-    public static synchronized Passenger findByPassengerHash(String passengerHash) {
+    public static Passenger findByPassengerHash(String passengerHash) {
         Passenger passenger = passengerStore.get(passengerHash);
         if (passenger == null) {
             throw new PassengerNotFoundException(passengerHash);

@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.reservation.rest.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.infrastructure.util.Strings;
 import ca.ulaval.glo4002.thunderbird.reservation.rest.passenger.Passenger;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,7 +48,7 @@ public class Reservation {
         reservationStore.clear();
     }
 
-    public static synchronized Reservation findByReservationNumber(int reservationNumber) {
+    public static Reservation findByReservationNumber(int reservationNumber) {
         Reservation reservation = reservationStore.get(reservationNumber);
         if (reservation == null) {
             throw new ReservationNotFoundException(reservationNumber);
@@ -57,22 +56,12 @@ public class Reservation {
         return reservation;
     }
 
-    public static synchronized boolean reservationExists(int reservationNumber) {
+    public static boolean reservationExists(int reservationNumber) {
         Reservation reservation = reservationStore.get(reservationNumber);
         return reservation != null;
     }
 
-    @JsonIgnore
-    public boolean isValid() {
-        return !(Strings.isNullOrEmpty(flightNumber)
-                || Strings.isNullOrEmpty(flightDate)
-                || reservationNumber <= 0);
-    }
-
-    public synchronized void save() {
-        if (reservationStore.containsKey(reservationNumber)) {
-            throw new ReservationAlreadySavedException(reservationNumber);
-        }
+    public void save() {
         reservationStore.put(reservationNumber, this);
         passengers.forEach(Passenger::save);
     }

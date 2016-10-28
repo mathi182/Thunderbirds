@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -23,11 +22,10 @@ import static org.powermock.api.mockito.PowerMockito.doThrow;
 
 @RunWith(PowerMockRunner.class)
 public class SeatAssignationsResourceTest {
-
     private static final String SEAT_ASSIGNATION_URI = "/seat-assignations/666";
     private static final int SEAT_ASSIGNATION_ID = 666;
-    @InjectMocks
-    SeatAssignationsResource seatAssignationsResource;
+
+    private SeatAssignationsResource seatAssignationsResource;
     private SeatAssignations seatAssignations;
 
     @PrepareForTest
@@ -37,7 +35,10 @@ public class SeatAssignationsResourceTest {
 
     @Before
     public void setUp() {
+        seatAssignationsResource = new SeatAssignationsResource();
+
         seatAssignations = mock(SeatAssignations.class);
+        willReturn(SEAT_ASSIGNATION_ID).given(seatAssignations).getId();
     }
 
     @Test
@@ -47,25 +48,18 @@ public class SeatAssignationsResourceTest {
         doThrow(new PassengerNotFoundException(PASSENGER_HASH)).when(Passenger.findByPassengerHash(PASSENGER_HASH));
 
         Response responseActual = seatAssignationsResource.assignSeat(seatAssignations);
+
         int statusActual = responseActual.getStatus();
-
-        int statusExpected = NOT_FOUND.getStatusCode();
-        assertEquals(statusExpected, statusActual);
+        assertEquals(NOT_FOUND.getStatusCode(), statusActual);
     }
-
 
     @Test
     public void whenAssigningASeat_shouldSeatAssignationCreated() {
-        willReturn(SEAT_ASSIGNATION_ID).given(seatAssignations).getId();
-
         Response responseActual = seatAssignationsResource.assignSeat(seatAssignations);
+
         int statusActual = responseActual.getStatus();
         String locationActual = responseActual.getLocation().toString();
-
-        int statusExpected = CREATED.getStatusCode();
-        assertEquals(statusExpected, statusActual);
+        assertEquals(CREATED.getStatusCode(), statusActual);
         assertEquals(SEAT_ASSIGNATION_URI, locationActual);
     }
-
-
 }

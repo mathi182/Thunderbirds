@@ -2,20 +2,16 @@ package ca.ulaval.glo4002.thunderbird.reservation.rest.event;
 
 import ca.ulaval.glo4002.thunderbird.reservation.rest.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.rest.reservation.Reservation;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.CREATED;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(MockitoJUnitRunner.class)
 public class EventsResourceTest {
     private static final int RESERVATION_NUMBER = 37353;
     private static final String RESERVATION_DATE = "2016-01-31";
@@ -26,26 +22,30 @@ public class EventsResourceTest {
     private static final ArrayList<Passenger> PASSENGERS = new ArrayList<>();
     private static final String RESERVATION_CREATED_URI = "/reservations/" + RESERVATION_NUMBER;
 
-    @InjectMocks
-    EventsResource eventsResource;
+    private EventsResource eventsResource;
+    private Reservation validReservation;
 
     @Before
-    public void resetReservationStore() {
-        Reservation.resetReservationStore();
-    }
+    public void setUp() {
+        eventsResource = new EventsResource();
 
-    @Test
-    public void givenValidReservation_whenCreatingReservation_shouldCreateNewReservation() throws Exception {
-        Reservation validReservation = new Reservation(
-                RESERVATION_NUMBER,
+        validReservation = new Reservation(RESERVATION_NUMBER,
                 RESERVATION_DATE,
                 RESERVATION_CONFIRMATION,
                 FLIGHT_NUMBER,
                 FLIGHT_DATE,
                 PAYMENT_LOCATION,
                 PASSENGERS);
+    }
 
-        Response responseActual = this.eventsResource.createReservation(validReservation);
+    @After
+    public void resetReservationStore() {
+        Reservation.resetReservationStore();
+    }
+
+    @Test
+    public void givenValidReservation_whenCreatingReservation_shouldCreateNewReservation() {
+        Response responseActual = eventsResource.createReservation(validReservation);
 
         String locationActual = responseActual.getLocation().toString();
         int statusActual = responseActual.getStatus();
@@ -54,27 +54,8 @@ public class EventsResourceTest {
     }
 
     @Test
-    public void givenInvalidReservation_whenCreatingReservation_shouldNotCreateNewReservation() throws Exception {
-        Reservation invalidReservation = new Reservation(0, null, null, null, null, null, new ArrayList<>());
-
-        Response responseActual = this.eventsResource.createReservation(invalidReservation);
-
-        int statusActual = responseActual.getStatus();
-        assertEquals(BAD_REQUEST.getStatusCode(), statusActual);
-    }
-
-    @Test
     public void givenValidReservation_whenCreatingReservation_shouldBeSavedInTheStore() {
-        Reservation validReservation = new Reservation(
-                RESERVATION_NUMBER,
-                RESERVATION_DATE,
-                RESERVATION_CONFIRMATION,
-                FLIGHT_NUMBER,
-                FLIGHT_DATE,
-                PAYMENT_LOCATION,
-                PASSENGERS);
-
-        this.eventsResource.createReservation(validReservation);
+        eventsResource.createReservation(validReservation);
 
         Reservation savedReservation = Reservation.findByReservationNumber(RESERVATION_NUMBER);
         assertEquals(validReservation.getReservationNumber(), savedReservation.getReservationNumber());

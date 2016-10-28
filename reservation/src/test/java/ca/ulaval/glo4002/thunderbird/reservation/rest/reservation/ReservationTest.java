@@ -25,13 +25,13 @@ public class ReservationTest {
     private ArrayList<Passenger> PASSENGERS = new ArrayList<Passenger>() {{
         add(mockPassenger);
     }};
-    private Reservation newReservation;
+    private Reservation reservation;
 
     @Before
     public void newReservation() {
         willReturn(RESERVATION_NUMBER).given(mockPassenger).getReservationNumber();
 
-        newReservation = new Reservation(RESERVATION_NUMBER,
+        reservation = new Reservation(RESERVATION_NUMBER,
                 RESERVATION_DATE,
                 RESERVATION_CONFIRMATION,
                 FLIGHT_NUMBER,
@@ -46,40 +46,33 @@ public class ReservationTest {
     }
 
     @Test
-    public void whenCreatingAReservation_shouldReservationBeValid() {
-        boolean isNewReservationValid = newReservation.isValid();
-
-        assertTrue(isNewReservationValid);
-    }
-
-    @Test
-    public void givenNewReservation_whenGettingReservationNumber_shouldReturnCorrectReservationNumber() {
-        int actualValue = newReservation.getReservationNumber();
+    public void givenAReservation_whenGettingReservationNumber_shouldReturnCorrectReservationNumber() {
+        int actualValue = reservation.getReservationNumber();
 
         int expectedValue = RESERVATION_NUMBER;
         assertEquals(expectedValue, actualValue);
     }
 
     @Test
-    public void whenSavingReservation_shouldSuccessfullySave() {
-        newReservation.save();
-        Reservation reservationFound = Reservation.findByReservationNumber(newReservation.getReservationNumber());
-        int actualReservationNumber = reservationFound.getReservationNumber();
+    public void givenAReservation_whenWeSaveThisReservation_shouldSuccessfullySave() {
+        reservation.save();
 
-        int expectedReservationNumber = newReservation.getReservationNumber();
+        Reservation reservationFound = Reservation.findByReservationNumber(reservation.getReservationNumber());
+        int actualReservationNumber = reservationFound.getReservationNumber();
+        int expectedReservationNumber = reservation.getReservationNumber();
         assertEquals(expectedReservationNumber, actualReservationNumber);
     }
 
     @Test
-    public void whenChekingIfReservationExists_ifNotExists_shouldReturnFalse() {
+    public void whenCheckForNonExistentReservation_shouldReturnFalse() {
         boolean reservationExists = Reservation.reservationExists(NON_EXISTENT_RESERVATION_NUMBER);
 
         assertFalse(reservationExists);
     }
 
     @Test
-    public void whenCheckingIfReservationExists_ifExists_shouldReturnTrue() {
-        newReservation.save();
+    public void givenWeSaveAReservation_whenCheckIfItExists_shouldReturnTrue() {
+        reservation.save();
 
         boolean reservationExists = Reservation.reservationExists(RESERVATION_NUMBER);
 
@@ -89,12 +82,5 @@ public class ReservationTest {
     @Test(expected = ReservationNotFoundException.class)
     public void whenFinding_ThrowIfNotFound() {
         Reservation.findByReservationNumber(NON_EXISTENT_RESERVATION_NUMBER);
-    }
-
-    @Test(expected = ReservationAlreadySavedException.class)
-    public void whenSavingAnExistingReservation_shouldFail() {
-        newReservation.save();
-
-        newReservation.save();
     }
 }
