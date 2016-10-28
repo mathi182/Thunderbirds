@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class Reservation {
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
-
+    
     @JsonProperty("reservation_number") private int reservationNumber;
     @JsonProperty("flight_number") private String flightNumber;
     @JsonProperty("passengers") private ArrayList<Passenger> passengers;

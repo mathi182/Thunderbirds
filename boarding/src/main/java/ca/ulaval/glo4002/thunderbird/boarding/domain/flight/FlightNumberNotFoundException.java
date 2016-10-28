@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;

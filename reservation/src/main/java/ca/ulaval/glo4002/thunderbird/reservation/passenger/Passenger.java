@@ -98,7 +98,7 @@ public class Passenger {
             throw new ReservationNotFoundException(reservationNumber);
         }
 
-        if(isCheckedIn){
+        if (isCheckedIn) {
             throw new PassengerAlreadyCheckedInException(id);
         }
         if (Strings.isNullOrEmpty(firstName)) {

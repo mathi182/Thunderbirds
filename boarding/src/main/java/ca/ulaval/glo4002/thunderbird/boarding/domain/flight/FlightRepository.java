@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

@@ -16,26 +16,26 @@ public class CheckinResourceTest {
     public static final String CHECKIN_ID = "checkinId";
 
     private CheckinResource checkinResource;
-    private Checkin checkinMock;
+    private Checkin checkin;
 
     @Before
     public void setUp() {
         checkinResource = new CheckinResource();
 
-        checkinMock = mock(Checkin.class);
-        willReturn(CHECKIN_ID).given(checkinMock).getCheckinId();
+        checkin = mock(Checkin.class);
+        willReturn(CHECKIN_ID).given(checkin).getCheckinId();
     }
 
     @Test
     public void givenCheckinPassengerValid_whenCheckin_shouldCompletePassengerCheckin() {
-        checkinResource.checkin(checkinMock);
+        checkinResource.checkin(checkin);
 
-        verify(checkinMock).completePassengerCheckin(any());
+        verify(checkin).completePassengerCheckin(any());
     }
 
     @Test
     public void givenCheckinPassengerValid_whenCheckin_locationShouldBeAdequate() {
-        Response responseActual = checkinResource.checkin(checkinMock);
+        Response responseActual = checkinResource.checkin(checkin);
 
         String actualLocation = responseActual.getLocation().toString();
         String expectedLocation = "/checkins/" + CHECKIN_ID;
@@ -44,7 +44,7 @@ public class CheckinResourceTest {
 
     @Test
     public void givenCheckinPassengerValid_whenCheckin_shouldReturnCreatedStatusCode() {
-        Response responseActual = checkinResource.checkin(checkinMock);
+        Response responseActual = checkinResource.checkin(checkin);
 
         int actualStatus = responseActual.getStatus();
         int expectedStatus = CREATED.getStatusCode();

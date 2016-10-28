@@ -1,5 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignations;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerNotFoundException;
 import org.junit.Before;
@@ -51,7 +52,6 @@ public class SeatAssignationsResourceTest {
         int statusActual = responseActual.getStatus();
         assertEquals(NOT_FOUND.getStatusCode(), statusActual);
     }
-
 
     @Test
     public void whenAssigningASeat_shouldSeatAssignationCreated() {
