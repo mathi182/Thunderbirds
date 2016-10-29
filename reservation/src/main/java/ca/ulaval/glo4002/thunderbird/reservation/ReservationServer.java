@@ -50,8 +50,6 @@ public class ReservationServer {
             server.start();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            tryStopServer();
         }
     }
 

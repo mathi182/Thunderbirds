@@ -50,8 +50,6 @@ public class BoardingServer {
             server.start();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            tryStopServer();
         }
     }
 
