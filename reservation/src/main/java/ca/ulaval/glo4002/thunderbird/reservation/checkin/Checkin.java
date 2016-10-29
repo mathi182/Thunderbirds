@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -14,8 +15,8 @@ public class Checkin {
     private static final String PASSENGER_HASH_FIELD = "passenger_hash";
     private static final String AGENT_ID_FIELD = "by";
     private static final HashMap<String, Checkin> checkinStore = new HashMap<>();
-    private static final long MAX_LATE_CHECKIN_IN_MILLIS = 60 * 60 * 6 * 1000L;
-    private static final long MAX_EARLY_CHECKIN_IN_MILLIS = 60 * 60 * 48 * 1000L;
+    private static final int MAX_LATE_CHECKIN_IN_HOUR = 6;
+    private static final int MAX_EARLY_CHECKIN_IN_HOUR = 48;
     private static final String SELF = "SELF";
     private String checkinId;
 
@@ -66,12 +67,19 @@ public class Checkin {
     }
 
     private boolean isSelfCheckinOnTime(Instant currentDate) {
-        Reservation reservation = Reservation.findByReservationNumber(getPassenger().getReservationNumber());
+        int reservationNumber = getPassenger().getReservationNumber();
+        Reservation reservation = Reservation.findByReservationNumber(reservationNumber);
 
         Instant flightDate = reservation.getFlightDate();
-        Instant maxEarlySelfCheckinDate = flightDate.minusMillis(MAX_EARLY_CHECKIN_IN_MILLIS);
-        Instant maxLateSelfCheckinDate = flightDate.minusMillis(MAX_LATE_CHECKIN_IN_MILLIS);
+        Instant maxEarlySelfCheckinDate = flightDate.minus(MAX_EARLY_CHECKIN_IN_HOUR, ChronoUnit.HOURS);
+        Instant maxLateSelfCheckinDate = flightDate.minus(MAX_LATE_CHECKIN_IN_HOUR, ChronoUnit.HOURS);
 
-        return (currentDate.isAfter(maxEarlySelfCheckinDate) && currentDate.isBefore(maxLateSelfCheckinDate));
+        boolean currentDateEqualsMaxEarlyDate = currentDate.equals(maxEarlySelfCheckinDate);
+        boolean currentDateEqualsMaxLateDate = currentDate.equals(maxLateSelfCheckinDate);
+        boolean currentDateAfterMaxEarlyDate = currentDate.isAfter(maxEarlySelfCheckinDate);
+        boolean currentDateBeforeMaxLatestDate = currentDate.isBefore(maxLateSelfCheckinDate);
+
+        return (currentDateEqualsMaxEarlyDate || currentDateEqualsMaxLateDate) ||
+                (currentDateAfterMaxEarlyDate && currentDateBeforeMaxLatestDate);
     }
 }

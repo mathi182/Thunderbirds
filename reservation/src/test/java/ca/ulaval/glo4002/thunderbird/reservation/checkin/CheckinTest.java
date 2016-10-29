@@ -9,8 +9,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
-import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
@@ -24,7 +24,7 @@ public class CheckinTest {
     private static final String AGENT_ID = "agentId";
     private static final String SELF_CHECKING = "SELF";
     private static final String PASSENGER_HASH_WITH_RESERVATION = "passenger_hash_with_reservation";
-    private static final Instant TODAYS_DATE = ISO_INSTANT.parse("2016-09-06T13:00:00Z", Instant::from);
+    private static final Instant TODAYS_DATE = Instant.now();
 
     private Passenger passengerMock;
     private Reservation reservationMock;
@@ -55,7 +55,7 @@ public class CheckinTest {
     @Test
     public void givenSelfCheckinAndValidDate_whenCompletingCheckin_shouldCheckInAndSavePassenger() {
         Checkin selfCheckin = new Checkin(PASSENGER_HASH_WITH_RESERVATION, SELF_CHECKING);
-        Instant validFlightDate = ISO_INSTANT.parse("2016-09-06T21:00:00Z", Instant::from);
+        Instant validFlightDate = TODAYS_DATE.plus(6, ChronoUnit.HOURS);
         willReturn(validFlightDate).given(reservationMock).getFlightDate();
 
         selfCheckin.completePassengerCheckin(TODAYS_DATE);
@@ -67,7 +67,7 @@ public class CheckinTest {
     @Test(expected = CheckinNotOnTimeException.class)
     public void givenSelfCheckinAndTooEarlyDate_whenCompletingCheckin_shouldNotCompleteCheckin() {
         Checkin selfCheckin = new Checkin(PASSENGER_HASH_WITH_RESERVATION, SELF_CHECKING);
-        Instant tooEarlyFlightDate = ISO_INSTANT.parse("2016-09-02T21:00:00Z", Instant::from);
+        Instant tooEarlyFlightDate = TODAYS_DATE.plus(49, ChronoUnit.HOURS);
         willReturn(tooEarlyFlightDate).given(reservationMock).getFlightDate();
 
         selfCheckin.completePassengerCheckin(TODAYS_DATE);
@@ -76,7 +76,7 @@ public class CheckinTest {
     @Test(expected = CheckinNotOnTimeException.class)
     public void givenSelfCheckinAndTooLateDate_whenCompletingCheckin_shouldNotCompleteCheckin() {
         Checkin selfCheckin = new Checkin(PASSENGER_HASH_WITH_RESERVATION, SELF_CHECKING);
-        Instant tooLateFlightDate = ISO_INSTANT.parse("2016-09-06T14:00:00Z", Instant::from);
+        Instant tooLateFlightDate = TODAYS_DATE.plus(5, ChronoUnit.HOURS);
         willReturn(tooLateFlightDate).given(reservationMock).getFlightDate();
 
         selfCheckin.completePassengerCheckin(TODAYS_DATE);
