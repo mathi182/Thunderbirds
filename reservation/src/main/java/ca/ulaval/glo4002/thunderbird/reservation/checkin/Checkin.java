@@ -7,9 +7,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.UUID;
+
+import static java.time.temporal.ChronoUnit.HOURS;
 
 public class Checkin {
     private static final String PASSENGER_HASH_FIELD = "passenger_hash";
@@ -71,8 +72,8 @@ public class Checkin {
         Reservation reservation = Reservation.findByReservationNumber(reservationNumber);
 
         Instant flightDate = reservation.getFlightDate();
-        Instant maxEarlySelfCheckinDate = flightDate.minus(MAX_EARLY_CHECKIN_IN_HOUR, ChronoUnit.HOURS);
-        Instant maxLateSelfCheckinDate = flightDate.minus(MAX_LATE_CHECKIN_IN_HOUR, ChronoUnit.HOURS);
+        Instant maxEarlySelfCheckinDate = flightDate.minus(MAX_EARLY_CHECKIN_IN_HOUR, HOURS);
+        Instant maxLateSelfCheckinDate = flightDate.minus(MAX_LATE_CHECKIN_IN_HOUR, HOURS);
 
         boolean currentDateEqualsMaxEarlyDate = currentDate.equals(maxEarlySelfCheckinDate);
         boolean currentDateEqualsMaxLateDate = currentDate.equals(maxLateSelfCheckinDate);
