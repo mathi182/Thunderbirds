@@ -72,15 +72,15 @@ public class Checkin {
         Reservation reservation = Reservation.findByReservationNumber(reservationNumber);
 
         Instant flightDate = reservation.getFlightDate();
-        Instant maxEarlySelfCheckinDate = flightDate.minus(MAX_EARLY_CHECKIN_IN_HOUR, HOURS);
-        Instant maxLateSelfCheckinDate = flightDate.minus(MAX_LATE_CHECKIN_IN_HOUR, HOURS);
+        Instant earliestSelfCheckinDate = flightDate.minus(MAX_EARLY_CHECKIN_IN_HOUR, HOURS);
+        Instant latestSelfCheckinDate = flightDate.minus(MAX_LATE_CHECKIN_IN_HOUR, HOURS);
 
-        boolean currentDateEqualsMaxEarlyDate = currentDate.equals(maxEarlySelfCheckinDate);
-        boolean currentDateEqualsMaxLateDate = currentDate.equals(maxLateSelfCheckinDate);
-        boolean currentDateAfterMaxEarlyDate = currentDate.isAfter(maxEarlySelfCheckinDate);
-        boolean currentDateBeforeMaxLatestDate = currentDate.isBefore(maxLateSelfCheckinDate);
+        boolean currentDateEqualsEarliestDate = currentDate.equals(earliestSelfCheckinDate);
+        boolean currentDateEqualsLatestDate = currentDate.equals(latestSelfCheckinDate);
+        boolean currentDateAfterEarliestDate = currentDate.isAfter(earliestSelfCheckinDate);
+        boolean currentDateBeforeLatestDate = currentDate.isBefore(latestSelfCheckinDate);
 
-        return (currentDateEqualsMaxEarlyDate || currentDateEqualsMaxLateDate) ||
-                (currentDateAfterMaxEarlyDate && currentDateBeforeMaxLatestDate);
+        return (currentDateEqualsEarliestDate || currentDateEqualsLatestDate) ||
+                (currentDateAfterEarliestDate && currentDateBeforeLatestDate);
     }
 }
