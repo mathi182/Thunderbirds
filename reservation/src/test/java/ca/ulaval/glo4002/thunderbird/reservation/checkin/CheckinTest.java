@@ -56,12 +56,12 @@ public class CheckinTest {
 
     @Test
     public void givenValidFlightDateLateLimit_whenCompletingCheckinOnline_shouldCheckInAndSavePassenger() {
-        this.testValidCompletePassengerCheckinOnline(MAX_LATE_CHECKIN_IN_HOUR);
+        testValidCompletePassengerCheckinOnline(MAX_LATE_CHECKIN_IN_HOUR);
     }
 
     @Test
-    public void givenValidFlightDateEarlyLimit_whenCompletingCheckinOnline_shouldCheckinAndSavePassenger() throws Exception {
-        this.testValidCompletePassengerCheckinOnline(MAX_EARLY_CHECKIN_IN_HOUR);
+    public void givenValidFlightDateEarlyLimit_whenCompletingCheckinOnline_shouldCheckinAndSavePassenger() {
+        testValidCompletePassengerCheckinOnline(MAX_EARLY_CHECKIN_IN_HOUR);
     }
 
     private void testValidCompletePassengerCheckinOnline(int hoursBeforeFlight) {
