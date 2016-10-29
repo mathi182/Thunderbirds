@@ -43,7 +43,7 @@ public class Checkin {
         return checkinId;
     }
 
-    public synchronized void save() {
+    public void save() {
         checkinStore.put(this.checkinId, this);
     }
 
@@ -68,8 +68,9 @@ public class Checkin {
     private boolean isSelfCheckinOnTime(Instant currentDate) {
         Reservation reservation = Reservation.findByReservationNumber(getPassenger().getReservationNumber());
 
-        Instant maxEarlySelfCheckinDate = reservation.getFlightDate().minusMillis(MAX_EARLY_CHECKIN_IN_MILLIS);
-        Instant maxLateSelfCheckinDate = reservation.getFlightDate().minusMillis(MAX_LATE_CHECKIN_IN_MILLIS);
+        Instant flightDate = reservation.getFlightDate();
+        Instant maxEarlySelfCheckinDate = flightDate.minusMillis(MAX_EARLY_CHECKIN_IN_MILLIS);
+        Instant maxLateSelfCheckinDate = flightDate.minusMillis(MAX_LATE_CHECKIN_IN_MILLIS);
 
         return (currentDate.isAfter(maxEarlySelfCheckinDate) && currentDate.isBefore(maxLateSelfCheckinDate));
     }

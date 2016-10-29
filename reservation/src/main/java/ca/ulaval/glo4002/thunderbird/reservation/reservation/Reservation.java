@@ -6,9 +6,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
 public class Reservation {
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
@@ -33,7 +34,7 @@ public class Reservation {
         this.reservationDate = reservationDate;
         this.reservationConfirmation = reservationConfirmation;
         this.paymentLocation = paymentLocation;
-        this.flightDate = DateTimeFormatter.ISO_INSTANT.parse(flightDate, Instant::from);
+        this.flightDate = ISO_INSTANT.parse(flightDate, Instant::from);
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
         this.passengers.forEach(passenger -> passenger.setReservationNumber(reservationNumber));
@@ -58,7 +59,7 @@ public class Reservation {
 
     @JsonProperty("flight_date")
     public String getFormattedFlightDate() {
-        return DateTimeFormatter.ISO_INSTANT.format(flightDate);
+        return ISO_INSTANT.format(flightDate);
     }
 
     public void save() {

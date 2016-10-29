@@ -11,8 +11,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
@@ -42,9 +42,9 @@ public class SeatAssignationsTest {
         when(Passenger.findByPassengerHash(VALID_PASSENGER_HASH)).thenReturn(passenger);
         String FLIGHT_NUMBER = "a320";
         willReturn(FLIGHT_NUMBER).given(passenger).getFlightNumber();
-        Instant FLIGHT_DATE = DateTimeFormatter.ISO_INSTANT.parse("2016-10-30T00:00:00Z", Instant::from);
+        Instant FLIGHT_DATE = ISO_INSTANT.parse("2016-10-30T00:00:00Z", Instant::from);
         willReturn(FLIGHT_DATE).given(passenger).getFlightDate();
-
+        
         String MODE = "RANDOM";
         SeatAssignations seatAssignations = new SeatAssignations(VALID_PASSENGER_HASH, MODE);
         String seat = seatAssignations.assignSeat();
