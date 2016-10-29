@@ -75,12 +75,7 @@ public class Checkin {
         Instant earliestSelfCheckinDate = flightDate.minus(MAX_EARLY_CHECKIN_IN_HOUR, HOURS);
         Instant latestSelfCheckinDate = flightDate.minus(MAX_LATE_CHECKIN_IN_HOUR, HOURS);
 
-        boolean currentDateEqualsEarliestDate = currentDate.equals(earliestSelfCheckinDate);
-        boolean currentDateEqualsLatestDate = currentDate.equals(latestSelfCheckinDate);
-        boolean currentDateAfterEarliestDate = currentDate.isAfter(earliestSelfCheckinDate);
-        boolean currentDateBeforeLatestDate = currentDate.isBefore(latestSelfCheckinDate);
-
-        return (currentDateEqualsEarliestDate || currentDateEqualsLatestDate) ||
-                (currentDateAfterEarliestDate && currentDateBeforeLatestDate);
+        return (currentDate.equals(earliestSelfCheckinDate) || currentDate.equals(latestSelfCheckinDate)) ||
+                (currentDate.isAfter(earliestSelfCheckinDate) && currentDate.isBefore(latestSelfCheckinDate));
     }
 }
