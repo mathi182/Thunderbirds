@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.Response.Status.CREATED;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -29,7 +30,7 @@ public class CheckinResourceTest {
     public void givenCheckinPassengerValid_whenCheckin_shouldCompletePassengerCheckin() {
         checkinResource.checkin(checkin);
 
-        verify(checkin).completePassengerCheckin();
+        verify(checkin).completePassengerCheckin(any());
     }
 
     @Test

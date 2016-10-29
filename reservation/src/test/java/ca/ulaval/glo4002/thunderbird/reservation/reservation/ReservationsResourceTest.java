@@ -19,7 +19,7 @@ public class ReservationsResourceTest {
     private static final String RESERVATION_CONFIRMATION = "A3833";
     private static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
     private static final String FLIGHT_NUMBER = "AC1765";
-    private static final String FLIGHT_DATE = "2016-10-30";
+    private static final String FLIGHT_DATE = "2016-09-06T13:00:00Z";
     private ArrayList<Passenger> PASSENGERS = new ArrayList<Passenger>() {{
         add(mock(Passenger.class));
     }};

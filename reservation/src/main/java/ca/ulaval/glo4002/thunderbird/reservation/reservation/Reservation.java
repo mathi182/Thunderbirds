@@ -5,26 +5,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
+
 public class Reservation {
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
-
-    @JsonProperty("reservation_number")
-    private int reservationNumber;
-    @JsonProperty("flight_number")
-    private String flightNumber;
-    @JsonProperty("flight_date")
-    private String flightDate;
-    @JsonProperty("passengers")
-    private ArrayList<Passenger> passengers;
-    @JsonIgnore
-    private String reservationDate;
-    @JsonIgnore
-    private String reservationConfirmation;
-    @JsonIgnore
-    private String paymentLocation;
+    
+    @JsonProperty("reservation_number") private int reservationNumber;
+    @JsonProperty("flight_number") private String flightNumber;
+    @JsonProperty("passengers") private ArrayList<Passenger> passengers;
+    @JsonIgnore private Instant flightDate;
+    @JsonIgnore private String reservationDate;
+    @JsonIgnore private String reservationConfirmation;
+    @JsonIgnore private String paymentLocation;
 
     @JsonCreator
     public Reservation(@JsonProperty("reservation_number") int reservationNumber,
@@ -38,7 +34,7 @@ public class Reservation {
         this.reservationDate = reservationDate;
         this.reservationConfirmation = reservationConfirmation;
         this.paymentLocation = paymentLocation;
-        this.flightDate = flightDate;
+        this.flightDate = ISO_INSTANT.parse(flightDate, Instant::from);
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
         this.passengers.forEach(passenger -> passenger.setReservationNumber(reservationNumber));
@@ -61,6 +57,11 @@ public class Reservation {
         return reservation != null;
     }
 
+    @JsonProperty("flight_date")
+    public String getFormattedFlightDate() {
+        return ISO_INSTANT.format(flightDate);
+    }
+
     public void save() {
         reservationStore.put(reservationNumber, this);
         passengers.forEach(Passenger::save);
@@ -74,7 +75,7 @@ public class Reservation {
         return flightNumber;
     }
 
-    public String getFlightDate() {
+    public Instant getFlightDate() {
         return flightDate;
     }
 }
