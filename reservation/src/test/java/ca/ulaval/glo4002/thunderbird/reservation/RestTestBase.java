@@ -10,6 +10,10 @@ import static io.restassured.RestAssured.given;
 
 public class RestTestBase {
 
+    protected String buildUrl(String path) {
+        return String.format("http://localhost:%d%s", RestTestSuite.TEST_SERVER_PORT, path);
+    }
+
     protected RequestSpecification givenBaseRequest() {
         return given().accept(ContentType.JSON).port(RestTestSuite.TEST_SERVER_PORT).contentType(ContentType.JSON);
     }

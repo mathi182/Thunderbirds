@@ -8,7 +8,7 @@
         <module>boarding</module>
         <module>reservation</module>
     </modules>
-    
+
     <groupId>ca.ulaval.glo4002</groupId>
     <artifactId>thunderbird</artifactId>
     <version>1.0-SNAPSHOT</version>
