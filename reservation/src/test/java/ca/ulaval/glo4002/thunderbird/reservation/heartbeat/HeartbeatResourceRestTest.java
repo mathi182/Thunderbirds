@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.thunderbird.reservation.heartbeat;
 
-import ca.ulaval.glo4002.thunderbird.reservation.RestTestBase;
 import org.junit.Test;
 
+import static ca.ulaval.glo4002.thunderbird.reservation.TestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
 
-public class HeartbeatResourceRestTest extends RestTestBase {
+public class HeartbeatResourceRestTest {
 
     private final static String PARAM_NAME = "token";
     private final static String TOKEN = "A_TOKEN";

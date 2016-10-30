@@ -1,13 +1,14 @@
 package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.RestTestBase;
 import org.junit.Test;
 
+import static ca.ulaval.glo4002.thunderbird.reservation.TestConfig.EXISTANT_RESERVATION_NUMBER;
+import static ca.ulaval.glo4002.thunderbird.reservation.TestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
 
-public class ReservationsResourceRestTest extends RestTestBase {
+public class ReservationsResourceRestTest {
 
     private static final int INEXISTANT_RESERVATION_NUMBER = 666;
 
