@@ -18,6 +18,7 @@ import static org.mockito.Matchers.anyInt;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Reservation.class})
 public class PassengerCheckinTest {
+
     private static final String FIRST_NAME = "Uncle";
     private static final String LAST_NAME = "Bob";
     private static final String PASSPORT_NUMBER = "2564-5424";
@@ -83,4 +84,5 @@ public class PassengerCheckinTest {
         validPassenger.checkin();
         validPassenger.checkin();
     }
+
 }

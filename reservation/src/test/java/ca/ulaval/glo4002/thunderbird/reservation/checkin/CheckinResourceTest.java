@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
-import static javax.ws.rs.core.Response.Status.CREATED;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
@@ -13,6 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class CheckinResourceTest {
+    
     public static final String CHECKIN_ID = "checkinId";
 
     private CheckinResource checkinResource;
@@ -27,14 +27,15 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerValid_whenCheckin_shouldCompletePassengerCheckin() {
+    public void whenCheckin_shouldCompletePassengerCheckin() {
         checkinResource.checkin(checkin);
 
         verify(checkin).completePassengerCheckin(any());
+        verify(checkin).save();
     }
 
     @Test
-    public void givenCheckinPassengerValid_whenCheckin_locationShouldBeAdequate() {
+    public void whenCheckin_locationShouldBeAdequate() {
         Response responseActual = checkinResource.checkin(checkin);
 
         String actualLocation = responseActual.getLocation().toString();
@@ -42,12 +43,4 @@ public class CheckinResourceTest {
         assertEquals(expectedLocation, actualLocation);
     }
 
-    @Test
-    public void givenCheckinPassengerValid_whenCheckin_shouldReturnCreatedStatusCode() {
-        Response responseActual = checkinResource.checkin(checkin);
-
-        int actualStatus = responseActual.getStatus();
-        int expectedStatus = CREATED.getStatusCode();
-        assertEquals(expectedStatus, actualStatus);
-    }
 }

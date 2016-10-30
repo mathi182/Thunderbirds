@@ -35,7 +35,7 @@ public class EventsResourceRestTest extends RestTestBase {
     }
 
     @Test
-    public void givenValidReservation_whenCreatingReservation_shouldCreateNewReservation() {
+    public void givenValidReservation_whenCreatingReservation_shouldCreateReservation() {
         givenBaseRequest().body(reservation)
                 .when()
                     .post("/events/reservation-created")

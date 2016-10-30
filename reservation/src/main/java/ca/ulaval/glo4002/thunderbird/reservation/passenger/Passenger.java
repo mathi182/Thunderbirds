@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Passenger {
+
     private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
     private static final int NULL_RESERVATION_NUMBER = -1;
@@ -29,8 +30,6 @@ public class Passenger {
     private String seatClass;
     private int age;
     private boolean isCheckedIn;
-
-    @JsonIgnore
     private int reservationNumber = NULL_RESERVATION_NUMBER;
 
     @JsonCreator
@@ -62,6 +61,11 @@ public class Passenger {
             throw new PassengerNotFoundException(passengerHash);
         }
         return passenger;
+    }
+
+    @JsonIgnore
+    public String getId() {
+        return id;
     }
 
     @JsonProperty("child")
