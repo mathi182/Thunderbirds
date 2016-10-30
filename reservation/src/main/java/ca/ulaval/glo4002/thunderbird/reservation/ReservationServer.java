@@ -9,7 +9,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import java.util.Optional;
+import static java.util.Optional.ofNullable;
 
 public class ReservationServer {
 
@@ -21,8 +21,8 @@ public class ReservationServer {
     private Server server;
 
     public static void main(String[] args) {
-        int httpPort = Optional.ofNullable(System.getProperty(PORT_PROPERTY)).map(p -> Integer.parseInt(p)).orElse(DEFAULT_PORT);
-        Context context = resolveContext(Optional.ofNullable(System.getProperty(CONTEXT_PROPERTY)).orElse(DEFAULT_CONTEXT));
+        int httpPort = ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt).orElse(DEFAULT_PORT);
+        Context context = resolveContext(ofNullable(System.getProperty(CONTEXT_PROPERTY)).orElse(DEFAULT_CONTEXT));
 
         ReservationServer server = new ReservationServer();
         server.start(httpPort, context);
@@ -80,7 +80,8 @@ public class ReservationServer {
     }
 
     private void configurerJersey(ServletContextHandler servletContextHandler) {
-        ServletContainer container = new ServletContainer(new ResourceConfig().packages("ca.ulaval.glo4002.thunderbird.reservation"));
+        ResourceConfig resourceConfig = new ResourceConfig().packages("ca.ulaval.glo4002.thunderbird.reservation");
+        ServletContainer container = new ServletContainer(resourceConfig);
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
     }

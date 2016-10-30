@@ -37,9 +37,11 @@ public class EventsResourceRestTest extends RestTestBase {
     @Test
     public void givenValidReservation_whenCreatingReservation_shouldCreateNewReservation() {
         givenBaseRequest().body(reservation)
-                .when().post("/events/reservation-created")
-                .then().statusCode(CREATED.getStatusCode())
-                .and().header("Location", buildUrl(RESERVATION_CREATED_PATH));
+                .when()
+                    .post("/events/reservation-created")
+                .then()
+                    .statusCode(CREATED.getStatusCode())
+                    .header("Location", buildUrl(RESERVATION_CREATED_PATH));
     }
 
 }
