@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
+import static javax.ws.rs.core.Response.Status.CREATED;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
@@ -41,6 +42,15 @@ public class CheckinResourceTest {
         String actualLocation = responseActual.getLocation().toString();
         String expectedLocation = "/checkins/" + CHECKIN_ID;
         assertEquals(expectedLocation, actualLocation);
+    }
+
+    @Test
+    public void whenCheckin_shouldReturnCreatedStatusCode() {
+        Response responseActual = checkinResource.checkin(checkin);
+
+        int actualStatus = responseActual.getStatus();
+        int expectedStatus = CREATED.getStatusCode();
+        assertEquals(expectedStatus, actualStatus);
     }
 
 }
