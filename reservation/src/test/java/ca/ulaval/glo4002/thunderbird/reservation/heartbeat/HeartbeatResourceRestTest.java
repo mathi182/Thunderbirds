@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.reservation.heartbeat;
 
 import org.junit.Test;
 
-import static ca.ulaval.glo4002.thunderbird.reservation.TestConfig.givenBaseRequest;
+import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -14,12 +14,12 @@ public class HeartbeatResourceRestTest {
     @Test
     public void givenAToken_whenGetHeartbeat_shouldReturnThisToken() {
         givenBaseRequest()
-                    .param(PARAM_NAME, TOKEN)
+                .param(PARAM_NAME, TOKEN)
                 .when()
-                    .get("/heartbeat")
+                .get("/heartbeat")
                 .then()
-                    .statusCode(OK.getStatusCode())
-                    .body("token", equalTo(TOKEN));
+                .statusCode(OK.getStatusCode())
+                .body("token", equalTo(TOKEN));
     }
 
 }

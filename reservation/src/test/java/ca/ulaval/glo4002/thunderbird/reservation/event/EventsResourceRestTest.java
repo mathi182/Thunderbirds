@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static ca.ulaval.glo4002.thunderbird.reservation.TestConfig.buildUrl;
-import static ca.ulaval.glo4002.thunderbird.reservation.TestConfig.givenBaseRequest;
+import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
+import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;
 
 public class EventsResourceRestTest {
@@ -39,10 +39,10 @@ public class EventsResourceRestTest {
     public void givenValidReservation_whenCreatingReservation_shouldCreateReservation() {
         givenBaseRequest().body(reservation)
                 .when()
-                    .post("/events/reservation-created")
+                .post("/events/reservation-created")
                 .then()
-                    .statusCode(CREATED.getStatusCode())
-                    .header("Location", buildUrl(RESERVATION_CREATED_PATH));
+                .statusCode(CREATED.getStatusCode())
+                .header("Location", buildUrl(RESERVATION_CREATED_PATH));
     }
 
 }
