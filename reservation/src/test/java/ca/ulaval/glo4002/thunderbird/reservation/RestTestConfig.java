@@ -26,5 +26,4 @@ public final class RestTestConfig {
                 .port(RestTestSuite.TEST_SERVER_PORT)
                 .contentType(ContentType.JSON);
     }
-
 }

@@ -7,7 +7,6 @@ import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
 public final class RestTestConfig {
-
     public final static int EXISTANT_RESERVATION_NUMBER = DevContext.EXISTANT_RESERVATION_NUMBER;
     public final static String EXISTANT_PASSENGER_HASH = DevContext.EXISTANT_PASSENGER_HASH;
 
@@ -21,5 +20,4 @@ public final class RestTestConfig {
                 .port(RestTestSuite.TEST_SERVER_PORT)
                 .contentType(ContentType.JSON);
     }
-
 }

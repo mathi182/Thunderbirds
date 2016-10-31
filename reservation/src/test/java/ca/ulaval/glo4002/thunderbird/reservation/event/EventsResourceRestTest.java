@@ -11,7 +11,7 @@ import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;
 
-public class EventsResourceTest {
+public class EventsResourceRestTest {
 
     private static final int RESERVATION_NUMBER = 37353;
     private static final String RESERVATION_DATE = "2016-01-31";
