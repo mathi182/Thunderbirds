@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({SeatAssignationsResourceTest.class})
+@Suite.SuiteClasses({})
 public class RestTestSuite {
 
     public static final int TEST_SERVER_PORT = 9393;
