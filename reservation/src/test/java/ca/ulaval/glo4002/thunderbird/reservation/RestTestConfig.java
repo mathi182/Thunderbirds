@@ -1,8 +1,13 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.contexts.DevContext;
+import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+
+import javax.ws.rs.core.UriBuilder;
+
+import java.net.URI;
 
 import static io.restassured.RestAssured.given;
 

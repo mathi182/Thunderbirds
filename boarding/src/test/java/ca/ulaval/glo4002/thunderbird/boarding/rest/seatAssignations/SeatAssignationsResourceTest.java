@@ -10,9 +10,7 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
 import javax.ws.rs.core.Response;
-
 import static javax.ws.rs.core.Response.Status.CREATED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static org.junit.Assert.assertEquals;
@@ -22,8 +20,8 @@ import static org.powermock.api.mockito.PowerMockito.doThrow;
 
 @RunWith(PowerMockRunner.class)
 public class SeatAssignationsResourceTest {
-    private static final String SEAT_ASSIGNATION_URI = "/seat-assignations/666";
     private static final int SEAT_ASSIGNATION_ID = 666;
+    private static final String SEAT_ASSIGNATION_URI = SeatAssignationsResource.PATH + SEAT_ASSIGNATION_ID;
 
     private SeatAssignationsResource seatAssignationsResource;
     private SeatAssignations seatAssignations;

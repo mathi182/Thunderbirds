@@ -2,17 +2,14 @@ package ca.ulaval.glo4002.thunderbird.reservation.event;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 import org.junit.Before;
 import org.junit.Test;
-
+import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;
-import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
 
 public class EventsResourceRestTest {
 
@@ -23,9 +20,9 @@ public class EventsResourceRestTest {
     private static final String FLIGHT_NUMBER = "AC1765";
     private static final String FLIGHT_DATE = "2016-09-06T13:00:00Z";
     private static final ArrayList<Passenger> PASSENGERS = new ArrayList<>();
-    private static final String RESERVATION_CREATED_PATH = "/reservations/" + RESERVATION_NUMBER;
 
     private Reservation reservation;
+    private String createReservationPath;
 
     @Before
     public void setUp() {
@@ -36,15 +33,24 @@ public class EventsResourceRestTest {
                 FLIGHT_DATE,
                 PAYMENT_LOCATION,
                 PASSENGERS);
+
+        UriBuilder uriBuilderRequest = UriBuilder.fromUri(EventsResource.PATH);
+        createReservationPath = uriBuilderRequest
+                .path(EventsResource.RESERVATION_CREATED)
+                .toString();
     }
 
     @Test
     public void givenValidReservation_whenCreatingReservation_shouldCreateReservation() {
+        UriBuilder uriBuilder = UriBuilder.fromUri(ReservationsResource.PATH);
+        String reservationNumberString = Integer.toString(RESERVATION_NUMBER);
+        String locationExpected = uriBuilder.path(reservationNumberString).toString();
+
         givenBaseRequest().body(reservation)
                 .when()
-                .post("/events/reservation-created")
+                .post(createReservationPath)
                 .then()
                 .statusCode(CREATED.getStatusCode())
-                .header("Location", buildUrl(RESERVATION_CREATED_PATH));
+                .header("Location", buildUrl(locationExpected));
     }
 }

@@ -16,7 +16,7 @@ public class HeartbeatResourceRestTest {
         givenBaseRequest()
                 .param(PARAM_NAME, TOKEN)
                 .when()
-                .get("/heartbeat")
+                .get(HeartbeatResource.PATH)
                 .then()
                 .statusCode(OK.getStatusCode())
                 .body("token", equalTo(TOKEN));

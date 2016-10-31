@@ -16,7 +16,7 @@ public class CheckinResourceRestTest {
     public void givenAnExistingPassenger_whenCheckin_shouldCreateCheckin() {
         givenBaseRequest().body(new Checkin(EXISTANT_PASSENGER_HASH, AGENT_CHECKIN))
                 .when()
-                .post("/checkins")
+                .post(CheckinResource.PATH)
                 .then()
                 .statusCode(CREATED.getStatusCode());
     }
@@ -25,7 +25,7 @@ public class CheckinResourceRestTest {
     public void givenAnInexistingPassenger_whenCheckin_shouldReturnNotFound() {
         givenBaseRequest().body(new Checkin(INEXISTANT_RESERVATION_NUMBER, AGENT_CHECKIN))
                 .when()
-                .post("/checkins")
+                .post(CheckinResource.PATH)
                 .then()
                 .statusCode(NOT_FOUND.getStatusCode());
     }
