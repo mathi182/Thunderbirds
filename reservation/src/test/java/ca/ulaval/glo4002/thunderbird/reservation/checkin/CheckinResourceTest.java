@@ -13,6 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class CheckinResourceTest {
+    
     public static final String CHECKIN_ID = "checkinId";
 
     private CheckinResource checkinResource;
@@ -27,14 +28,15 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerValid_whenCheckin_shouldCompletePassengerCheckin() {
+    public void whenCheckin_shouldCompletePassengerCheckin() {
         checkinResource.checkin(checkin);
 
         verify(checkin).completePassengerCheckin(any());
+        verify(checkin).save();
     }
 
     @Test
-    public void givenCheckinPassengerValid_whenCheckin_locationShouldBeAdequate() {
+    public void whenCheckin_locationShouldBeAdequate() {
         Response responseActual = checkinResource.checkin(checkin);
 
         String actualLocation = responseActual.getLocation().toString();
@@ -43,11 +45,12 @@ public class CheckinResourceTest {
     }
 
     @Test
-    public void givenCheckinPassengerValid_whenCheckin_shouldReturnCreatedStatusCode() {
+    public void whenCheckin_shouldReturnCreatedStatusCode() {
         Response responseActual = checkinResource.checkin(checkin);
 
         int actualStatus = responseActual.getStatus();
         int expectedStatus = CREATED.getStatusCode();
         assertEquals(expectedStatus, actualStatus);
     }
+
 }

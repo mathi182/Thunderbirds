@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.reservation.event;
 
-import ca.ulaval.glo4002.thunderbird.reservation.RestTestBase;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import org.junit.Before;
@@ -8,9 +7,11 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
+import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;
 
-public class EventsResourceRestTest extends RestTestBase {
+public class EventsResourceRestTest {
 
     private static final int RESERVATION_NUMBER = 37353;
     private static final String RESERVATION_DATE = "2016-01-31";
@@ -35,13 +36,13 @@ public class EventsResourceRestTest extends RestTestBase {
     }
 
     @Test
-    public void givenValidReservation_whenCreatingReservation_shouldCreateNewReservation() {
+    public void givenValidReservation_whenCreatingReservation_shouldCreateReservation() {
         givenBaseRequest().body(reservation)
                 .when()
-                    .post("/events/reservation-created")
+                .post("/events/reservation-created")
                 .then()
-                    .statusCode(CREATED.getStatusCode())
-                    .header("Location", buildUrl(RESERVATION_CREATED_PATH));
+                .statusCode(CREATED.getStatusCode())
+                .header("Location", buildUrl(RESERVATION_CREATED_PATH));
     }
 
 }

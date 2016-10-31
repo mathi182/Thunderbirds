@@ -14,6 +14,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
 public class ReservationTest {
+    
     private static final int NON_EXISTENT_RESERVATION_NUMBER = 12345;
     private static final String RESERVATION_DATE = "2016-01-31";
     private static final String RESERVATION_CONFIRMATION = "A3833";
@@ -83,4 +84,5 @@ public class ReservationTest {
     public void whenFinding_ThrowIfNotFound() {
         Reservation.findByReservationNumber(NON_EXISTENT_RESERVATION_NUMBER);
     }
+
 }

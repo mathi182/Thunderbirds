@@ -20,6 +20,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Reservation.class, Passenger.class})
 public class CheckinTest {
+
     private static final int RESERVATION_NUMBER = 15;
     private static final String AGENT_ID = "agentId";
     private static final String SELF_CHECKING = "SELF";
@@ -92,4 +93,5 @@ public class CheckinTest {
 
         selfCheckin.completePassengerCheckin(TODAYS_DATE);
     }
+
 }

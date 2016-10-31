@@ -14,4 +14,5 @@ public class HeartbeatResource {
     public Heartbeat beat(@QueryParam("token") String token) {
         return new Heartbeat(token);
     }
+    
 }
