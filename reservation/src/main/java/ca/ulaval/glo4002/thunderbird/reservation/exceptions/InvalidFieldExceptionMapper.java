@@ -7,9 +7,9 @@ import javax.ws.rs.ext.Provider;
 import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
 
 @Provider
-public class MissingFieldExceptionMapper implements ExceptionMapper<MissingFieldException> {
+public class InvalidFieldExceptionMapper implements ExceptionMapper<InvalidFieldException> {
     @Override
-    public Response toResponse(MissingFieldException exception)
+    public Response toResponse(InvalidFieldException exception)
     {
         return Response.status(BAD_REQUEST.getCode()).entity(exception.getMessage()).build();
     }

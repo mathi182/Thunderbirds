@@ -1,25 +1,29 @@
 package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
+import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.text.SimpleDateFormat;
 
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
 public class Reservation {
     private static final HashMap<Integer, Reservation> reservationStore = new HashMap<>();
+    private static final String RESERVATION_DATE_FORMAT = "yyyy-MM-dd";
     
     @JsonProperty("reservation_number") private int reservationNumber;
     @JsonProperty("flight_number") private String flightNumber;
     @JsonProperty("passengers") private ArrayList<Passenger> passengers;
     @JsonIgnore private Instant flightDate;
-    @JsonIgnore private String reservationDate;
+    @JsonIgnore private Instant reservationDate;
     @JsonIgnore private String reservationConfirmation;
     @JsonIgnore private String paymentLocation;
 
@@ -32,13 +36,23 @@ public class Reservation {
                        @JsonProperty("payment_location") String paymentLocation,
                        @JsonProperty("passengers") ArrayList<Passenger> passengers) {
         this.reservationNumber = reservationNumber;
-        this.reservationDate = reservationDate;
+        this.reservationDate = reservationDateStringToInstant(reservationDate);
         this.reservationConfirmation = reservationConfirmation;
         this.paymentLocation = paymentLocation;
         this.flightDate = ISO_INSTANT.parse(flightDate, Instant::from);
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
         this.passengers.forEach(passenger -> passenger.setReservationNumber(reservationNumber));
+    }
+
+    private Instant reservationDateStringToInstant(String reservation_date){
+        SimpleDateFormat format = new SimpleDateFormat(RESERVATION_DATE_FORMAT);
+        try{
+            return format.parse(reservation_date).toInstant();
+        }
+        catch (ParseException e){
+            throw new InvalidFieldException("reservation_date");
+        }
     }
 
     public static void resetReservationStore() {

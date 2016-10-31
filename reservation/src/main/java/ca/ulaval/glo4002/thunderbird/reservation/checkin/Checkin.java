@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.exceptions.CheckinNotOnTimeException;
-import ca.ulaval.glo4002.thunderbird.reservation.exceptions.MissingFieldException;
+import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
@@ -32,10 +32,10 @@ public class Checkin {
     @JsonCreator
     public Checkin(@JsonProperty("passenger_hash") String passengerHash, @JsonProperty("by") String agentId) {
         if (Strings.isNullOrEmpty(passengerHash)) {
-            throw new MissingFieldException(PASSENGER_HASH_FIELD);
+            throw new InvalidFieldException(PASSENGER_HASH_FIELD);
         }
         if (Strings.isNullOrEmpty(agentId)) {
-            throw new MissingFieldException(AGENT_ID_FIELD);
+            throw new InvalidFieldException(AGENT_ID_FIELD);
         }
 
         this.checkinId = UUID.randomUUID().toString();

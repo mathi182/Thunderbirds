@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exceptions.MissingFieldException;
+import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
@@ -108,13 +108,13 @@ public class Passenger {
             throw new PassengerAlreadyCheckedInException(id);
         }
         if (Strings.isNullOrEmpty(firstName)) {
-            throw new MissingFieldException("firstName");
+            throw new InvalidFieldException("firstName");
         }
         if (Strings.isNullOrEmpty(lastName)) {
-            throw new MissingFieldException("lastName");
+            throw new InvalidFieldException("lastName");
         }
         if (Strings.isNullOrEmpty(passportNumber)) {
-            throw new MissingFieldException("passportNumber");
+            throw new InvalidFieldException("passportNumber");
         }
 
         isCheckedIn = true;
