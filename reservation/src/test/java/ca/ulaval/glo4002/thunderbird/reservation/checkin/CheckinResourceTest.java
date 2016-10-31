@@ -34,23 +34,4 @@ public class CheckinResourceTest {
         verify(checkin).completePassengerCheckin(any());
         verify(checkin).save();
     }
-
-    @Test
-    public void whenCheckin_locationShouldBeAdequate() {
-        Response responseActual = checkinResource.checkin(checkin);
-
-        String actualLocation = responseActual.getLocation().toString();
-        String expectedLocation = "/checkins/" + CHECKIN_ID;
-        assertEquals(expectedLocation, actualLocation);
-    }
-
-    @Test
-    public void whenCheckin_shouldReturnCreatedStatusCode() {
-        Response responseActual = checkinResource.checkin(checkin);
-
-        int actualStatus = responseActual.getStatus();
-        int expectedStatus = CREATED.getStatusCode();
-        assertEquals(expectedStatus, actualStatus);
-    }
-
 }
