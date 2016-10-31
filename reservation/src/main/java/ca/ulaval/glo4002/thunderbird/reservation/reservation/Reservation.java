@@ -80,7 +80,7 @@ public class Reservation {
 
     public void save() {
         reservationStore.put(reservationNumber, this);
-        passengers.forEach(Passenger::save);
+        passengers.forEach(passenger -> passenger.save());
     }
 
     public int getReservationNumber() {
