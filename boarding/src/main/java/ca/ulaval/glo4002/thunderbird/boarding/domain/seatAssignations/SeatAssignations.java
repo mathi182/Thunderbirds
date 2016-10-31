@@ -1,7 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.SeatNotAvailableException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,6 +14,8 @@ import java.util.Random;
 
 public class SeatAssignations {
 
+    public static final String PASSENGER_HASH_FIELD = "passenger_hash";
+    public static final String MODE_FIELD = "mode";
     private FlightRepository repository = FlightRepository.INSTANCE;
     private String passengerHash;
     private String mode;
@@ -21,6 +26,12 @@ public class SeatAssignations {
     @JsonCreator
     public SeatAssignations(@JsonProperty("passenger_hash") String passengerHash,
                             @JsonProperty("mode") String mode) {
+        if (Strings.isNullOrEmpty(passengerHash)) {
+            throw new MissingFieldException(PASSENGER_HASH_FIELD);
+        }
+        if (Strings.isNullOrEmpty(mode)) {
+            throw new MissingFieldException(MODE_FIELD);
+        }
         this.passengerHash = passengerHash;
         this.mode = mode;
         this.id = new Random().nextInt(Integer.MAX_VALUE);
@@ -40,7 +51,7 @@ public class SeatAssignations {
         boolean success = repository.takeSeat(flightNumber, flightDate, seat);
 
         if (!success)
-            throw new SeatNotAvailableException(flightNumber, flightDate, seat);
+            throw new SeatNotAvailableException(flightNumber);
 
         return seat;
     }

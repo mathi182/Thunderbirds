@@ -1,9 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
+import ca.ulaval.glo4002.thunderbird.reservation.exceptions.MissingFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerAlreadyCheckedInException;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +46,7 @@ public class PassengerCheckinTest {
         assertTrue(passengerIsCheckedIn);
     }
 
-    @Test(expected = MissingCheckinInformationException.class)
+    @Test(expected = MissingFieldException.class)
     public void givenPassengerWithoutFirstName_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
         Passenger passengerWithoutFirstName =
                 new Passenger(EXISTENT_RESERVATION_NUMBER, "", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
@@ -53,7 +54,7 @@ public class PassengerCheckinTest {
         passengerWithoutFirstName.checkin();
     }
 
-    @Test(expected = MissingCheckinInformationException.class)
+    @Test(expected = MissingFieldException.class)
     public void givenPassengerWithoutLastName_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
         Passenger passengerWithoutLastName =
                 new Passenger(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
@@ -61,7 +62,7 @@ public class PassengerCheckinTest {
         passengerWithoutLastName.checkin();
     }
 
-    @Test(expected = MissingCheckinInformationException.class)
+    @Test(expected = MissingFieldException.class)
     public void givenPassengerWithoutPassportNumber_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
         Passenger passengerWithoutPassportNumber =
                 new Passenger(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);

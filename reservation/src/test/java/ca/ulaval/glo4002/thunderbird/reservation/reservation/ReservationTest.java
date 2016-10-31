@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

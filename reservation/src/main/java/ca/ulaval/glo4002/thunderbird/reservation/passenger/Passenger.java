@@ -1,8 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.MissingCheckinInformationException;
+import ca.ulaval.glo4002.thunderbird.reservation.exceptions.MissingFieldException;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -99,20 +101,20 @@ public class Passenger {
     @JsonIgnore
     public void checkin() {
         if (!Reservation.reservationExists(reservationNumber)) {
-            throw new ReservationNotFoundException(reservationNumber);
+            throw new ReservationNotFoundException(Integer.toString(reservationNumber));
         }
 
         if (isCheckedIn) {
             throw new PassengerAlreadyCheckedInException(id);
         }
         if (Strings.isNullOrEmpty(firstName)) {
-            throw new MissingCheckinInformationException("firstName");
+            throw new MissingFieldException("firstName");
         }
         if (Strings.isNullOrEmpty(lastName)) {
-            throw new MissingCheckinInformationException("lastName");
+            throw new MissingFieldException("lastName");
         }
         if (Strings.isNullOrEmpty(passportNumber)) {
-            throw new MissingCheckinInformationException("passportNumber");
+            throw new MissingFieldException("passportNumber");
         }
 
         isCheckedIn = true;

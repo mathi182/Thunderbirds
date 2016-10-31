@@ -6,10 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;
+import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
 
 public class EventsResourceRestTest {
 
@@ -44,5 +47,4 @@ public class EventsResourceRestTest {
                 .statusCode(CREATED.getStatusCode())
                 .header("Location", buildUrl(RESERVATION_CREATED_PATH));
     }
-
 }

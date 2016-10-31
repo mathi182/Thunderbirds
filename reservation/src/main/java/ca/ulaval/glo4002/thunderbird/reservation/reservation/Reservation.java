@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -47,7 +48,8 @@ public class Reservation {
     public static Reservation findByReservationNumber(int reservationNumber) {
         Reservation reservation = reservationStore.get(reservationNumber);
         if (reservation == null) {
-            throw new ReservationNotFoundException(reservationNumber);
+            String reservationNumberString = Integer.toString(reservationNumber);
+            throw new ReservationNotFoundException(reservationNumberString);
         }
         return reservation;
     }
