@@ -58,15 +58,25 @@ public class CheckinTest {
 
     @Test
     public void givenValidFlightDateLateLimit_whenCompletingCheckinOnline_shouldCheckInAndSavePassenger() {
-        testValidCompletePassengerCheckinOnline(MAX_LATE_CHECKIN_IN_HOUR);
+        testCompletePassengerCheckinOnlineByHoursBeforeFlight(MAX_LATE_CHECKIN_IN_HOUR);
     }
 
     @Test
     public void givenValidFlightDateEarlyLimit_whenCompletingCheckinOnline_shouldCheckinAndSavePassenger() {
-        testValidCompletePassengerCheckinOnline(MAX_EARLY_CHECKIN_IN_HOUR);
+        testCompletePassengerCheckinOnlineByHoursBeforeFlight(MAX_EARLY_CHECKIN_IN_HOUR);
     }
 
-    private void testValidCompletePassengerCheckinOnline(int hoursBeforeFlight) {
+    @Test(expected = CheckinNotOnTimeException.class)
+    public void givenTooEarlyFlightDate_whenCompletingCheckinOnline_shouldNotCompleteCheckin() {
+        testCompletePassengerCheckinOnlineByHoursBeforeFlight(MAX_EARLY_CHECKIN_IN_HOUR + 1);
+    }
+
+    @Test(expected = CheckinNotOnTimeException.class)
+    public void givenTooLateFlightDate_whenCompletingCheckinOnline_shouldNotCompleteCheckin() {
+        testCompletePassengerCheckinOnlineByHoursBeforeFlight(MAX_LATE_CHECKIN_IN_HOUR -1);
+    }
+
+    private void testCompletePassengerCheckinOnlineByHoursBeforeFlight(int hoursBeforeFlight) {
         Checkin selfCheckin = new Checkin(PASSENGER_HASH_WITH_RESERVATION, SELF_CHECKING);
         Instant validFlightDate = TODAYS_DATE.plus(hoursBeforeFlight, HOURS);
         willReturn(validFlightDate).given(reservationMock).getFlightDate();
@@ -76,23 +86,4 @@ public class CheckinTest {
         verify(passengerMock).checkin();
         verify(passengerMock).save();
     }
-
-    @Test(expected = CheckinNotOnTimeException.class)
-    public void givenTooEarlyFlightDate_whenCompletingCheckinOnline_shouldNotCompleteCheckin() {
-        Checkin selfCheckin = new Checkin(PASSENGER_HASH_WITH_RESERVATION, SELF_CHECKING);
-        Instant tooEarlyFlightDate = TODAYS_DATE.plus(MAX_EARLY_CHECKIN_IN_HOUR + 1, HOURS);
-        willReturn(tooEarlyFlightDate).given(reservationMock).getFlightDate();
-
-        selfCheckin.completePassengerCheckin(TODAYS_DATE);
-    }
-
-    @Test(expected = CheckinNotOnTimeException.class)
-    public void givenTooLateFlightDate_whenCompletingCheckinOnline_shouldNotCompleteCheckin() {
-        Checkin selfCheckin = new Checkin(PASSENGER_HASH_WITH_RESERVATION, SELF_CHECKING);
-        Instant tooLateFlightDate = TODAYS_DATE.plus(MAX_LATE_CHECKIN_IN_HOUR - 1, HOURS);
-        willReturn(tooLateFlightDate).given(reservationMock).getFlightDate();
-
-        selfCheckin.completePassengerCheckin(TODAYS_DATE);
-    }
-
 }
