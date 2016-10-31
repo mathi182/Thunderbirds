@@ -7,7 +7,7 @@ import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBase
 import static javax.ws.rs.core.Response.Status.CREATED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
-public class CheckinResourceRestTest {
+public class CheckinResourceTest {
     public static final String CHECKIN_ID = "checkinId";
     private static final String AGENT_CHECKIN = "AGENT_ID";
     private static final String INEXISTANT_PASSENGER_HASH = "HASH";

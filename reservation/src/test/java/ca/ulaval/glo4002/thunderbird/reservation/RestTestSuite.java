@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResourceRestTest;
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResourceTest;
 import ca.ulaval.glo4002.thunderbird.reservation.contexts.DevContext;
-import ca.ulaval.glo4002.thunderbird.reservation.event.EventsResourceRestTest;
-import ca.ulaval.glo4002.thunderbird.reservation.heartbeat.HeartbeatResourceRestTest;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResourceRestTest;
+import ca.ulaval.glo4002.thunderbird.reservation.event.EventsResourceTest;
+import ca.ulaval.glo4002.thunderbird.reservation.heartbeat.HeartbeatResourceTest;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResourceTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -12,10 +12,10 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        EventsResourceRestTest.class,
-        HeartbeatResourceRestTest.class,
-        ReservationsResourceRestTest.class,
-        CheckinResourceRestTest.class
+        EventsResourceTest.class,
+        HeartbeatResourceTest.class,
+        ReservationsResourceTest.class,
+        CheckinResourceTest.class
 })
 public class RestTestSuite {
 

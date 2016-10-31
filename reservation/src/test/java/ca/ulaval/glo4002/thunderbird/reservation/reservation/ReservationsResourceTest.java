@@ -8,7 +8,7 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
 
-public class ReservationsResourceRestTest {
+public class ReservationsResourceTest {
 
     private static final int INEXISTANT_RESERVATION_NUMBER = 666;
 
