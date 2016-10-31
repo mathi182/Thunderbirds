@@ -37,6 +37,15 @@ public class CheckinResourceRestTest {
                 .statusCode(NOT_FOUND.getStatusCode());
     }
 
+    // TODO :
+//    @Test
+//    public void whenCheckin_shouldCompletePassengerCheckin() {
+//        checkinResource.checkin(checkin);
+//
+//        verify(checkin).completePassengerCheckin(any());
+//        verify(checkin).save();
+//    }
+
     // TODO:
 //    @Test
 //    public void whenCheckin_locationShouldBeAdequate() {
