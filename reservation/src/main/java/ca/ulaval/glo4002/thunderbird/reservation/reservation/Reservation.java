@@ -19,7 +19,7 @@ public class Reservation {
     @JsonProperty("flight_number") private String flightNumber;
     @JsonProperty("passengers") private ArrayList<Passenger> passengers;
     @JsonIgnore private Instant flightDate;
-    @JsonIgnore private String reservationDate;
+    @JsonIgnore private Instant reservationDate;
     @JsonIgnore private String reservationConfirmation;
     @JsonIgnore private String paymentLocation;
 
@@ -32,7 +32,7 @@ public class Reservation {
                        @JsonProperty("payment_location") String paymentLocation,
                        @JsonProperty("passengers") ArrayList<Passenger> passengers) {
         this.reservationNumber = reservationNumber;
-        this.reservationDate = reservationDate;
+        this.reservationDate = ISO_INSTANT.parse(reservationDate, Instant::from);
         this.reservationConfirmation = reservationConfirmation;
         this.paymentLocation = paymentLocation;
         this.flightDate = ISO_INSTANT.parse(flightDate, Instant::from);
