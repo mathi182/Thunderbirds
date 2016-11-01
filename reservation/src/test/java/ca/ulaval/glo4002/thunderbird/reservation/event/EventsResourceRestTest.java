@@ -68,4 +68,27 @@ public class EventsResourceRestTest {
                .statusCode(CREATED.getStatusCode())
                .header("Location", buildUrl(RESERVATION_CREATED_PATH));
     }
+
+    private String generateReservationRequest(){
+        String response =
+                "{\n" +
+                        "  \"reservation_number\":" + RESERVATION_NUMBER + ",\n" +
+                        "  \"reservation_date\": " + RESERVATION_DATE +",\n" +
+                        "  \"reservation_confirmation\":" +RESERVATION_CONFIRMATION + ",\n" +
+                        "  \"flight_number\": \"AC1765\",\n" +
+                        "  \"flight_date\": \"2016-10-15T11:41:00Z\",\n" +
+                        "  \"payment_location\": \"/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709\",\n" +
+                        "  \"passengers\": [\n" +
+                        "    { \n" +
+                        "      \"first_name\": \"Alexis\",\n" +
+                        "      \"last_name\": \"Lessard\",\n" +
+                        "      \"age\": 18,\n" +
+                        "      \"passport_number\": \"testo\",\n" +
+                        "      \"seat_class\": \"economy\"\n" +
+                        "    }\n" +
+                        "  ]\n" +
+                        "}";
+
+        return response;
+    }
 }
