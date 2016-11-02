@@ -6,6 +6,7 @@ import java.util.*;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
+
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;

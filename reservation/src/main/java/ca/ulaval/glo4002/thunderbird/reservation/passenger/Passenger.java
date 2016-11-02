@@ -4,6 +4,7 @@ package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
@@ -11,18 +12,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.*;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.UUID;
 
+@Entity
 public class Passenger {
 
-    private static final HashMap<String, Passenger> passengerStore = new HashMap<>();
     private static final int AGE_MAJORITY = 18;
-    private static final int NULL_RESERVATION_NUMBER = -1;
 
+    private int age;
+    private boolean isCheckedIn;
+
+    @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @JsonProperty("passenger_hash")
-    private String id;
+    private UUID passengerHash;
     @JsonProperty("first_name")
     private String firstName = "";
     @JsonProperty("last_name")
@@ -31,19 +36,18 @@ public class Passenger {
     private String passportNumber = "";
     @JsonProperty("seat_class")
     private String seatClass;
-    private int age;
-    private boolean isCheckedIn;
-    private int reservationNumber = NULL_RESERVATION_NUMBER;
+
+    @ManyToOne
+    @JoinColumn(name = "reservationNumber")
+    private Reservation reservation;
 
     @JsonCreator
-    public Passenger(@JsonProperty("reservation_number") int reservationNumber,
-                     @JsonProperty("first_name") String firstName,
+    public Passenger(@JsonProperty("first_name") String firstName,
                      @JsonProperty("last_name") String lastName,
                      @JsonProperty("age") int age,
                      @JsonProperty("passport_number") String passportNumber,
                      @JsonProperty("seat_class") String seatClass) {
-        this.id = UUID.randomUUID().toString();
-        this.reservationNumber = reservationNumber;
+        this.passengerHash = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -52,23 +56,25 @@ public class Passenger {
         this.isCheckedIn = false;
     }
 
-    public Passenger(String firstName, String lastName, int age, String
-            passportNumber, String seatClass) {
-        this(NULL_RESERVATION_NUMBER, firstName, lastName, age, passportNumber, seatClass);
+    protected Passenger() {
+        // for hibernate
     }
 
     @JsonIgnore
-    public static Passenger findByPassengerHash(String passengerHash) {
-        Passenger passenger = passengerStore.get(passengerHash);
+    public static Passenger findByPassengerHash(UUID passengerHash) {
+        EntityManager entityManager = new EntityManagerProvider().getEntityManager();
+        Passenger passenger = entityManager.find(Passenger.class, passengerHash);
+
         if (passenger == null) {
             throw new PassengerNotFoundException(passengerHash);
         }
+
         return passenger;
     }
 
     @JsonIgnore
-    public String getId() {
-        return id;
+    public UUID getId() {
+        return passengerHash;
     }
 
     @JsonProperty("child")
@@ -76,37 +82,34 @@ public class Passenger {
         return age < AGE_MAJORITY;
     }
 
-    public synchronized void save() {
-        passengerStore.put(this.id, this);
+    public void save() {
+        EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
+        EntityManager entityManager = entityManagerProvider.getEntityManager();
+        entityManagerProvider.executeInTransaction(() -> entityManager.persist(this));
     }
 
     @JsonIgnore
     public int getReservationNumber() {
-        return reservationNumber;
-    }
-
-    public void setReservationNumber(int reservationNumber) {
-        this.reservationNumber = reservationNumber;
+        return reservation.getReservationNumber();
     }
 
     @JsonIgnore
     public String getFlightNumber() {
-        return Reservation.findByReservationNumber(reservationNumber).getFlightNumber();
+        return reservation.getFlightNumber();
     }
 
     @JsonIgnore
     public Instant getFlightDate() {
-        return Reservation.findByReservationNumber(reservationNumber).getFlightDate();
+        return reservation.getFlightDate();
     }
 
     @JsonIgnore
     public void checkin() {
-        if (!Reservation.reservationExists(reservationNumber)) {
-            throw new ReservationNotFoundException(Integer.toString(reservationNumber));
+        if (reservation == null) {
+            throw new ReservationNotFoundException("");
         }
-
         if (isCheckedIn) {
-            throw new PassengerAlreadyCheckedInException(id);
+            throw new PassengerAlreadyCheckedInException(passengerHash);
         }
         if (Strings.isNullOrEmpty(firstName)) {
             throw new InvalidFieldException("firstName");
@@ -117,11 +120,16 @@ public class Passenger {
         if (Strings.isNullOrEmpty(passportNumber)) {
             throw new InvalidFieldException("passportNumber");
         }
-
         isCheckedIn = true;
     }
 
+    @JsonIgnore
     public boolean isCheckedIn() {
         return isCheckedIn;
     }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
 }

@@ -20,4 +20,5 @@ public class ReservationsResource {
         Reservation reservation = Reservation.findByReservationNumber(reservationNumber);
         return Response.ok(reservation, MediaType.APPLICATION_JSON).build();
     }
+
 }

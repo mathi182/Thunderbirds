@@ -22,10 +22,11 @@ public class CheckinResource {
     public Response checkin(Checkin checkin) {
         checkin.completePassengerCheckin(Instant.now());
         checkin.save();
-        String checkinId = checkin.getCheckinId();
 
+        String checkinId = checkin.getId().toString();
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
         URI uri = uriBuilder.path(checkinId).build();
         return Response.created(uri).build();
     }
+    
 }
