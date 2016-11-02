@@ -61,7 +61,7 @@ public class Passenger {
     public static Passenger findByPassengerHash(String passengerHash) {
         Passenger passenger = passengerStore.get(passengerHash);
         if (passenger == null) {
-            throw new ElementNotFoundException(passengerHash);
+            throw new PassengerNotFoundException(passengerHash);
         }
         return passenger;
     }
