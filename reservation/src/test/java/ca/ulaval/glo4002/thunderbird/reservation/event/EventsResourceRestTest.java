@@ -47,19 +47,13 @@ public class EventsResourceRestTest {
 
     @Test
     public void givenValidReservation_whenCreatingReservation_shouldCreateReservation() {
-        givenBaseRequest().contentType("application/json")
-                .body(generateReservationJsonBody())
+        givenBaseRequest()
+                .body(generateReservationMap())
                 .when()
                 .post("/events/reservation-created")
                 .then()
                 .statusCode(CREATED.getStatusCode())
                 .header("Location", buildUrl(RESERVATION_CREATED_PATH));
-    }
-
-    private String generateReservationJsonBody() {
-        Map reservationMap = generateReservationMap();
-        String response = mapToJson(reservationMap);
-        return response;
     }
 
     private Map generateReservationMap(){
@@ -95,20 +89,5 @@ public class EventsResourceRestTest {
 
         return passengerMap;
     }
-
-    private String mapToJson(Map map){
-        ObjectMapper mapper = new ObjectMapper();
-
-        String response = "no json inputed";
-        try {
-            response = mapper.writeValueAsString(map);
-        }
-        catch (JsonProcessingException e){
-            fail("Problem with ReservationJSON");
-        }
-
-        return response;
-    }
-
 
 }
