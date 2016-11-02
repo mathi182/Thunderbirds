@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
+package ca.ulaval.glo4002.thunderbird.boarding.rest;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.SeatNotAvailableException;
 

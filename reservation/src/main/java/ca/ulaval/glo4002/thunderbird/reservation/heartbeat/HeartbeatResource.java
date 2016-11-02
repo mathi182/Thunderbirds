@@ -6,9 +6,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-@Path("/heartbeat")
+@Path(HeartbeatResource.PATH)
 @Produces(MediaType.APPLICATION_JSON)
 public class HeartbeatResource {
+
+    public static final String PATH = "/heartbeat/";
 
     @GET
     public Heartbeat beat(@QueryParam("token") String token) {

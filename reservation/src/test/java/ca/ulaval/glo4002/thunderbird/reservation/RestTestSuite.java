@@ -12,10 +12,10 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        CheckinResourceRestTest.class,
         EventsResourceRestTest.class,
         HeartbeatResourceRestTest.class,
-        ReservationsResourceRestTest.class,
-        CheckinResourceRestTest.class
+        ReservationsResourceRestTest.class
 })
 public class RestTestSuite {
 
