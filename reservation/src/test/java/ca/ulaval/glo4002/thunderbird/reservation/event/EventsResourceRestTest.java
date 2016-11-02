@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.reservation.event;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class EventsResourceRestTest {
@@ -49,7 +48,7 @@ public class EventsResourceRestTest {
     @Test
     public void givenValidReservation_whenCreatingReservation_shouldCreateReservation() {
         givenBaseRequest().contentType("application/json")
-                .body(generateReservationRequest())
+                .body(generateReservationJsonBody())
                 .when()
                 .post("/events/reservation-created")
                 .then()
@@ -57,13 +56,15 @@ public class EventsResourceRestTest {
                 .header("Location", buildUrl(RESERVATION_CREATED_PATH));
     }
 
-    private String generateReservationRequest() {
-        ObjectMapper mapper = new ObjectMapper();
+    private String generateReservationJsonBody() {
+        Map reservationMap = generateReservationMap();
+        String response = mapToJson(reservationMap);
+        return response;
+    }
 
+    private Map generateReservationMap(){
         Map<String, Object> reservationMap = new LinkedHashMap<>();
-        Map<String, Object> passengerMap = new LinkedHashMap<>();
 
-        //TODO put the creation of both maps and lists in private functions
         reservationMap.put("reservation_number", RESERVATION_NUMBER);
         reservationMap.put("reservation_date", RESERVATION_DATE);
         reservationMap.put("reservation_confirmation", RESERVATION_CONFIRMATION);
@@ -71,26 +72,43 @@ public class EventsResourceRestTest {
         reservationMap.put("flight_date", FLIGHT_DATE);
         reservationMap.put("payment_location", PAYMENT_LOCATION);
 
+        reservationMap.put("passengers", generatePassengerList());
+
+        return  reservationMap;
+    }
+
+    private List generatePassengerList(){
+        List<Map> passengersList = new ArrayList<>();
+        passengersList.add(generatePassengerMap());
+
+        return passengersList;
+    }
+
+    private Map generatePassengerMap() {
+        Map<String, Object> passengerMap = new LinkedHashMap<>();
+
         passengerMap.put("first_name", FIRST_NAME);
         passengerMap.put("last_name", LAST_NAME);
         passengerMap.put("age", AGE);
         passengerMap.put("passport_number", PASSPORT_NUMBER);
         passengerMap.put("seat_class", SEAT_CLASS);
 
-        List<Map> passengersList = new ArrayList<>();
-        passengersList.add(passengerMap);
+        return passengerMap;
+    }
 
-        reservationMap.put("passengers",passengersList);
+    private String mapToJson(Map map){
+        ObjectMapper mapper = new ObjectMapper();
 
         String response = "no json inputed";
-
         try {
-            response = mapper.writeValueAsString(reservationMap);
+            response = mapper.writeValueAsString(map);
         }
-        catch (Exception e){
+        catch (JsonProcessingException e){
             fail("Problem with ReservationJSON");
         }
 
         return response;
     }
+
+
 }
