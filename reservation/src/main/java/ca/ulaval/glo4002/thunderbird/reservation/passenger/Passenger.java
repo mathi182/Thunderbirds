@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
+import ca.ulaval.glo4002.thunderbird.reservation.exceptions.ElementNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.exceptions.MissingFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerNotFoundException;

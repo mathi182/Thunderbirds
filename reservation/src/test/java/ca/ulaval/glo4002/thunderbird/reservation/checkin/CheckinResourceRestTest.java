@@ -1,33 +1,51 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
+import org.junit.Before;
 import org.junit.Test;
+import javax.ws.rs.core.UriBuilder;
 
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.EXISTANT_PASSENGER_HASH;
+import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 public class CheckinResourceRestTest {
-
     private static final String AGENT_CHECKIN = "AGENT_ID";
-    private static final String INEXISTANT_RESERVATION_NUMBER = "HASH";
+    private static final String INEXISTANT_PASSENGER_HASH = "HASH";
+    private Checkin checkinExistantPassenger;
+
+    @Before
+    public void setUp() throws Exception {
+        checkinExistantPassenger = new Checkin(EXISTANT_PASSENGER_HASH, AGENT_CHECKIN);
+    }
 
     @Test
-    public void givenAnExistingPassenger_whenCheckin_shouldCreateCheckin() {
-        givenBaseRequest().body(new Checkin(EXISTANT_PASSENGER_HASH, AGENT_CHECKIN))
+    public void givenAnExistingPassenger_whenCheckin_shouldReturnCreated() {
+        givenBaseRequest()
+                .body(checkinExistantPassenger)
                 .when()
-                .post("/checkins")
+                .post(CheckinResource.PATH)
                 .then()
-                .statusCode(CREATED.getStatusCode());
+                .statusCode(CREATED.getStatusCode())
+                .header("Location", buildLocationExpectedString(checkinExistantPassenger));
+    }
+
+    private String buildLocationExpectedString (Checkin checkin) {
+        UriBuilder uriBuilder = UriBuilder.fromUri(CheckinResource.PATH);
+        String checkinId = checkin.getCheckinId();
+        String uriBuilderPath = uriBuilder.path(checkinId).toString();
+        return buildUrl(uriBuilderPath);
     }
 
     @Test
     public void givenAnInexistingPassenger_whenCheckin_shouldReturnNotFound() {
-        givenBaseRequest().body(new Checkin(INEXISTANT_RESERVATION_NUMBER, AGENT_CHECKIN))
+        Checkin checkinInexistantPassenger = new Checkin(INEXISTANT_PASSENGER_HASH, AGENT_CHECKIN);
+        givenBaseRequest()
+                .body(checkinInexistantPassenger)
                 .when()
-                .post("/checkins")
+                .post(CheckinResource.PATH)
                 .then()
                 .statusCode(NOT_FOUND.getStatusCode());
     }
-
 }
