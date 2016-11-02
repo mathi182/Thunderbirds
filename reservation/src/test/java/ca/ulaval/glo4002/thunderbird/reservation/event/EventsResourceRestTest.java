@@ -42,15 +42,20 @@ public class EventsResourceRestTest {
 
     @Test
     public void givenValidReservation_whenCreatingReservation_shouldCreateReservation() {
-        UriBuilder uriBuilder = UriBuilder.fromUri(ReservationsResource.PATH);
         String reservationNumberString = Integer.toString(RESERVATION_NUMBER);
-        String locationExpected = uriBuilder.path(reservationNumberString).toString();
+        String locationExpected = createLocationExpected(reservationNumberString);
 
-        givenBaseRequest().body(reservation)
+        givenBaseRequest()
+                .body(reservation)
                 .when()
                 .post(createReservationPath)
                 .then()
                 .statusCode(CREATED.getStatusCode())
                 .header("Location", buildUrl(locationExpected));
+    }
+
+    private String createLocationExpected(String reservationNumber) {
+        UriBuilder uriBuilder = UriBuilder.fromUri(ReservationsResource.PATH);
+        return uriBuilder.path(reservationNumber).toString();
     }
 }
