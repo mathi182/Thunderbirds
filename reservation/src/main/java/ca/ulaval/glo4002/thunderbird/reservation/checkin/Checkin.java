@@ -40,7 +40,7 @@ public class Checkin {
 
     @JsonCreator
     public Checkin(@JsonProperty("passenger_hash") UUID passengerHash, @JsonProperty("by") String agentId) {
-        if (passengerHash == null)) {
+        if (passengerHash == null) {
             throw new InvalidFieldException(PASSENGER_HASH_FIELD);
         }
         if (Strings.isNullOrEmpty(agentId)) {

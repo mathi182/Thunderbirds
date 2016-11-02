@@ -41,21 +41,21 @@ public class PassengerCheckinTest {
     @Test(expected = InvalidFieldException.class)
     public void givenPassengerWithoutFirstName_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
         Passenger passengerWithoutFirstName =
-                new Passenger(EXISTENT_RESERVATION_NUMBER, "", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new Passenger("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         passengerWithoutFirstName.checkin();
     }
 
     @Test(expected = InvalidFieldException.class)
     public void givenPassengerWithoutLastName_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
         Passenger passengerWithoutLastName =
-                new Passenger(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
+                new Passenger(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
         passengerWithoutLastName.checkin();
     }
 
     @Test(expected = InvalidFieldException.class)
     public void givenPassengerWithoutPassportNumber_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
         Passenger passengerWithoutPassportNumber =
-                new Passenger(EXISTENT_RESERVATION_NUMBER, FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
+                new Passenger(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
         passengerWithoutPassportNumber.checkin();
     }
 
