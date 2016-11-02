@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest;
 
 import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationsResourceRestTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -28,4 +27,5 @@ public class RestTestSuite {
     public static void tearDownClass() {
         boardingServer.stop();
     }
+
 }

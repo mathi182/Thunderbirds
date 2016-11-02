@@ -11,22 +11,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class SeatAssignations {
 
     public static final String PASSENGER_HASH_FIELD = "passenger_hash";
     public static final String MODE_FIELD = "mode";
     private FlightRepository repository = FlightRepository.INSTANCE;
-    private String passengerHash;
+    private UUID passengerHash;
     private String mode;
     @JsonProperty("seat")
     private String seat;
     private int id;
 
     @JsonCreator
-    public SeatAssignations(@JsonProperty("passenger_hash") String passengerHash,
+    public SeatAssignations(@JsonProperty("passenger_hash") UUID passengerHash,
                             @JsonProperty("mode") String mode) {
-        if (Strings.isNullOrEmpty(passengerHash)) {
+        if (passengerHash == null) {
             throw new MissingFieldException(PASSENGER_HASH_FIELD);
         }
         if (Strings.isNullOrEmpty(mode)) {

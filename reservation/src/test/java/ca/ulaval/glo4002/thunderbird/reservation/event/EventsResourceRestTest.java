@@ -5,8 +5,10 @@ import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 import org.junit.Before;
 import org.junit.Test;
+
 import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
+
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;
@@ -46,16 +48,17 @@ public class EventsResourceRestTest {
         String locationExpected = createLocationExpected(reservationNumberString);
 
         givenBaseRequest()
-                .body(reservation)
+                    .body(reservation)
                 .when()
-                .post(createReservationPath)
+                    .post(createReservationPath)
                 .then()
-                .statusCode(CREATED.getStatusCode())
-                .header("Location", buildUrl(locationExpected));
+                    .statusCode(CREATED.getStatusCode())
+                    .header("Location", buildUrl(locationExpected));
     }
 
     private String createLocationExpected(String reservationNumber) {
         UriBuilder uriBuilder = UriBuilder.fromUri(ReservationsResource.PATH);
         return uriBuilder.path(reservationNumber).toString();
     }
+    
 }

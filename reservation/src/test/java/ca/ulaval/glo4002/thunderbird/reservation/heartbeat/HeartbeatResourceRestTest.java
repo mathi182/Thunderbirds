@@ -14,12 +14,12 @@ public class HeartbeatResourceRestTest {
     @Test
     public void givenAToken_whenGetHeartbeat_shouldReturnThisToken() {
         givenBaseRequest()
-                .param(PARAM_NAME, TOKEN)
+                    .param(PARAM_NAME, TOKEN)
                 .when()
-                .get(HeartbeatResource.PATH)
+                    .get(HeartbeatResource.PATH)
                 .then()
-                .statusCode(OK.getStatusCode())
-                .body("token", equalTo(TOKEN));
+                    .statusCode(OK.getStatusCode())
+                    .body("token", equalTo(TOKEN));
     }
 
 }

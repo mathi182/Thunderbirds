@@ -11,6 +11,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static org.junit.Assert.assertNotEquals;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.*;
 @PrepareForTest(Passenger.class)
 public class SeatAssignationsTest {
 
-    private final String VALID_PASSENGER_HASH = "1203dsa2s";
+    private final UUID VALID_PASSENGER_HASH = new UUID(1L, 2L);
     private Passenger passenger;
 
     @Before
@@ -51,4 +52,5 @@ public class SeatAssignationsTest {
 
         assertNotEquals("", seat);
     }
+    
 }

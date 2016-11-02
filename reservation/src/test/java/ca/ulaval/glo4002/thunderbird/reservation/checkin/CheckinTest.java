@@ -10,6 +10,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import static java.time.temporal.ChronoUnit.HOURS;
 import static org.mockito.BDDMockito.given;
@@ -25,7 +26,7 @@ public class CheckinTest {
     private static final int RESERVATION_NUMBER = 15;
     private static final String AGENT_ID = "agentId";
     private static final String SELF_CHECKING = "SELF";
-    private static final String PASSENGER_HASH_WITH_RESERVATION = "passenger_hash_with_reservation";
+    private static final UUID PASSENGER_HASH_WITH_RESERVATION = new UUID(1L, 2L);
     private static final Instant TODAYS_DATE = Instant.now();
     private static final int MAX_LATE_CHECKIN_IN_HOUR = 6;
     private static final int MAX_EARLY_CHECKIN_IN_HOUR = 48;
@@ -86,4 +87,5 @@ public class CheckinTest {
         verify(passengerMock).checkin();
         verify(passengerMock).save();
     }
+    
 }
