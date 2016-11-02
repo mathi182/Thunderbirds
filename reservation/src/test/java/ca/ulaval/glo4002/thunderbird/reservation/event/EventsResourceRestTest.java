@@ -2,18 +2,13 @@ package ca.ulaval.glo4002.thunderbird.reservation.event;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.CREATED;
-import static org.junit.Assert.fail;
 
 public class EventsResourceRestTest {
 
@@ -31,19 +26,6 @@ public class EventsResourceRestTest {
     private static final int AGE = 18;
     private static final String PASSPORT_NUMBER = "testo";
     private static final String SEAT_CLASS = "economy";
-
-    private Reservation reservation;
-
-    @Before
-    public void setUp() {
-        reservation = new Reservation(RESERVATION_NUMBER,
-                RESERVATION_DATE,
-                RESERVATION_CONFIRMATION,
-                FLIGHT_NUMBER,
-                FLIGHT_DATE,
-                PAYMENT_LOCATION,
-                PASSENGERS);
-    }
 
     @Test
     public void givenValidReservation_whenCreatingReservation_shouldCreateReservation() {
