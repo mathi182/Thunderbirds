@@ -20,14 +20,14 @@ public class PassengerCheckinTest {
     private static final int AGE = 18;
 
     private Passenger validPassenger;
-    private Reservation reservation;
+    private Reservation reservationMock;
 
     @Before
     public void setUp() {
-        reservation = mock(Reservation.class);
+        reservationMock = mock(Reservation.class);
 
         validPassenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
-        validPassenger.setReservation(reservation);
+        validPassenger.setReservation(reservationMock);
     }
 
     @Test
@@ -42,6 +42,8 @@ public class PassengerCheckinTest {
     public void givenPassengerWithoutFirstName_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
         Passenger passengerWithoutFirstName =
                 new Passenger("", LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+        passengerWithoutFirstName.setReservation(reservationMock);
+
         passengerWithoutFirstName.checkin();
     }
 
@@ -49,6 +51,8 @@ public class PassengerCheckinTest {
     public void givenPassengerWithoutLastName_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
         Passenger passengerWithoutLastName =
                 new Passenger(FIRST_NAME, "", AGE, PASSPORT_NUMBER, SEAT_CLASS);
+        passengerWithoutLastName.setReservation(reservationMock);
+
         passengerWithoutLastName.checkin();
     }
 
@@ -56,6 +60,8 @@ public class PassengerCheckinTest {
     public void givenPassengerWithoutPassportNumber_whenIsValidForCheckin_shouldThrowMissingCheckinInformationException() {
         Passenger passengerWithoutPassportNumber =
                 new Passenger(FIRST_NAME, LAST_NAME, AGE, "", SEAT_CLASS);
+        passengerWithoutPassportNumber.setReservation(reservationMock);
+
         passengerWithoutPassportNumber.checkin();
     }
 
