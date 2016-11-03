@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepositoryOLD;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.SeatNotAvailableException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
@@ -17,7 +17,7 @@ public class SeatAssignations {
 
     public static final String PASSENGER_HASH_FIELD = "passenger_hash";
     public static final String MODE_FIELD = "mode";
-    private FlightRepository repository = FlightRepository.INSTANCE;
+    private FlightRepositoryOLD repository = FlightRepositoryOLD.INSTANCE;
     private UUID passengerHash;
     private String mode;
     @JsonProperty("seat")

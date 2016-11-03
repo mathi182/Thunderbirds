@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public enum FlightRepository {
+public enum FlightRepositoryOLD {
     INSTANCE;
 
     private static final String DASH_FLIGHT_NUMBER = "QK-918";
@@ -32,7 +32,7 @@ public enum FlightRepository {
     private Random generator = new Random();
     private String[] modelSet = {"dash-8", "a320", "boeing-777-300"};
 
-    FlightRepository() {
+    FlightRepositoryOLD() {
 
     }
 

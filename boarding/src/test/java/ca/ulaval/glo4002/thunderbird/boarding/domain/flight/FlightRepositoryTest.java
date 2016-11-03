@@ -14,7 +14,7 @@ public class FlightRepositoryTest {
     private static final String BOEING_MODEL = "boeing-777-300";
     private static final String DASH_MODEL = "dash-8";
     private static final String A320_MODEL = "a320";
-    private FlightRepository repository = FlightRepository.INSTANCE;
+    private FlightRepositoryOLD repository = FlightRepositoryOLD.INSTANCE;
 
     @After
     public void tearDown() {
