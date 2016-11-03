@@ -37,7 +37,7 @@ public class InMemoryFlightRepositoryITest {
     }
 
     @Test
-    public void givenAFlight_shouldBeAbleToSaveAndFetch() {
+    public void givenAFlight_whenSaving_shouldBeAbleToSaveAndFetch() {
         willReturn(A_PLANE_MODEL).given(amsSystem).getPlaneModel(anyString());
         List<Seat> seats = new ArrayList<>();
         seats.add(A_SEAT);
