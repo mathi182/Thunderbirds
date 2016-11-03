@@ -1,11 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.reservation.event;
 
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 import org.junit.Before;
 import org.junit.Test;
-
+import java.util.*;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
 
@@ -20,22 +18,18 @@ public class EventsResourceRestTest {
     private static final String RESERVATION_CONFIRMATION = "A3833";
     private static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
     private static final String FLIGHT_NUMBER = "AC1765";
-    private static final String FLIGHT_DATE = "2016-09-06T13:00:00Z";
-    private static final ArrayList<Passenger> PASSENGERS = new ArrayList<>();
+    private static final String FLIGHT_DATE = "2016-10-15T11:41:00Z";
 
-    private Reservation reservation;
+    private static final String FIRST_NAME = "Alexis";
+    private static final String LAST_NAME = "Lessard";
+    private static final int AGE = 18;
+    private static final String PASSPORT_NUMBER = "testo";
+    private static final String SEAT_CLASS = "economy";
+
     private String createReservationPath;
 
     @Before
-    public void setUp() {
-        reservation = new Reservation(RESERVATION_NUMBER,
-                RESERVATION_DATE,
-                RESERVATION_CONFIRMATION,
-                FLIGHT_NUMBER,
-                FLIGHT_DATE,
-                PAYMENT_LOCATION,
-                PASSENGERS);
-
+    public void setUp(){
         UriBuilder uriBuilderRequest = UriBuilder.fromUri(EventsResource.PATH);
         createReservationPath = uriBuilderRequest
                 .path(EventsResource.RESERVATION_CREATED)
@@ -48,7 +42,7 @@ public class EventsResourceRestTest {
         String locationExpected = createLocationExpected(reservationNumberString);
 
         givenBaseRequest()
-                    .body(reservation)
+                .body(generateReservationMap())
                 .when()
                     .post(createReservationPath)
                 .then()
@@ -60,5 +54,39 @@ public class EventsResourceRestTest {
         UriBuilder uriBuilder = UriBuilder.fromUri(ReservationsResource.PATH);
         return uriBuilder.path(reservationNumber).toString();
     }
-    
+
+    private Map generateReservationMap(){
+        Map<String, Object> reservationMap = new LinkedHashMap<>();
+
+        reservationMap.put("reservation_number", RESERVATION_NUMBER);
+        reservationMap.put("reservation_date", RESERVATION_DATE);
+        reservationMap.put("reservation_confirmation", RESERVATION_CONFIRMATION);
+        reservationMap.put("flight_number", FLIGHT_NUMBER);
+        reservationMap.put("flight_date", FLIGHT_DATE);
+        reservationMap.put("payment_location", PAYMENT_LOCATION);
+
+        reservationMap.put("passengers", generatePassengerList());
+
+        return  reservationMap;
+    }
+
+    private List generatePassengerList(){
+        List<Map> passengersList = new ArrayList<>();
+        passengersList.add(generatePassengerMap());
+
+        return passengersList;
+    }
+
+    private Map generatePassengerMap() {
+        Map<String, Object> passengerMap = new LinkedHashMap<>();
+
+        passengerMap.put("first_name", FIRST_NAME);
+        passengerMap.put("last_name", LAST_NAME);
+        passengerMap.put("age", AGE);
+        passengerMap.put("passport_number", PASSPORT_NUMBER);
+        passengerMap.put("seat_class", SEAT_CLASS);
+
+        return passengerMap;
+    }
+
 }
