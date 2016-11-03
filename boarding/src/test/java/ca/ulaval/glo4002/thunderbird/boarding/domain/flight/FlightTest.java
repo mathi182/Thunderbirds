@@ -50,6 +50,4 @@ public class FlightTest {
 
         verify(strategy).assignSeat(anyListOf(Seat.class));
     }
-
-
 }
