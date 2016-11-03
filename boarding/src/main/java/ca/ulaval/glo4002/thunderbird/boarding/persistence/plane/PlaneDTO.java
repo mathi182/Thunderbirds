@@ -9,4 +9,8 @@ public class PlaneDTO {
     public int numberOfSeats;
     @JsonProperty("cargo_weight")
     public int cargoWeight;
+
+    public PlaneDTO() {
+
+    }
 }
