@@ -18,33 +18,34 @@ public class PlaneRepositoryImpl implements PlaneRepository {
     @Override
     public Plane getPlaneInformation(String modelID) {
         String url = PLANE_SERVICE_LOCATION + String.format(PLANE_INFORMATION_PATH_FORMAT, modelID);
-        Client client = Client.create();
-        WebResource resource = client.resource(url);
-        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-
-        if (response.getStatus() == ClientResponse.Status.NOT_FOUND.getStatusCode()) {
-            throw new PlaneNotFoundException(modelID);
-        } else if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
-            throw new RuntimeException("Failed to retrieve JSON at : " + url + "\n With status : " + response.getStatus());
-        }
+        ClientResponse response = getResource(url);
+        verifyResponse(response, modelID);
 
         PlaneDTO dto = response.getEntity(PlaneDTO.class);
         Plane plane = new PlaneAssembler().toDomain(dto);
         return plane;
     }
 
-    @Override
-    public List<Seat> getSeats(String modelID) {
-        String url = PLANE_SERVICE_LOCATION + String.format(SEATS_INFORMATION_PATH_FORMAT, modelID);
+    private ClientResponse getResource(String url) {
         Client client = Client.create();
         WebResource resource = client.resource(url);
         ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        return response;
+    }
 
+    private void verifyResponse(ClientResponse response, String modelID) {
         if (response.getStatus() == ClientResponse.Status.NOT_FOUND.getStatusCode()) {
             throw new PlaneNotFoundException(modelID);
         } else if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
-            throw new RuntimeException("Failed to retrieve JSON at : " + url + "\n With status : " + response.getStatus());
+            throw new RuntimeException("Failed to retrieve JSON with status : " + response.getStatus());
         }
+    }
+
+    @Override
+    public List<Seat> getSeats(String modelID) {
+        String url = PLANE_SERVICE_LOCATION + String.format(SEATS_INFORMATION_PATH_FORMAT, modelID);
+        ClientResponse response = getResource(url);
+        verifyResponse(response, modelID);
 
         SeatsInformationDTO dto = response.getEntity(SeatsInformationDTO.class);
         List<Seat> seats = new SeatsAssembler().toDomain(dto);
