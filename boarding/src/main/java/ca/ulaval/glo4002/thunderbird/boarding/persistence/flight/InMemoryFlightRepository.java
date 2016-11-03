@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,9 +15,9 @@ import java.util.List;
 public class InMemoryFlightRepository implements FlightRepository {
     private class FlightID {
         private String flightNumber;
-        private Date flightDate;
+        private Instant flightDate;
 
-        public FlightID(String flightNumber, Date flightDate) {
+        public FlightID(String flightNumber, Instant flightDate) {
             this.flightNumber = flightNumber;
             this.flightDate = flightDate;
         }
@@ -32,7 +32,7 @@ public class InMemoryFlightRepository implements FlightRepository {
         this.planeRepository = planerepository;
     }
 
-    public Flight getFlight(String flightNumber, Date flightDate) {
+    public Flight getFlight(String flightNumber, Instant flightDate) {
         FlightID flightID = new FlightID(flightNumber, flightDate);
         Flight flight = flights.get(flightID);
         if (flight == null) {
@@ -41,7 +41,7 @@ public class InMemoryFlightRepository implements FlightRepository {
         return flight;
     }
 
-    private Flight fetchFlight(String flightNumber, Date flightDate) {
+    private Flight fetchFlight(String flightNumber, Instant flightDate) {
         String modelID = amsSystem.getPlaneModel(flightNumber);
         Plane plane = planeRepository.getPlaneInformation(modelID);
         List<Seat> seats = planeRepository.getSeats(modelID);

@@ -22,4 +22,23 @@ public class Seat {
         this.isExitRow = isExitRow;
         this.isTaken = isTaken;
     }
+
+    public boolean isAvailable() {
+        return !isTaken;
+    }
+
+    public void take() {
+        if (isTaken) {
+            throw new SeatAlreadyTakenException();
+        }
+        isTaken = true;
+    }
+
+    public int getRow() {
+        return rowNumber;
+    }
+
+    public String getSeat() {
+        return seat;
+    }
 }

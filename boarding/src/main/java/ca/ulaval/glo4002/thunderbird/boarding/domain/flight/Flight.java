@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.SeatNotAvailableException;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -28,5 +30,21 @@ public class Flight {
 
     public Instant getFlightDate() {
         return flightDate;
+    }
+
+    public Seat assignSeat(SeatAssignationStrategy strategy) {
+        List<Seat> availableSeats = new ArrayList<>();
+        for (Seat seat : seats) {
+            if (seat.isAvailable()) {
+                availableSeats.add(seat);
+            }
+        }
+
+        if (availableSeats.size() == 0) {
+            throw new SeatNotAvailableException(flightNumber);
+        }
+
+        Seat takenSeat = strategy.assignSeat(availableSeats);
+        return takenSeat;
     }
 }

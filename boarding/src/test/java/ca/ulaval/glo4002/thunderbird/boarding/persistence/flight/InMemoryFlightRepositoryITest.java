@@ -10,8 +10,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneRepositoryP
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -24,7 +24,7 @@ public class InMemoryFlightRepositoryITest {
     private static final Seat A_SEAT = new Seat(1, "A", 56, true, true, 123.45, "economic", false, false);
     private static final String A_PLANE_MODEL = "dash-8";
     private static final String A_FLIGHT_NUMBER = "QK-918";
-    private static final Date A_FLIGHT_DATE = new Date(1478195361);
+    private static final Instant A_FLIGHT_DATE = Instant.ofEpochMilli(1478195361);
     private AMSSystem amsSystem;
     private PlaneRepository planeRepository;
     private FlightRepository flightRepository;
