@@ -40,7 +40,7 @@ public class Flight {
             }
         }
 
-        if (availableSeats.size() == 0) {
+        if (availableSeats.isEmpty()) {
             throw new SeatNotAvailableException(flightNumber);
         }
 
