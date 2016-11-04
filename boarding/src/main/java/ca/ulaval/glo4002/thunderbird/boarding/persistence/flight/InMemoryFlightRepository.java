@@ -27,9 +27,9 @@ public class InMemoryFlightRepository implements FlightRepository {
     private AMSSystem amsSystem;
     private PlaneRepository planeRepository;
 
-    public InMemoryFlightRepository(AMSSystem amsSystem, PlaneRepository planerepository) {
+    public InMemoryFlightRepository(AMSSystem amsSystem, PlaneRepository planeRepository) {
         this.amsSystem = amsSystem;
-        this.planeRepository = planerepository;
+        this.planeRepository = planeRepository;
     }
 
     public Flight getFlight(String flightNumber, Instant flightDate) {
