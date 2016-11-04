@@ -12,6 +12,7 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class RandomSeatAssignationStrategyTest {
     private static final int A_RANDOM_NUMBER = 1;
@@ -37,6 +38,15 @@ public class RandomSeatAssignationStrategyTest {
         Seat takenSeat = strategy.assignSeat(seats);
 
         assertSame(seats.get(A_RANDOM_NUMBER), takenSeat);
+    }
+
+    @Test
+    public void givenAListOfAvailableSeats_whenChoosing_shouldNotRandomiseHigherThanTheNumberOfSeats() {
+        willReturn(A_RANDOM_NUMBER).given(random).nextInt(anyInt());
+
+        strategy.assignSeat(seats);
+
+        verify(random).nextInt(seats.size());
     }
 
 
