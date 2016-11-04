@@ -9,9 +9,9 @@ public class Seat {
     private double price;
     private String priceClass;
     private boolean isExitRow;
-    private boolean isTaken;
+    private boolean isAvailable;
 
-    public Seat(int rowNumber, String seat, int legRoom, boolean hasWindow, boolean haveClearView, double price, String priceClass, boolean isExitRow, boolean isTaken) {
+    public Seat(int rowNumber, String seat, int legRoom, boolean hasWindow, boolean haveClearView, double price, String priceClass, boolean isExitRow, boolean isAvailable) {
         this.rowNumber = rowNumber;
         this.seat = seat;
         this.legRoom = legRoom;
@@ -20,18 +20,18 @@ public class Seat {
         this.price = price;
         this.priceClass = priceClass;
         this.isExitRow = isExitRow;
-        this.isTaken = isTaken;
+        this.isAvailable = isAvailable;
     }
 
     public boolean isAvailable() {
-        return !isTaken;
+        return isAvailable;
     }
 
     public void take() {
-        if (isTaken) {
+        if (!isAvailable) {
             throw new SeatAlreadyTakenException();
         }
-        isTaken = true;
+        isAvailable = false;
     }
 
     public int getRow() {

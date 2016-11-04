@@ -14,7 +14,7 @@ public class SeatsAssembler {
             String priceClass = rowClasses.get(seatDTO.row);
             boolean isExitRow = exitRows.contains(seatDTO.row);
             Seat seat = new Seat(seatDTO.row, seatDTO.seat, seatDTO.legroom, seatDTO.window, seatDTO.clearView,
-                    seatDTO.price, priceClass, isExitRow, false);
+                    seatDTO.price, priceClass, isExitRow, true);
             seats.add(seat);
         }
 
