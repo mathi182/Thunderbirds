@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.plane;
 
 public class Seat {
     private int rowNumber;
-    private String seat;
+    private String seatName;
     private int legRoom;
     private boolean hasWindow;
     private boolean haveClearView;
@@ -11,9 +11,9 @@ public class Seat {
     private boolean isExitRow;
     private boolean isAvailable;
 
-    public Seat(int rowNumber, String seat, int legRoom, boolean hasWindow, boolean haveClearView, double price, String priceClass, boolean isExitRow, boolean isAvailable) {
+    public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean haveClearView, double price, String priceClass, boolean isExitRow, boolean isAvailable) {
         this.rowNumber = rowNumber;
-        this.seat = seat;
+        this.seatName = seatName;
         this.legRoom = legRoom;
         this.hasWindow = hasWindow;
         this.haveClearView = haveClearView;
@@ -38,7 +38,7 @@ public class Seat {
         return rowNumber;
     }
 
-    public String getSeat() {
-        return seat;
+    public String getSeatName() {
+        return seatName;
     }
 }
