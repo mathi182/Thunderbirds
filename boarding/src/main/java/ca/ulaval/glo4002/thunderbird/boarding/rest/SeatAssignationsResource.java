@@ -39,11 +39,15 @@ public class SeatAssignationsResource {
 
         Seat seat = flight.assignSeat(strategy);
         seat.take();
+        
+        TakenSeatAssembler assembler = new TakenSeatAssembler();
+        TakenSeatDTO takenSeatDTO = assembler.fromDomain(seat);
+
         String seatAssignationsIdString = String.valueOf(new Random().nextInt());
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
         URI uri = uriBuilder.path(seatAssignationsIdString).build();
         return Response.created(uri)
-                .entity(new TakenSeatAssembler().fromDomain(seat))
+                .entity(takenSeatDTO)
                 .build();
     }
 }
