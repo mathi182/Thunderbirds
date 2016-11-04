@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.Context;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.ProdContext;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerContextFilter;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.filters.EntityManagerContextFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -90,5 +90,5 @@ public class BoardingServer {
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
         servletContextHandler.addFilter(EntityManagerContextFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
     }
-    
+
 }

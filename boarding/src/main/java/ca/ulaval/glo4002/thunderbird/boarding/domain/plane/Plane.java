@@ -14,13 +14,13 @@ public class Plane {
     private int numberSeats;
     private int cargoWeight;
 
-    protected Plane() {
-
-    }
-
     public Plane(String model, int numberOfSeats, int cargoWeight) {
         this.planeModel = model;
         this.numberSeats = numberOfSeats;
         this.cargoWeight = cargoWeight;
+    }
+
+    protected Plane() {
+        // for hibernate
     }
 }

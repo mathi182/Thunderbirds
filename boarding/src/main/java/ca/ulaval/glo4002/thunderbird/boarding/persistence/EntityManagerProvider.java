@@ -22,6 +22,5 @@ public class EntityManagerProvider {
         transaction.run();
         localEntityManager.get().getTransaction().commit();
     }
-
 }
 

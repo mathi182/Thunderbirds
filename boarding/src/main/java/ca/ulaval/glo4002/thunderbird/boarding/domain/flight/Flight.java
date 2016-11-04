@@ -27,15 +27,15 @@ public class Flight {
     @Cascade({CascadeType.ALL})
     private Plane plane;
 
-    protected Flight() {
-
-    }
-
     public Flight(String flightNumber, Instant flightDate, Plane plane, Collection<Seat> seats) {
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
         this.plane = plane;
         this.seats = new ArrayList<>(seats);
+    }
+
+    protected Flight() {
+        // for hibernate
     }
 
     public String getFlightNumber() {

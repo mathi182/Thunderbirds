@@ -32,6 +32,10 @@ public class Seat {
         this.isAvailable = isAvailable;
     }
 
+    protected Seat() {
+        // for hibernate
+    }
+
     public boolean isAvailable() {
         return isAvailable;
     }

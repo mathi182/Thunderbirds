@@ -1,5 +1,7 @@
-package ca.ulaval.glo4002.thunderbird.boarding.persistence;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.filters;
 
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerFactoryProvider;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -7,7 +9,6 @@ import javax.servlet.*;
 import java.io.IOException;
 
 public class EntityManagerContextFilter implements Filter {
-
     private EntityManagerFactory entityManagerFactory;
 
     @Override
@@ -17,7 +18,6 @@ public class EntityManagerContextFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
         EntityManager entityManager = null;
 
         try {
@@ -30,12 +30,10 @@ public class EntityManagerContextFilter implements Filter {
             }
             EntityManagerProvider.clearEntityManager();
         }
-
     }
 
     @Override
     public void destroy() {
         entityManagerFactory.close();
     }
-
 }

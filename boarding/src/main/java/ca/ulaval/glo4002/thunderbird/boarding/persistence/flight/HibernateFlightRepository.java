@@ -6,7 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -42,9 +42,7 @@ public class HibernateFlightRepository implements FlightRepository {
     public void saveFlight(Flight flight) {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
         EntityManager entityManager = entityManagerProvider.getEntityManager();
-        entityManagerProvider.executeInTransaction(() -> {
-            entityManager.persist(flight);
-        });
+        entityManagerProvider.executeInTransaction(() -> entityManager.persist(flight));
     }
 
     private Flight getFlightFromDB(String flightNumber, Instant flightDate) {

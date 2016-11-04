@@ -6,8 +6,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneRepositoryProvider;
-import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
 import org.junit.*;
 
 import javax.persistence.EntityManager;
@@ -38,6 +38,11 @@ public class HibernateFlightRepositoryITest {
         entityManagerFactory = Persistence.createEntityManagerFactory("boarding-test");
     }
 
+    @AfterClass
+    public static void afterClass() {
+        entityManagerFactory.close();
+    }
+
     @Before
     public void before() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -50,11 +55,6 @@ public class HibernateFlightRepositoryITest {
     @After
     public void after() {
         EntityManagerProvider.clearEntityManager();
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        entityManagerFactory.close();
     }
 
     @Test
