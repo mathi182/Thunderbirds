@@ -28,5 +28,4 @@ public class SeatAssignationStrategyFactoryTest {
     public void givenAnInvalidMode_shouldThrowNoSuchStrategy() {
         factory.getStrategy(INVALID_MODE);
     }
-
 }
