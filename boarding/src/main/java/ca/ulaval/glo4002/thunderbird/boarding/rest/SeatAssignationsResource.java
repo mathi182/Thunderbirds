@@ -35,7 +35,8 @@ public class SeatAssignationsResource {
     public Response assignSeat(SeatAssignationRequest request) {
         Passenger passenger = new SeatAssignationRequestAssembler().getDomainPassenger(request);
         Flight flight = repository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
-        SeatAssignationStrategy strategy = new SeatAssignationStrategyFactory().getStrategy(request.mode);
+        SeatAssignationStrategy.assignMode assignMode = new SeatAssignationRequestAssembler().getMode(request);
+        SeatAssignationStrategy strategy = new SeatAssignationStrategyFactory().getStrategy(assignMode);
 
         Seat seat = flight.assignSeat(strategy);
         seat.take();

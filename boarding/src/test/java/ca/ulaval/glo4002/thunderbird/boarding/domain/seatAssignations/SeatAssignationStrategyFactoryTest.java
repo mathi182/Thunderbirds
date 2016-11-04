@@ -19,13 +19,8 @@ public class SeatAssignationStrategyFactoryTest {
 
     @Test
     public void givenModeRandom_shouldReturnRandomSeatStrategy() {
-        SeatAssignationStrategy strategy = factory.getStrategy(RANDOM_MODE);
+        SeatAssignationStrategy strategy = factory.getStrategy(SeatAssignationStrategy.assignMode.RANDOM);
 
         assertThat(strategy, instanceOf(RandomSeatAssignationStrategy.class));
-    }
-
-    @Test(expected = NoSuchStrategyException.class)
-    public void givenAnInvalidMode_shouldThrowNoSuchStrategy() {
-        factory.getStrategy(INVALID_MODE);
     }
 }

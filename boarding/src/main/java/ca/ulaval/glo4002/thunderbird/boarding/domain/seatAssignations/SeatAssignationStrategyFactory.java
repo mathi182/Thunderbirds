@@ -7,12 +7,12 @@ import java.util.Random;
 public class SeatAssignationStrategyFactory {
     private static final String RANDOM_MODE = "RANDOM";
 
-    public SeatAssignationStrategy getStrategy(String mode) {
+    public SeatAssignationStrategy getStrategy(SeatAssignationStrategy.assignMode mode) {
         switch (mode) {
-            case RANDOM_MODE:
+            case RANDOM:
                 return new RandomSeatAssignationStrategy(new Random());
             default:
-                throw new NoSuchStrategyException(mode);
+                throw new NoSuchStrategyException("unknown");
         }
     }
 }
