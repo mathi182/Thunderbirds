@@ -6,19 +6,8 @@ import java.util.*;
 
 public class SeatsAssembler {
     public List<Seat> toDomain(SeatsInformationDTO dto) {
-        HashMap<Integer, String> rowClasses = new HashMap<>();
-        Set<Integer> exitRows = new HashSet<>();
-
-        for (SeatsInformationDTO.PriceClassDTO priceClass : dto.classes) {
-            for (int row : priceClass.rows) {
-                rowClasses.put(row, priceClass.name);
-            }
-        }
-
-        for (int row : dto.exitRows) {
-            exitRows.add(row);
-        }
-
+        HashMap<Integer, String> rowClasses = getClassesByRow(dto.classes);
+        Set<Integer> exitRows = getExitRowSet(dto.exitRows);
         List<Seat> seats = new ArrayList<>(dto.seats.length);
 
         for (SeatsInformationDTO.SeatDTO seatDTO : dto.seats) {
@@ -30,5 +19,25 @@ public class SeatsAssembler {
         }
 
         return seats;
+    }
+
+    private HashMap<Integer, String> getClassesByRow(SeatsInformationDTO.PriceClassDTO[] classes) {
+        HashMap<Integer, String> rowClasses = new HashMap<>();
+        for (SeatsInformationDTO.PriceClassDTO priceClass : classes) {
+            for (int row : priceClass.rows) {
+                rowClasses.put(row, priceClass.name);
+            }
+        }
+        return rowClasses;
+    }
+
+    private Set<Integer> getExitRowSet(int[] exitRows) {
+        Set<Integer> rowSet = new HashSet<>();
+
+        for (int row : exitRows) {
+            rowSet.add(row);
+        }
+
+        return rowSet;
     }
 }
