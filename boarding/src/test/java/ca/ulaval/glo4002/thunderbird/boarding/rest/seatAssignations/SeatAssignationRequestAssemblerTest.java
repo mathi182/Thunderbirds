@@ -1,9 +1,9 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoSuchStrategyException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationRequest;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationRequestAssembler;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.SeatAssignationRequest;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.SeatAssignationRequestAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,16 +11,13 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by AlexisLessard on 2016-11-04.
- */
 public class SeatAssignationRequestAssemblerTest {
     private static final String INVALID_ASSIGNATION_MODE = "invalidMode";
     private static final String RANDOM_ASSIGNATION_MODE = "RANDOM";
     private static final UUID PASSENGER_HASH = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
 
-    private SeatAssignationRequestAssembler assemblerTest;
-    private SeatAssignationRequest requestTest;
+    private ca.ulaval.glo4002.thunderbird.boarding.rest.SeatAssignationRequestAssembler assemblerTest;
+    private ca.ulaval.glo4002.thunderbird.boarding.rest.SeatAssignationRequest requestTest;
 
     @Before
     public void setup(){
