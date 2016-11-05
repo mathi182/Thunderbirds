@@ -19,12 +19,9 @@ public class BagageRessourceRestTest {
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
         //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
-        RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest();
-        registerBagageRequest.linearDimensionUnit = DIMENSION_UNIT_DESCRIPTION;
-        registerBagageRequest.linearDimension = LINEAR_DIMENSION;
-        registerBagageRequest.weightUnit = WEIGHT_UNIT_DESCRIPTION;
-        registerBagageRequest.weight = WEIGHT;
-        registerBagageRequest.type = CHECKED_BAGGAGE_TYPE_DESCRIPTION;
+        RegisterBaggageRequest registerBagageRequest =
+                new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION, LINEAR_DIMENSION,
+                WEIGHT_UNIT_DESCRIPTION, WEIGHT, CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         String locationExpected = createLocationExpected("12345","baggageHash");
         Response response =
@@ -51,12 +48,9 @@ public class BagageRessourceRestTest {
     @Test
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
         //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
-        RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest();
-        registerBagageRequest.linearDimensionUnit = DIMENSION_UNIT_DESCRIPTION;
-        registerBagageRequest.linearDimension = LINEAR_DIMENSION;
-        registerBagageRequest.weightUnit = WEIGHT_UNIT_DESCRIPTION;
-        registerBagageRequest.weight = INVALID_WEIGHT;
-        registerBagageRequest.type = CHECKED_BAGGAGE_TYPE_DESCRIPTION;
+        RegisterBaggageRequest registerBagageRequest =
+                new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION, LINEAR_DIMENSION,
+                WEIGHT_UNIT_DESCRIPTION, INVALID_WEIGHT, CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         Response response =
                 givenBaseRequest()

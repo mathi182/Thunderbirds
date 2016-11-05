@@ -20,4 +20,13 @@ public class RegisterBaggageRequest {
 
     public RegisterBaggageRequest() {
     }
+
+    public RegisterBaggageRequest(String linearDimensionUnit, Integer linearDimension, String weightUnit,
+                                  Integer weight,  String type) {
+        this.linearDimensionUnit = linearDimensionUnit;
+        this.linearDimension = linearDimension;
+        this.weightUnit = weightUnit;
+        this.weight = weight;
+        this.type = type;
+    }
 }
