@@ -1,16 +1,16 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
-
 import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -39,6 +39,7 @@ public class Passenger {
 
     @ManyToOne
     @JoinColumn(name = "reservationNumber")
+    @JsonBackReference
     private Reservation reservation;
 
     @JsonCreator
@@ -47,6 +48,16 @@ public class Passenger {
                      @JsonProperty("age") int age,
                      @JsonProperty("passport_number") String passportNumber,
                      @JsonProperty("seat_class") String seatClass) {
+        if (Strings.isNullOrEmpty(firstName)) {
+            throw new InvalidFieldException("firstName");
+        }
+        if (Strings.isNullOrEmpty(lastName)) {
+            throw new InvalidFieldException("lastName");
+        }
+        if (Strings.isNullOrEmpty(passportNumber)) {
+            throw new InvalidFieldException("passportNumber");
+        }
+
         this.passengerHash = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -84,13 +95,7 @@ public class Passenger {
 
     public void save() {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
-        EntityManager entityManager = entityManagerProvider.getEntityManager();
-        entityManagerProvider.executeInTransaction(() -> entityManager.persist(this));
-    }
-
-    @JsonIgnore
-    public int getReservationNumber() {
-        return reservation.getReservationNumber();
+        entityManagerProvider.persistInTransaction(this);
     }
 
     @JsonIgnore
@@ -104,32 +109,25 @@ public class Passenger {
     }
 
     @JsonIgnore
-    public void checkin() {
-        if (reservation == null) {
-            throw new ReservationNotFoundException("");
-        }
-        if (isCheckedIn) {
-            throw new PassengerAlreadyCheckedInException(passengerHash);
-        }
-        if (Strings.isNullOrEmpty(firstName)) {
-            throw new InvalidFieldException("firstName");
-        }
-        if (Strings.isNullOrEmpty(lastName)) {
-            throw new InvalidFieldException("lastName");
-        }
-        if (Strings.isNullOrEmpty(passportNumber)) {
-            throw new InvalidFieldException("passportNumber");
-        }
-        isCheckedIn = true;
-    }
-
-    @JsonIgnore
     public boolean isCheckedIn() {
         return isCheckedIn;
     }
 
+    @Ignore
+    public Reservation getReservation() {
+        return reservation;
+    }
+
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
+    }
+
+    @JsonIgnore
+    public void checkin() {
+        if (isCheckedIn) {
+            throw new PassengerAlreadyCheckedInException(passengerHash);
+        }
+        isCheckedIn = true;
     }
 
 }

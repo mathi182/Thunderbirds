@@ -5,7 +5,11 @@ import ca.ulaval.glo4002.thunderbird.reservation.exceptions.ElementNotFoundExcep
 import java.io.Serializable;
 
 public class ReservationNotFoundException extends ElementNotFoundException implements Serializable {
+    public ReservationNotFoundException() {
+        super("reservation not found");
+    }
+
     public ReservationNotFoundException(String id) {
-        super("reservation with id " + id);
+        super("reservation not found with id " + id);
     }
 }

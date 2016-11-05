@@ -30,5 +30,4 @@ public class ReservationsResourceRestTest {
                 .then()
                 .statusCode(NOT_FOUND.getStatusCode());
     }
-
 }

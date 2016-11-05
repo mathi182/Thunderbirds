@@ -18,7 +18,7 @@ import org.junit.runners.Suite;
         ReservationsResourceRestTest.class
 })
 public class RestTestSuite {
-
+    
     public static final int TEST_SERVER_PORT = 9292;
 
     private static ReservationServer reservationServer;
@@ -33,5 +33,4 @@ public class RestTestSuite {
     public static void tearDownClass() {
         reservationServer.stop();
     }
-
 }
