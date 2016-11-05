@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidFieldExceptio
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import java.time.Instant;
 import java.util.UUID;
@@ -22,11 +22,12 @@ import static java.time.temporal.ChronoUnit.HOURS;
 @Entity
 public class Checkin {
 
+    public static final String SELF = "SELF";
+
     private static final String PASSENGER_HASH_FIELD = "passenger_hash";
     private static final String AGENT_ID_FIELD = "by";
     private static final int MAX_LATE_CHECKIN_IN_HOUR = 6;
     private static final int MAX_EARLY_CHECKIN_IN_HOUR = 48;
-    private static final String SELF = "SELF";
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -58,8 +59,7 @@ public class Checkin {
 
     public void save() {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
-        EntityManager entityManager = entityManagerProvider.getEntityManager();
-        entityManagerProvider.executeInTransaction(() -> entityManager.persist(this));
+        entityManagerProvider.persistInTransaction(this);
     }
 
     @JsonIgnore
@@ -67,34 +67,43 @@ public class Checkin {
         return checkinHash;
     }
 
-    private Passenger getPassenger() {
+    //TODO Fix tests to not override this public method. GetPassenger should be Private
+    @JsonIgnore
+    public Passenger getPassenger() {
         return Passenger.findByPassengerHash(passengerHash);
     }
 
-    public void completePassengerCheckin(Instant currentDate) {
-        if (isSelfCheckin() && !isSelfCheckinOnTime(currentDate)) {
+    public void completeCheckin(Instant currentDate) {
+        Passenger passenger = getPassenger();
+        validateReservation(passenger, currentDate);
+
+        checkinAndSave(passenger);
+    }
+
+    private void validateReservation(Passenger passenger, Instant currentDate) {
+        Reservation reservation = passenger.getReservation();
+        if (reservation == null) {
+            throw new ReservationNotFoundException();
+        }
+        if (isSelfCheckin() && !isOnTimeForSelfCheckin(currentDate, reservation.getFlightDate())) {
             throw new CheckinNotOnTimeException();
         }
-
-        Passenger passenger = getPassenger();
-        passenger.checkin();
-        passenger.save();
     }
 
     private boolean isSelfCheckin() {
         return agentId.equals(SELF);
     }
 
-    private boolean isSelfCheckinOnTime(Instant currentDate) {
-        int reservationNumber = getPassenger().getReservationNumber();
-        Reservation reservation = Reservation.findByReservationNumber(reservationNumber);
-
-        Instant flightDate = reservation.getFlightDate();
+    private boolean isOnTimeForSelfCheckin(Instant currentDate, Instant flightDate) {
         Instant earliestSelfCheckinDate = flightDate.minus(MAX_EARLY_CHECKIN_IN_HOUR, HOURS);
         Instant latestSelfCheckinDate = flightDate.minus(MAX_LATE_CHECKIN_IN_HOUR, HOURS);
 
-        return (currentDate.equals(earliestSelfCheckinDate) || currentDate.equals(latestSelfCheckinDate)) ||
-                (currentDate.isAfter(earliestSelfCheckinDate) && currentDate.isBefore(latestSelfCheckinDate));
+        return !(currentDate.isBefore(earliestSelfCheckinDate) || currentDate.isAfter(latestSelfCheckinDate));
+    }
+
+    private void checkinAndSave(Passenger passenger) {
+        passenger.checkin();
+        passenger.save();
     }
 
 }

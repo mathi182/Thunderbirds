@@ -21,5 +21,4 @@ public class HeartbeatResourceRestTest {
                     .statusCode(OK.getStatusCode())
                     .body("token", equalTo(TOKEN));
     }
-
 }

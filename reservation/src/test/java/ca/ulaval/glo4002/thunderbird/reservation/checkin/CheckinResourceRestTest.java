@@ -37,5 +37,4 @@ public class CheckinResourceRestTest {
                 .then()
                     .statusCode(NOT_FOUND.getStatusCode());
     }
-
 }

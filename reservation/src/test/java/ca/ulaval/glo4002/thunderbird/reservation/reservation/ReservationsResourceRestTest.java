@@ -19,16 +19,15 @@ public class ReservationsResourceRestTest {
                     .get("/reservations/{reservation_number}", EXISTENT_RESERVATION_NUMBER)
                 .then()
                     .statusCode(OK.getStatusCode())
-                .body("reservation_number", equalTo(EXISTENT_RESERVATION_NUMBER));
+                    .body("reservation_number", equalTo(EXISTENT_RESERVATION_NUMBER));
     }
 
     @Test
     public void givenAnInexistingReservationNumber_whenFetchingReservation_shouldReturnNotFound() {
         givenBaseRequest()
-                .when()
-                    .get("/reservations/{reservation_number}", NON_EXISTENT_RESERVATION_NUMBER)
-                .then()
+                    .when()
+                .get("/reservations/{reservation_number}", NON_EXISTENT_RESERVATION_NUMBER)
+                    .then()
                     .statusCode(NOT_FOUND.getStatusCode());
     }
-
 }

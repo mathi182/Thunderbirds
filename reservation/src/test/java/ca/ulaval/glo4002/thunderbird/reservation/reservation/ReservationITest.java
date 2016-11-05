@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 public class ReservationITest {
 
@@ -68,5 +66,4 @@ public class ReservationITest {
     public void whenFinding_ThrowIfNotFound() {
         Reservation.findByReservationNumber(NON_EXISTENT_RESERVATION_NUMBER);
     }
-
 }

@@ -1,11 +1,14 @@
 package ca.ulaval.glo4002.thunderbird.reservation.event;
 
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.*;
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
+
 import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
@@ -29,7 +32,7 @@ public class EventsResourceRestTest {
     private String createReservationPath;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         UriBuilder uriBuilderRequest = UriBuilder.fromUri(EventsResource.PATH);
         createReservationPath = uriBuilderRequest
                 .path(EventsResource.RESERVATION_CREATED)
@@ -42,7 +45,7 @@ public class EventsResourceRestTest {
         String locationExpected = createLocationExpected(reservationNumberString);
 
         givenBaseRequest()
-                .body(generateReservationMap())
+                    .body(generateReservationMap())
                 .when()
                     .post(createReservationPath)
                 .then()
@@ -55,7 +58,7 @@ public class EventsResourceRestTest {
         return uriBuilder.path(reservationNumber).toString();
     }
 
-    private Map generateReservationMap(){
+    private Map generateReservationMap() {
         Map<String, Object> reservationMap = new LinkedHashMap<>();
 
         reservationMap.put("reservation_number", RESERVATION_NUMBER);
@@ -67,10 +70,10 @@ public class EventsResourceRestTest {
 
         reservationMap.put("passengers", generatePassengerList());
 
-        return  reservationMap;
+        return reservationMap;
     }
 
-    private List generatePassengerList(){
+    private List generatePassengerList() {
         List<Map> passengersList = new ArrayList<>();
         passengersList.add(generatePassengerMap());
 
@@ -88,5 +91,4 @@ public class EventsResourceRestTest {
 
         return passengerMap;
     }
-
 }
