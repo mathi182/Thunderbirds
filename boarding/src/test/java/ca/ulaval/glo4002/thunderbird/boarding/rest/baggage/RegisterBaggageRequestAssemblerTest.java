@@ -30,7 +30,6 @@ public class RegisterBaggageRequestAssemblerTest {
         assertThat(baggage, instanceOf(CheckedBaggageEconomy.class));
     }
 
-
     @Test(expected = MissingFieldException.class)
     public void givenMissingFieldRegisterBaggageRequest_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest();

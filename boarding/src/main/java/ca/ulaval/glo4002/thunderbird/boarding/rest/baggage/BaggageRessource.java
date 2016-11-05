@@ -21,7 +21,7 @@ public class BaggageRessource {
         baggage.validate();
         //TODO: save the baggage in passenger repository from boarding
         URI uri = buildLocationUri("baggageHash");
-        RegisterBaggageResponseBody baggageResponseBody = buildRegisterBaggageResponse();
+        RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
         return Response.created(uri).entity(baggageResponseBody).build();
     }
 
@@ -33,10 +33,5 @@ public class BaggageRessource {
     private URI buildLocationUri(String baggageHash) {
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
         return uriBuilder.path(baggageHash).build();
-    }
-
-    private RegisterBaggageResponseBody buildRegisterBaggageResponse() {
-        RegisterBaggageResponseBody baggageResponse = new RegisterBaggageResponseBody(true);
-        return  baggageResponse;
     }
 }

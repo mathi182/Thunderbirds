@@ -12,30 +12,35 @@ public class CheckedBaggageEconomyTest {
     @Test
     public void givenValidCheckedBaggage_whenValidate_shouldDoNothing() throws Exception {
         CheckedBaggage checkedBaggage = new CheckedBaggageEconomy(cm, 10, kg, 10);
+
         checkedBaggage.validate();
     }
 
     @Test(expected = BaggageWeightInvalidException.class)
     public void givenInvalidKgWeightCheckedBaggage_whenValidate_shouldThrowBaggageWeightInvalidException() throws Exception {
         CheckedBaggage checkedBaggage = new CheckedBaggageEconomy(cm, 10, kg, 24);
+
         checkedBaggage.validate();
     }
 
     @Test(expected = BaggageWeightInvalidException.class)
     public void givenInvalidLbsWeightCheckedBaggage_whenValidate_shouldThrowBaggageWeightInvalidException() throws Exception {
         CheckedBaggage checkedBaggage = new CheckedBaggageEconomy(cm, 10, lbs, 51);
+
         checkedBaggage.validate();
     }
 
     @Test(expected = BaggageDimensionInvalidException.class)
     public void givenInvalidCmDimensionCheckedBaggage_whenValidate_shouldThrowBaggageDimensionInvalidException() throws Exception {
         CheckedBaggage checkedBaggage = new CheckedBaggageEconomy(cm, 159, lbs, 51);
+
         checkedBaggage.validate();
     }
 
     @Test(expected = BaggageDimensionInvalidException.class)
     public void givenInvalidPoDimensionCheckedBaggage_whenValidate_shouldThrowBaggageDimensionInvalidException() throws Exception {
         CheckedBaggage checkedBaggage = new CheckedBaggageEconomy(po, 63, lbs, 51);
+
         checkedBaggage.validate();
     }
 }
