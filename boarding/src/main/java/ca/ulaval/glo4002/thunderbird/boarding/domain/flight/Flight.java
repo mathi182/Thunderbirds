@@ -61,4 +61,8 @@ public class Flight {
         Seat takenSeat = strategy.assignSeat(availableSeats);
         return takenSeat;
     }
+
+    public int getId() {
+        return id;
+    }
 }
