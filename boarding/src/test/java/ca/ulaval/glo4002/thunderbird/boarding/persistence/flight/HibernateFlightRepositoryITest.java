@@ -58,7 +58,7 @@ public class HibernateFlightRepositoryITest {
     }
 
     @Test
-    public void canPersistAndRetrieve() {
+    public void givenAFlight_whenSaving_shouldBeAbleToRetrieve() {
         willReturn(A_PLANE_MODEL).given(amsSystem).getPlaneModel(anyString());
         List<Seat> seats = new ArrayList<>();
         seats.add(A_SEAT);
