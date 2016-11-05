@@ -71,7 +71,6 @@ public class HibernateFlightRepositoryITest {
     }
 
     private void assertFlightEquals(Flight flight, Flight fetchedFlight) {
-        assertEquals(flight.getFlightNumber(), fetchedFlight.getFlightNumber());
-        assertEquals(flight.getFlightDate(), fetchedFlight.getFlightDate());
+        assertEquals(flight.getId(), fetchedFlight.getId());
     }
 }
