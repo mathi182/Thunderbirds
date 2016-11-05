@@ -18,9 +18,9 @@ public class PassengerResource {
 
     @GET
     @Path("{passenger_hash}")
-    public Response fetchPassenger(@PathParam("passenger_hash") UUID passenger_hash){
+    public Passenger fetchPassenger(@PathParam("passenger_hash") UUID passenger_hash){
         Passenger passenger = getPassenger(passenger_hash);
-        return Response.ok(passenger, MediaType.APPLICATION_JSON).build();
+        return passenger;
     }
 
     //TODO find a way to make this method private even when we test it
