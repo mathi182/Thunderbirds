@@ -10,7 +10,6 @@ import static javax.ws.rs.core.Response.Status.CREATED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 public class CheckinResourceRestTest {
-
     private static final String AGENT_CHECKIN = "AGENT_ID";
     private static final UUID NON_EXISTENT_PASSENGER_HASH = new UUID(0L, 0L);
 
@@ -19,11 +18,11 @@ public class CheckinResourceRestTest {
         Checkin checkinExistentPassenger = new Checkin(EXISTENT_PASSENGER_HASH, AGENT_CHECKIN);
 
         givenBaseRequest()
-                    .body(checkinExistentPassenger)
+                .body(checkinExistentPassenger)
                 .when()
-                    .post(CheckinResource.PATH)
+                .post(CheckinResource.PATH)
                 .then()
-                    .statusCode(CREATED.getStatusCode());
+                .statusCode(CREATED.getStatusCode());
     }
 
     @Test
@@ -31,10 +30,10 @@ public class CheckinResourceRestTest {
         Checkin checkinNonExistentPassenger = new Checkin(NON_EXISTENT_PASSENGER_HASH, AGENT_CHECKIN);
 
         givenBaseRequest()
-                    .body(checkinNonExistentPassenger)
+                .body(checkinNonExistentPassenger)
                 .when()
-                    .post(CheckinResource.PATH)
+                .post(CheckinResource.PATH)
                 .then()
-                    .statusCode(NOT_FOUND.getStatusCode());
+                .statusCode(NOT_FOUND.getStatusCode());
     }
 }
