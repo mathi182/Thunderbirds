@@ -2,8 +2,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoSuchStrategyException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.SeatAssignationRequest;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.SeatAssignationRequestAssembler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,10 +12,11 @@ import static org.junit.Assert.*;
 public class SeatAssignationRequestAssemblerTest {
     private static final String INVALID_ASSIGNATION_MODE = "invalidMode";
     private static final String RANDOM_ASSIGNATION_MODE = "RANDOM";
+    private static final String CHEAPEST_ASSIGNATION_MODE = "CHEAPEST";
     private static final UUID PASSENGER_HASH = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
 
-    private ca.ulaval.glo4002.thunderbird.boarding.rest.SeatAssignationRequestAssembler assemblerTest;
-    private ca.ulaval.glo4002.thunderbird.boarding.rest.SeatAssignationRequest requestTest;
+    private SeatAssignationRequestAssembler assemblerTest;
+    private SeatAssignationRequest requestTest;
 
     @Before
     public void setup(){
@@ -42,6 +41,17 @@ public class SeatAssignationRequestAssemblerTest {
         requestTest.passengerHash = PASSENGER_HASH;
 
         assemblerTest.getMode(requestTest);
+    }
+
+    @Test
+    public void givenCheapesAssignationModeSeatAssignationRequest_whenGetMode_ShouldReturnCheapestMode(){
+        requestTest.mode = CHEAPEST_ASSIGNATION_MODE;
+        requestTest.passengerHash = PASSENGER_HASH;
+
+        SeatAssignationStrategy.assignMode actualValue = assemblerTest.getMode(requestTest);
+
+        SeatAssignationStrategy.assignMode expectedValue = SeatAssignationStrategy.assignMode.CHEAPEST;
+        assertEquals(expectedValue,actualValue);
     }
 
 }
