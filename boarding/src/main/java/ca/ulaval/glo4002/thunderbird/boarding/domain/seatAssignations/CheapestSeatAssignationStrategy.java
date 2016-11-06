@@ -19,8 +19,18 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
 
     @Override
     public Seat assignSeat(List<Seat> availableSeats) {
+        Seat cheapestSeat = findCheapestSeat(availableSeats);
+
+        if (cheapestSeat == null) {
+            throw new NoMoreSeatAvailableException();
+        }
+
+        return cheapestSeat;
+    }
+
+    private Seat findCheapestSeat(List<Seat> availableSeats) {
         Seat cheapestSeat = null;
-        System.out.println(availableSeats);
+
         for (Seat seat : availableSeats) {
             if (classType == Seat.seatClass.ANY || seat.getPriceClass() == classType) {
                 if (cheapestSeat == null) {
@@ -29,10 +39,6 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
                     cheapestSeat = seat;
                 }
             }
-        }
-
-        if (cheapestSeat == null) {
-            throw new NoMoreSeatAvailableException();
         }
 
         return cheapestSeat;
