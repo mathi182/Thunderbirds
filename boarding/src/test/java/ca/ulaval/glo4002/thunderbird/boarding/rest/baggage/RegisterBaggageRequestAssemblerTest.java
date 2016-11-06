@@ -9,9 +9,9 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.*;
 
 public class RegisterBaggageRequestAssemblerTest {
-    public static final String DIMENSION_UNIT_DESCRIPTION = "cm";
+    public static final String DIMENSION_UNIT_DESCRIPTION = "CM";
     public static final int LINEAR_DIMENSION = 10;
-    public static final String WEIGHT_UNIT_DESCRIPTION = "kg";
+    public static final String WEIGHT_UNIT_DESCRIPTION = "KG";
     public static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
     public static final int WEIGHT = 10;
 
