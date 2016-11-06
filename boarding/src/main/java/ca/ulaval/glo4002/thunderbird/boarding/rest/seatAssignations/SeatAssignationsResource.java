@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
