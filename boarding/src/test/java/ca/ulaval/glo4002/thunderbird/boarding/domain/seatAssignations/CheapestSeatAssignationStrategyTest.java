@@ -16,10 +16,10 @@ public class CheapestSeatAssignationStrategyTest {
 
     private CheapestSeatAssignationStrategy strategy;
     private List<Seat> seats;
-    Seat cheapestBusinessSeat;
-    Seat cheapestEconomicSeat;
-    Seat normalBusinessSeat;
-    Seat normalEconomicSeat;
+    private Seat cheapestBusinessSeat;
+    private Seat cheapestEconomicSeat;
+    private Seat normalBusinessSeat;
+    private Seat normalEconomicSeat;
     private static final double CHEAPEST_BUSINESS_PRICE = 100.0;
     private static final double CHEAPEST_ECONOMIC_PRICE = 50.0;
     private static final double NORMAL_BUSINESS_PRICE = 150.0;
