@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.plane;
 
 public class Seat {
 
-    public enum seatClass {ANY, ECONOMY, BUSINESS}
+    public enum SeatClass {ANY, ECONOMY, BUSINESS}
 
     private int rowNumber;
     private String seatName;
@@ -10,19 +10,19 @@ public class Seat {
     private boolean hasWindow;
     private boolean haveClearView;
     private double price;
-    private seatClass priceClass;
+    private SeatClass seatClass;
     private boolean isExitRow;
     private boolean isAvailable;
 
     public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean haveClearView, double price,
-                seatClass priceClass, boolean isExitRow, boolean isAvailable) {
+                SeatClass seatClass, boolean isExitRow, boolean isAvailable) {
         this.rowNumber = rowNumber;
         this.seatName = seatName;
         this.legRoom = legRoom;
         this.hasWindow = hasWindow;
         this.haveClearView = haveClearView;
         this.price = price;
-        this.priceClass = priceClass;
+        this.seatClass = seatClass;
         this.isExitRow = isExitRow;
         this.isAvailable = isAvailable;
     }
@@ -50,8 +50,8 @@ public class Seat {
         return price;
     }
 
-    public seatClass getPriceClass() {
-        return priceClass;
+    public SeatClass getSeatClass() {
+        return seatClass;
     }
 
     public int getLegRoom() {

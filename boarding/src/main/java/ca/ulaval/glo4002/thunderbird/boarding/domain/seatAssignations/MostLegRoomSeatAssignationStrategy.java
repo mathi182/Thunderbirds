@@ -5,36 +5,41 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrategy {
 
-    private Seat.seatClass classType;
+    private Seat.SeatClass classType;
 
-    public MostLegRoomSeatAssignationStrategy(Seat.seatClass classType) {
+    public MostLegRoomSeatAssignationStrategy(Seat.SeatClass classType) {
         this.classType = classType;
     }
 
     @Override
     public Seat assignSeat(List<Seat> availableSeats) {
+        List<Seat> filteredSeats;
+        if (classType != Seat.SeatClass.ANY) {
+            filteredSeats = availableSeats.stream().filter(seat -> seat.getSeatClass().equals(classType))
+                    .collect(Collectors.toList());
+        } else {
+            filteredSeats = availableSeats;
+        }
 
-//        if (availableSeats.size() == 0) {
-//            throw new NoMoreSeatAvailableException();
-//        }
+        if (filteredSeats.size() == 0) {
+            throw new NoMoreSeatAvailableException();
+        }
 
-        Seat mostLegRoomSeat = null;
-//        List<Seat> filtered = new ArrayList<>();
+        Seat mostLegRoomSeat = filteredSeats.get(0);
+        int mostLegRoom = mostLegRoomSeat.getLegRoom();
+        Seat seatLegRoom;
 
-        int mostLegRoom = 0;
+        for (int i = 1; i < filteredSeats.size(); i++) {
+            seatLegRoom = filteredSeats.get(i);
 
-        for (Seat seat : availableSeats) {
-            int seatLegRoom = seat.getLegRoom();
-
-           if (mostLegRoomSeat == null) {
-                mostLegRoomSeat = seat;
-           }
-           else if (seat.getLegRoom() > mostLegRoomSeat.getLegRoom()) {
-               mostLegRoom = seat;
-           }
+            if (seatLegRoom.getLegRoom() > mostLegRoom) {
+                mostLegRoom = seatLegRoom.getLegRoom();
+                mostLegRoomSeat = seatLegRoom;
+            }
         }
 
         return mostLegRoomSeat;

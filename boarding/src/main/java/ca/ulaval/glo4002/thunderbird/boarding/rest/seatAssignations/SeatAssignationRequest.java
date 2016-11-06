@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
