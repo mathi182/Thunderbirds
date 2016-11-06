@@ -13,7 +13,7 @@ public class SeatTest {
     private static final boolean HAS_WINDOW = true;
     private static final boolean HAS_CLEARVIEW = true;
     private static final double A_PRICE = 123.45;
-    private static final Seat.seatClass A_CLASS = Seat.seatClass.ECONOMY;
+    private static final Seat.SeatClass A_CLASS = Seat.SeatClass.ECONOMY;
     private static final boolean IS_EXIT_ROW = true;
     private Seat seat;
 

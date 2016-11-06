@@ -7,13 +7,13 @@ import java.util.List;
 
 public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy {
 
-    private Seat.seatClass classType;
+    private Seat.SeatClass classType;
 
     public CheapestSeatAssignationStrategy() {
-        classType = Seat.seatClass.ANY;
+        classType = Seat.SeatClass.ANY;
     }
 
-    public CheapestSeatAssignationStrategy(Seat.seatClass classType) {
+    public CheapestSeatAssignationStrategy(Seat.SeatClass classType) {
         this.classType = classType;
     }
 
@@ -32,7 +32,7 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
         Seat cheapestSeat = null;
 
         for (Seat seat : availableSeats) {
-            if (classType == Seat.seatClass.ANY || seat.getPriceClass() == classType) {
+            if (classType.equals(Seat.SeatClass.ANY) || seat.getSeatClass().equals(classType)) {
                 if (cheapestSeat == null) {
                     cheapestSeat = seat;
                 } else if (seat.getPrice() < cheapestSeat.getPrice()) {
