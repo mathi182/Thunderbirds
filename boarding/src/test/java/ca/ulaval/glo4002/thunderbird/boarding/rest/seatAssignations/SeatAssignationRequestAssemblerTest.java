@@ -29,9 +29,9 @@ public class SeatAssignationRequestAssemblerTest {
         requestTest.mode = RANDOM_ASSIGNATION_MODE;
         requestTest.passengerHash = PASSENGER_HASH;
 
-        SeatAssignationStrategy.assignMode actualValue = assemblerTest.getMode(requestTest);
+        SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
 
-        SeatAssignationStrategy.assignMode expectedValue = SeatAssignationStrategy.assignMode.RANDOM;
+        SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.RANDOM;
         assertEquals(expectedValue,actualValue);
     }
 
@@ -48,10 +48,9 @@ public class SeatAssignationRequestAssemblerTest {
         requestTest.mode = CHEAPEST_ASSIGNATION_MODE;
         requestTest.passengerHash = PASSENGER_HASH;
 
-        SeatAssignationStrategy.assignMode actualValue = assemblerTest.getMode(requestTest);
+        SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
 
-        SeatAssignationStrategy.assignMode expectedValue = SeatAssignationStrategy.assignMode.CHEAPEST;
+        SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.CHEAPEST;
         assertEquals(expectedValue,actualValue);
     }
-
 }

@@ -13,12 +13,12 @@ public class SeatAssignationRequestAssembler {
         return Passenger.findByPassengerHash(request.passengerHash);
     }
 
-    public SeatAssignationStrategy.assignMode getMode(SeatAssignationRequest request) {
+    public SeatAssignationStrategy.AssignMode getMode(SeatAssignationRequest request) {
         switch (request.mode){
             case RANDOM_MODE:
-                return SeatAssignationStrategy.assignMode.RANDOM;
+                return SeatAssignationStrategy.AssignMode.RANDOM;
             case CHEAPEST_MODE:
-                return SeatAssignationStrategy.assignMode.CHEAPEST;
+                return SeatAssignationStrategy.AssignMode.CHEAPEST;
             default:
                 throw new NoSuchStrategyException(request.mode);
         }
