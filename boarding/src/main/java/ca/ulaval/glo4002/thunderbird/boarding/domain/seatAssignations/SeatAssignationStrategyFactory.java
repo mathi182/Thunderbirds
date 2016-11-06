@@ -11,6 +11,8 @@ public class SeatAssignationStrategyFactory {
         switch (mode) {
             case RANDOM:
                 return new RandomSeatAssignationStrategy(new Random());
+            case CHEAPEST:
+                return new CheapestSeatAssignationStrategy();
             default:
                 throw new NoSuchStrategyException("unknown");
         }
