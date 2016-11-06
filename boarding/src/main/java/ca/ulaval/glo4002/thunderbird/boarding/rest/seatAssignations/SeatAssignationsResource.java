@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
@@ -58,7 +58,7 @@ public class SeatAssignationsResource {
 
     private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationRequest request){
         SeatAssignationRequestAssembler seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
-        SeatAssignationStrategy.assignMode assignMode = seatAssignationRequestAssembler.getMode(request);
+        SeatAssignationStrategy.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
         SeatAssignationStrategy strategy = new SeatAssignationStrategyFactory().getStrategy(assignMode);
         return strategy;
     }
