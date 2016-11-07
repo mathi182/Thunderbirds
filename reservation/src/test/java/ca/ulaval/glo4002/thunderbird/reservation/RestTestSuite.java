@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResourceRestTest
 import ca.ulaval.glo4002.thunderbird.reservation.contexts.DevContext;
 import ca.ulaval.glo4002.thunderbird.reservation.event.EventsResourceRestTest;
 import ca.ulaval.glo4002.thunderbird.reservation.heartbeat.HeartbeatResourceRestTest;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerResourceRestTest;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResourceRestTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -15,10 +16,11 @@ import org.junit.runners.Suite;
         CheckinResourceRestTest.class,
         EventsResourceRestTest.class,
         HeartbeatResourceRestTest.class,
-        ReservationsResourceRestTest.class
+        ReservationsResourceRestTest.class,
+        PassengerResourceRestTest.class
 })
 public class RestTestSuite {
-
+    
     public static final int TEST_SERVER_PORT = 9292;
 
     private static ReservationServer reservationServer;
@@ -33,5 +35,4 @@ public class RestTestSuite {
     public static void tearDownClass() {
         reservationServer.stop();
     }
-
 }

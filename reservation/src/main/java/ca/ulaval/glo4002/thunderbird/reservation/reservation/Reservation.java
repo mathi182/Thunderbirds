@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvid
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.text.ParseException;
@@ -32,6 +33,7 @@ public class Reservation {
     private String flightNumber;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "reservation")
+    @JsonManagedReference
     private List<Passenger> passengers;
 
     @JsonCreator
@@ -80,8 +82,7 @@ public class Reservation {
 
     public void save() {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
-        EntityManager entityManager = entityManagerProvider.getEntityManager();
-        entityManagerProvider.executeInTransaction(() -> entityManager.persist(this));
+        entityManagerProvider.persistInTransaction(this);
     }
 
     @JsonProperty("reservation_number")

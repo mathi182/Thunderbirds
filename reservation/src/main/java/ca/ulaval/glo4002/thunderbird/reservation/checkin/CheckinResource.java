@@ -20,7 +20,7 @@ public class CheckinResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response checkin(Checkin checkin) {
-        checkin.completePassengerCheckin(Instant.now());
+        checkin.completeCheckin(Instant.now());
         checkin.save();
 
         String checkinId = checkin.getId().toString();

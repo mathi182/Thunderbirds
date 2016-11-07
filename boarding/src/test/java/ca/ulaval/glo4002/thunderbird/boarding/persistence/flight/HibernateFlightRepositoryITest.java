@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 
 public class HibernateFlightRepositoryITest {
     private static final Plane A_PLANE = new Plane("dash-8", 1, 2000);
-    private static final Seat A_SEAT = new Seat(1, "A", 56, true, true, 123.45, "economic", false, true);
+    private static final Seat A_SEAT = new Seat(1, "A", 56, true, true, 123.45, Seat.SeatClass.ANY, false, true);
     private static final String A_PLANE_MODEL = "dash-8";
     private static final String A_FLIGHT_NUMBER = "QK-918";
     private static final String ANOTHER_FLIGHT_NUMBER = "AB-123";

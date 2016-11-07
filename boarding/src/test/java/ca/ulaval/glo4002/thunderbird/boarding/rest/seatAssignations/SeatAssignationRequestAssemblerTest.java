@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoSuchStrategyException;
@@ -9,12 +9,10 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by AlexisLessard on 2016-11-04.
- */
 public class SeatAssignationRequestAssemblerTest {
     private static final String INVALID_ASSIGNATION_MODE = "invalidMode";
     private static final String RANDOM_ASSIGNATION_MODE = "RANDOM";
+    private static final String CHEAPEST_ASSIGNATION_MODE = "CHEAPEST";
     private static final UUID PASSENGER_HASH = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
 
     private SeatAssignationRequestAssembler assemblerTest;
@@ -31,9 +29,9 @@ public class SeatAssignationRequestAssemblerTest {
         requestTest.mode = RANDOM_ASSIGNATION_MODE;
         requestTest.passengerHash = PASSENGER_HASH;
 
-        SeatAssignationStrategy.assignMode actualValue = assemblerTest.getMode(requestTest);
+        SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
 
-        SeatAssignationStrategy.assignMode expectedValue = SeatAssignationStrategy.assignMode.RANDOM;
+        SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.RANDOM;
         assertEquals(expectedValue,actualValue);
     }
 
@@ -45,4 +43,14 @@ public class SeatAssignationRequestAssemblerTest {
         assemblerTest.getMode(requestTest);
     }
 
+    @Test
+    public void givenCheapesAssignationModeSeatAssignationRequest_whenGetMode_ShouldReturnCheapestMode(){
+        requestTest.mode = CHEAPEST_ASSIGNATION_MODE;
+        requestTest.passengerHash = PASSENGER_HASH;
+
+        SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
+
+        SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.CHEAPEST;
+        assertEquals(expectedValue,actualValue);
+    }
 }
