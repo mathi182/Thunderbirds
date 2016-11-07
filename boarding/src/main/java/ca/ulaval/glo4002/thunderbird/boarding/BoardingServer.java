@@ -3,11 +3,15 @@ package ca.ulaval.glo4002.thunderbird.boarding;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.Context;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.ProdContext;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.filters.EntityManagerContextFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
+
+import javax.servlet.DispatcherType;
+import java.util.EnumSet;
 
 import static java.util.Optional.ofNullable;
 
@@ -84,6 +88,7 @@ public class BoardingServer {
         ServletContainer container = new ServletContainer(resourceConfig);
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
+        servletContextHandler.addFilter(EntityManagerContextFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
     }
-    
+
 }
