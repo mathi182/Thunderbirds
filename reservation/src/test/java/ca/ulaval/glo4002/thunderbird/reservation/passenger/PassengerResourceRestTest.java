@@ -7,6 +7,7 @@ import org.junit.Test;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+
 import static org.hamcrest.Matchers.equalTo;
 import javax.ws.rs.core.MediaType;
 import java.util.UUID;
@@ -21,15 +22,14 @@ public class PassengerResourceRestTest {
     private static final int EXISTENT_RESERVATION_NUMBER = DevContext.EXISTENT_RESERVATION_NUMBER;
     public static final int FIRST_PASSENGER = 0;
 
-    private static PassengerTestDTO existentPassenger;
+    private static PassengerTestRequest existingPassenger;
 
     @BeforeClass
     public static void getPassengerInformation() {
         String url = SERVICE_ADDRESS + String.format(PASSENGER_PATH_FORMAT, EXISTENT_RESERVATION_NUMBER);
         ClientResponse response = getResource(url);
-        ReservationTestDTO reservationTest = response.getEntity(ReservationTestDTO.class);
-
-        existentPassenger = reservationTest.passengers.get(FIRST_PASSENGER);
+        ReservationTestRequest existingReservation = response.getEntity(ReservationTestRequest.class);
+        existingPassenger = existingReservation.passengers.get(FIRST_PASSENGER);
     }
 
     @Test
@@ -45,13 +45,14 @@ public class PassengerResourceRestTest {
     public void givenExistingPassengerHash_whenAskingForPassenger_shouldReturnExistentPassenger(){
         givenBaseRequest()
                 .when()
-                .get("/passenger/{passenger_UUID}", existentPassenger.passengerHash)
+                .get("/passenger/{passenger_UUID}", existingPassenger.passenger_Hash)
                 .then()
                 .statusCode(OK.getStatusCode())
-                .body("first_name",equalTo(existentPassenger.first_name))
-                .body("last_name",equalTo(existentPassenger.last_name))
-                .body("passport_number",equalTo(existentPassenger.passport_number))
-                .body("seat_class",equalTo(existentPassenger.seatClass));
+                .body("passenger_hash",equalTo(existingPassenger.passenger_Hash))
+                .body("first_name",equalTo(existingPassenger.first_name))
+                .body("last_name",equalTo(existingPassenger.last_name))
+                .body("passport_number",equalTo(existingPassenger.passport_number))
+                .body("seat_class",equalTo(existingPassenger.seat_Class));
     }
 
     private static ClientResponse getResource(String url) {
