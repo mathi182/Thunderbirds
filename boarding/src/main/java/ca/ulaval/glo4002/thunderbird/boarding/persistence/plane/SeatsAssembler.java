@@ -11,10 +11,10 @@ public class SeatsAssembler {
         List<Seat> seats = new ArrayList<>(dto.seats.length);
 
         for (SeatsInformationDTO.SeatDTO seatDTO : dto.seats) {
-            Seat.SeatClass priceClass = rowClasses.get(seatDTO.row);
+            Seat.SeatClass seatClass = rowClasses.get(seatDTO.row);
             boolean isExitRow = exitRows.contains(seatDTO.row);
             Seat seat = new Seat(seatDTO.row, seatDTO.seat, seatDTO.legroom, seatDTO.window, seatDTO.clearView,
-                    seatDTO.price, priceClass, isExitRow, true);
+                    seatDTO.price, seatClass, isExitRow, true);
             seats.add(seat);
         }
 

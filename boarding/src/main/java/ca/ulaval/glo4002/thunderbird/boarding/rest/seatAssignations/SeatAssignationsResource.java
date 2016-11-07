@@ -58,9 +58,7 @@ public class SeatAssignationsResource {
     private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationRequest request){
         SeatAssignationRequestAssembler seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
         SeatAssignationStrategy.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
-        SeatAssignationStrategy strategy = new SeatAssignationStrategyFactory().getStrategy(assignMode);
-        strategy.setSeatClass(request.seatClass);
-        return strategy;
+        return new SeatAssignationStrategyFactory().getStrategy(assignMode, request.seatClass);
     }
 
     private TakenSeatDTO convertSeatToDTO(Seat seat){

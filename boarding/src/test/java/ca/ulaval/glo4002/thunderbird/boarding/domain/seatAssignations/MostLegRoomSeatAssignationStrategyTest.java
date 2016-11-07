@@ -27,7 +27,6 @@ public class MostLegRoomSeatAssignationStrategyTest {
     private Seat businessSeat = mock(Seat.class);
 
     private List<Seat> seats = new ArrayList<>(Arrays.asList(economicMostLegRoomSeat, economicCheapestSeat,
-            economicMostLegRoomSeat,
             businessSeat));
 
     @Before
@@ -35,13 +34,13 @@ public class MostLegRoomSeatAssignationStrategyTest {
         willReturn(Seat.SeatClass.ECONOMY).given(economicMostLegRoomSeat).getSeatClass();
         willReturn(Seat.SeatClass.ECONOMY).given(economicCheapestSeat).getSeatClass();
         willReturn(Seat.SeatClass.BUSINESS).given(businessSeat).getSeatClass();
+        willReturn(MOST_LEG_ROOM).given(economicMostLegRoomSeat).getLegRoom();
+        willReturn(THIRD_MOST_LEG_ROOM).given(businessSeat).getLegRoom();
     }
 
     @Test
     public void givenAValidSeatsList_whenSelectingMostLegRoom_shouldReturnMostLegRoomFromAnyCLass() {
-        willReturn(MOST_LEG_ROOM).given(economicMostLegRoomSeat).getLegRoom();
-        willReturn(SECOND_MOST_LEG_ROOM).given(businessSeat).getLegRoom();
-        willReturn(THIRD_MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
+        willReturn(SECOND_MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
         willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(anyInt());
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
 
@@ -52,7 +51,6 @@ public class MostLegRoomSeatAssignationStrategyTest {
 
     @Test
     public void givenAValidSeatsList_whenSelectingMostLegRoomFromEconomic_shouldReturnMostLegRoomFromEconomicClass() {
-        willReturn(MOST_LEG_ROOM).given(economicMostLegRoomSeat).getLegRoom();
         willReturn(SECOND_MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
         willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(anyInt());
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
@@ -73,21 +71,16 @@ public class MostLegRoomSeatAssignationStrategyTest {
 
     @Test
     public void givenAValidSeatsList_whenSelectionMostLegRoomWithMultipleResult_shouldReturnSeatWithLowestPrice() {
-        givenAValidSeatsList();
-        willReturn(false).given(economicMostLegRoomSeat).hasMoreLegRoomThan(anyInt());  //To change
-        willReturn(true).given(economicCheapestSeat).hasMoreLegRoomThan(anyInt());      //To change
+        willReturn(MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
+        willReturn(PRICE).given(economicMostLegRoomSeat).getPrice();
+        willReturn(LOWEST_PRICE).given(economicCheapestSeat).getPrice();
+        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(anyInt());
+        willReturn(false).given(economicCheapestSeat).hasMoreLegRoomThan(anyInt());
+        willReturn(true).given(economicCheapestSeat).hasSameAmountOfLegRoom(anyInt());
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
 
         Seat takenSeat = strategy.assignSeat(seats);
 
         assertEquals(economicCheapestSeat, takenSeat);
-    }
-
-    private void givenAValidSeatsList() {
-        willReturn(MOST_LEG_ROOM).given(economicMostLegRoomSeat).getLegRoom();
-        willReturn(MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
-        willReturn(LOWEST_PRICE).given(economicCheapestSeat).getPrice();
-        willReturn(PRICE).given(economicMostLegRoomSeat).getPrice();
-        willReturn(PRICE).given(businessSeat).getPrice();
     }
 }

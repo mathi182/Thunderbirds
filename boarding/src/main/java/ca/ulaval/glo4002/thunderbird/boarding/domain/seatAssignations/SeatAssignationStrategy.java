@@ -9,5 +9,4 @@ public interface SeatAssignationStrategy {
 
     Seat assignSeat(List<Seat> availableSeats);
 
-    void setSeatClass(Seat.SeatClass seatClass);
 }

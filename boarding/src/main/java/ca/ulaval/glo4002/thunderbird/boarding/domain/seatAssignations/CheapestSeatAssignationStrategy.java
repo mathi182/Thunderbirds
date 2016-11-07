@@ -9,10 +9,6 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
 
     private Seat.SeatClass classType;
 
-    public CheapestSeatAssignationStrategy() {
-        classType = Seat.SeatClass.ANY;
-    }
-
     public CheapestSeatAssignationStrategy(Seat.SeatClass classType) {
         this.classType = classType;
     }
@@ -26,11 +22,6 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
         }
 
         return cheapestSeat;
-    }
-
-    @Override
-    public void setSeatClass(Seat.SeatClass seatClass) {
-        classType = seatClass;
     }
 
     private Seat findCheapestSeat(List<Seat> availableSeats) {
