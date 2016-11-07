@@ -13,9 +13,6 @@ public class PassengerResource {
 
     public static final String PATH = "/passenger/";
 
-    @Context
-    UriInfo uriInfo;
-
     @GET
     @Path("{passenger_hash}")
     public Passenger fetchPassenger(@PathParam("passenger_hash") UUID passenger_hash){
@@ -27,5 +24,4 @@ public class PassengerResource {
     public Passenger getPassenger(UUID passenger_hash){
         return Passenger.findByPassengerHash(passenger_hash);
     }
-
 }
