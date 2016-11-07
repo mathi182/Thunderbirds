@@ -27,6 +27,7 @@ public class HibernateFlightRepositoryITest {
     private static final Seat A_SEAT = new Seat(1, "A", 56, true, true, 123.45, "economic", false, true);
     private static final String A_PLANE_MODEL = "dash-8";
     private static final String A_FLIGHT_NUMBER = "QK-918";
+    private static final String ANOTHER_FLIGHT_NUMBER = "AB-123";
     private static final Instant A_FLIGHT_DATE = Instant.ofEpochMilli(1478195361);
     private static EntityManagerFactory entityManagerFactory;
     private AMSSystem amsSystem;
@@ -68,6 +69,16 @@ public class HibernateFlightRepositoryITest {
         Flight fetchedFlight = flightRepository.getFlight(A_FLIGHT_NUMBER, A_FLIGHT_DATE);
 
         assertFlightEquals(flight, fetchedFlight);
+    }
+
+    @Test
+    public void givenAFlightNumber_whenFetching_shouldReturn_aFlight() {
+        willReturn(A_PLANE_MODEL).given(amsSystem).getPlaneModel(anyString());
+
+        Flight flight = flightRepository.getFlight(ANOTHER_FLIGHT_NUMBER, A_FLIGHT_DATE);
+
+        assertEquals(ANOTHER_FLIGHT_NUMBER, flight.getFlightNumber());
+        assertEquals(A_FLIGHT_DATE, flight.getFlightDate());
     }
 
     private void assertFlightEquals(Flight flight, Flight fetchedFlight) {

@@ -9,13 +9,13 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import java.time.Instant;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class HibernateFlightRepository implements FlightRepository {
     private AMSSystem amsSystem;
@@ -31,7 +31,7 @@ public class HibernateFlightRepository implements FlightRepository {
         Flight flight;
         try {
             flight = getFlightFromDB(flightNumber, flightDate);
-        } catch (NoSuchElementException ex) {
+        } catch (NoResultException ex) {
             flight = createFlight(flightNumber, flightDate);
         }
 
