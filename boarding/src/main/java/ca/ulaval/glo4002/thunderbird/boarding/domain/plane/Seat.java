@@ -65,4 +65,8 @@ public class Seat {
     public boolean hasSameAmountOfLegRoom(int currentMostLegRoom) {
         return legRoom == currentMostLegRoom;
     }
+
+    public boolean hasLowerPrice(Seat seat) {
+        return price < seat.getPrice();
+    }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 
@@ -62,7 +63,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
 
     @Test(expected = NoMoreSeatAvailableException.class)
     public void
-    givenAValidSeatsListWithoutBusiness_whenSelectingMostLegRoomFromASpecificClass_shouldThrowNoMoreSeatAvailable() {
+    givenAValidSeatsListWithoutBusiness_whenSelectingMostLegRoomFromBusiness_shouldThrowNoMoreSeatAvailable() {
         List<Seat> seatsWithoutBusiness = new ArrayList<>(Arrays.asList(economicCheapestSeat, economicMostLegRoomSeat));
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
 
@@ -72,8 +73,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
     @Test
     public void givenAValidSeatsList_whenSelectionMostLegRoomWithMultipleResult_shouldReturnSeatWithLowestPrice() {
         willReturn(MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
-        willReturn(PRICE).given(economicMostLegRoomSeat).getPrice();
-        willReturn(LOWEST_PRICE).given(economicCheapestSeat).getPrice();
+        willReturn(true).given(economicCheapestSeat).hasLowerPrice(any(Seat.class));
         willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(anyInt());
         willReturn(false).given(economicCheapestSeat).hasMoreLegRoomThan(anyInt());
         willReturn(true).given(economicCheapestSeat).hasSameAmountOfLegRoom(anyInt());
