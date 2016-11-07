@@ -16,7 +16,7 @@ public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrate
     }
 
     public MostLegRoomSeatAssignationStrategy() {
-        
+
     }
 
     @Override
@@ -52,12 +52,12 @@ public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrate
         List<Seat> seats = new ArrayList<>();
 
         for (Seat seat : filteredSeats) {
-            if (seat.getLegRoom() > currentMostLegRoom) {
+            if (seat.hasMoreLegRoomThan(currentMostLegRoom)) {  // Remplacer par seat.getLegRoom() > currentMostLegRoom
                 currentMostLegRoom = seat.getLegRoom();
 
                 seats.clear();
                 seats.add(seat);
-            } else if (seat.getLegRoom() == currentMostLegRoom) {
+            } else if (seat.hasSameAmountOfLegRoom(currentMostLegRoom)) {
                 seats.add(seat);
             }
         }

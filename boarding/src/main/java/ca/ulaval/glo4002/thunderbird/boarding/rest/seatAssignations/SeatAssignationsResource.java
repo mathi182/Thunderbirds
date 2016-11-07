@@ -52,20 +52,19 @@ public class SeatAssignationsResource {
     private Flight getFlight(SeatAssignationRequest request){
         SeatAssignationRequestAssembler seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
         Passenger passenger = seatAssignationRequestAssembler.getDomainPassenger(request);
-        Flight flight = repository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
-        return flight;
+        return repository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
     }
 
     private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationRequest request){
         SeatAssignationRequestAssembler seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
         SeatAssignationStrategy.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
         SeatAssignationStrategy strategy = new SeatAssignationStrategyFactory().getStrategy(assignMode);
+        strategy.setSeatClass(request.seatClass);
         return strategy;
     }
 
     private TakenSeatDTO convertSeatToDTO(Seat seat){
         TakenSeatAssembler assembler = new TakenSeatAssembler();
-        TakenSeatDTO takenSeatDTO = assembler.fromDomain(seat);
-        return takenSeatDTO;
+        return assembler.fromDomain(seat);
     }
 }

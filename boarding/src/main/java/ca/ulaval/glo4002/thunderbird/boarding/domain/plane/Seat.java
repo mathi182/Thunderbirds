@@ -57,4 +57,12 @@ public class Seat {
     public int getLegRoom() {
         return legRoom;
     }
+
+    public boolean hasMoreLegRoomThan(int legRoomToCompare) {
+        return legRoom > legRoomToCompare;
+    }
+
+    public boolean hasSameAmountOfLegRoom(int currentMostLegRoom) {
+        return legRoom == currentMostLegRoom;
+    }
 }
