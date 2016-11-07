@@ -11,10 +11,10 @@ import java.util.List;
  */
 public class ReservationTestDTO
 {
-    public int reservationNumber;
-    public String flightDate;
-    public String flightNumber;
-    public List<PassengerTestDTO> passengers;
+    public final int reservationNumber;
+    public final String flightDate;
+    public final String flightNumber;
+    public final List<PassengerTestDTO> passengers;
 
     public ReservationTestDTO(@JsonProperty("reservation_number") int reservationNumber,
                               @JsonProperty("flight_date") String flightDate,
