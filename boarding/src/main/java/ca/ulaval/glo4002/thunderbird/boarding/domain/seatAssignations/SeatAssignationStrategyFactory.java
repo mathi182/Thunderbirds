@@ -5,7 +5,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions
 import java.util.Random;
 
 public class SeatAssignationStrategyFactory {
-    private static final String RANDOM_MODE = "RANDOM";
 
     public SeatAssignationStrategy getStrategy(SeatAssignationStrategy.AssignMode mode) {
         switch (mode) {
@@ -13,6 +12,8 @@ public class SeatAssignationStrategyFactory {
                 return new RandomSeatAssignationStrategy(new Random());
             case CHEAPEST:
                 return new CheapestSeatAssignationStrategy();
+            case LEGS:
+                return new MostLegRoomSeatAssignationStrategy();
             default:
                 throw new NoSuchStrategyException("unknown");
         }

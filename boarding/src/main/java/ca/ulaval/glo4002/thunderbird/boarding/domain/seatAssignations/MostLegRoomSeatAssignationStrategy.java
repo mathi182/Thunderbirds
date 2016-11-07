@@ -15,33 +15,60 @@ public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrate
         this.classType = classType;
     }
 
+    public MostLegRoomSeatAssignationStrategy() {
+        
+    }
+
     @Override
     public Seat assignSeat(List<Seat> availableSeats) {
-        List<Seat> filteredSeats;
-        if (classType != Seat.SeatClass.ANY) {
-            filteredSeats = availableSeats.stream().filter(seat -> seat.getSeatClass().equals(classType))
-                    .collect(Collectors.toList());
-        } else {
-            filteredSeats = availableSeats;
-        }
+        List<Seat> filteredSeats = filterBySeatClass(availableSeats);
 
         if (filteredSeats.size() == 0) {
             throw new NoMoreSeatAvailableException();
         }
 
-        Seat mostLegRoomSeat = filteredSeats.get(0);
-        int mostLegRoom = mostLegRoomSeat.getLegRoom();
-        Seat seatLegRoom;
+        filteredSeats = filterByLegRoom(filteredSeats);
 
-        for (int i = 1; i < filteredSeats.size(); i++) {
-            seatLegRoom = filteredSeats.get(i);
+        return getBestSeat(filteredSeats);
 
-            if (seatLegRoom.getLegRoom() > mostLegRoom) {
-                mostLegRoom = seatLegRoom.getLegRoom();
-                mostLegRoomSeat = seatLegRoom;
+    }
+
+    @Override
+    public void setSeatClass(Seat.SeatClass seatClass) {
+        classType = seatClass;
+    }
+
+    private List<Seat> filterBySeatClass(List<Seat> availableSeats) {
+        if (classType != Seat.SeatClass.ANY) {
+            return availableSeats.stream().filter(seat -> seat.getSeatClass().equals(classType))
+                    .collect(Collectors.toList());
+        } else {
+            return availableSeats;
+        }
+    }
+
+    private List<Seat> filterByLegRoom(List<Seat> filteredSeats) {
+        int currentMostLegRoom = 0;
+        List<Seat> seats = new ArrayList<>();
+
+        for (Seat seat : filteredSeats) {
+            if (seat.getLegRoom() > currentMostLegRoom) {
+                currentMostLegRoom = seat.getLegRoom();
+
+                seats.clear();
+                seats.add(seat);
+            } else if (seat.getLegRoom() == currentMostLegRoom) {
+                seats.add(seat);
             }
         }
+        return seats;
+    }
 
-        return mostLegRoomSeat;
+    private Seat getBestSeat(List<Seat> seats) {
+        if (seats.size() > 1) {
+            CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(classType);
+            return strategy.assignSeat(seats);
+        }
+        return seats.get(0);
     }
 }

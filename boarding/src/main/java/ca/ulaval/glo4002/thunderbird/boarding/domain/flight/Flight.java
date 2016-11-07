@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Flight {
 
@@ -33,18 +34,12 @@ public class Flight {
     }
 
     public Seat assignSeat(SeatAssignationStrategy strategy) {
-        List<Seat> availableSeats = new ArrayList<>();
-        for (Seat seat : seats) {
-            if (seat.isAvailable()) {
-                availableSeats.add(seat);
-            }
-        }
+        List<Seat> availableSeats = seats.stream().filter(Seat::isAvailable).collect(Collectors.toList());
 
         if (availableSeats.isEmpty()) {
             throw new SeatNotAvailableException(flightNumber);
         }
 
-        Seat takenSeat = strategy.assignSeat(availableSeats);
-        return takenSeat;
+        return strategy.assignSeat(availableSeats);
     }
 }
