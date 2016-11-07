@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class PassengerNotFoundException extends ElementNotFoundException implements Serializable {
-    public PassengerNotFoundException(UUID id)   {
+    public PassengerNotFoundException(UUID id) {
         super("passenger with id " + id);
     }
 }
