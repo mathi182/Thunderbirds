@@ -32,7 +32,7 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
         Seat cheapestSeat = null;
 
         for (Seat seat : availableSeats) {
-            if (classType.equals(Seat.SeatClass.ANY) || seat.getSeatClass().equals(classType)) {
+            if (isSeatGoodClass(seat)) {
                 if (cheapestSeat == null) {
                     cheapestSeat = seat;
                 } else if (seat.getPrice() < cheapestSeat.getPrice()) {
@@ -42,5 +42,9 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
         }
 
         return cheapestSeat;
+    }
+
+    private boolean isSeatGoodClass(Seat seat) {
+        return classType.equals(Seat.SeatClass.ANY) || seat.getSeatClass().equals(classType);
     }
 }

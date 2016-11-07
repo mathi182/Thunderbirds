@@ -6,18 +6,18 @@ public class Seat {
     private String seatName;
     private int legRoom;
     private boolean hasWindow;
-    private boolean haveClearView;
+    private boolean hasClearView;
     private double price;
     private SeatClass seatClass;
     private boolean isExitRow;
     private boolean isAvailable;
 
-    public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean haveClearView, double price, SeatClass seatClass, boolean isExitRow, boolean isAvailable) {
+    public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean hasClearView, double price, SeatClass seatClass, boolean isExitRow, boolean isAvailable) {
         this.rowNumber = rowNumber;
         this.seatName = seatName;
         this.legRoom = legRoom;
         this.hasWindow = hasWindow;
-        this.haveClearView = haveClearView;
+        this.hasClearView = hasClearView;
         this.price = price;
         this.seatClass = seatClass;
         this.isExitRow = isExitRow;
@@ -49,5 +49,40 @@ public class Seat {
 
     public SeatClass getSeatClass() {
         return seatClass;
+    }
+
+    public boolean hasWindow() {
+        return hasWindow;
+    }
+
+    public boolean hasClearView() {
+        return hasClearView;
+    }
+
+    public boolean isCheaperThan(Seat seat) {
+        return price < seat.getPrice();
+    }
+
+    public boolean hasBetterViewThan(Seat seat) {
+        if (hasWindow && !seat.hasWindow()) {
+            return true;
+        }
+        if (!hasWindow && seat.hasWindow) {
+            return false;
+        }
+        return hasClearView && !seat.hasClearView();
+    }
+
+    public Seat bestSeatViewBetween(Seat seat) {
+        if (hasBetterViewThan(seat)) {
+            return this;
+        }
+        if (seat.hasBetterViewThan(this)) {
+            return seat;
+        }
+        if (isCheaperThan(seat)) {
+            return this;
+        }
+        return seat;
     }
 }

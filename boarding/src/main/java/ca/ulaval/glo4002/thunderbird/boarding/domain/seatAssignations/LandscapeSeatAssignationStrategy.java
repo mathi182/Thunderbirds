@@ -19,26 +19,30 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
 
     @Override
     public Seat assignSeat(List<Seat> availableSeats) {
-        Seat bestViewSeat = findBestViewSeat(availableSeats);
+        availableSeats = filterSeatsByClass(availableSeats);
+        Seat bestSeat = findBestViewSeat(availableSeats);
 
-        if (bestViewSeat == null) {
-            throw new NoMoreSeatAvailableException();
-        }
+        return bestSeat;
+    }
 
-        return bestViewSeat;
+    private List<Seat> filterSeatsByClass(List<Seat> availableSeats) {
+        availableSeats.removeIf(seat -> !isSeatGoodClass(seat));
+
+        return availableSeats;
     }
 
     private Seat findBestViewSeat(List<Seat> availableSeats) {
-        Seat bestViewSeat = null;
+        if (availableSeats.isEmpty()) {
+            throw new NoMoreSeatAvailableException();
+        }
+
+        Seat bestSeat = availableSeats.get(0);
 
         for (Seat seat : availableSeats) {
-            if (isSeatGoodClass(seat)) {
-                if (bestViewSeat == null) {
-                    bestViewSeat = seat;
-                }
-                bestViewSeat = seat.hasBestViewBetween(bestViewSeat);
-            }
+            bestSeat = bestSeat.bestSeatViewBetween(seat);
         }
+
+        return bestSeat;
     }
 
     private boolean isSeatGoodClass(Seat seat) {

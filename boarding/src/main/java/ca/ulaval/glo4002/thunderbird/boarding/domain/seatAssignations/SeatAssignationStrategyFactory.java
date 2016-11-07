@@ -13,6 +13,8 @@ public class SeatAssignationStrategyFactory {
                 return new RandomSeatAssignationStrategy(new Random());
             case CHEAPEST:
                 return new CheapestSeatAssignationStrategy();
+            case LANDSCAPE:
+                return new LandscapeSeatAssignationStrategy();
             default:
                 throw new NoSuchStrategyException("unknown");
         }
