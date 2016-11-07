@@ -22,13 +22,13 @@ public class PassengerResourceRestTest {
     private static final int EXISTENT_RESERVATION_NUMBER = DevContext.EXISTENT_RESERVATION_NUMBER;
     public static final int FIRST_PASSENGER = 0;
 
-    private static PassengerTestDTO existingPassenger;
+    private static PassengerTestRequest existingPassenger;
 
     @BeforeClass
     public static void getPassengerInformation() {
         String url = SERVICE_ADDRESS + String.format(PASSENGER_PATH_FORMAT, EXISTENT_RESERVATION_NUMBER);
         ClientResponse response = getResource(url);
-        ReservationTestDTO existingReservation = response.getEntity(ReservationTestDTO.class);
+        ReservationTestRequest existingReservation = response.getEntity(ReservationTestRequest.class);
         existingPassenger = existingReservation.passengers.get(FIRST_PASSENGER);
     }
 
