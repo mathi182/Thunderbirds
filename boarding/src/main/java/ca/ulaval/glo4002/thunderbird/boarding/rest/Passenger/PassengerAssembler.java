@@ -9,6 +9,7 @@ import java.util.UUID;
 public class PassengerAssembler {
 
     private static final String ECONOMY = "economy";
+
     private static final Seat.SeatClass DEFAULT_SEAT_CLASS = Seat.SeatClass.ANY;
 
     public Passenger toDomain(PassengerRequest passengerRequest){
