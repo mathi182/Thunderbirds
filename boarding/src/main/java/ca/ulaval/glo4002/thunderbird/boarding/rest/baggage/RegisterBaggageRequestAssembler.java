@@ -13,10 +13,10 @@ public class RegisterBaggageRequestAssembler {
         validateRequest(request);
 
         if (request.type.equals("checked")) {
-            String dimensionUnitUpperCase = request.linearDimensionUnit.toUpperCase();
-            String weightUnitUpperCase = request.weightUnit.toUpperCase();
-            LinearDimensionUnits linearDimensionUnits = LinearDimensionUnits.valueOf(dimensionUnitUpperCase);
-            WeightUnits weightUnits = WeightUnits.valueOf(weightUnitUpperCase);
+            String weightUnitToUpper = request.weightUnit.toUpperCase();
+            String dimensionUnitToUpper = request.linearDimensionUnit.toUpperCase();
+            LinearDimensionUnits linearDimensionUnits = LinearDimensionUnits.valueOf(dimensionUnitToUpper);
+            WeightUnits weightUnits = WeightUnits.valueOf(weightUnitToUpper);
             return new CheckedBaggageEconomy(linearDimensionUnits, request.linearDimension, weightUnits, request.weight);
         }
         else {
