@@ -28,6 +28,11 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
         return cheapestSeat;
     }
 
+    @Override
+    public void setSeatClass(Seat.SeatClass seatClass) {
+        classType = seatClass;
+    }
+
     private Seat findCheapestSeat(List<Seat> availableSeats) {
         Seat cheapestSeat = null;
 
