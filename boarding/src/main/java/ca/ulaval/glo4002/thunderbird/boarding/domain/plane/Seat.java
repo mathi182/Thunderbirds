@@ -8,7 +8,8 @@ import javax.persistence.Id;
 @Entity
 public class Seat {
 
-    public enum SeatClass { ANY, ECONOMY, BUSINESS }
+    public enum SeatClass {ANY, ECONOMY, BUSINESS}
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
