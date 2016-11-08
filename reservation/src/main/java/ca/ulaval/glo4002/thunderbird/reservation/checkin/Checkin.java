@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.exceptions.CheckinNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.exceptions.CheckinNotOnTimeException;
 import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import java.time.Instant;
 import java.util.UUID;
@@ -57,6 +59,17 @@ public class Checkin {
         // for hibernate
     }
 
+    public static Checkin findByCheckinHash(UUID checkinHash) {
+        EntityManager entityManager = new EntityManagerProvider().getEntityManager();
+        Checkin checkin = entityManager.find(Checkin.class, checkinHash);
+
+        if (checkin == null) {
+            throw new CheckinNotFoundException(checkinHash);
+        }
+
+        return checkin;
+    }
+
     public void save() {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
         entityManagerProvider.persistInTransaction(this);
@@ -67,7 +80,6 @@ public class Checkin {
         return checkinHash;
     }
 
-    //TODO Fix tests to not override this public method. GetPassenger should be Private
     @JsonIgnore
     public Passenger getPassenger() {
         return Passenger.findByPassengerHash(passengerHash);
