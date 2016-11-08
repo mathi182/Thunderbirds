@@ -22,7 +22,7 @@ public class EventsResource {
     @Path(RESERVATION_CREATED)
     public Response createReservation(@Valid Reservation reservation) {
         reservation.save();
-        String reservationNumber = Integer.toString(reservation.getReservationNumber());
+        String reservationNumber = Integer.toString(reservation.getId());
 
         UriBuilder uriBuilder = UriBuilder.fromUri(ReservationsResource.PATH);
         URI uri = uriBuilder.path(reservationNumber).build();

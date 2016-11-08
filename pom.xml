@@ -47,7 +47,7 @@
                 <version>${surefire.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/*ITest.java</exclude>
+                        <exclude>**/*IntegrationTest.java</exclude>
                         <exclude>**/*RestTest.java</exclude>
                     </excludes>
                 </configuration>
@@ -63,7 +63,6 @@
                                 <exclude>none</exclude>
                             </excludes>
                             <includes>
-                                <include>**/*ITest.java</include>
                                 <include>**/*TestSuite.java</include>
                             </includes>
                         </configuration>

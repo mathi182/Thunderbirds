@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.exceptions.CheckinNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.exceptions.CheckinNotOnTimeException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
@@ -10,6 +11,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
@@ -41,6 +43,17 @@ public class Checkin {
         // for hibernate
     }
 
+    public static Checkin findByCheckinHash(UUID checkinHash) {
+        EntityManager entityManager = new EntityManagerProvider().getEntityManager();
+        Checkin checkin = entityManager.find(Checkin.class, checkinHash);
+
+        if (checkin == null) {
+            throw new CheckinNotFoundException(checkinHash);
+        }
+
+        return checkin;
+    }
+
     public void save() {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
         entityManagerProvider.persistInTransaction(this);
@@ -49,8 +62,7 @@ public class Checkin {
     public UUID getId() {
         return checkinHash;
     }
-
-    //TODO Fix tests to not override this public method. GetPassenger should be Private
+    
     public Passenger getPassenger() {
         return Passenger.findByPassengerHash(passengerHash);
     }

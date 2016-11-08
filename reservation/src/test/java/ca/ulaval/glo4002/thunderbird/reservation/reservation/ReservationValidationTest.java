@@ -56,6 +56,17 @@ public class ReservationValidationTest {
     }
 
     @Test
+    public void givenAReservationDateToValidate_whenValidate_shouldBeRightResult() {
+        Passenger passenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+        Reservation reservation = new Reservation(RESERVATION_NUMBER, inputToValidate, RESERVATION_CONFIRMATION,
+                FLIGHT_NUMBER, FLIGHT_DATE, PAYMENT_LOCATION, new ArrayList<>(Arrays.asList(passenger)));
+
+        Set<ConstraintViolation<Reservation>> constraintViolations = validator.validate(reservation);
+
+        assertEquals(isValid, constraintViolations.isEmpty());
+    }
+
+    @Test
     public void givenAReservationConfirmationToValidate_whenValidate_shouldBeRightResult() {
         Passenger passenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         Reservation reservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE, inputToValidate,

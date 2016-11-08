@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
@@ -11,8 +10,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,8 +25,9 @@ public class Reservation {
     @NotBlank
     private String flightNumber;
     private Instant flightDate;
+    @NotBlank
     @JsonIgnore
-    private Instant reservationDate;
+    private String reservationDate;
     @NotBlank
     @JsonIgnore
     private String reservationConfirmation;
@@ -51,7 +49,7 @@ public class Reservation {
                        String paymentLocation,
                        ArrayList<Passenger> passengers) {
         this.reservationNumber = reservationNumber;
-        this.reservationDate = reservationDateStringToInstant(reservationDate);
+        this.reservationDate = reservationDate;
         this.reservationConfirmation = reservationConfirmation;
         this.paymentLocation = paymentLocation;
         this.flightDate = flightDate;
@@ -76,21 +74,12 @@ public class Reservation {
         return reservation;
     }
 
-    private Instant reservationDateStringToInstant(String reservation_date) {
-        SimpleDateFormat format = new SimpleDateFormat(RESERVATION_DATE_FORMAT);
-        try {
-            return format.parse(reservation_date).toInstant();
-        } catch (ParseException e) {
-            throw new InvalidFieldException("reservation_date");
-        }
-    }
-
     public void save() {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
         entityManagerProvider.persistInTransaction(this);
     }
 
-    public int getReservationNumber() {
+    public int getId() {
         return reservationNumber;
     }
 

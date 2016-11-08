@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
+import ca.ulaval.glo4002.thunderbird.reservation.TestConfig;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,38 +9,31 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class PassengerTest {
-    private static final String FIRST_NAME = "Uncle";
-    private static final String LAST_NAME = "Bob";
-    private static final String PASSPORT_NUMBER = "2564-5424";
-    private static final String SEAT_CLASS = "economy";
-    private static final int AGE = 18;
-
-    private Passenger validPassenger;
+    private Passenger passenger;
 
     @Before
     public void setUp() {
-        validPassenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+        passenger = TestConfig.getDefaultPassenger();
     }
 
     @Test
     public void shouldNotBeCheckedIn() {
-        boolean isCheckedIn = validPassenger.isCheckedIn();
+        boolean isCheckedIn = passenger.isCheckedIn();
         assertFalse(isCheckedIn);
     }
 
     @Test
     public void whenWeCheckin_shouldBeCheckedIn() {
-        validPassenger.checkin();
+        passenger.checkin();
 
-        boolean isCheckedIn = validPassenger.isCheckedIn();
+        boolean isCheckedIn = passenger.isCheckedIn();
         assertTrue(isCheckedIn);
     }
 
-
     @Test(expected = PassengerAlreadyCheckedInException.class)
     public void givenPassengerAlreadyCheckin_whenWeCheckin_shouldThrowAnException() {
-        validPassenger.checkin();
+        passenger.checkin();
 
-        validPassenger.checkin();
+        passenger.checkin();
     }
 }
