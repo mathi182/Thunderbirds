@@ -12,23 +12,25 @@ public class CheckedBaggageEconomy extends CheckedBaggage {
 
     @Override
     protected int getDimensionLimit() {
-        if (linearDimensionUnit.equals(LinearDimensionUnits.CM)) {
-            return DIMENSTION_LIMIT_CM;
-        } else if (linearDimension.equals(LinearDimensionUnits.PO)) {
-            return DIMENSION_LIMIT_PO;
-        } else {
-            return 0;
+        switch (linearDimensionUnit) {
+            case CM:
+                return DIMENSTION_LIMIT_CM;
+            case PO:
+                return DIMENSION_LIMIT_PO;
+            default:
+                return 0;
         }
     }
 
     @Override
     protected int getWeightLimit() {
-        if (weightUnit.equals(WeightUnits.KG)) {
-            return WEIGHT_LIMIT_KG;
-        } else if (weightUnit.equals(WeightUnits.LBS)) {
-            return WEIGHT_LIMIT_LBS;
-        } else {
-            return 0;
+        switch (weightUnit) {
+            case KG:
+                return WEIGHT_LIMIT_KG;
+            case LBS:
+                return WEIGHT_LIMIT_LBS;
+            default:
+                return 0;
         }
     }
 }

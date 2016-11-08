@@ -22,6 +22,7 @@ public class SeatTest {
     private boolean hasMoreRoom;
     private boolean hasSameAmount;
     private Seat seat;
+    private Seat seatToCompareWith;
     private boolean hasLowerPrice;
 
     @Before
@@ -92,19 +93,28 @@ public class SeatTest {
 
     @Test
     public void givenCheaperSeat_whenIfSeatHasLowerPrice_shouldReturnFalse() {
-        Seat cheaperSeat = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_CHEAPER_PRICE, A_CLASS, IS_EXIT_ROW, true);;
+        seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_CHEAPER_PRICE, A_CLASS, IS_EXIT_ROW, true);;
 
-        hasLowerPrice = seat.hasLowerPrice(cheaperSeat);
+        hasLowerPrice = seat.hasLowerPrice(seatToCompareWith);
 
         assertFalse(hasLowerPrice);
     }
     @Test
-    public void givenMostExpensiveSeat_whenIfSeatHasLowerPrice_shouldReturnFalse() {
-        Seat cheaperSeat = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_MORE_EXPENSIVE_PRICE, A_CLASS, IS_EXIT_ROW, true);;
+    public void givenMostExpensiveSeat_whenIfSeatHasLowerPrice_shouldReturnTrue() {
+        seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_MORE_EXPENSIVE_PRICE, A_CLASS, IS_EXIT_ROW, true);;
 
-        hasLowerPrice = seat.hasLowerPrice(cheaperSeat);
+        hasLowerPrice = seat.hasLowerPrice(seatToCompareWith);
 
         assertTrue(hasLowerPrice);
+    }
+
+    @Test
+    public void givenSamePriceSeat_whenIfSeatHasLowerPrice_shouldReturnFalse() {
+        seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);;
+
+        hasLowerPrice = seat.hasLowerPrice(seatToCompareWith);
+
+        assertFalse(hasLowerPrice);
     }
 
 }
