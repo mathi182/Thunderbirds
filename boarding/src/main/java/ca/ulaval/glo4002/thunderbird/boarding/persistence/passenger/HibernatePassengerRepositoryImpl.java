@@ -18,7 +18,11 @@ public class HibernatePassengerRepositoryImpl implements PassengerRepository {
     public Passenger getPassenger(UUID passengerHash) throws PassengerNotFoundException {
         try {
             EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-            return entityManager.find(Passenger.class, passengerHash);
+            Passenger passenger = entityManager.find(Passenger.class, passengerHash);
+            if (passenger == null) {
+                throw  new PassengerNotFoundException(passengerHash);
+            }
+            return passenger;
         } catch (NoResultException ex) {
             try {
                 //TODO Demander au fetcher de voir si reservation a le passager
@@ -32,8 +36,8 @@ public class HibernatePassengerRepositoryImpl implements PassengerRepository {
 
     @Override
     public void savePassenger(Passenger passenger) throws RepositorySavingException {
-            EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-            EntityTransaction transaction = entityManager.getTransaction();
+        EntityManager entityManager = new EntityManagerProvider().getEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
             entityManager.persist(passenger);
