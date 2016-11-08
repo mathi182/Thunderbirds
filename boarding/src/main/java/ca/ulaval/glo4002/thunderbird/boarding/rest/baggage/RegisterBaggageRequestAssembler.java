@@ -45,24 +45,15 @@ public class RegisterBaggageRequestAssembler {
             throw new MissingFieldException("weight");
         }
 
-        String weightUnitToUpper = request.weightUnit.toUpperCase();
         String dimensionUnitToUpper = request.linearDimensionUnit.toUpperCase();
         if (!dimensionUnitFromRequestIsValid(dimensionUnitToUpper)) {
             throw new IllegalFieldWebException();
         }
 
+        String weightUnitToUpper = request.weightUnit.toUpperCase();
         if (!weightUnitFromRequestIsValid(weightUnitToUpper)) {
             throw new IllegalFieldWebException();
         }
-    }
-
-    private boolean weightUnitFromRequestIsValid(String weightUnitToUpper) {
-        try {
-            WeightUnits.valueOf(weightUnitToUpper);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
     }
 
     private boolean dimensionUnitFromRequestIsValid(String dimensionUnitToUpper) {
@@ -70,6 +61,15 @@ public class RegisterBaggageRequestAssembler {
             LinearDimensionUnits.valueOf(dimensionUnitToUpper);
         }
         catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean weightUnitFromRequestIsValid(String weightUnitToUpper) {
+        try {
+            WeightUnits.valueOf(weightUnitToUpper);
+        } catch (IllegalArgumentException e) {
             return false;
         }
         return true;
