@@ -7,11 +7,13 @@ import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class DevContext implements Context {
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
+public class DevContext implements Context {
     public final static int EXISTENT_RESERVATION_NUMBER = 100;
     public static UUID EXISTENT_PASSENGER_HASH;
 
@@ -51,11 +53,10 @@ public class DevContext implements Context {
         String confirmation = "A3833";
         String payment = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
         String flightNumber = "AC1765";
-        String flightDate = "2016-09-06T13:00:00Z";
+        Instant flightDate = ISO_INSTANT.parse("2016-09-06T13:00:00Z", Instant::from);
         ArrayList<Passenger> passengers = new ArrayList<>();
         passengers.add(passenger);
 
         return new Reservation(number, date, confirmation, flightNumber, flightDate, payment, passengers);
     }
-
 }

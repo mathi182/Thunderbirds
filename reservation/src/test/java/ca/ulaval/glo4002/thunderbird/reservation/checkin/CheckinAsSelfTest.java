@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class CheckinAsSelfTest {
-
     private static final UUID PASSENGER_HASH = new UUID(1L, 2L);
     private static final Instant FLIGHT_DATE = Instant.parse("2016-09-06T13:00:00Z");
     private static final int MAX_LATE_CHECKIN_IN_HOUR = 6;

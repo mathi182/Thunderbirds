@@ -9,7 +9,6 @@ import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
 
 public class ReservationsResourceRestTest {
-
     private static final int NON_EXISTENT_RESERVATION_NUMBER = 666;
 
     @Test

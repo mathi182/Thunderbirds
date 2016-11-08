@@ -15,7 +15,6 @@ import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBase
 import static javax.ws.rs.core.Response.Status.CREATED;
 
 public class EventsResourceRestTest {
-
     private static final int RESERVATION_NUMBER = 37353;
     private static final String RESERVATION_DATE = "2016-01-31";
     private static final String RESERVATION_CONFIRMATION = "A3833";
@@ -45,7 +44,7 @@ public class EventsResourceRestTest {
         String locationExpected = createLocationExpected(reservationNumberString);
 
         givenBaseRequest()
-                    .body(generateReservationMap())
+                .body(generateReservationMap())
                 .when()
                 .post(createReservationPath)
                 .then()
@@ -67,7 +66,6 @@ public class EventsResourceRestTest {
         reservationMap.put("flight_number", FLIGHT_NUMBER);
         reservationMap.put("flight_date", FLIGHT_DATE);
         reservationMap.put("payment_location", PAYMENT_LOCATION);
-
         reservationMap.put("passengers", generatePassengerList());
 
         return reservationMap;
@@ -88,7 +86,7 @@ public class EventsResourceRestTest {
         passengerMap.put("age", AGE);
         passengerMap.put("passport_number", PASSPORT_NUMBER);
         passengerMap.put("seat_class", SEAT_CLASS);
-
+        
         return passengerMap;
     }
 }

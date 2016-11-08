@@ -6,7 +6,6 @@ import javax.servlet.*;
 import java.io.IOException;
 
 public class EntityManagerContextFilter implements Filter {
-
     private EntityManagerFactory entityManagerFactory;
 
     @Override
@@ -16,7 +15,6 @@ public class EntityManagerContextFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
         EntityManager entityManager = null;
 
         try {
@@ -29,12 +27,10 @@ public class EntityManagerContextFilter implements Filter {
             }
             EntityManagerProvider.clearEntityManager();
         }
-
     }
 
     @Override
     public void destroy() {
         entityManagerFactory.close();
     }
-
 }

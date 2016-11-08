@@ -13,7 +13,6 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
 
 public class CheckinAsAgentTest {
-
     private static final String AGENT_ID = "agentId";
     private static final UUID PASSENGER_HASH = new UUID(1L, 2L);
     private static final Instant TODAYS_DATE = Instant.parse("2016-09-06T13:00:00Z");

@@ -8,14 +8,15 @@ import org.junit.Test;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static org.junit.Assert.assertEquals;
 
 public class ReservationITest {
-
     private static final int NON_EXISTENT_RESERVATION_NUMBER = 12345;
 
     private static final int RESERVATION_NUMBER = 37353;
@@ -23,7 +24,7 @@ public class ReservationITest {
     private static final String RESERVATION_CONFIRMATION = "A3833";
     private static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
     private static final String FLIGHT_NUMBER = "AC1765";
-    private static final String FLIGHT_DATE = "2016-09-06T13:00:00Z";
+    private static final Instant FLIGHT_DATE = ISO_INSTANT.parse("2016-09-06T13:00:00Z", Instant::from);
 
     private static final String FIRST_NAME = "Uncle";
     private static final String LAST_NAME = "Bob";
