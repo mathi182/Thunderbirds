@@ -1,7 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.reservation.checkin;
+package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
 import ca.ulaval.glo4002.thunderbird.reservation.TestConfig;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
 import org.junit.Before;
 import org.junit.Test;

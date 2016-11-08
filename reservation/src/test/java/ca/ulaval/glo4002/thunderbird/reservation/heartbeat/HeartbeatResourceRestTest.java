@@ -7,7 +7,6 @@ import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
 
 public class HeartbeatResourceRestTest {
-
     private final static String PARAM_NAME = "token";
     private final static String TOKEN = "A_TOKEN";
 

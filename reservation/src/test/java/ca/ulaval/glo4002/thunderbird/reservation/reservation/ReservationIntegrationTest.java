@@ -34,7 +34,7 @@ public class ReservationIntegrationTest {
     }
 
     @Test(expected = ReservationNotFoundException.class)
-    public void whenFinding_shouldThrowIfNotFound() {
+    public void whenFinding_shouldThrowNotFound() {
         Reservation.findByReservationNumber(NON_EXISTENT_RESERVATION_NUMBER);
     }
 }

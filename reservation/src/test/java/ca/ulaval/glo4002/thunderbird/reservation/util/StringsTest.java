@@ -6,7 +6,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class StringsTest {
-
     @Test
     public void givenANullString_whenCheckIfIsNullOrEmpty_shouldBeTrue() {
         String string = null;
