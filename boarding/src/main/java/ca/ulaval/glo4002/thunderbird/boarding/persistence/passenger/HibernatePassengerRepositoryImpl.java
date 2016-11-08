@@ -1,11 +1,11 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerFetcher;
 import org.hibernate.HibernateException;
-import org.hibernate.cfg.NotYetImplementedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -18,13 +18,13 @@ public class HibernatePassengerRepositoryImpl implements PassengerRepository {
     public Passenger getPassenger(UUID passengerHash) throws PassengerNotFoundException {
         try {
             EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-            return entityManager.find(Passenger.class, passengerHash);
+            Passenger foundPassenger = entityManager.find(Passenger.class, passengerHash);
+            return foundPassenger;
         } catch (NoResultException ex) {
             try {
-                //TODO Demander au fetcher de voir si reservation a le passager
-                return null;
-            } catch (NotYetImplementedException e) {
-                //TODO Determiner le type d'exception
+                PassengerFetcher passengerFetcher = new PassengerFetcher();
+                return passengerFetcher.fetchPassenger(passengerHash);
+            } catch (PassengerNotFoundException e) {
                 throw new PassengerNotFoundException(passengerHash);
             }
         }
