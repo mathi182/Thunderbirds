@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.flight.exceptions;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exceptions.ElementNotFoundException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.ElementNotFoundException;
 
 import java.io.Serializable;
 

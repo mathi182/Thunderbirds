@@ -23,16 +23,19 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
         }
 
         return findCheapestSeat(filteredSeats);
-
     }
 
     private List<Seat> filterBySeatClass(List<Seat> availableSeats) {
+        List<Seat> seats;
         if (classType != Seat.SeatClass.ANY) {
-            return availableSeats.stream().filter(seat -> seat.getSeatClass().equals(classType))
+            seats = availableSeats
+                    .stream()
+                    .filter(seat -> seat.getSeatClass().equals(classType))
                     .collect(Collectors.toList());
         } else {
-            return availableSeats;
+            seats = availableSeats;
         }
+        return seats;
     }
 
     private Seat findCheapestSeat(List<Seat> availableSeats) {
