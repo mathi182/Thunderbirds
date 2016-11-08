@@ -62,9 +62,13 @@ public class Checkin {
     public UUID getId() {
         return checkinHash;
     }
-    
+
     public Passenger getPassenger() {
         return Passenger.findByPassengerHash(passengerHash);
+    }
+
+    public boolean isSelfCheckin() {
+        return by.equals(SELF);
     }
 
     public void completeCheckin(Instant currentDate) {
@@ -82,10 +86,6 @@ public class Checkin {
         if (isSelfCheckin() && !isOnTimeForSelfCheckin(currentDate, reservation.getFlightDate())) {
             throw new CheckinNotOnTimeException();
         }
-    }
-
-    private boolean isSelfCheckin() {
-        return by.equals(SELF);
     }
 
     private boolean isOnTimeForSelfCheckin(Instant currentDate, Instant flightDate) {

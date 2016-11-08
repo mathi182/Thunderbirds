@@ -10,18 +10,18 @@ import java.util.Arrays;
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
 public class TestConfig {
-    private static final int RESERVATION_NUMBER = 43525;
-    private static final String RESERVATION_DATE = "2016-01-31";
-    private static final String RESERVATION_CONFIRMATION = "A3833";
-    private static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
-    private static final String FLIGHT_NUMBER = "AC1765";
-    private static final Instant FLIGHT_DATE = ISO_INSTANT.parse("2016-09-06T13:00:00Z", Instant::from);
+    public static final int RESERVATION_NUMBER = 43525;
+    public static final String RESERVATION_DATE = "2016-01-31";
+    public static final String RESERVATION_CONFIRMATION = "A3833";
+    public static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
+    public static final String FLIGHT_NUMBER = "AC1765";
+    public static final Instant FLIGHT_DATE = ISO_INSTANT.parse("2016-09-06T13:00:00Z", Instant::from);
 
-    private static final String FIRST_NAME = "Uncle";
-    private static final String LAST_NAME = "Bob";
-    private static final String PASSPORT_NUMBER = "2564-5424";
-    private static final String SEAT_CLASS = "economy";
-    private static final int AGE = 18;
+    public static final String FIRST_NAME = "Uncle";
+    public static final String LAST_NAME = "Bob";
+    public static final String PASSPORT_NUMBER = "2564-5424";
+    public static final String SEAT_CLASS = "economy";
+    public static final int AGE = 18;
 
     public static Passenger getDefaultPassenger() {
         return new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);

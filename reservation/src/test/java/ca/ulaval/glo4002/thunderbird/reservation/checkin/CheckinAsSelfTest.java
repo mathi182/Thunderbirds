@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static java.time.temporal.ChronoUnit.HOURS;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -40,6 +41,11 @@ public class CheckinAsSelfTest {
                 return passengerMock;
             }
         };
+    }
+
+    @Test
+    public void shouldBeSelfCheckin() {
+        assertTrue(checkinAsSelf.isSelfCheckin());
     }
 
     @Test

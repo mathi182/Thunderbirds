@@ -2,36 +2,52 @@ package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
 import ca.ulaval.glo4002.thunderbird.reservation.TestConfig;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PassengerTest {
     private Passenger passenger;
 
     @Before
-    public void setUp() {
+    public void givenDefaultPassenger() {
         passenger = TestConfig.getDefaultPassenger();
     }
 
     @Test
-    public void shouldNotBeCheckedIn() {
-        boolean isCheckedIn = passenger.isCheckedIn();
-        assertFalse(isCheckedIn);
+    public void shouldReturnAnId() {
+        assertNotNull(passenger.getId());
     }
 
     @Test
-    public void whenWeCheckin_shouldBeCheckedIn() {
+    public void shouldReturnNoReservation() {
+        assertNull(passenger.getReservation());
+    }
+
+    @Test
+    public void whenSetAReservation_shouldReturnThisReservation() {
+        Reservation expectedReservation = TestConfig.getDefaultReservation();
+        passenger.setReservation(expectedReservation);
+
+        assertSame(expectedReservation, passenger.getReservation());
+    }
+
+    @Test
+    public void shouldNotBeCheckedIn() {
+        assertFalse(passenger.isCheckedIn());
+    }
+
+    @Test
+    public void whenCheckin_shouldBeCheckedIn() {
         passenger.checkin();
 
-        boolean isCheckedIn = passenger.isCheckedIn();
-        assertTrue(isCheckedIn);
+        assertTrue(passenger.isCheckedIn());
     }
 
     @Test(expected = PassengerAlreadyCheckedInException.class)
-    public void givenPassengerAlreadyCheckin_whenWeCheckin_shouldThrowAnException() {
+    public void givenPassengerAlreadyCheckin_whenCheckin_shouldThrowAnException() {
         passenger.checkin();
 
         passenger.checkin();

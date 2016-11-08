@@ -17,8 +17,6 @@ import java.util.List;
 
 @Entity
 public class Reservation {
-    private static final String RESERVATION_DATE_FORMAT = "yyyy-MM-dd";
-
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private int reservationNumber;

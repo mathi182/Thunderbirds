@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.time.Instant;
 import java.util.UUID;
 
+import static org.junit.Assert.assertFalse;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
 
@@ -35,6 +36,11 @@ public class CheckinAsAgentTest {
                 return passengerMock;
             }
         };
+    }
+
+    @Test
+    public void shouldNotBeSelfCheckin() {
+        assertFalse(checkinAsAgent.isSelfCheckin());
     }
 
     @Test

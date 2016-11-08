@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class CheckinValidationTest {
     private static final UUID PASSENGER_HASH = new UUID(1L, 2L);
@@ -21,6 +22,13 @@ public class CheckinValidationTest {
     public static void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+    }
+
+    @Test
+    public void givenValidCheckin_shouldReturnAnId() {
+        Checkin checkin = new Checkin(PASSENGER_HASH, Checkin.SELF);
+
+        assertNotNull(checkin.getId());
     }
 
     @Test
