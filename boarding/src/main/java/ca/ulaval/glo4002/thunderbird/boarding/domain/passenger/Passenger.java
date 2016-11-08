@@ -15,6 +15,7 @@ public class Passenger {
     private Seat.SeatClass seatClass;
 
     public Passenger() {
+        //for hibernate
     }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass){
