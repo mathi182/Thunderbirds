@@ -9,12 +9,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.*;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.text.SimpleDateFormat;
-import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,16 +53,6 @@ public class Reservation {
         this.passengers.forEach(passenger -> passenger.setReservation(this));
     }
 
-    private Instant reservationDateStringToInstant(String reservation_date){
-        SimpleDateFormat format = new SimpleDateFormat(RESERVATION_DATE_FORMAT);
-        try{
-            return format.parse(reservation_date).toInstant();
-        }
-        catch (ParseException e){
-            throw new InvalidFieldException("reservation_date");
-        }
-    }
-
     protected Reservation() {
         // for hibernate
     }
@@ -80,13 +69,22 @@ public class Reservation {
         return reservation;
     }
 
+    private Instant reservationDateStringToInstant(String reservation_date) {
+        SimpleDateFormat format = new SimpleDateFormat(RESERVATION_DATE_FORMAT);
+        try {
+            return format.parse(reservation_date).toInstant();
+        } catch (ParseException e) {
+            throw new InvalidFieldException("reservation_date");
+        }
+    }
+
     public void save() {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
         entityManagerProvider.persistInTransaction(this);
     }
 
     @JsonProperty("reservation_number")
-    public int getReservationNumber() {
+    public int getId() {
         return reservationNumber;
     }
 

@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
+import ca.ulaval.glo4002.thunderbird.reservation.TestConfig;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.exceptions.CheckinNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerNotFoundException;
@@ -14,15 +15,10 @@ public class CheckinITest {
     private static final UUID NON_EXISTENT_PASSENGER_HASH = new UUID(3L, 4L);
 
     private static final UUID PASSENGER_HASH = new UUID(5L, 6L);
-    private static final String FIRST_NAME = "Uncle";
-    private static final String LAST_NAME = "Bob";
-    private static final String PASSPORT_NUMBER = "2564-5424";
-    private static final String SEAT_CLASS = "economy";
-    private static final int AGE = 18;
 
     @Test
     public void givenCheckinWithExistentPassenger_whenFindingPassenger_shouldBeAbleToRetrieve() {
-        Passenger passenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
+        Passenger passenger = TestConfig.getDefaultPassenger();
         passenger.save();
         UUID existentPassengerHash = passenger.getId();
         Checkin checkin = new Checkin(existentPassengerHash, Checkin.SELF);
