@@ -11,7 +11,7 @@ import java.util.UUID;
 @Produces(MediaType.APPLICATION_JSON)
 public class PassengerResource {
 
-    public static final String PATH = "/passenger/";
+    public static final String PATH = "/passengers/";
 
     @GET
     @Path("{passenger_hash}")

@@ -3,7 +3,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerFetcher;
 import org.hibernate.HibernateException;
 
@@ -18,22 +19,33 @@ public class HibernatePassengerRepositoryImpl implements PassengerRepository {
     public Passenger getPassenger(UUID passengerHash) throws PassengerNotFoundException {
         try {
             EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-            Passenger foundPassenger = entityManager.find(Passenger.class, passengerHash);
-            return foundPassenger;
-        } catch (NoResultException ex) {
-            try {
-                PassengerFetcher passengerFetcher = new PassengerFetcher();
-                return passengerFetcher.fetchPassenger(passengerHash);
-            } catch (PassengerNotFoundException e) {
-                throw new PassengerNotFoundException(passengerHash);
+            Passenger passenger = entityManager.find(Passenger.class, passengerHash);
+            if (passenger == null) {
+                throw  new PassengerNotFoundException(passengerHash);
             }
+            return passenger;
+        } catch (NoResultException ex) {
+            return  recoverPassenger(passengerHash);
         }
     }
 
+    private Passenger recoverPassenger(UUID passengerHash){
+        Passenger passenger = getPassengerFromAPI(passengerHash);
+        savePassenger(passenger);
+        return passenger;
+    }
+    private Passenger getPassengerFromAPI(UUID passengerHash){
+        PassengerAPICaller apiCaller = new PassengerAPICaller();
+        PassengerAssembler assembler = new PassengerAssembler();
+        PassengerFetcher fetcher = new PassengerFetcher(assembler,apiCaller);
+
+        return fetcher.fetchPassenger(passengerHash);
+    }
+
     @Override
-    public void savePassenger(Passenger passenger) throws RepositorySavingException {
-            EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-            EntityTransaction transaction = entityManager.getTransaction();
+    public void savePassenger(Passenger passenger) {
+        EntityManager entityManager = new EntityManagerProvider().getEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
             entityManager.persist(passenger);
