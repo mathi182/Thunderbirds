@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class ReservationITest {
+public class ReservationIntegrationTest {
     private static final int NON_EXISTENT_RESERVATION_NUMBER = 12345;
 
     private Reservation reservation;

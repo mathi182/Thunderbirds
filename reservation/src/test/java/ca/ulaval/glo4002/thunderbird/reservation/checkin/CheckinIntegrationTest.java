@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
-public class CheckinITest {
+public class CheckinIntegrationTest {
     private static final UUID NON_EXISTENT_CHECKIN_HASH = new UUID(1L, 2L);
     private static final UUID NON_EXISTENT_PASSENGER_HASH = new UUID(3L, 4L);
 

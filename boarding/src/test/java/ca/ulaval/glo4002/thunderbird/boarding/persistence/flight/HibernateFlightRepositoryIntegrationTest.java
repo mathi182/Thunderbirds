@@ -18,7 +18,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 
-public class HibernateFlightRepositoryITest {
+public class HibernateFlightRepositoryIntegrationTest {
     private static final Plane A_PLANE = new Plane("dash-8", 1, 2000);
     private static final Seat A_SEAT = new Seat(1, "A", 56, true, true, 123.45, Seat.SeatClass.ANY, false, true);
     private static final String A_PLANE_MODEL = "dash-8";

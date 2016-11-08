@@ -1,6 +1,9 @@
-package ca.ulaval.glo4002.thunderbird.boarding.persistence;
+package ca.ulaval.glo4002.thunderbird.reservation;
 
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepositoryITest;
+import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinIntegrationTest;
+import ca.ulaval.glo4002.thunderbird.reservation.passenger.PassengerIntegrationTest;
+import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationIntegrationTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -12,15 +15,17 @@ import javax.persistence.Persistence;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        HibernateFlightRepositoryITest.class,
+        PassengerIntegrationTest.class,
+        ReservationIntegrationTest.class,
+        CheckinIntegrationTest.class
 })
-public class ITestSuite {
+public class IntegrationTestSuite {
     private static EntityManagerFactory entityManagerFactory;
     private static EntityManager entityManager;
 
     @BeforeClass
     public static void beforeClass() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("boarding-test");
+        entityManagerFactory = Persistence.createEntityManagerFactory("reservation-test");
         entityManager = entityManagerFactory.createEntityManager();
         EntityManagerProvider.setEntityManager(entityManager);
     }

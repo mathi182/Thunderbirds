@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
-public class PassengerITest {
+public class PassengerIntegrationTest {
     private static final UUID NON_EXISTENT_PASSENGER_HASH = new UUID(1L, 2L);
 
     private Passenger passenger;
