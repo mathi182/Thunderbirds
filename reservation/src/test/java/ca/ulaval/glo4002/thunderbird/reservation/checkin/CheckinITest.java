@@ -3,14 +3,8 @@ package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.exceptions.CheckinNotFoundException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -25,24 +19,6 @@ public class CheckinITest {
     private static final String PASSPORT_NUMBER = "2564-5424";
     private static final String SEAT_CLASS = "economy";
     private static final int AGE = 18;
-
-    private static EntityManagerFactory entityManagerFactory;
-
-    private static EntityManager entityManager;
-
-    @BeforeClass
-    public static void beforeClass() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("reservation-test");
-        entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        entityManager.close();
-        EntityManagerProvider.clearEntityManager();
-        entityManagerFactory.close();
-    }
 
     @Test
     public void givenCheckinWithExistentPassenger_whenFindingPassenger_shouldBeAbleToRetrieve() {

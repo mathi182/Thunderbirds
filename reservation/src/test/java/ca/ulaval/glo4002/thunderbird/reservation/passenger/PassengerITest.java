@@ -1,15 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -23,24 +17,7 @@ public class PassengerITest {
     private static final String SEAT_CLASS = "economy";
     private static final int AGE = 18;
 
-    private static EntityManagerFactory entityManagerFactory;
-
-    private static EntityManager entityManager;
     private Passenger passenger;
-
-    @BeforeClass
-    public static void beforeClass() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("reservation-test");
-        entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        entityManager.close();
-        EntityManagerProvider.clearEntityManager();
-        entityManagerFactory.close();
-    }
 
     @Before
     public void setUp() {

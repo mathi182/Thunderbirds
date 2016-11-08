@@ -6,13 +6,9 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneRepositoryProvider;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,33 +25,16 @@ public class HibernateFlightRepositoryITest {
     private static final String A_FLIGHT_NUMBER = "QK-918";
     private static final String ANOTHER_FLIGHT_NUMBER = "AB-123";
     private static final Instant A_FLIGHT_DATE = Instant.ofEpochMilli(1478195361);
-    private static EntityManagerFactory entityManagerFactory;
+
     private AMSSystem amsSystem;
     private PlaneRepository planeRepository;
     private FlightRepository flightRepository;
 
-    @BeforeClass
-    public static void beforeClass() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("boarding-test");
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        entityManagerFactory.close();
-    }
-
     @Before
-    public void before() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
+    public void setUp() {
         amsSystem = mock(AMSSystem.class);
-        planeRepository = new PlaneRepositoryProvider().getRepository();
+        planeRepository = mock(PlaneRepository.class);
         flightRepository = new HibernateFlightRepository(amsSystem, planeRepository);
-    }
-
-    @After
-    public void after() {
-        EntityManagerProvider.clearEntityManager();
     }
 
     @Test

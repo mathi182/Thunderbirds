@@ -58,7 +58,6 @@
                                 <exclude>none</exclude>
                             </excludes>
                             <includes>
-                                <include>**/*ITest.java</include>
                                 <include>**/*TestSuite.java</include>
                             </includes>
                         </configuration>
