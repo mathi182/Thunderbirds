@@ -4,8 +4,10 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerFetcher;
 import org.hibernate.HibernateException;
-import org.hibernate.cfg.NotYetImplementedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -24,18 +26,25 @@ public class HibernatePassengerRepositoryImpl implements PassengerRepository {
             }
             return passenger;
         } catch (NoResultException ex) {
-            try {
-                //TODO Demander au fetcher de voir si reservation a le passager
-                return null;
-            } catch (NotYetImplementedException e) {
-                //TODO Determiner le type d'exception
-                throw new PassengerNotFoundException(passengerHash);
-            }
+            return  recoverPassenger(passengerHash);
         }
     }
 
+    private Passenger recoverPassenger(UUID passengerHash){
+        Passenger passenger = getPassengerFromAPI(passengerHash);
+        savePassenger(passenger);
+        return passenger;
+    }
+    private Passenger getPassengerFromAPI(UUID passengerHash){
+        PassengerAPICaller apiCaller = new PassengerAPICaller();
+        PassengerAssembler assembler = new PassengerAssembler();
+        PassengerFetcher fetcher = new PassengerFetcher(assembler,apiCaller);
+
+        return fetcher.fetchPassenger(passengerHash);
+    }
+
     @Override
-    public void savePassenger(Passenger passenger) throws RepositorySavingException {
+    public void savePassenger(Passenger passenger) {
         EntityManager entityManager = new EntityManagerProvider().getEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
