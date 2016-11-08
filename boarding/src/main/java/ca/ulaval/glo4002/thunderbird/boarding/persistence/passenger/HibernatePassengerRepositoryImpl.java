@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.exceptions.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
 import org.hibernate.HibernateException;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.exceptions;
+package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.ElementNotFoundException;
 
