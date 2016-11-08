@@ -6,7 +6,8 @@ public class CheckedBaggageEconomy extends CheckedBaggage {
     public static final int DIMENSION_LIMIT_PO = 62;
     public static final int DIMENSTION_LIMIT_CM = 158;
 
-    public CheckedBaggageEconomy(LinearDimensionUnits linearDimensionUnit, Integer linearDimension, WeightUnits weightUnit, Integer weight) {
+    public CheckedBaggageEconomy(LinearDimensionUnits linearDimensionUnit, Integer linearDimension, WeightUnits
+            weightUnit, Integer weight) {
         super(linearDimensionUnit, linearDimension, weightUnit, weight);
     }
 

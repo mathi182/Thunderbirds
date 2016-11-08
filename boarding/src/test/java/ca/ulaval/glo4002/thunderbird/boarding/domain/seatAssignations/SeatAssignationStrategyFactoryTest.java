@@ -39,5 +39,4 @@ public class SeatAssignationStrategyFactoryTest {
 
         assertThat(strategy, instanceOf(MostLegRoomSeatAssignationStrategy.class));
     }
-
 }
