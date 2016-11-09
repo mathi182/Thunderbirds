@@ -3,17 +3,21 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerFetcher;
 import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import java.util.UUID;
 
 public class HibernatePassengerRepositoryImpl implements PassengerRepository {
+
+    private PassengerFetcher passengerFetcher;
+
+    public HibernatePassengerRepositoryImpl(PassengerFetcher passengerFetcher) {
+        this.passengerFetcher = passengerFetcher;
+    }
 
     @Override
     public Passenger getPassenger(UUID passengerHash) throws PassengerNotFoundException {
@@ -24,7 +28,7 @@ public class HibernatePassengerRepositoryImpl implements PassengerRepository {
                 throw  new PassengerNotFoundException(passengerHash);
             }
             return passenger;
-        } catch (NoResultException ex) {
+        } catch (PassengerNotFoundException ex) {
             return  recoverPassenger(passengerHash);
         }
     }
@@ -35,11 +39,7 @@ public class HibernatePassengerRepositoryImpl implements PassengerRepository {
         return passenger;
     }
     private Passenger getPassengerFromAPI(UUID passengerHash){
-        PassengerAPICaller apiCaller = new PassengerAPICaller();
-        PassengerAssembler assembler = new PassengerAssembler();
-        PassengerFetcher fetcher = new PassengerFetcher(assembler,apiCaller);
-
-        return fetcher.fetchPassenger(passengerHash);
+        return passengerFetcher.fetchPassenger(passengerHash);
     }
 
     @Override
