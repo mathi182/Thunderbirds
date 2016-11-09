@@ -4,18 +4,12 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.CheckedBaggageEconomy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerFetcher;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -27,30 +21,17 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
 
-
-public class HibernatePassengerRepositoryITest {
+public class HibernatePassengerRepositoryIntegrationTest {
     private static final UUID VALID_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION = UUID.randomUUID();
     private static final UUID NON_EXISTENT_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID PASSENGER_UUID_WITH_BAGGAGE = UUID.randomUUID();
     private PassengerRepository hibernatePassengerRepository;
-    private static EntityManagerFactory entityManagerFactory;
     private PassengerFetcher passengerFetcher = mock(PassengerFetcher.class);
-
-    @BeforeClass
-    public static void beforeClass() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("boarding-test");
-    }
 
     @Before
     public void setup() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityManagerProvider.setEntityManager(entityManager);
         hibernatePassengerRepository = new HibernatePassengerRepositoryImpl(passengerFetcher);
-    }
-
-    @After
-    public void tearDown() {
     }
 
     @Test(expected = PassengerNotFoundException.class)

@@ -7,7 +7,9 @@ import javax.persistence.Id;
 
 @Entity
 public class Seat {
-    public enum SeatClass { ANY, ECONOMY, BUSINESS }
+
+    public enum SeatClass {ANY, ECONOMY, BUSINESS}
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -21,7 +23,8 @@ public class Seat {
     private boolean isExitRow;
     private boolean isAvailable;
 
-    public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean haveClearView, double price, SeatClass seatClass, boolean isExitRow, boolean isAvailable) {
+    public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean haveClearView, double price,
+                SeatClass seatClass, boolean isExitRow, boolean isAvailable) {
         this.rowNumber = rowNumber;
         this.seatName = seatName;
         this.legRoom = legRoom;
@@ -62,5 +65,21 @@ public class Seat {
 
     public SeatClass getSeatClass() {
         return seatClass;
+    }
+
+    public int getLegRoom() {
+        return legRoom;
+    }
+
+    public boolean hasMoreLegRoomThan(int legRoomToCompare) {
+        return legRoom > legRoomToCompare;
+    }
+
+    public boolean hasSameAmountOfLegRoom(int currentMostLegRoom) {
+        return legRoom == currentMostLegRoom;
+    }
+
+    public boolean hasLowerPrice(Seat seat) {
+        return price < seat.getPrice();
     }
 }

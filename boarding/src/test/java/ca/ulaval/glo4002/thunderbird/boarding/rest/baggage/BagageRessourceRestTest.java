@@ -4,6 +4,7 @@ import io.restassured.response.Response;
 import org.junit.Test;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
+import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
 import static org.eclipse.jetty.http.HttpStatus.Code.CREATED;
 import static org.eclipse.jetty.http.HttpStatus.Code.OK;
 import static org.junit.Assert.*;
@@ -15,6 +16,7 @@ public class BagageRessourceRestTest {
     public static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
     public static final int WEIGHT = 10;
     public static final int INVALID_WEIGHT = 400;
+    public static final String INVALID_UNIT = "invalid_unit";
 
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
@@ -70,5 +72,21 @@ public class BagageRessourceRestTest {
         assertFalse(allowed);
         String refusationReason = response.path("refusation_reason");
         assertNotNull(refusationReason);
+    }
+
+    @Test
+    public void givenAnInvalidWeightUnitBaggage_whenRegisteringBaggage_shouldReturnBadRequest() {
+        RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
+                                                                                  LINEAR_DIMENSION,
+                                                                                  INVALID_UNIT,
+                                                                                  WEIGHT,
+                                                                                  CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+
+        givenBaseRequest()
+                .body(registerBagageRequest)
+                .when()
+                .post("/passengers/123456/baggages")
+                .then()
+                .statusCode(BAD_REQUEST.getCode());
     }
 }

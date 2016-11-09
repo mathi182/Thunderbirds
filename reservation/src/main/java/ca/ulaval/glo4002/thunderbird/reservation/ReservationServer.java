@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.servlet.DispatcherType;
@@ -16,7 +17,6 @@ import java.util.EnumSet;
 import static java.util.Optional.ofNullable;
 
 public class ReservationServer {
-
     private static final String PORT_PROPERTY = "reservation.port";
     private static final int DEFAULT_PORT = 8787;
 
@@ -49,7 +49,7 @@ public class ReservationServer {
 
         server = new Server(httpPort);
         ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
-        configurerJersey(servletContextHandler);
+        configureJersey(servletContextHandler);
         try {
             server.start();
         } catch (Exception e) {
@@ -83,12 +83,15 @@ public class ReservationServer {
         }
     }
 
-    private void configurerJersey(ServletContextHandler servletContextHandler) {
-        ResourceConfig resourceConfig = new ResourceConfig().packages("ca.ulaval.glo4002.thunderbird.reservation");
+    private void configureJersey(ServletContextHandler servletContextHandler) {
+        ResourceConfig resourceConfig = new ResourceConfig()
+                .packages("ca.ulaval.glo4002.thunderbird.reservation")
+                .property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true)
+                .property(ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK, true);
+
         ServletContainer container = new ServletContainer(resourceConfig);
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
         servletContextHandler.addFilter(EntityManagerContextFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
     }
-
 }

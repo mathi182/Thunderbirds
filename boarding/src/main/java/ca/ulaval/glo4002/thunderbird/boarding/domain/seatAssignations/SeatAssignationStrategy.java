@@ -5,7 +5,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import java.util.List;
 
 public interface SeatAssignationStrategy {
-    enum AssignMode { RANDOM, CHEAPEST }
+    enum AssignMode { RANDOM, CHEAPEST, LEGS }
 
     Seat assignSeat(List<Seat> availableSeats);
+
 }

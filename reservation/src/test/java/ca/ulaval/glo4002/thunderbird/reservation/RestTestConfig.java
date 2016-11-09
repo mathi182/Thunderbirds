@@ -9,7 +9,6 @@ import java.util.UUID;
 import static io.restassured.RestAssured.given;
 
 public final class RestTestConfig {
-
     public final static int EXISTENT_RESERVATION_NUMBER = DevContext.EXISTENT_RESERVATION_NUMBER;
     public final static UUID EXISTENT_PASSENGER_HASH = DevContext.EXISTENT_PASSENGER_HASH;
 

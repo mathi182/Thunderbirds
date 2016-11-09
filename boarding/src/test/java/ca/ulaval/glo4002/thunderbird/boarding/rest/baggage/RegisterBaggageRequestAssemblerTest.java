@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.CheckedBaggageEconomy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.exceptions.IllegalFieldWebException;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -14,9 +15,10 @@ public class RegisterBaggageRequestAssemblerTest {
     public static final String WEIGHT_UNIT_DESCRIPTION = "KG";
     public static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
     public static final int WEIGHT = 10;
+    public static final String INVALID_UNIT = "invalid";
 
     @Test
-    public void givenValidRegisterBaggageRequest_whenGetDomainBaggage_shouldReturnCheckedBaggageEconomy() throws Exception {
+    public void givenValidRequest_whenGetDomainBaggage_shouldReturnCheckedBaggageEconomy() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
                                                                                    LINEAR_DIMENSION,
                                                                                    WEIGHT_UNIT_DESCRIPTION,
@@ -30,12 +32,36 @@ public class RegisterBaggageRequestAssemblerTest {
     }
 
     @Test(expected = MissingFieldException.class)
-    public void givenMissingFieldRegisterBaggageRequest_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
+    public void givenMissingField_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
                                                                                    LINEAR_DIMENSION,
                                                                                    WEIGHT_UNIT_DESCRIPTION,
                                                                                    null,
                                                                                    null);
+
+        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
+    }
+
+    @Test(expected = IllegalFieldWebException.class)
+    public void givenInvalidWeightUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
+                                                                                   LINEAR_DIMENSION,
+                                                                                   INVALID_UNIT,
+                                                                                   WEIGHT,
+                                                                                   CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+
+        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
+    }
+
+    @Test(expected = IllegalFieldWebException.class)
+    public void givenInvalidDimensionUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(INVALID_UNIT,
+                                                                                   LINEAR_DIMENSION,
+                                                                                   WEIGHT_UNIT_DESCRIPTION,
+                                                                                   WEIGHT,
+                                                                                   CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
         registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);

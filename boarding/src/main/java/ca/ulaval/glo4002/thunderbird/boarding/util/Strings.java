@@ -1,9 +1,7 @@
-package ca.ulaval.glo4002.thunderbird.reservation.util;
+package ca.ulaval.glo4002.thunderbird.boarding.util;
 
-public final class Strings {
-
+public class Strings {
     public static boolean isNullOrEmpty(final String s) {
         return s == null || s.trim().isEmpty();
     }
-
 }
