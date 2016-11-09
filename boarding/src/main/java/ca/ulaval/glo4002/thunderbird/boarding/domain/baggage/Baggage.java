@@ -26,6 +26,9 @@ public abstract class Baggage {
     @Column
     protected Integer weight;
 
+    @Column
+    protected float price;
+
     @ManyToOne
     @JoinColumn(name = "passenger")
     @JsonBackReference
@@ -43,5 +46,13 @@ public abstract class Baggage {
 
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
+    }
+
+    public float getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 }

@@ -13,6 +13,8 @@ import java.util.UUID;
 @Entity
 public class Passenger {
     public static final int BAGGAGE_AMOUNT_AUTHORIZED = 3;
+    public static final float FIRST_BAGGAGE_BASE_PRICE = 0f;
+    public static final float ADDITIONAL_BAGGAGE_BASE_PRICE = 50f;
 
     @Id
     private UUID passengerHash;
@@ -52,6 +54,7 @@ public class Passenger {
 
     public void addBaggage(Baggage baggage) {
         if (getBaggagesCount() < BAGGAGE_AMOUNT_AUTHORIZED) {
+            baggage = setBaggagePrice(baggage);
             this.baggages.add(baggage);
             baggage.setPassenger(this);
         } else {
@@ -61,5 +64,19 @@ public class Passenger {
 
     public int getBaggagesCount() {
         return this.baggages.size();
+    }
+
+    //TODO: ecrire le test pour verifier que le set se fait vraiment correctement...
+    private Baggage setBaggagePrice(Baggage baggage) {
+        float baggagePrice;
+
+        if (this.baggages.isEmpty()) {
+            baggagePrice = FIRST_BAGGAGE_BASE_PRICE;
+        } else {
+            baggagePrice = ADDITIONAL_BAGGAGE_BASE_PRICE;
+        }
+        baggage.setPrice(baggagePrice);
+
+        return baggage;
     }
 }
