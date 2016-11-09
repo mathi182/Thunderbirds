@@ -3,6 +3,11 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("Checked")
 public abstract class CheckedBaggage extends Baggage {
     public CheckedBaggage(LinearDimensionUnits linearDimensionUnit, Integer linearDimension, WeightUnits weightUnit, Integer weight) {
         super(linearDimensionUnit,linearDimension, weightUnit, weight);

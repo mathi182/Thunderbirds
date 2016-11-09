@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence;
 
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepositoryIntegrationTest;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepositoryIntegrationTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import javax.persistence.Persistence;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         HibernateFlightRepositoryIntegrationTest.class,
+        HibernatePassengerRepositoryIntegrationTest.class
 })
 public class IntegrationTestSuite {
     private static EntityManagerFactory entityManagerFactory;

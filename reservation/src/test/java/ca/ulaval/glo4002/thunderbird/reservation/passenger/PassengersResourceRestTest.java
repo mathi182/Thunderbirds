@@ -18,20 +18,22 @@ import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
 
 public class PassengersResourceRestTest {
-    public static final int FIRST_PASSENGER = 0;
     private static final UUID RANDOM_UUID = UUID.randomUUID();
     private static final String SERVICE_ADDRESS = "http://127.0.0.1:" + RestTestSuite.TEST_SERVER_PORT;
-    private static final String RESERVATIONS_PATH_FORMAT = "/reservations/%1s";
+    private static final String PASSENGER_PATH_FORMAT = "/reservations/%1s";
+    private static final String PASSENGER_SERVICE_ADDRESS = PassengersResource.PATH;
+    private static final String PASSENGER_REST_FORMAT = PASSENGER_SERVICE_ADDRESS + "{passenger_UUID}";
     private static final int EXISTENT_RESERVATION_NUMBER = DevContext.EXISTENT_RESERVATION_NUMBER;
+
     private static Map<String, Object> existingPassenger;
 
     @BeforeClass
     public static void getPassengerInformation() {
-        String url = SERVICE_ADDRESS + String.format(RESERVATIONS_PATH_FORMAT, EXISTENT_RESERVATION_NUMBER);
+        String url = SERVICE_ADDRESS + String.format(PASSENGER_PATH_FORMAT, EXISTENT_RESERVATION_NUMBER);
 
         Map<String, Object> existingReservation = getResource(url).getEntity(Map.class);
         ArrayList<Object> existingPassengers = (ArrayList<Object>) existingReservation.get("passengers");
-        existingPassenger = (Map<String, Object>) existingPassengers.get(FIRST_PASSENGER);
+        existingPassenger = (Map<String, Object>) existingPassengers.get(0);
     }
 
     private static ClientResponse getResource(String url) {
@@ -46,7 +48,7 @@ public class PassengersResourceRestTest {
     public void givenRandomPassengerHash_whenAskingForPassenger_shouldReturnNotFound() {
         givenBaseRequest()
                 .when()
-                .get("/passengers/{passenger_UUID}", RANDOM_UUID.toString())
+                .get(PASSENGER_REST_FORMAT , RANDOM_UUID.toString())
                 .then()
                 .statusCode(NOT_FOUND.getStatusCode());
     }
@@ -55,13 +57,14 @@ public class PassengersResourceRestTest {
     public void givenExistingPassengerHash_whenAskingForPassenger_shouldReturnExistentPassenger() {
         givenBaseRequest()
                 .when()
-                .get("/passengers/{passenger_UUID}", existingPassenger.get("passenger_hash"))
+                .get(PASSENGER_REST_FORMAT, existingPassenger.get("passenger_hash"))
                 .then()
                 .statusCode(OK.getStatusCode())
                 .body("passenger_hash", equalTo(existingPassenger.get("passenger_hash")))
                 .body("first_name", equalTo(existingPassenger.get("first_name")))
                 .body("last_name", equalTo(existingPassenger.get("last_name")))
                 .body("passport_number", equalTo(existingPassenger.get("passport_number")))
-                .body("seat_class", equalTo(existingPassenger.get("seat_class")));
+                .body("seat_class", equalTo(existingPassenger.get("seat_class")))
+                .body("child",equalTo(false));
     }
 }
