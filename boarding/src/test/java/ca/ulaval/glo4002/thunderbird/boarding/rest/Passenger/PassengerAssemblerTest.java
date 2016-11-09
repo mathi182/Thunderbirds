@@ -6,7 +6,8 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PassengerAssemblerTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
@@ -16,28 +17,28 @@ public class PassengerAssemblerTest {
     private static final String BUSINESS = "business";
 
     @Test
-    public void givenFilledPassengerRequest_whenTransformingToDomain_ShouldBeTheCorrectPassenger(){
-        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(),ECONOMY);
+    public void givenFilledPassengerRequest_whenTransformingToDomain_ShouldBeTheCorrectPassenger() {
+        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), ECONOMY);
 
         Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
         UUID actualPassengerHash = actualPassenger.getHash();
         boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(ECONOMY_SEAT_CLASS);
 
         UUID expectedPassengerHash = VALID_PASSENGER_HASH;
-        assertEquals(expectedPassengerHash,actualPassengerHash);
+        assertEquals(expectedPassengerHash, actualPassengerHash);
         assertTrue(isTheSameSeatClass);
     }
 
     @Test
-    public void givenBusinessPassengerRequest_whenTransformingToDomain_ShouldBeTheCorrectPassenger(){
-        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(),BUSINESS);
+    public void givenBusinessPassengerRequest_whenTransformingToDomain_ShouldBeTheCorrectPassenger() {
+        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), BUSINESS);
 
         Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
         UUID actualPassengerHash = actualPassenger.getHash();
         boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(BUSINESS_SEAT_CLASS);
 
         UUID expectedPassengerHash = VALID_PASSENGER_HASH;
-        assertEquals(expectedPassengerHash,actualPassengerHash);
+        assertEquals(expectedPassengerHash, actualPassengerHash);
         assertTrue(isTheSameSeatClass);
     }
 }
