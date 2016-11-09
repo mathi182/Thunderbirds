@@ -9,6 +9,7 @@ import java.util.UUID;
 public class PassengerAssembler {
 
     private static final String ECONOMY = "economy";
+    private static final String BUSINESS = "business";
 
     private static final Seat.SeatClass DEFAULT_SEAT_CLASS = Seat.SeatClass.ANY;
 
@@ -20,10 +21,16 @@ public class PassengerAssembler {
     }
 
     private Seat.SeatClass getSeatClassFromString(String source){
+        source = source.toLowerCase();
         Seat.SeatClass seatClass = DEFAULT_SEAT_CLASS;
         switch (source){
             case ECONOMY:
                 seatClass = Seat.SeatClass.ECONOMY;
+                break;
+            case BUSINESS:
+                seatClass = Seat.SeatClass.BUSINESS;
+                break;
+            //TODO implement an exception for invalid seat_class
         }
 
         return seatClass;
