@@ -1,7 +1,11 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger;
+package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerFetcher;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerDTO;
 import com.sun.jersey.api.client.ClientResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +40,7 @@ public class PassengerFetcherTest{
         passengerDTOMock = mock(PassengerDTO.class);
         passengerAPIcallerMock = mock(PassengerAPICaller.class);
         clientResponseMock = mock(ClientResponse.class);
+        passengerMock = mock(Passenger.class);
 
         willReturn(clientResponseMock).given(passengerAPIcallerMock).requestPassenger(anyString());
         willReturn(passengerDTOMock).given(clientResponseMock).getEntity(PassengerDTO.class);

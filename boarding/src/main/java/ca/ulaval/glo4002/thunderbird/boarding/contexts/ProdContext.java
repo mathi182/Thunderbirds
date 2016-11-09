@@ -12,7 +12,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlight
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneRepositoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerFetcher;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerFetcher;
 
 public class ProdContext implements Context {
     @Override

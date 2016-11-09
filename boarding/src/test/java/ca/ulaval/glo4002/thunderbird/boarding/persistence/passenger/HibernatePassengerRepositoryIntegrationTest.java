@@ -6,7 +6,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerFetcher;
 import org.junit.Before;
 import org.junit.Test;
 
