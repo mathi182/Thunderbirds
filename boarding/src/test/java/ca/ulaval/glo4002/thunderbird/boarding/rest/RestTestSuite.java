@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest;
 import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BagageRessourceRestTest;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationsResourceRestTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -10,7 +11,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        BagageRessourceRestTest.class
+        BagageRessourceRestTest.class,
+        SeatAssignationsResourceRestTest.class
 })
 public class RestTestSuite {
 
