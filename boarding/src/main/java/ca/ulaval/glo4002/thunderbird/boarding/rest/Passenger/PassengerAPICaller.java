@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class PassengerAPICaller {
     public static final String SERVICE_LOCATION = "http://127.0.0.1:8888";
-    public static final String SERVICE_PATH_FORMAT = "/passenger/%1s";
+    public static final String SERVICE_PATH_FORMAT = "/passengers/%1s";
 
     public ClientResponse requestPassenger(String passengerHash) {
         String url = SERVICE_LOCATION + String.format(SERVICE_PATH_FORMAT,passengerHash);

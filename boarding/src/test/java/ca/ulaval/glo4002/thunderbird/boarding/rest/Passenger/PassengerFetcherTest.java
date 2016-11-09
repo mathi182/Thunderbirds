@@ -54,7 +54,7 @@ public class PassengerFetcherTest{
 
 
     @Test
-    public void givenNewPassengerFetcher_whenRequestingValidPassenger_ShouldBeCorrectPassenger(){
+    public void givenNewPassengerFetcher_whenRequestingValidPassenger_shouldBeCorrectPassenger(){
         willReturn(OK.getStatusCode()).given(clientResponseMock).getStatus();
 
         Passenger passenger = passengerFetcherTest.fetchPassenger(VALID_PASSENGER_HASH);
@@ -63,11 +63,9 @@ public class PassengerFetcherTest{
     }
 
     @Test(expected = PassengerNotFoundException.class)
-    public void givenNewPassengerFetcher_whenRequestingExistingPassenger_ShouldThrowPassengerNotFound(){
+    public void givenNewPassengerFetcher_whenRequestingNonExistingPassenger_shouldThrowPassengerNotFound(){
         willReturn(NOT_FOUND.getStatusCode()).given(clientResponseMock).getStatus();
 
         passengerFetcherTest.fetchPassenger(RANDOM_UUID);
     }
-
-
 }
