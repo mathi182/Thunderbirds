@@ -10,34 +10,32 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.UUID;
 
-public class HibernatePassengerRepositoryImpl implements PassengerRepository {
+public class HibernatePassengerRepository implements PassengerRepository {
 
     private PassengerFetcher passengerFetcher;
 
-    public HibernatePassengerRepositoryImpl(PassengerFetcher passengerFetcher) {
+    public HibernatePassengerRepository(PassengerFetcher passengerFetcher) {
         this.passengerFetcher = passengerFetcher;
     }
 
     @Override
-    public Passenger getPassenger(UUID passengerHash) throws PassengerNotFoundException {
-        try {
-            EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-            Passenger passenger = entityManager.find(Passenger.class, passengerHash);
-            if (passenger == null) {
-                throw  new PassengerNotFoundException(passengerHash);
-            }
-            return passenger;
-        } catch (PassengerNotFoundException ex) {
-            return  recoverPassenger(passengerHash);
+    public Passenger getPassenger(UUID passengerHash){
+        Passenger passenger;
+        passenger = getPassengerFromHibernate(passengerHash);
+        if (passenger == null) {
+            passenger = getPassengerFromAPI(passengerHash);
+            savePassenger(passenger);
         }
-    }
-
-    private Passenger recoverPassenger(UUID passengerHash){
-        Passenger passenger = getPassengerFromAPI(passengerHash);
-        savePassenger(passenger);
         return passenger;
     }
-    private Passenger getPassengerFromAPI(UUID passengerHash){
+
+    private Passenger getPassengerFromHibernate(UUID passengerHash) {
+        EntityManager entityManager = new EntityManagerProvider().getEntityManager();
+        Passenger passenger = entityManager.find(Passenger.class, passengerHash);
+        return passenger;
+    }
+
+    private Passenger getPassengerFromAPI(UUID passengerHash) {
         return passengerFetcher.fetchPassenger(passengerHash);
     }
 

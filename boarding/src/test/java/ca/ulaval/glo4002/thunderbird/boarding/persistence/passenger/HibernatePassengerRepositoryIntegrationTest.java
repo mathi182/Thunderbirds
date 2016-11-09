@@ -30,7 +30,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
 
     @Before
     public void setup() {
-        hibernatePassengerRepository = new HibernatePassengerRepositoryImpl(passengerFetcher);
+        hibernatePassengerRepository = new HibernatePassengerRepository(passengerFetcher);
     }
 
     @Test(expected = PassengerNotFoundException.class)
