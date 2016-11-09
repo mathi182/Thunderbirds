@@ -23,15 +23,11 @@ public class DevContext implements Context {
         PlaneRepository planeRepository = planeRepositoryProvider.getRepository();
         FlightRepository flightRepository = new HibernateFlightRepository(amsSystem, planeRepository);
         new FlightRepositoryProvider().setFlightRepository(flightRepository);
+
         PassengerAPICaller apiCaller = new PassengerAPICaller();
         PassengerAssembler assembler = new PassengerAssembler();
         PassengerFetcher fetcher = new PassengerFetcher(assembler,apiCaller);
         PassengerRepository passengerRepository = new HibernatePassengerRepositoryImpl(fetcher);
         new PassengerRepositoryProvider().setPassengerRepository(passengerRepository);
     }
-
-    // TODO: créer un passenger avec l'api
-    //private Passenger createPassenger() {
-    //
-    //}
 }
