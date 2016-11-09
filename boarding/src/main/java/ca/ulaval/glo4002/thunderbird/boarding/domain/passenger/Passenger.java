@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.exceptions.BaggageAmountAuthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -11,6 +12,8 @@ import java.util.UUID;
 
 @Entity
 public class Passenger {
+    public static final int BAGGAGE_AMOUNT_AUTHORIZED = 3;
+
     @Id
     private UUID passengerHash;
     @Column
@@ -45,5 +48,18 @@ public class Passenger {
 
     public boolean isSameSeatClass(Seat.SeatClass seatClass){
         return this.seatClass.equals(seatClass);
+    }
+
+    public void addBaggage(Baggage baggage) {
+        if (getBaggagesCount() < BAGGAGE_AMOUNT_AUTHORIZED) {
+            this.baggages.add(baggage);
+            baggage.setPassenger(this);
+        } else {
+            throw new BaggageAmountAuthorizedException();
+        }
+    }
+
+    public int getBaggagesCount() {
+        return this.baggages.size();
     }
 }

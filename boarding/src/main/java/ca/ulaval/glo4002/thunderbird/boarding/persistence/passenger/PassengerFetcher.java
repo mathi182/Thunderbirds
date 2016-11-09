@@ -3,9 +3,9 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerDTO;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAPICaller;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerDTO;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.util.UUID;

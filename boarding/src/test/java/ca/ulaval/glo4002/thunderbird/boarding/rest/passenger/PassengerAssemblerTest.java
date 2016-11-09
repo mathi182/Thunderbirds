@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
