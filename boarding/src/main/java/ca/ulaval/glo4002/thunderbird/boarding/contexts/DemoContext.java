@@ -14,7 +14,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerFetcher;
 
-public class ProdContext implements Context {
+public class DemoContext implements Context {
     @Override
     public void apply() {
         AMSSystemFactory amsSystemFactory = new AMSSystemFactory();

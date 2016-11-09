@@ -19,24 +19,6 @@
                 <filtering>true</filtering>
             </testResource>
         </testResources>
-
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>ca.ulaval.glo4002.thunderbird.reservation.ReservationServer</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
     <dependencies>
