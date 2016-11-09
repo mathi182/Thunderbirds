@@ -2,21 +2,20 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import io.restassured.response.Response;
 import org.junit.Test;
+
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
-import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
-import static org.eclipse.jetty.http.HttpStatus.Code.CREATED;
-import static org.eclipse.jetty.http.HttpStatus.Code.OK;
+import static org.eclipse.jetty.http.HttpStatus.Code.*;
 import static org.junit.Assert.*;
 
 public class BagageRessourceRestTest {
-    public static final String DIMENSION_UNIT_DESCRIPTION = "CM";
-    public static final int LINEAR_DIMENSION = 10;
-    public static final String WEIGHT_UNIT_DESCRIPTION = "KG";
-    public static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
-    public static final int WEIGHT = 10;
-    public static final int INVALID_WEIGHT = 400;
-    public static final String INVALID_UNIT = "invalid_unit";
+    private static final String DIMENSION_UNIT_DESCRIPTION = "CM";
+    private static final int LINEAR_DIMENSION = 10;
+    private static final String WEIGHT_UNIT_DESCRIPTION = "KG";
+    private static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
+    private static final int WEIGHT = 10;
+    private static final int INVALID_WEIGHT = 400;
+    private static final String INVALID_UNIT = "invalid_unit";
 
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
