@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
+import javax.persistence.Entity;
+
+@Entity
 public class CheckedBaggageEconomy extends CheckedBaggage {
     public static final int WEIGHT_LIMIT_LBS = 50;
     public static final int WEIGHT_LIMIT_KG = 23;
