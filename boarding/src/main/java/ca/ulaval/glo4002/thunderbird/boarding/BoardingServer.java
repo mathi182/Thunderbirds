@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding;
 
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.Context;
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.DemoContext;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext;
-import ca.ulaval.glo4002.thunderbird.boarding.contexts.ProdContext;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.filters.EntityManagerContextFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -15,33 +15,37 @@ import java.util.EnumSet;
 
 import static java.util.Optional.ofNullable;
 
-public class BoardingServer {
+public class BoardingServer implements Runnable {
 
     private static final String PORT_PROPERTY = "boarding.port";
     private static final int DEFAULT_PORT = 8888;
 
     private static final String CONTEXT_PROPERTY = "context";
-    private static final String DEFAULT_CONTEXT = "prod";
+    private static final String DEFAULT_CONTEXT = "demo";
     private Server server;
 
     public static void main(String[] args) {
-        int httpPort = ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt).orElse(DEFAULT_PORT);
-        Context context = resolveContext(ofNullable(System.getProperty(CONTEXT_PROPERTY)).orElse(DEFAULT_CONTEXT));
-
-        BoardingServer server = new BoardingServer();
-        server.start(httpPort, context);
-        server.join();
+        new BoardingServer().run();
     }
 
     private static Context resolveContext(String contextName) {
         switch (contextName) {
-            case "prod":
-                return new ProdContext();
+            case "demo":
+                return new DemoContext();
             case "dev":
                 return new DevContext();
             default:
                 throw new RuntimeException("Cannot load context " + contextName);
         }
+    }
+
+    @Override
+    public void run() {
+        int httpPort = ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt).orElse(DEFAULT_PORT);
+        Context context = resolveContext(ofNullable(System.getProperty(CONTEXT_PROPERTY)).orElse(DEFAULT_CONTEXT));
+
+        start(httpPort, context);
+        join();
     }
 
     public void start(int httpPort, Context context) {
@@ -90,5 +94,4 @@ public class BoardingServer {
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
         servletContextHandler.addFilter(EntityManagerContextFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
     }
-
 }

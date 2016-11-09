@@ -23,29 +23,36 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 
 ##Utilisation
 
-Pour lancer les serveurs (par défaut sur les ports 8888 et 8787), lancer la commande :
+###Exécution via Maven
+
+Pour lancer les serveurs (par défaut sur les ports 8787 pour reservation et 8888 pour boarding) :
 ```
-mvn exec:java -Dreservation.port=8888 -Ddemo.status=true -pl reservation
-mvn exec:java -Dboarding.port=9999 -Ddemo.status=true -pl boarding
+projet/app$ mvn exec:java
 ```
-Le flag -Ddemo.status permet de remplir le FlightRepository avec les avions de demo quand il est a true.
+
+###Configuration des ports
+
+Il est possible de paramétrer le port pour chacun des services (dans le module app):
+- `-Dreservation.port=8888`
+- `-Dboarding.port=8888`
 
 ###Tests
 
 Pour effectuer les tests, il suffit de faire:
 ```
-mvn test
+projet/$ mvn test : pour rouler les tests unitaires de tous les modules
+projet/$ mvn integration-test : pour rouler les autres niveaux de test de tous les modules
 ```
 
-## Normes
+##Normes
 
-### Git
+###Git
 
 1. Suivre les directives du [wiki](http://ulaval.qualitelogicielle.ca/wiki/documentation/gestion-equipes/flot-travail-git)
 2. Ne jamais pusher sur la branche `dev` directement. Puller le `dev` et créer un merge request.
 3. Ne jamais accepter son propre merge request.
 
-### Test
+###Test
 
 * Le nom des fonctions devront suivre cette structure : given*_when*_should*.
 * Toujours séparer les sections du test d'une ligne vide, meme si la section ne contient qu'une ligne.

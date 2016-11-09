@@ -14,7 +14,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneRepositoryP
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAPICaller;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
 
-public class ProdContext implements Context {
+public class DemoContext implements Context {
     @Override
     public void apply() {
         AMSSystemFactory amsSystemFactory = new AMSSystemFactory();
