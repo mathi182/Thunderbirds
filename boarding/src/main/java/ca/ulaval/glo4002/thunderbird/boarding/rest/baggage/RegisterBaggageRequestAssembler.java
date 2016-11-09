@@ -6,7 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.LinearDimensionUnit
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.WeightUnits;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.exceptions.IllegalFieldWebException;
-import ca.ulaval.glo4002.thunderbird.reservation.util.Strings;
+import ca.ulaval.glo4002.thunderbird.boarding.util.Strings;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class RegisterBaggageRequestAssembler {
