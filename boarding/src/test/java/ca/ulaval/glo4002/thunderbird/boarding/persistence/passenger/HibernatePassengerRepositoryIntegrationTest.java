@@ -25,6 +25,8 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private static final UUID VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION = UUID.randomUUID();
     private static final UUID NON_EXISTENT_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID PASSENGER_UUID_WITH_BAGGAGE = UUID.randomUUID();
+    private static final int HEIGHT = 10;
+    private static final int WEIGHT = 10;
     private PassengerRepository hibernatePassengerRepository;
     private PassengerFetcher passengerFetcher = mock(PassengerFetcher.class);
 
@@ -62,8 +64,8 @@ public class HibernatePassengerRepositoryIntegrationTest {
     }
 
     @Test
-    public void givenEmptyRepository_whenSavingPassengerWithBaggages_shouldSaveBaggageCorrectly() throws RepositorySavingException {
-        Baggage baggage = new CheckedBaggageEconomy(CM, 10, KG, 10);
+    public void givenEmptyRepository_whenSavingPassengerWithBaggages_shouldSaveBaggagesCorrectly() throws RepositorySavingException {
+        Baggage baggage = new CheckedBaggageEconomy(CM, HEIGHT, KG, WEIGHT);
         List<Baggage> baggageList = Arrays.asList(baggage);
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE, Seat.SeatClass.ANY, baggageList);
 

@@ -12,16 +12,16 @@ public class PassengerTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
     private static final Seat.SeatClass VALID_PASSENGER_SEAT_CLASS = Seat.SeatClass.ECONOMY;
 
-    private Passenger passengerTest;
+    private Passenger passenger;
 
     @Before
     public void setup(){
-        passengerTest = new Passenger(VALID_PASSENGER_HASH, VALID_PASSENGER_SEAT_CLASS);
+        passenger = new Passenger(VALID_PASSENGER_HASH, VALID_PASSENGER_SEAT_CLASS);
     }
 
     @Test
     public void givenNewPassenger_whenGettingPassengerID_shouldReturnPassengerID(){
-        UUID actualValue = passengerTest.getHash();
+        UUID actualValue = passenger.getHash();
 
         UUID expectedValue = VALID_PASSENGER_HASH;
         assertEquals(expectedValue,actualValue);
@@ -29,9 +29,8 @@ public class PassengerTest {
 
     @Test
     public void givenNewPassenger_whenComparingSeatClass_shouldBeTheSameAsTheOneWeInputed(){
-        boolean actualValue = passengerTest.isSameSeatClass(VALID_PASSENGER_SEAT_CLASS);
+        boolean actualValue = passenger.isSameSeatClass(VALID_PASSENGER_SEAT_CLASS);
 
         assertTrue(actualValue);
     }
-
 }

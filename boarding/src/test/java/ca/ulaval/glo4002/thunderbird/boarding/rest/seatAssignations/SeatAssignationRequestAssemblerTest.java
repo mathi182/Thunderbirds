@@ -26,7 +26,7 @@ public class SeatAssignationRequestAssemblerTest {
     }
 
     @Test
-    public void givenRandomAssignationModeSeatAssignationRequest_whenGetMode_ShouldReturnRandomMode(){
+    public void givenRandomAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnRandomMode(){
         requestTest.mode = RANDOM_ASSIGNATION_MODE;
 
         SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
@@ -36,14 +36,14 @@ public class SeatAssignationRequestAssemblerTest {
     }
 
     @Test(expected = NoSuchStrategyException.class)
-    public void givenInvalidAssignationModeSeatAssignationRequest_whenGetMode_ShouldThrowNoSuchStrategyException(){
+    public void givenInvalidAssignationModeSeatAssignationRequest_whenGettingMode_shouldThrowNoSuchStrategyException(){
         requestTest.mode = INVALID_ASSIGNATION_MODE;
 
         assemblerTest.getMode(requestTest);
     }
 
     @Test
-    public void givenCheapestAssignationModeSeatAssignationRequest_whenGetMode_ShouldReturnCheapestMode() {
+    public void givenCheapestAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnCheapestMode() {
         requestTest.mode = CHEAPEST_ASSIGNATION_MODE;
 
         SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
@@ -53,7 +53,7 @@ public class SeatAssignationRequestAssemblerTest {
     }
 
     @Test
-    public void givenMostLegRoomAssignationModeSeatAssignationRequest_whenGetMode_ShouldReturnMostLegRoomMode() {
+    public void givenMostLegRoomAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnMostLegRoomMode() {
         requestTest.mode = MOST_LEG_ROOM_ASSIGNATION_MODE;
 
         SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);

@@ -30,9 +30,7 @@ public class PassengerFetcherTest{
     private ClientResponse clientResponseMock;
     private Passenger passengerMock;
 
-
     private PassengerFetcher passengerFetcherTest;
-
 
     @Before
     public void setup(){
@@ -48,8 +46,6 @@ public class PassengerFetcherTest{
 
         passengerFetcherTest = new PassengerFetcher(passengerAssemblerMock,passengerAPIcallerMock);
     }
-
-
 
     @Test
     public void givenNewPassengerFetcher_whenRequestingValidPassenger_shouldBeCorrectPassenger(){
