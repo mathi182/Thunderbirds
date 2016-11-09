@@ -2,18 +2,11 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
-import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
 
-import javax.ws.rs.core.MediaType;
-import java.awt.*;
 import java.util.UUID;
 
 import static com.sun.jersey.api.client.ClientResponse.Status.NOT_FOUND;
@@ -27,7 +20,7 @@ public class PassengerFetcherTest{
     private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
     private static final UUID RANDOM_UUID = UUID.randomUUID();
 
-    private PassengerRequest passengerRequestMock;
+    private PassengerDTO passengerDTOMock;
     private PassengerAssembler passengerAssemblerMock;
     private PassengerAPICaller passengerAPIcallerMock;
     private ClientResponse clientResponseMock;
@@ -40,13 +33,13 @@ public class PassengerFetcherTest{
     @Before
     public void setup(){
         passengerAssemblerMock = mock(PassengerAssembler.class);
-        passengerRequestMock = mock(PassengerRequest.class);
+        passengerDTOMock = mock(PassengerDTO.class);
         passengerAPIcallerMock = mock(PassengerAPICaller.class);
         clientResponseMock = mock(ClientResponse.class);
 
         willReturn(clientResponseMock).given(passengerAPIcallerMock).requestPassenger(anyString());
-        willReturn(passengerRequestMock).given(clientResponseMock).getEntity(PassengerRequest.class);
-        willReturn(passengerMock).given(passengerAssemblerMock).toDomain(passengerRequestMock);
+        willReturn(passengerDTOMock).given(clientResponseMock).getEntity(PassengerDTO.class);
+        willReturn(passengerMock).given(passengerAssemblerMock).toDomain(passengerDTOMock);
 
         passengerFetcherTest = new PassengerFetcher(passengerAssemblerMock,passengerAPIcallerMock);
     }

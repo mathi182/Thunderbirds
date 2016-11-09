@@ -15,9 +15,9 @@ public class PassengerAssemblerTest {
 
     @Test
     public void givenFilledPassengerRequest_whenTransformingToDomain_ShouldBeTheCorrectPassenger(){
-        PassengerRequest passengerRequest = new PassengerRequest(VALID_PASSENGER_HASH.toString(),ECONOMY);
+        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(),ECONOMY);
 
-        Passenger actualPassenger = new PassengerAssembler().toDomain(passengerRequest);
+        Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
         UUID actualPassengerHash = actualPassenger.getHash();
         boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(VALID_PASSENGER_SEAT_CLASS);
 

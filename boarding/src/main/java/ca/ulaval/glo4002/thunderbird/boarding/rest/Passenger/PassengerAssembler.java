@@ -12,9 +12,9 @@ public class PassengerAssembler {
 
     private static final Seat.SeatClass DEFAULT_SEAT_CLASS = Seat.SeatClass.ANY;
 
-    public Passenger toDomain(PassengerRequest passengerRequest){
-        Seat.SeatClass seatClass = getSeatClassFromString(passengerRequest.seatClass);
-        UUID passengerHash = UUID.fromString(passengerRequest.passengerHash);
+    public Passenger toDomain(PassengerDTO passengerDTO){
+        Seat.SeatClass seatClass = getSeatClassFromString(passengerDTO.seatClass);
+        UUID passengerHash = UUID.fromString(passengerDTO.passengerHash);
 
         return new Passenger(passengerHash,seatClass);
     }

@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PassengerRequest {
+public class PassengerDTO {
     public String passengerHash;
     public String seatClass;
 
-    public PassengerRequest(@JsonProperty("passenger_hash")String passengerHash,
-                            @JsonProperty("seat_class") String seatClass){
+    public PassengerDTO(@JsonProperty("passenger_hash")String passengerHash,
+                        @JsonProperty("seat_class") String seatClass){
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
     }
