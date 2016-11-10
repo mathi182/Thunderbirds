@@ -52,4 +52,5 @@ public class PassengerTest {
 
         passenger.checkin();
     }
+
 }
