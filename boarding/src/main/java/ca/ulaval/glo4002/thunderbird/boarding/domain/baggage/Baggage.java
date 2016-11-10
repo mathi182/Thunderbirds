@@ -9,39 +9,48 @@ import java.util.UUID;
 @Entity
 @Inheritance
 @DiscriminatorColumn(name="BAGGAGE_TYPE")
-public abstract class Baggage {
+public class Baggage {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    protected UUID baggageHash;
+    private UUID baggageHash;
 
     @Column
-    protected LinearDimensionUnits linearDimensionUnit;
+    private int linearDimensionInMm;
 
     @Column
-    protected Integer linearDimension;
+    private int weightInGrams;
 
     @Column
-    protected WeightUnits weightUnit;
-
-    @Column
-    protected Integer weight;
+    private String type;
 
     @ManyToOne
     @JoinColumn(name = "passenger")
     @JsonBackReference
     private Passenger passenger;
 
-    public abstract void validate();
-
-    public Baggage(LinearDimensionUnits linearDimensionUnit, Integer linearDimension, WeightUnits weightUnit, Integer weight) {
+    public Baggage(int linearDimensionInMm, int weightInG) {
         this.baggageHash = UUID.randomUUID();
-        this.linearDimension = linearDimension;
-        this.linearDimensionUnit = linearDimensionUnit;
-        this.weightUnit = weightUnit;
-        this.weight = weight;
+        this.linearDimensionInMm = linearDimensionInMm;
+        this.weightInGrams = weightInG;
     }
 
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
+    }
+
+    public boolean validateDimension(int limitInMm) {
+        return linearDimensionInMm < limitInMm;
+    }
+
+    public boolean validateWeight(int limitInG) {
+        return weightInGrams < limitInG;
+    }
+
+    public int getWeightInGrams() {
+        return weightInGrams;
+    }
+
+    public int getDimensionInMm() {
+        return linearDimensionInMm;
     }
 }

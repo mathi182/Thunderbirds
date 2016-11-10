@@ -18,7 +18,6 @@ public class BaggageRessource {
         //TODO: find the passenger with the api
         //TODO: validate the passenger baggage count limit
         Baggage baggage = convertRequestToBaggage(request);
-        baggage.validate();
         //TODO: save the baggage in passenger repository from boarding
         URI uri = buildLocationUri("baggageHash");
         RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);

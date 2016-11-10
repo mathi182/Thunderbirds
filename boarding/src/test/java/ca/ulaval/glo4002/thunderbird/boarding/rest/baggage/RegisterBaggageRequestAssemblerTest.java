@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.CheckedBaggageEconomy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.exceptions.IllegalFieldWebException;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class RegisterBaggageRequestAssemblerTest {
     public static final String DIMENSION_UNIT_DESCRIPTION = "CM";
     public static final int LINEAR_DIMENSION = 10;
-    public static final String WEIGHT_UNIT_DESCRIPTION = "KG";
+    public static final String WEIGHT_UNIT_DESCRIPTION = "KILOGRAMS_FROM_REQUEST";
     public static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
     public static final int WEIGHT = 10;
     public static final String INVALID_UNIT = "invalid";
@@ -28,7 +28,7 @@ public class RegisterBaggageRequestAssemblerTest {
         RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
         Baggage baggage = registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
 
-        assertThat(baggage, instanceOf(CheckedBaggageEconomy.class));
+        assertThat(baggage, instanceOf(Baggage.class));
     }
 
     @Test(expected = MissingFieldException.class)

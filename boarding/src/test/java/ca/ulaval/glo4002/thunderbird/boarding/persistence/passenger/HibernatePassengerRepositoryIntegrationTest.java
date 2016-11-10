@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.CheckedBaggageEconomy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
@@ -65,7 +65,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
 
     @Test
     public void givenEmptyRepository_whenSavingPassengerWithBaggages_shouldSaveBaggagesCorrectly() throws RepositorySavingException {
-        Baggage baggage = new CheckedBaggageEconomy(CM, HEIGHT, KG, WEIGHT);
+        Baggage baggage = new Baggage(HEIGHT, WEIGHT);
         List<Baggage> baggageList = Arrays.asList(baggage);
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE, Seat.SeatClass.ANY, baggageList);
 
