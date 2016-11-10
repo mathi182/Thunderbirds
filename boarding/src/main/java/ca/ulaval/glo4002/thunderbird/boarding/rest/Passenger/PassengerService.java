@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger;
 
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
@@ -6,30 +6,32 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.P
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerDTO;
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 
+import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 
 import static com.sun.jersey.api.client.ClientResponse.Status.OK;
 
-public class PassengerFetcher {
+public class PassengerService {
 
     private PassengerAssembler passengerAssembler;
-    private PassengerAPICaller apiCaller;
+    public static final String SERVICE_LOCATION = "http://127.0.0.1:8888";
+    public static final String SERVICE_PATH_FORMAT = "/passengers/%1s";
 
-    public PassengerFetcher(PassengerAssembler passengerAssembler, PassengerAPICaller apiCaller){
+
+    public PassengerService(PassengerAssembler passengerAssembler){
         this.passengerAssembler = passengerAssembler;
-        this.apiCaller = apiCaller;
     }
 
     public Passenger fetchPassenger(UUID PassengerHash) {
         PassengerDTO request = getPassengerRequestFromAPI(PassengerHash);
-        Passenger passenger = getPassengerFromRequest(request);
-        return passenger;
+        return getPassengerFromRequest(request);
     }
 
     private PassengerDTO getPassengerRequestFromAPI(UUID passengerHash) {
-        ClientResponse response = apiCaller.requestPassenger(passengerHash.toString());
+        ClientResponse response = requestPassenger(passengerHash.toString());
         validateResponse(response, passengerHash);
         return response.getEntity(PassengerDTO.class);
     }
@@ -41,5 +43,19 @@ public class PassengerFetcher {
 
     private Passenger getPassengerFromRequest(PassengerDTO request) {
         return passengerAssembler.toDomain(request);
+    }
+
+    private ClientResponse requestPassenger(String passengerHash) {
+        String url = SERVICE_LOCATION + String.format(SERVICE_PATH_FORMAT,passengerHash);
+        return getResource(url);
+    }
+
+    private ClientResponse getResource(String url) {
+        return Client
+                .create()
+                .resource(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("content-type", MediaType.APPLICATION_JSON)
+                .get(ClientResponse.class);
     }
 }

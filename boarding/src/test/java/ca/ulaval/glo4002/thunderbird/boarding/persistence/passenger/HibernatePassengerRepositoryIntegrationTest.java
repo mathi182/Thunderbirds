@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,17 +29,17 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private static final int HEIGHT = 10;
     private static final int WEIGHT = 10;
     private PassengerRepository hibernatePassengerRepository;
-    private PassengerFetcher passengerFetcher = mock(PassengerFetcher.class);
+    private PassengerService passengerService = mock(PassengerService.class);
 
     @Before
     public void setup() {
-        hibernatePassengerRepository = new HibernatePassengerRepository(passengerFetcher);
+        hibernatePassengerRepository = new HibernatePassengerRepository(passengerService);
     }
 
     @Test(expected = PassengerNotFoundException.class)
     public void givenEmptyRepository_whenGettingPassenger_shouldThrowException() {
         willThrow(new PassengerNotFoundException(NON_EXISTENT_PASSENGER_UUID))
-                .given(passengerFetcher).fetchPassenger(NON_EXISTENT_PASSENGER_UUID);
+                .given(passengerService).fetchPassenger(NON_EXISTENT_PASSENGER_UUID);
 
         hibernatePassengerRepository.getPassenger(NON_EXISTENT_PASSENGER_UUID);
     }
@@ -56,7 +57,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenEmptyRepository_whenGettingAPassengerPresentInReservation_shouldReturnThePassenger() {
         Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION,Seat.SeatClass.ANY);
-        willReturn(expectedPassenger).given(passengerFetcher).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
+        willReturn(expectedPassenger).given(passengerService).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
         Passenger actualPassenger = hibernatePassengerRepository.getPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 

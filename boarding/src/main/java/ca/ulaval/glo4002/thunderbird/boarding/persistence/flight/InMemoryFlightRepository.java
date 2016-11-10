@@ -44,8 +44,7 @@ public class InMemoryFlightRepository implements FlightRepository {
         String modelID = amsSystem.getPlaneModel(flightNumber);
         Plane plane = planeRepository.getPlaneInformation(modelID);
         List<Seat> seats = planeRepository.getSeats(modelID);
-        Flight flight = new Flight(flightNumber, flightDate, plane, seats);
-        return flight;
+        return new Flight(flightNumber, flightDate, plane, seats);
     }
 
     @Override

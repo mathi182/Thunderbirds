@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerService;
 import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
@@ -12,10 +12,10 @@ import java.util.UUID;
 
 public class HibernatePassengerRepository implements PassengerRepository {
 
-    private PassengerFetcher passengerFetcher;
+    private PassengerService passengerService;
 
-    public HibernatePassengerRepository(PassengerFetcher passengerFetcher) {
-        this.passengerFetcher = passengerFetcher;
+    public HibernatePassengerRepository(PassengerService passengerService) {
+        this.passengerService = passengerService;
     }
 
     @Override
@@ -31,12 +31,11 @@ public class HibernatePassengerRepository implements PassengerRepository {
 
     private Passenger getPassengerFromHibernate(UUID passengerHash) {
         EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-        Passenger passenger = entityManager.find(Passenger.class, passengerHash);
-        return passenger;
+        return entityManager.find(Passenger.class, passengerHash);
     }
 
     private Passenger getPassengerFromAPI(UUID passengerHash) {
-        return passengerFetcher.fetchPassenger(passengerHash);
+        return passengerService.fetchPassenger(passengerHash);
     }
 
     @Override
