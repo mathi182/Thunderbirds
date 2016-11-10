@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public class PassengerAssembler {
@@ -15,8 +16,10 @@ public class PassengerAssembler {
     public Passenger toDomain(PassengerDTO passengerDTO){
         Seat.SeatClass seatClass = getSeatClassFromString(passengerDTO.seatClass);
         UUID passengerHash = UUID.fromString(passengerDTO.passengerHash);
+        Instant flightDate = passengerDTO.flightDate;
+        String flightNumber = passengerDTO.flightNumber;
 
-        return new Passenger(passengerHash,seatClass);
+        return new Passenger(passengerHash,seatClass, flightDate, flightNumber);
     }
 
     private Seat.SeatClass getSeatClassFromString(String source){

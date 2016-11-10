@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,10 @@ public class Passenger {
     private UUID passengerHash;
     @Column
     private Seat.SeatClass seatClass;
+    @Column
+    private Instant flightDate;
+    @Column
+    private String flightNumber;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "passenger")
     @JsonManagedReference
@@ -24,7 +29,7 @@ public class Passenger {
         //for hibernate
     }
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, List<Baggage> baggages) {
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.baggages = baggages;
@@ -33,7 +38,7 @@ public class Passenger {
         }
     }
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass){
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber){
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.baggages = new ArrayList<Baggage>();

@@ -4,9 +4,11 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.Test;
 
+import java.time.Instant;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PassengerAssemblerTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
@@ -14,10 +16,12 @@ public class PassengerAssemblerTest {
     private static final Seat.SeatClass BUSINESS_SEAT_CLASS = Seat.SeatClass.BUSINESS;
     private static final String ECONOMY = "economy";
     private static final String BUSINESS = "business";
+    private static final Instant VALID_FLIGHT_DATE = Instant.now();
+    private static final String VALID_FLIGHT_NUMBER = "QK-918";
 
     @Test
     public void givenFilledPassengerRequest_whenTransformingToDomain_ShouldBeTheCorrectPassenger(){
-        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(),ECONOMY);
+        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
 
         Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
         UUID actualPassengerHash = actualPassenger.getHash();
@@ -30,7 +34,7 @@ public class PassengerAssemblerTest {
 
     @Test
     public void givenBusinessPassengerRequest_whenTransformingToDomain_ShouldBeTheCorrectPassenger(){
-        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(),BUSINESS);
+        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), BUSINESS, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
 
         Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
         UUID actualPassengerHash = actualPassenger.getHash();
