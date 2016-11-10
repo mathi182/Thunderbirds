@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 import java.util.HashMap;
 import java.util.Random;
 
-public class AMSSystemImpl implements AMSSystem {
+public class AMSSystemRandom implements AMSSystem {
     public static final String DASH_8 = "dash-8";
     public static final String AIRBUS_A320 = "a320";
     public static final String BOEING_777_300 = "boeing-777-300";
@@ -16,27 +16,29 @@ public class AMSSystemImpl implements AMSSystem {
 
     @Override
     public synchronized String getPlaneModel(String flightNumber) {
-        String planeModel;
         switch (flightNumber) {
             case DASH_FLIGHT:
-                planeModel = DASH_8;
-                break;
-            case AIRBUS_FLIGHT:
-                planeModel = AIRBUS_A320;
-                break;
-            case BOEING_FLIGHT:
-                planeModel = BOEING_777_300;
-                break;
-            default:
-                planeModel = flightModelCache.get(flightNumber);
-                if (planeModel == null) {
-                    int planeModelNumber = random.nextInt(modelSet.length);
-                    planeModel = modelSet[planeModelNumber];
-                    flightModelCache.put(flightNumber, planeModel);
-                }
-                break;
-        }
+                return DASH_8;
 
+            case AIRBUS_FLIGHT:
+                return AIRBUS_A320;
+
+            case BOEING_FLIGHT:
+                return BOEING_777_300;
+
+            default:
+                return createPlaneModel(flightNumber);
+        }
+    }
+
+    private String createPlaneModel(String flightNumber) {
+        String planeModel = flightModelCache.get(flightNumber);
+        if (planeModel == null) {
+            int planeModelNumber = random.nextInt(modelSet.length);
+            planeModel = modelSet[planeModelNumber];
+            flightModelCache.put(flightNumber, planeModel);
+        }
         return planeModel;
     }
+
 }

@@ -45,8 +45,7 @@ public class PlaneServiceGlo3000 implements PlaneService {
         verifyResponse(response, modelID);
 
         SeatsInformationDTO dto = response.getEntity(SeatsInformationDTO.class);
-        List<Seat> seats = new SeatsAssembler().toDomain(dto);
 
-        return seats;
+        return new SeatsAssembler().toDomain(dto);
     }
 }

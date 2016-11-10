@@ -36,7 +36,7 @@ public class Passenger {
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass){
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
-        this.baggages = new ArrayList<Baggage>();
+        this.baggages = new ArrayList<>();
     }
 
     public UUID getHash() {

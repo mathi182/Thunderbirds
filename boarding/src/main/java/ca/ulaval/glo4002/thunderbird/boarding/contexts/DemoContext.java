@@ -27,18 +27,21 @@ public class DemoContext implements Context {
     }
 
     private FlightRepository registerFlightRepository() {
-        AMSSystemFactory amsSystemFactory = new AMSSystemFactory();
-        AMSSystem amsSystem = amsSystemFactory.create();
+        AMSSystem amsSystem = new AMSSystemFactory().create();
+
         PlaneService planeService = new PlaneServiceGlo3000();
         FlightRepository flightRepository = new HibernateFlightRepository(amsSystem, planeService);
         new FlightRepositoryProvider().setFlightRepository(flightRepository);
+
         initializeDefaultFlights(flightRepository, amsSystem, planeService);
         return flightRepository;
     }
+
     private PassengerRepository registerPassengerRepository() {
         PassengerAssembler assembler = new PassengerAssembler();
-        PassengerService fetcher = new PassengerService(assembler);
-        PassengerRepository passengerRepository = new HibernatePassengerRepository(fetcher);
+        PassengerService service = new PassengerService(assembler);
+        PassengerRepository passengerRepository = new HibernatePassengerRepository(service);
+
         new PassengerRepositoryProvider().setPassengerRepository(passengerRepository);
         return passengerRepository;
     }

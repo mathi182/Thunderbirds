@@ -16,15 +16,26 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
 public class DevContext implements Context {
     @Override
     public void apply() {
-        AMSSystemFactory amsSystemFactory = new AMSSystemFactory();
-        AMSSystem amsSystem = amsSystemFactory.create();
+        registerFlightRepository();
+        registerPassengerRepository();
+    }
+
+    private FlightRepository registerFlightRepository() {
+        AMSSystem amsSystem = new AMSSystemFactory().create();
+
         PlaneService planeService = new PlaneServiceGlo3000();
         FlightRepository flightRepository = new HibernateFlightRepository(amsSystem, planeService);
         new FlightRepositoryProvider().setFlightRepository(flightRepository);
 
+        return flightRepository;
+    }
+
+    private PassengerRepository registerPassengerRepository() {
         PassengerAssembler assembler = new PassengerAssembler();
-        PassengerService fetcher = new PassengerService(assembler);
-        PassengerRepository passengerRepository = new HibernatePassengerRepository(fetcher);
+        PassengerService service = new PassengerService(assembler);
+        PassengerRepository passengerRepository = new HibernatePassengerRepository(service);
+
         new PassengerRepositoryProvider().setPassengerRepository(passengerRepository);
+        return passengerRepository;
     }
 }
