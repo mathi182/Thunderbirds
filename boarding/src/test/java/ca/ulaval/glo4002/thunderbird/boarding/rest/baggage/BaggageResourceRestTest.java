@@ -1,42 +1,46 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
-import org.junit.Before;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.RegexMatcher;
+import io.restassured.response.Response;
+import org.junit.Ignore;
 import org.junit.Test;
 
-public class BaggageRessourceRestTest {
-    public static final String DIMENSION_UNIT_DESCRIPTION = "CM";
-    public static final int LINEAR_DIMENSION = 10;
-    public static final String WEIGHT_UNIT_DESCRIPTION = "KG";
-    public static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
-    public static final int WEIGHT = 10;
-    public static final int INVALID_WEIGHT = 400;
-    public static final String INVALID_UNIT = "invalid_unit";
+import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_PASSENGER_HASH;
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
+import static junit.framework.TestCase.*;
+import static org.eclipse.jetty.http.HttpStatus.Code.*;
+import static org.junit.Assert.assertNull;
 
+public class BaggageResourceRestTest {
+    private static final String DIMENSION_UNIT_DESCRIPTION = "CM";
+    private static final int LINEAR_DIMENSION = 10;
+    private static final String WEIGHT_UNIT_DESCRIPTION = "KG";
+    private static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
+    private static final int WEIGHT = 10;
+    private static final int INVALID_WEIGHT = 400;
+    private static final String INVALID_UNIT = "invalid_unit";
+    private static final String VALID_PASSENGER_HASH = EXISTENT_PASSENGER_HASH.toString();
 
-    @Before
-    public void setUp() {
-
-    }
-
+    @Ignore
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
-        //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
                 LINEAR_DIMENSION,
                 WEIGHT_UNIT_DESCRIPTION,
                 WEIGHT,
                 CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
-        String passengerHash =
-                String locationExpected = createLocationExpected(EXISTENT_PASSENGER_HASH, "baggageHash");
+        String locationRegex = createRegexLocationExpected(VALID_PASSENGER_HASH);
+        RegexMatcher locationMatcher = RegexMatcher.matches(locationRegex);
         Response response =
                 givenBaseRequest()
                         .body(registerBaggageRequest)
                         .when()
-                        .post("/passengers/12345/baggages")
+                        .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
                         .then()
                         .statusCode(CREATED.getCode())
-                        .header("Location", buildUrl(locationExpected))
+                        .header("Location", locationMatcher)
                         .extract()
                         .response();
 
@@ -46,8 +50,9 @@ public class BaggageRessourceRestTest {
         assertNull(refusationReason);
     }
 
-    private String createLocationExpected(String passengerHash) {
-        return "/passengers/" + passengerHash + "/baggages/";
+    private String createRegexLocationExpected(String passengerHash) {
+        String regex = buildUrl("/passengers/" + passengerHash + "/baggages/" + "\\d");
+        return regex;
     }
 
     @Test
@@ -63,7 +68,7 @@ public class BaggageRessourceRestTest {
                 givenBaseRequest()
                         .body(registerBagageRequest)
                         .when()
-                        .post("/passengers/123456/baggages")
+                        .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
                         .then()
                         .statusCode(OK.getCode())
                         .extract()
@@ -86,7 +91,7 @@ public class BaggageRessourceRestTest {
         givenBaseRequest()
                 .body(registerBagageRequest)
                 .when()
-                .post("/passengers/123456/baggages")
+                .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
                 .then()
                 .statusCode(BAD_REQUEST.getCode());
     }
