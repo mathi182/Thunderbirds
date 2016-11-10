@@ -2,8 +2,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepositoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepositoryProvider;
 
@@ -42,8 +40,8 @@ public class BaggageRessource {
     }
 
     private Passenger getPassenger(UUID passengerHash){
-        PassengerRepository repository = new PassengerRepositoryProvider().getPassengerRepository();
-        Passenger passenger = repository.getPassenger(passengerHash);
-        return passenger;
+        PassengerRepositoryProvider provider = new PassengerRepositoryProvider();
+        PassengerRepository repository = provider.getPassengerRepository();
+        return repository.getPassenger(passengerHash);
     }
 }
