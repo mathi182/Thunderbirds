@@ -1,31 +1,27 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepositoryProvider;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.Random;
-import java.util.UUID;
 
 @Path("/passengers/{passenger_hash}/baggages")
 @Produces(MediaType.APPLICATION_JSON)
-public class BaggageRessource {
+public class BaggageResource {
     @Context
     UriInfo uriInfo;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") String passengerHash) {
-        PassengerRepository passengerRepository = new PassengerRepositoryProvider().getPassengerRepository();
-        Passenger passenger = passengerRepository.getPassenger(UUID.fromString(passengerHash));
+        //PassengerRepository passengerRepository = new PassengerRepositoryProvider().getPassengerRepository();
+        //Passenger passenger = passengerRepository.getPassenger(UUID.fromString(passengerHash));
         Baggage baggage = convertRequestToBaggage(request);
 
         baggage.validate();
-        passenger.addBaggage(baggage);
+        //passenger.addBaggage(baggage);
 
         String baggageRegistrationIdString = String.valueOf(new Random().nextInt());
         URI uri = buildLocationUri(baggageRegistrationIdString);
