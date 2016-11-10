@@ -36,10 +36,24 @@ public class ReservationTest {
     }
 
     @Test
-    public void shouldBeTheSameAsPassengerReservation() {
+    public void givenPassengerReservation_shouldBeTheSameReservation() {
         Passenger passenger = reservation.getPassengers().get(0);
         Reservation passengerReservation = passenger.getReservation();
 
         assertSame(reservation, passengerReservation);
+    }
+
+    @Test
+    public void givenPassengerReservation_shouldBeTheSameFlightNumber() {
+        Passenger passenger = reservation.getPassengers().get(0);
+
+        assertSame(reservation.getFlightNumber(), passenger.getFlightNumber());
+    }
+
+    @Test
+    public void givenPassengerReservation_shouldBeTheSameFlightDate() {
+        Passenger passenger = reservation.getPassengers().get(0);
+
+        assertSame(reservation.getFlightDate(), passenger.getFlightDate());
     }
 }

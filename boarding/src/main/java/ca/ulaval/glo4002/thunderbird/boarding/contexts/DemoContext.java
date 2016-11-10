@@ -41,7 +41,6 @@ public class DemoContext implements Context {
         PassengerAssembler assembler = new PassengerAssembler();
         PassengerService service = new PassengerService(assembler);
         PassengerRepository passengerRepository = new HibernatePassengerRepository(service);
-
         new PassengerRepositoryProvider().setPassengerRepository(passengerRepository);
         return passengerRepository;
     }

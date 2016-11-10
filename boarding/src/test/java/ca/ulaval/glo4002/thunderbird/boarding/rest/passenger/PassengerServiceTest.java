@@ -2,9 +2,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerDTO;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 import com.sun.jersey.api.client.ClientResponse;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -19,7 +16,6 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
 //TODO On pense que c'est des tests d'integration car ils ont besoin de se
-//se connecter au serveur.
 public class PassengerServiceTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.fromString("f31859ae-3630-48f0-b90e-2f226e7082b5");
     private static final UUID RANDOM_UUID = UUID.randomUUID();
@@ -40,7 +36,6 @@ public class PassengerServiceTest {
 
         willReturn(passengerDTOMock).given(clientResponseMock).getEntity(PassengerDTO.class);
         willReturn(passengerMock).given(passengerAssemblerMock).toDomain(passengerDTOMock);
-
         passengerServiceTest = new PassengerService(passengerAssemblerMock);
     }
 
@@ -54,11 +49,11 @@ public class PassengerServiceTest {
     //TODO Test d'intégration
     @Test
     @Ignore
-    public void givenNewPassengerService_whenRequestingValidPassenger_shouldBeCorrectPassenger(){
+    public void givenNewPassengerService_whenRequestingValidPassenger_shouldBeCorrectPassenger() {
         willReturn(OK.getStatusCode()).given(clientResponseMock).getStatus();
 
         Passenger passenger = passengerServiceTest.fetchPassenger(VALID_PASSENGER_HASH);
 
-        assertEquals(passengerMock,passenger);
+        assertEquals(passengerMock, passenger);
     }
 }
