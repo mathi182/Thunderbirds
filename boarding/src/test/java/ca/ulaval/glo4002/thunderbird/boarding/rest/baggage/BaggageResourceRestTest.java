@@ -55,6 +55,7 @@ public class BaggageResourceRestTest {
         return regex;
     }
 
+    @Ignore
     @Test
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
         //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
@@ -80,6 +81,7 @@ public class BaggageResourceRestTest {
         assertNotNull(refusationReason);
     }
 
+    @Ignore
     @Test
     public void givenAnInvalidWeightUnitBaggage_whenRegisteringBaggage_shouldReturnBadRequest() {
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
