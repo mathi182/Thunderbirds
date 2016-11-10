@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,14 +26,14 @@ public class HibernateFlightRepositoryIntegrationTest {
     private static final Instant A_FLIGHT_DATE = Instant.ofEpochMilli(1478195361);
 
     private AMSSystem amsSystem;
-    private PlaneRepository planeRepository;
+    private PlaneService planeService;
     private FlightRepository flightRepository;
 
     @Before
     public void setUp() {
         amsSystem = mock(AMSSystem.class);
-        planeRepository = mock(PlaneRepository.class);
-        flightRepository = new HibernateFlightRepository(amsSystem, planeRepository);
+        planeService = mock(PlaneService.class);
+        flightRepository = new HibernateFlightRepository(amsSystem, planeService);
     }
 
     @Test

@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 
@@ -18,11 +18,11 @@ import java.util.List;
 
 public class HibernateFlightRepository implements FlightRepository {
     private AMSSystem amsSystem;
-    private PlaneRepository planeRepository;
+    private PlaneService planeService;
 
-    public HibernateFlightRepository(AMSSystem amsSystem, PlaneRepository planeRepository) {
+    public HibernateFlightRepository(AMSSystem amsSystem, PlaneService planeService) {
         this.amsSystem = amsSystem;
-        this.planeRepository = planeRepository;
+        this.planeService = planeService;
     }
 
     @Override
@@ -60,8 +60,8 @@ public class HibernateFlightRepository implements FlightRepository {
 
     private Flight createFlight(String flightNumber, Instant flightDate) {
         String modelID = amsSystem.getPlaneModel(flightNumber);
-        Plane plane = planeRepository.getPlaneInformation(modelID);
-        List<Seat> seats = planeRepository.getSeats(modelID);
+        Plane plane = planeService.getPlaneInformation(modelID);
+        List<Seat> seats = planeService.getSeats(modelID);
         return new Flight(flightNumber, flightDate, plane, seats);
     }
 }

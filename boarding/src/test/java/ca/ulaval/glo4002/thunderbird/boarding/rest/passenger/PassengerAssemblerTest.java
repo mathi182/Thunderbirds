@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
@@ -23,8 +23,7 @@ public class PassengerAssemblerTest {
         UUID actualPassengerHash = actualPassenger.getHash();
         boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(ECONOMY_SEAT_CLASS);
 
-        UUID expectedPassengerHash = VALID_PASSENGER_HASH;
-        assertEquals(expectedPassengerHash,actualPassengerHash);
+        assertEquals(VALID_PASSENGER_HASH,actualPassengerHash);
         assertTrue(isTheSameSeatClass);
     }
 

@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerService;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;

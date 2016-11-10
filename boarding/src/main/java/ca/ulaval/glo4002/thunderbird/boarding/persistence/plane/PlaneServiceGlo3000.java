@@ -9,7 +9,7 @@ import com.sun.jersey.api.client.WebResource;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-public class PlaneRepositoryImpl implements PlaneRepository {
+public class PlaneServiceGlo3000 implements PlaneService {
     private static final String PLANE_SERVICE_LOCATION = "http://glo3000.ift.ulaval.ca/plane-blueprint";
     private static final String PLANE_INFORMATION_PATH_FORMAT = "/planes/%1s.json";
     private static final String SEATS_INFORMATION_PATH_FORMAT = "/planes/%1s/seats.json";
@@ -21,15 +21,13 @@ public class PlaneRepositoryImpl implements PlaneRepository {
         verifyResponse(response, modelID);
 
         PlaneDTO dto = response.getEntity(PlaneDTO.class);
-        Plane plane = new PlaneAssembler().toDomain(dto);
-        return plane;
+        return new PlaneAssembler().toDomain(dto);
     }
 
     private ClientResponse getResource(String url) {
         Client client = Client.create();
         WebResource resource = client.resource(url);
-        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-        return response;
+        return resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
     }
 
     private void verifyResponse(ClientResponse response, String modelID) {
