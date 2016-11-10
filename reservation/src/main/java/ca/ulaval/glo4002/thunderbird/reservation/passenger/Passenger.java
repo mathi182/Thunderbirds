@@ -40,11 +40,7 @@ public class Passenger {
     private Reservation reservation;
 
     @JsonCreator
-    public Passenger(@JsonProperty("first_name") String firstName,
-                     @JsonProperty("last_name") String lastName,
-                     @JsonProperty("age") int age,
-                     @JsonProperty("passport_number") String passportNumber,
-                     @JsonProperty("seat_class") String seatClass) {
+    public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;

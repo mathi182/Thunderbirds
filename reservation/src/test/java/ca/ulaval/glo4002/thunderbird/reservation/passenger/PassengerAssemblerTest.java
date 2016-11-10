@@ -1,13 +1,12 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
-import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Instant;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
@@ -34,7 +33,7 @@ public class PassengerAssemblerTest {
     @Test
     public void givenNewPassenger_whenConvertingToDTO_ShouldGetCorrectPassengerHash(){
         PassengerDTO  passengerDTO = passengerAssembler.toDTO(passengerMock);
-        String actualValue = passengerDTO.passenger_hash;
+        String actualValue = passengerDTO.passengerHash;
 
         String expectedValue = PASSENGER_HASH.toString();
         assertEquals(expectedValue,actualValue);
@@ -43,10 +42,10 @@ public class PassengerAssemblerTest {
     @Test
     public void givenNewPassenger_whenConvertingToDTOShouldReturnCorrectValues(){
         PassengerDTO  passengerDTO = passengerAssembler.toDTO(passengerMock);
-        String actualPassengerHash = passengerDTO.passenger_hash;
-        String actualSeatClass = passengerDTO.seat_class;
-        String actualFlightNumber = passengerDTO.flight_number;
-        String actualFlighDate = passengerDTO.flight_date;
+        String actualPassengerHash = passengerDTO.passengerHash;
+        String actualSeatClass = passengerDTO.seatClass;
+        String actualFlightNumber = passengerDTO.flightNumber;
+        String actualFlighDate = passengerDTO.flightDate;
 
         assertEquals(PASSENGER_HASH.toString(),actualPassengerHash);
         assertEquals(SEAT_CLASS,actualSeatClass);
