@@ -6,7 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssign
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepositoryProvider;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -51,7 +51,7 @@ public class SeatAssignationsResource {
 
     private Flight getFlight(SeatAssignationRequest request){
         SeatAssignationRequestAssembler seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
-        Passenger passenger = seatAssignationRequestAssembler.getDomainPassenger(request);
+        Passenger passenger = seatAssignationRequestAssembler.getDomainPassenger (request);
         return repository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
     }
 

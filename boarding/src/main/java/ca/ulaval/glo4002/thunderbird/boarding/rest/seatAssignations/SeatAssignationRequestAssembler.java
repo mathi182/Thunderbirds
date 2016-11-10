@@ -1,8 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoSuchStrategyException;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepositoryProvider;
 
 public class SeatAssignationRequestAssembler {
     private static final String RANDOM_MODE = "RANDOM";
@@ -10,8 +12,9 @@ public class SeatAssignationRequestAssembler {
     private static final String LEGS_MODE = "LEGS";
 
     public Passenger getDomainPassenger(SeatAssignationRequest request) {
-        //TODO fetch passenger via API and repository, not via this class
-        return Passenger.findByPassengerHash(request.passengerHash);
+        PassengerRepository repository = new PassengerRepositoryProvider().getPassengerRepository();
+        Passenger passenger = repository.getPassenger(request.passengerHash);
+        return passenger;
     }
 
     public SeatAssignationStrategy.AssignMode getMode(SeatAssignationRequest request) {
