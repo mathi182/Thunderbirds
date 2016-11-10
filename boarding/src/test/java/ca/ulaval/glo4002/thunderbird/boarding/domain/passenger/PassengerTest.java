@@ -4,6 +4,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -11,12 +13,14 @@ import static org.junit.Assert.*;
 public class PassengerTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
     private static final Seat.SeatClass VALID_PASSENGER_SEAT_CLASS = Seat.SeatClass.ECONOMY;
+    private static final Instant VALID_FLIGHT_DATE = Instant.ofEpochMilli(new Date().getTime());
+    private static final String VALID_FLIGHT_NUMBER = "QK-918";
 
     private Passenger passenger;
 
     @Before
     public void setup(){
-        passenger = new Passenger(VALID_PASSENGER_HASH, VALID_PASSENGER_SEAT_CLASS);
+        passenger = new Passenger(VALID_PASSENGER_HASH, VALID_PASSENGER_SEAT_CLASS, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
     }
 
     @Test

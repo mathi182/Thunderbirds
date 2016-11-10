@@ -9,7 +9,9 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.P
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +27,8 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private static final UUID VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION = UUID.randomUUID();
     private static final UUID NON_EXISTENT_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID PASSENGER_UUID_WITH_BAGGAGE = UUID.randomUUID();
+    private static final Instant VALID_FLIGHT_DATE = Instant.ofEpochMilli(new Date().getTime());
+    private static final String VALID_FLIGHT_NUMBER = "QK-918";
     private static final int HEIGHT = 10;
     private static final int WEIGHT = 10;
     private PassengerRepository hibernatePassengerRepository;
@@ -45,7 +49,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
 
     @Test
     public void givenEmptyRepository_whenSavingPassenger_shouldBeSavedCorrectly() throws RepositorySavingException {
-        Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID, Seat.SeatClass.ANY);
+        Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID, Seat.SeatClass.ANY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
 
         hibernatePassengerRepository.savePassenger(expectedPassenger);
         Passenger actualPassenger = hibernatePassengerRepository.getPassenger(VALID_PASSENGER_UUID);
@@ -55,7 +59,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
 
     @Test
     public void givenEmptyRepository_whenGettingAPassengerPresentInReservation_shouldReturnThePassenger() {
-        Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION,Seat.SeatClass.ANY);
+        Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION,Seat.SeatClass.ANY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
         willReturn(expectedPassenger).given(passengerFetcher).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
         Passenger actualPassenger = hibernatePassengerRepository.getPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
@@ -67,7 +71,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     public void givenEmptyRepository_whenSavingPassengerWithBaggages_shouldSaveBaggagesCorrectly() throws RepositorySavingException {
         Baggage baggage = new CheckedBaggageEconomy(CM, HEIGHT, KG, WEIGHT);
         List<Baggage> baggageList = Arrays.asList(baggage);
-        Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE, Seat.SeatClass.ANY, baggageList);
+        Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE, Seat.SeatClass.ANY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, baggageList);
 
         hibernatePassengerRepository.savePassenger(expectedPassenger);
         Passenger actualPassenger = hibernatePassengerRepository.getPassenger(PASSENGER_UUID_WITH_BAGGAGE);
