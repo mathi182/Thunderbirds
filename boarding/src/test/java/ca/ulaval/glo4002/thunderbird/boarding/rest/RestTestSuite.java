@@ -34,5 +34,4 @@ public class RestTestSuite {
     public static void tearDownClass() {
         boardingServer.stop();
     }
-
 }

@@ -41,4 +41,28 @@ public class RegisterBaggageRequestAssemblerTest {
         RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
         registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
     }
+
+    @Test(expected = IllegalFieldWebException.class)
+    public void givenInvalidWeightUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,
+                                                                                   LINEAR_DIMENSION,
+                                                                                   INVALID_UNIT,
+                                                                                   WEIGHT,
+                                                                                   CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+
+        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
+    }
+
+    @Test(expected = IllegalFieldWebException.class)
+    public void givenInvalidDimensionUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(INVALID_UNIT,
+                                                                                   LINEAR_DIMENSION,
+                                                                                   WEIGHT_UNIT_FROM_REQUEST,
+                                                                                   WEIGHT,
+                                                                                   CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+
+        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
+    }
 }
