@@ -6,13 +6,13 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepositor
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepositoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerFetcher;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepositoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneRepositoryProvider;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerFetcher;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAPICaller;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
 
 public class DevContext implements Context {
     @Override
@@ -26,7 +26,7 @@ public class DevContext implements Context {
 
         PassengerAPICaller apiCaller = new PassengerAPICaller();
         PassengerAssembler assembler = new PassengerAssembler();
-        PassengerFetcher fetcher = new PassengerFetcher(assembler,apiCaller);
+        PassengerFetcher fetcher = new PassengerFetcher(assembler, apiCaller);
         PassengerRepository passengerRepository = new HibernatePassengerRepository(fetcher);
         new PassengerRepositoryProvider().setPassengerRepository(passengerRepository);
     }

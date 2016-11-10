@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
@@ -20,7 +20,7 @@ public class PassengerAssemblerTest {
     private static final String VALID_FLIGHT_NUMBER = "QK-918";
 
     @Test
-    public void givenFilledPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger(){
+    public void givenFilledPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger() {
         PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
 
         Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
@@ -28,12 +28,12 @@ public class PassengerAssemblerTest {
         boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(ECONOMY_SEAT_CLASS);
 
         UUID expectedPassengerHash = VALID_PASSENGER_HASH;
-        assertEquals(expectedPassengerHash,actualPassengerHash);
+        assertEquals(expectedPassengerHash, actualPassengerHash);
         assertTrue(isTheSameSeatClass);
     }
 
     @Test
-    public void givenBusinessPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger(){
+    public void givenBusinessPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger() {
         PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), BUSINESS, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
 
         Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
@@ -41,7 +41,7 @@ public class PassengerAssemblerTest {
         boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(BUSINESS_SEAT_CLASS);
 
         UUID expectedPassengerHash = VALID_PASSENGER_HASH;
-        assertEquals(expectedPassengerHash,actualPassengerHash);
+        assertEquals(expectedPassengerHash, actualPassengerHash);
         assertTrue(isTheSameSeatClass);
     }
 }

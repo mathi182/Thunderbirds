@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
@@ -13,19 +13,19 @@ public class PassengerAssembler {
 
     private static final Seat.SeatClass DEFAULT_SEAT_CLASS = Seat.SeatClass.ANY;
 
-    public Passenger toDomain(PassengerDTO passengerDTO){
+    public Passenger toDomain(PassengerDTO passengerDTO) {
         Seat.SeatClass seatClass = getSeatClassFromString(passengerDTO.seatClass);
         UUID passengerHash = UUID.fromString(passengerDTO.passengerHash);
         Instant flightDate = passengerDTO.flightDate;
         String flightNumber = passengerDTO.flightNumber;
 
-        return new Passenger(passengerHash,seatClass, flightDate, flightNumber);
+        return new Passenger(passengerHash, seatClass, flightDate, flightNumber);
     }
 
-    private Seat.SeatClass getSeatClassFromString(String source){
+    private Seat.SeatClass getSeatClassFromString(String source) {
         source = source.toLowerCase();
         Seat.SeatClass seatClass = DEFAULT_SEAT_CLASS;
-        switch (source){
+        switch (source) {
             case ECONOMY:
                 seatClass = Seat.SeatClass.ECONOMY;
                 break;
