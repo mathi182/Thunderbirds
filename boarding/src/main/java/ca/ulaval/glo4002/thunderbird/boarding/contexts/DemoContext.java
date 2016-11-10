@@ -9,6 +9,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepositor
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepositoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerRequest;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepositoryProvider;
@@ -39,7 +40,8 @@ public class DemoContext implements Context {
 
     private PassengerRepository registerPassengerRepository() {
         PassengerAssembler assembler = new PassengerAssembler();
-        PassengerService service = new PassengerService(assembler);
+        PassengerRequest Request = new PassengerRequest();
+        PassengerService service = new PassengerService(assembler,Request);
         PassengerRepository passengerRepository = new HibernatePassengerRepository(service);
         new PassengerRepositoryProvider().setPassengerRepository(passengerRepository);
         return passengerRepository;

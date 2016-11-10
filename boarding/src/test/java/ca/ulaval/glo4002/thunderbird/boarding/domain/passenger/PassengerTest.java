@@ -37,4 +37,20 @@ public class PassengerTest {
 
         assertTrue(actualValue);
     }
+
+    @Test
+    public void givenNewPassenger_whenGettingPassengerFlightDate_shouldReturnFlightDate(){
+        Instant actualValue = passenger.getFlightDate();
+
+        Instant expectedValue = VALID_FLIGHT_DATE;
+        assertEquals(expectedValue,actualValue);
+    }
+
+    @Test
+    public void givenNewPassenger_whenGettingPassengerFlightNumber_shouldReturnPassengerFlightNumber(){
+        String actualValue = passenger.getFlightNumber();
+
+        String expectedValue = VALID_FLIGHT_NUMBER;
+        assertEquals(expectedValue,actualValue);
+    }
 }

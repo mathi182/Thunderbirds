@@ -1,0 +1,26 @@
+package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
+
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+
+import javax.ws.rs.core.MediaType;
+
+public class PassengerRequest {
+    private static final String SERVICE_LOCATION = "http://127.0.0.1:8787";
+    private static final String SERVICE_PATH_FORMAT = "/passengers/%1s";
+
+    public ClientResponse getPassengerResponse(String passengerHash){
+        String url = SERVICE_LOCATION + String.format(SERVICE_PATH_FORMAT,passengerHash);
+        return  getResource(url);
+    }
+
+    public ClientResponse getResource(String url) {
+        return Client
+                .create()
+                .resource(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("content-type", MediaType.APPLICATION_JSON)
+                .get(ClientResponse.class);
+    }
+}

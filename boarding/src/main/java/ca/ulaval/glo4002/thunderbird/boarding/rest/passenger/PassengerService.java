@@ -15,36 +15,21 @@ import static com.sun.jersey.api.client.ClientResponse.Status.PARTIAL_CONTENT;
 public class PassengerService {
 
     private PassengerAssembler passengerAssembler;
+    private PassengerRequest passengerRequest;
     private static final String SERVICE_LOCATION = "http://127.0.0.1:8787";
     private static final String SERVICE_PATH_FORMAT = "/passengers/%1s";
 
 
-    public PassengerService(PassengerAssembler passengerAssembler){
+    public PassengerService(PassengerAssembler passengerAssembler, PassengerRequest passengerRequest){
         this.passengerAssembler = passengerAssembler;
+        this.passengerRequest = passengerRequest;
     }
 
     public Passenger fetchPassenger(UUID passengerHash) {
-        String url = SERVICE_LOCATION + String.format(SERVICE_PATH_FORMAT,passengerHash.toString());
-
-        try {
-            ClientResponse response = getResource(url);
-            validateResponse(response, passengerHash);
-            PassengerDTO request = response.getEntity(PassengerDTO.class);
-            return getPassengerFromRequest(request);
-        } catch (Exception e) {
-            throw new PassengerNotFoundException(passengerHash);
-        }
-
-
-    }
-
-    private ClientResponse getResource(String url) {
-        return Client
-                .create()
-                .resource(url)
-                .accept(MediaType.APPLICATION_JSON)
-                .header("content-type", MediaType.APPLICATION_JSON)
-                .get(ClientResponse.class);
+        ClientResponse response = passengerRequest.getPassengerResponse(passengerHash.toString());
+        validateResponse(response, passengerHash);
+        PassengerDTO request = response.getEntity(PassengerDTO.class);
+        return getPassengerFromRequest(request);
     }
 
     private void validateResponse(ClientResponse response, UUID passengerHash) {

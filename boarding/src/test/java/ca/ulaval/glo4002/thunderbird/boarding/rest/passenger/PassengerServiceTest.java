@@ -13,15 +13,16 @@ import static com.sun.jersey.api.client.ClientResponse.Status.NOT_FOUND;
 import static com.sun.jersey.api.client.ClientResponse.Status.OK;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 
-//TODO On pense que c'est des tests d'integration car ils ont besoin de se
 public class PassengerServiceTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.fromString("f31859ae-3630-48f0-b90e-2f226e7082b5");
     private static final UUID RANDOM_UUID = UUID.randomUUID();
 
     private PassengerDTO passengerDTOMock;
     private PassengerAssembler passengerAssemblerMock;
+    private PassengerRequest passengerRequestMock;
     private ClientResponse clientResponseMock;
     private Passenger passengerMock;
 
@@ -33,10 +34,13 @@ public class PassengerServiceTest {
         passengerDTOMock = mock(PassengerDTO.class);
         clientResponseMock = mock(ClientResponse.class);
         passengerMock = mock(Passenger.class);
+        passengerRequestMock = mock(PassengerRequest.class);
 
+        willReturn(clientResponseMock).given(passengerRequestMock).getPassengerResponse(anyString());
         willReturn(passengerDTOMock).given(clientResponseMock).getEntity(PassengerDTO.class);
         willReturn(passengerMock).given(passengerAssemblerMock).toDomain(passengerDTOMock);
-        passengerServiceTest = new PassengerService(passengerAssemblerMock);
+
+        passengerServiceTest = new PassengerService(passengerAssemblerMock,passengerRequestMock);
     }
 
     @Test(expected = PassengerNotFoundException.class)
@@ -48,7 +52,6 @@ public class PassengerServiceTest {
 
     //TODO Test d'intégration
     @Test
-    @Ignore
     public void givenNewPassengerService_whenRequestingValidPassenger_shouldBeCorrectPassenger() {
         willReturn(OK.getStatusCode()).given(clientResponseMock).getStatus();
 
