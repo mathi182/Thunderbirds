@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.exceptions.IllegalFieldWebException;
 import org.junit.Test;
@@ -10,18 +9,18 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.*;
 
 public class RegisterBaggageRequestAssemblerTest {
-    public static final String DIMENSION_UNIT_DESCRIPTION = "CM";
+    public static final String DIMENSION_UNIT_FROM_REQUEST = "cm";
     public static final int LINEAR_DIMENSION = 10;
-    public static final String WEIGHT_UNIT_DESCRIPTION = "KILOGRAMS_FROM_REQUEST";
+    public static final String WEIGHT_UNIT_FROM_REQUEST = "kg";
     public static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
     public static final int WEIGHT = 10;
     public static final String INVALID_UNIT = "invalid";
 
     @Test
     public void givenValidRequest_whenGetDomainBaggage_shouldReturnCheckedBaggageEconomy() throws Exception {
-        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,
                                                                                    LINEAR_DIMENSION,
-                                                                                   WEIGHT_UNIT_DESCRIPTION,
+                WEIGHT_UNIT_FROM_REQUEST,
                                                                                    WEIGHT,
                                                                                    CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
@@ -33,9 +32,9 @@ public class RegisterBaggageRequestAssemblerTest {
 
     @Test(expected = MissingFieldException.class)
     public void givenMissingField_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
-        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,
                                                                                    LINEAR_DIMENSION,
-                                                                                   WEIGHT_UNIT_DESCRIPTION,
+                WEIGHT_UNIT_FROM_REQUEST,
                                                                                    null,
                                                                                    null);
 
@@ -45,7 +44,7 @@ public class RegisterBaggageRequestAssemblerTest {
 
     @Test(expected = IllegalFieldWebException.class)
     public void givenInvalidWeightUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
-        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,
                                                                                    LINEAR_DIMENSION,
                                                                                    INVALID_UNIT,
                                                                                    WEIGHT,
@@ -59,7 +58,7 @@ public class RegisterBaggageRequestAssemblerTest {
     public void givenInvalidDimensionUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(INVALID_UNIT,
                                                                                    LINEAR_DIMENSION,
-                                                                                   WEIGHT_UNIT_DESCRIPTION,
+                WEIGHT_UNIT_FROM_REQUEST,
                                                                                    WEIGHT,
                                                                                    CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
