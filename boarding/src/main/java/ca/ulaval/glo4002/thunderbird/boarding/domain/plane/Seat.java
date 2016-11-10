@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.plane;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.expceptions.SeatAlreadyTakenException;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
