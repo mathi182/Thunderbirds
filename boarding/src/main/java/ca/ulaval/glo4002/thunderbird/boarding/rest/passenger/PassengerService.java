@@ -27,7 +27,6 @@ public class PassengerService {
         String url = SERVICE_LOCATION + String.format(SERVICE_PATH_FORMAT,passengerHash);
 
         try {
-
             ClientResponse response = getResource(url);
             validateResponse(response, passengerHash);
             PassengerDTO request = response.getEntity(PassengerDTO.class);

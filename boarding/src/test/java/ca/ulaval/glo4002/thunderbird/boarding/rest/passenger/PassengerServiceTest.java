@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerDTO;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 import com.sun.jersey.api.client.ClientResponse;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -51,12 +52,13 @@ public class PassengerServiceTest {
     }
 
     //TODO Test d'intégration
-//    @Test
-//    public void givenNewPassengerService_whenRequestingValidPassenger_shouldBeCorrectPassenger(){
-//        willReturn(OK.getStatusCode()).given(clientResponseMock).getStatus();
-//
-//        Passenger passenger = passengerServiceTest.fetchPassenger(VALID_PASSENGER_HASH);
-//
-//        assertEquals(passengerMock,passenger);
-//    }
+    @Test
+    @Ignore
+    public void givenNewPassengerService_whenRequestingValidPassenger_shouldBeCorrectPassenger(){
+        willReturn(OK.getStatusCode()).given(clientResponseMock).getStatus();
+
+        Passenger passenger = passengerServiceTest.fetchPassenger(VALID_PASSENGER_HASH);
+
+        assertEquals(passengerMock,passenger);
+    }
 }

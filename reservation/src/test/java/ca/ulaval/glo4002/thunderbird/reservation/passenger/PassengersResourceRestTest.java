@@ -1,22 +1,13 @@
 package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 
-import ca.ulaval.glo4002.thunderbird.reservation.RestTestSuite;
 import ca.ulaval.glo4002.thunderbird.reservation.contexts.DevContext;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.ws.rs.core.MediaType;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.UUID;
 
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.OK;
-import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.equalTo;
 
 public class PassengersResourceRestTest {
