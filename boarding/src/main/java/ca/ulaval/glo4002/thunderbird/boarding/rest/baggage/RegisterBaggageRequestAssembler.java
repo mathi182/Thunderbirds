@@ -8,6 +8,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.Dime
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.DimensionConverterFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.WeightConverter;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.WeightConverterFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.EconomyCheckedBaggageValidationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.exceptions.IllegalFieldWebException;
 import ca.ulaval.glo4002.thunderbird.boarding.util.Strings;
@@ -56,34 +58,5 @@ public class RegisterBaggageRequestAssembler {
         if (request.weight == null) {
             throw new MissingFieldException("weightInG");
         }
-
-        String dimensionUnitToUpper = request.linearDimensionUnit.toUpperCase();
-        if (!dimensionUnitFromRequestIsValid(dimensionUnitToUpper)) {
-            throw new IllegalFieldWebException();
-        }
-
-        String weightUnitToUpper = request.weightUnit.toUpperCase();
-        if (!weightUnitFromRequestIsValid(weightUnitToUpper)) {
-            throw new IllegalFieldWebException();
-        }
-    }
-
-    private boolean dimensionUnitFromRequestIsValid(String dimensionUnitToUpper) {
-        try {
-            LinearDimensionUnits.valueOf(dimensionUnitToUpper);
-        }
-        catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean weightUnitFromRequestIsValid(String weightUnitToUpper) {
-        try {
-            WeightUnits.valueOf(weightUnitToUpper);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
     }
 }

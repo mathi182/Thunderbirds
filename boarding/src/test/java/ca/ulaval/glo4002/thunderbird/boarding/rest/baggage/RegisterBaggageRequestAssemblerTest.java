@@ -20,7 +20,7 @@ public class RegisterBaggageRequestAssemblerTest {
     public void givenValidRequest_whenGetDomainBaggage_shouldReturnCheckedBaggageEconomy() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,
                                                                                    LINEAR_DIMENSION,
-                WEIGHT_UNIT_FROM_REQUEST,
+                                                                                   WEIGHT_UNIT_FROM_REQUEST,
                                                                                    WEIGHT,
                                                                                    CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
@@ -34,7 +34,7 @@ public class RegisterBaggageRequestAssemblerTest {
     public void givenMissingField_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,
                                                                                    LINEAR_DIMENSION,
-                WEIGHT_UNIT_FROM_REQUEST,
+                                                                                   WEIGHT_UNIT_FROM_REQUEST,
                                                                                    null,
                                                                                    null);
 
@@ -58,7 +58,7 @@ public class RegisterBaggageRequestAssemblerTest {
     public void givenInvalidDimensionUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(INVALID_UNIT,
                                                                                    LINEAR_DIMENSION,
-                WEIGHT_UNIT_FROM_REQUEST,
+                                                                                   WEIGHT_UNIT_FROM_REQUEST,
                                                                                    WEIGHT,
                                                                                    CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
