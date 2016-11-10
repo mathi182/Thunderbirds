@@ -21,7 +21,7 @@ import static org.mockito.Mockito.mock;
 //TODO On pense que c'est des tests d'integration car ils ont besoin de se
 //se connecter au serveur.
 public class PassengerServiceTest {
-    private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
+    private static final UUID VALID_PASSENGER_HASH = UUID.fromString("f31859ae-3630-48f0-b90e-2f226e7082b5");
     private static final UUID RANDOM_UUID = UUID.randomUUID();
 
     private PassengerDTO passengerDTOMock;

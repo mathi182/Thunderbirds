@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -30,8 +31,7 @@ public class Passenger {
     }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
-        this.passengerHash = passengerHash;
-        this.seatClass = seatClass;
+        this(passengerHash,seatClass,flightDate,flightNumber);
         this.baggages = baggages;
         for (Baggage baggage : baggages) {
             baggage.setPassenger(this);
@@ -41,6 +41,8 @@ public class Passenger {
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber){
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
+        this.flightNumber = flightNumber;
+        this.flightDate = flightDate;
         this.baggages = new ArrayList<>();
     }
 
@@ -50,5 +52,13 @@ public class Passenger {
 
     public boolean isSameSeatClass(Seat.SeatClass seatClass){
         return this.seatClass.equals(seatClass);
+    }
+
+    public Instant getFlightDate() {
+        return flightDate;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
     }
 }

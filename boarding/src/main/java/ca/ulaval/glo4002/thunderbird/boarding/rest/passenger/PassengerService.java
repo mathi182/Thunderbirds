@@ -15,7 +15,7 @@ import static com.sun.jersey.api.client.ClientResponse.Status.PARTIAL_CONTENT;
 public class PassengerService {
 
     private PassengerAssembler passengerAssembler;
-    private static final String SERVICE_LOCATION = "http://127.0.0.1:8888";
+    private static final String SERVICE_LOCATION = "http://127.0.0.1:8787";
     private static final String SERVICE_PATH_FORMAT = "/passengers/%1s";
 
 
@@ -24,7 +24,7 @@ public class PassengerService {
     }
 
     public Passenger fetchPassenger(UUID passengerHash) {
-        String url = SERVICE_LOCATION + String.format(SERVICE_PATH_FORMAT,passengerHash);
+        String url = SERVICE_LOCATION + String.format(SERVICE_PATH_FORMAT,passengerHash.toString());
 
         try {
             ClientResponse response = getResource(url);

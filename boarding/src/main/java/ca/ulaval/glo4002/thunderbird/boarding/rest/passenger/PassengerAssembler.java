@@ -6,6 +6,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import java.time.Instant;
 import java.util.UUID;
 
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
+
 public class PassengerAssembler {
 
     private static final String ECONOMY = "economy";
@@ -16,7 +18,7 @@ public class PassengerAssembler {
     public Passenger toDomain(PassengerDTO passengerDTO){
         Seat.SeatClass seatClass = getSeatClassFromString(passengerDTO.seatClass);
         UUID passengerHash = UUID.fromString(passengerDTO.passengerHash);
-        Instant flightDate = passengerDTO.flightDate;
+        Instant flightDate = ISO_INSTANT.parse(passengerDTO.flightDate, Instant::from);
         String flightNumber = passengerDTO.flightNumber;
 
         return new Passenger(passengerHash,seatClass, flightDate, flightNumber);
