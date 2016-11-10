@@ -1,9 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerFetcher;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerDTO;
 import com.sun.jersey.api.client.ClientResponse;
@@ -20,23 +18,23 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 
-public class PassengerFetcherTest{
+public class PassengerServiceTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
     private static final UUID RANDOM_UUID = UUID.randomUUID();
 
     private PassengerDTO passengerDTOMock;
     private PassengerAssembler passengerAssemblerMock;
-    private PassengerAPICaller passengerAPIcallerMock;
+    private ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerService passengerAPIcallerMock;
     private ClientResponse clientResponseMock;
     private Passenger passengerMock;
 
-    private PassengerFetcher passengerFetcherTest;
+    private PassengerService passengerServiceTest;
 
     @Before
     public void setup(){
         passengerAssemblerMock = mock(PassengerAssembler.class);
         passengerDTOMock = mock(PassengerDTO.class);
-        passengerAPIcallerMock = mock(PassengerAPICaller.class);
+        passengerAPIcallerMock = mock(ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerService.class);
         clientResponseMock = mock(ClientResponse.class);
         passengerMock = mock(Passenger.class);
 
@@ -44,14 +42,14 @@ public class PassengerFetcherTest{
         willReturn(passengerDTOMock).given(clientResponseMock).getEntity(PassengerDTO.class);
         willReturn(passengerMock).given(passengerAssemblerMock).toDomain(passengerDTOMock);
 
-        passengerFetcherTest = new PassengerFetcher(passengerAssemblerMock,passengerAPIcallerMock);
+        passengerServiceTest = new PassengerService(passengerAssemblerMock,passengerAPIcallerMock);
     }
 
     @Test
     public void givenNewPassengerFetcher_whenRequestingValidPassenger_shouldBeCorrectPassenger(){
         willReturn(OK.getStatusCode()).given(clientResponseMock).getStatus();
 
-        Passenger passenger = passengerFetcherTest.fetchPassenger(VALID_PASSENGER_HASH);
+        Passenger passenger = passengerServiceTest.fetchPassenger(VALID_PASSENGER_HASH);
 
         assertEquals(passengerMock,passenger);
     }
@@ -60,6 +58,6 @@ public class PassengerFetcherTest{
     public void givenNewPassengerFetcher_whenRequestingNonExistingPassenger_shouldThrowPassengerNotFound(){
         willReturn(NOT_FOUND.getStatusCode()).given(clientResponseMock).getStatus();
 
-        passengerFetcherTest.fetchPassenger(RANDOM_UUID);
+        passengerServiceTest.fetchPassenger(RANDOM_UUID);
     }
 }

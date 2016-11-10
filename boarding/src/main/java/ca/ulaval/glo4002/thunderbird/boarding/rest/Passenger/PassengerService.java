@@ -6,7 +6,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 
-public class PassengerAPICaller {
+public class PassengerService {
     public static final String SERVICE_LOCATION = "http://127.0.0.1:8888";
     public static final String SERVICE_PATH_FORMAT = "/passengers/%1s";
 

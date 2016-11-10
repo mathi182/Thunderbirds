@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAPICaller;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerAssembler;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerDTO;
 import com.sun.jersey.api.client.ClientResponse;
@@ -12,12 +12,12 @@ import java.util.UUID;
 
 import static com.sun.jersey.api.client.ClientResponse.Status.OK;
 
-public class PassengerFetcher {
+public class PassengerService {
 
     private PassengerAssembler passengerAssembler;
-    private PassengerAPICaller apiCaller;
+    private ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerService apiCaller;
 
-    public PassengerFetcher(PassengerAssembler passengerAssembler, PassengerAPICaller apiCaller){
+    public PassengerService(PassengerAssembler passengerAssembler, ca.ulaval.glo4002.thunderbird.boarding.rest.Passenger.PassengerService apiCaller){
         this.passengerAssembler = passengerAssembler;
         this.apiCaller = apiCaller;
     }
