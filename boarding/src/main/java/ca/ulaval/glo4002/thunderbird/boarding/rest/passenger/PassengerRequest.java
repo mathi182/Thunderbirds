@@ -1,18 +1,24 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 
 import javax.ws.rs.core.MediaType;
 
-public class PassengerRequest {
-    private static final String SERVICE_LOCATION = "http://127.0.0.1:8787";
-    private static final String SERVICE_PATH_FORMAT = "/passengers/%1s";
+import static java.util.Optional.ofNullable;
 
-    public ClientResponse getPassengerResponse(String passengerHash){
-        String url = SERVICE_LOCATION + String.format(SERVICE_PATH_FORMAT,passengerHash);
-        return  getResource(url);
+public class PassengerRequest {
+    public static final String DOMAIN_NAME = "localhost";
+    public static final String PATH = "passengers";
+
+    private static final String PORT_PROPERTY = "reservation.port";
+    private static final int DEFAULT_PORT = 8787;
+
+    public ClientResponse getPassengerResponse(String passengerHash) {
+        int httpPort = ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt).orElse(DEFAULT_PORT);
+        String url = String.format("%s:%d/%s/%s", DOMAIN_NAME, httpPort, PATH, passengerHash);
+
+        return getResource(url);
     }
 
     public ClientResponse getResource(String url) {
