@@ -4,10 +4,10 @@ public class PassengerAssembler {
     public PassengerDTO toDTO(Passenger passenger) {
         PassengerDTO passengerDTO = new PassengerDTO();
 
-        passengerDTO.passenger_hash = passenger.getId().toString();
-        passengerDTO.seat_class = passenger.getSeatClass();
-        passengerDTO.flight_number = passenger.getFlightNumber();
-        passengerDTO.flight_date = passenger.getFlightDate().toString();
+        passengerDTO.passengerHash = passenger.getId().toString();
+        passengerDTO.seatClass = passenger.getSeatClass();
+        passengerDTO.flightNumber = passenger.getFlightNumber();
+        passengerDTO.flightDate = passenger.getFlightDate().toString();
 
         return passengerDTO;
     }
