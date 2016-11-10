@@ -15,6 +15,9 @@ public class RegisterBaggageRequestAssemblerTest {
     public static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
     public static final int WEIGHT = 10;
     public static final String INVALID_UNIT = "invalid";
+    public static final int WEIGHT_UNIT_CONVERTED = 10000;
+    public static final int LINEAR_DIMENSION_CONVERTED = 100;
+    public static final String VALID_BAGGAGE_TYPE = "checked";
 
     @Test
     public void givenValidRequest_whenGetDomainBaggage_shouldReturnCheckedBaggageEconomy() throws Exception {
@@ -25,9 +28,13 @@ public class RegisterBaggageRequestAssemblerTest {
                                                                                    CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
-        Baggage baggage = registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
+        Baggage actualBaggage = registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
 
-        assertThat(baggage, instanceOf(Baggage.class));
+        Baggage expectedBaggage = new Baggage(actualBaggage.getBaggageHash(),
+                                              LINEAR_DIMENSION_CONVERTED,
+                                              WEIGHT_UNIT_CONVERTED,
+                                              VALID_BAGGAGE_TYPE);
+        assertEquals(expectedBaggage, actualBaggage);
     }
 
     @Test(expected = MissingFieldException.class)
