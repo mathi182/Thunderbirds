@@ -20,14 +20,13 @@ public class BaggageResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") String passengerHash) {
-        //TODO: get passenger from the repository
-        //TODO: validate the passenger baggage count limit
+        Passenger passenger = getPassenger(UUID.fromString(passengerHash));
         Baggage baggage = convertRequestToBaggage(request);
 
         baggage.validate();
-        //passenger.addBaggage(baggage);
+        passenger.addBaggage(baggage);
 
-        String baggageRegistrationIdString = String.valueOf(new Random().nextInt());
+        String baggageRegistrationIdString = String.valueOf(new Random().nextInt(Integer.MAX_VALUE));
         URI uri = buildLocationUri(baggageRegistrationIdString);
         RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
         return Response.created(uri).entity(baggageResponseBody).build();

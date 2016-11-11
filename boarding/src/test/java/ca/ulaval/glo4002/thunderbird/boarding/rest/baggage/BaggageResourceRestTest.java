@@ -1,16 +1,18 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
-import ca.ulaval.glo4002.thunderbird.boarding.rest.RegexMatcher;
 import io.restassured.response.Response;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.regex.Pattern;
 
 import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER_HASH;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNotNull;
 import static org.eclipse.jetty.http.HttpStatus.Code.*;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class BaggageResourceRestTest {
     private static final String DIMENSION_UNIT_DESCRIPTION = "CM";
@@ -30,8 +32,6 @@ public class BaggageResourceRestTest {
                 WEIGHT,
                 CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
-        String locationRegex = createRegexLocationExpected(VALID_PASSENGER_HASH);
-        RegexMatcher locationMatcher = RegexMatcher.matches(locationRegex);
         Response response =
                 givenBaseRequest()
                         .body(registerBaggageRequest)
@@ -39,24 +39,29 @@ public class BaggageResourceRestTest {
                         .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
                         .then()
                         .statusCode(CREATED.getCode())
-                        .header("Location", locationMatcher)
                         .extract()
                         .response();
 
+        Boolean locationValidity = isLocationValid(response.getHeader("Location"), VALID_PASSENGER_HASH);
+        assertTrue(locationValidity);
+
         Boolean allowed = response.path("allowed");
         assertTrue(allowed);
+
         String refusationReason = response.path("refusation_reason");
         assertNull(refusationReason);
     }
 
-    private String createRegexLocationExpected(String passengerHash) {
-        String regex = buildUrl("/passengers/" + passengerHash + "/baggages/" + "\\d");
-        return regex;
+    private boolean isLocationValid(String location, String passengerHash) {
+        String baseUrl = buildUrl("/passengers/" + passengerHash + "/baggages/");
+        baseUrl = baseUrl.replace("/", "\\/");
+        Pattern pattern = Pattern.compile(baseUrl + "\\d+$");
+
+        return pattern.matcher(location).matches();
     }
 
     @Test
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
-        //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
                 LINEAR_DIMENSION,
                 WEIGHT_UNIT_DESCRIPTION,
