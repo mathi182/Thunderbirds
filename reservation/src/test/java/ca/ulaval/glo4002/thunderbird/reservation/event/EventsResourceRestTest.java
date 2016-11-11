@@ -5,10 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.ws.rs.core.UriBuilder;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
@@ -58,7 +55,7 @@ public class EventsResourceRestTest {
     }
 
     private Map generateReservationMap() {
-        Map<String, Object> reservationMap = new LinkedHashMap<>();
+        Map<String, Object> reservationMap = new HashMap<>();
 
         reservationMap.put("reservation_number", RESERVATION_NUMBER);
         reservationMap.put("reservation_date", RESERVATION_DATE);
@@ -78,8 +75,8 @@ public class EventsResourceRestTest {
         return passengersList;
     }
 
-    private Map generatePassengerMap() {
-        Map<String, Object> passengerMap = new LinkedHashMap<>();
+    private Map<String, Object> generatePassengerMap() {
+        Map<String, Object> passengerMap = new HashMap<>();
 
         passengerMap.put("first_name", FIRST_NAME);
         passengerMap.put("last_name", LAST_NAME);

@@ -23,13 +23,13 @@ public class Passenger {
     private Instant flightDate;
     private String flightNumber;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "passenger")
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<Baggage> baggages;
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
         this(passengerHash, seatClass, flightDate, flightNumber);
-        this.baggages = baggages;
-        this.baggages.forEach(baggage -> baggage.setPassenger(this));
+        this.baggages = new ArrayList<>(baggages);
+
     }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber) {
@@ -57,7 +57,6 @@ public class Passenger {
             float price = getBaggageBasePrice();
             baggage.setPrice(price);
             baggages.add(baggage);
-            baggage.setPassenger(this);
         } else {
             throw new BaggageAmountAuthorizedException();
         }

@@ -33,6 +33,6 @@ public class RestTestSuite {
     @AfterClass
     public static void tearDownClass() {
         boardingServer.stop();
+        reservationServer.stop();
     }
-
 }

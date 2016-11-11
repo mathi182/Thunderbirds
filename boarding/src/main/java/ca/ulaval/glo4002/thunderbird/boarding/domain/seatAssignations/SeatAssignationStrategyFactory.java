@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoSuchStrategyException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 
 import java.util.Random;
 

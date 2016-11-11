@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoSuchStrategyException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 import org.junit.Before;
 import org.junit.Test;
 

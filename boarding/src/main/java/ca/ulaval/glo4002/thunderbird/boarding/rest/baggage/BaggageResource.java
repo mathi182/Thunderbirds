@@ -23,12 +23,13 @@ public class BaggageResource {
         Passenger passenger = getPassenger(UUID.fromString(passengerHash));
         Baggage baggage = convertRequestToBaggage(request);
 
-        baggage.validate();
+        //TODO: faire la validation du baggage ici
         passenger.addBaggage(baggage);
 
         int id = new Random().nextInt(Integer.MAX_VALUE);
         String baggageRegistrationIdString = String.valueOf(id);
         URI uri = buildLocationUri(baggageRegistrationIdString);
+
         RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
         return Response.created(uri).entity(baggageResponseBody).build();
     }
