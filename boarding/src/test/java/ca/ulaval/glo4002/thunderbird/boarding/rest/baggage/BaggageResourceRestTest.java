@@ -24,7 +24,7 @@ public class BaggageResourceRestTest {
         //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
-                KG_UNIT_FROM_REQUEST,
+                                                                                  KG_UNIT_FROM_REQUEST,
                                                                                   WEIGHT,
                                                                                   CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
