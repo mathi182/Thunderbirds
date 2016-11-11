@@ -39,8 +39,7 @@ public class HibernateFlightRepository implements FlightRepository {
     @Override
     public void saveFlight(Flight flight) {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
-        EntityManager entityManager = entityManagerProvider.getEntityManager();
-        entityManagerProvider.executeInTransaction(() -> entityManager.persist(flight));
+        entityManagerProvider.persistInTransaction(flight);
     }
 
     private Flight getFlightFromDB(String flightNumber, Instant flightDate) {
