@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepositoryProvider;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -19,15 +19,15 @@ import java.util.Random;
 @Path(SeatAssignationsResource.PATH)
 @Produces(MediaType.APPLICATION_JSON)
 public class SeatAssignationsResource {
-
     public static final String PATH = "/seat-assignations/";
-    private FlightRepository repository;
 
     @Context
     UriInfo uriInfo;
 
+    private FlightRepository repository;
+
     public SeatAssignationsResource() {
-        repository = new FlightRepositoryProvider().getFlightRepository();
+        repository = ServiceLocator.resolve(FlightRepository.class);
     }
 
     @POST

@@ -16,7 +16,7 @@ public class PassengerRequest {
 
     public ClientResponse getPassengerResponse(String passengerHash) {
         int httpPort = ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt).orElse(DEFAULT_PORT);
-        String url = String.format("%s:%d/%s/%s", DOMAIN_NAME, httpPort, PATH, passengerHash);
+        String url = String.format("http://%s:%d/%s/%s", DOMAIN_NAME, httpPort, PATH, passengerHash);
 
         return getResource(url);
     }

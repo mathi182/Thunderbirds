@@ -10,8 +10,6 @@ import javax.persistence.Id;
 @Entity
 public class Seat {
 
-    public enum SeatClass {ANY, ECONOMY, BUSINESS}
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -83,5 +81,13 @@ public class Seat {
 
     public boolean hasLowerPrice(Seat seat) {
         return price < seat.getPrice();
+    }
+
+    public enum SeatClass {
+        ANY,
+        ECONOMY,
+        BUSINESS,
+        BIG_FRONT,
+        PREMIUM_ECONOMY
     }
 }

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 import org.hibernate.HibernateException;
@@ -19,7 +19,7 @@ public class HibernatePassengerRepository implements PassengerRepository {
     }
 
     @Override
-    public Passenger getPassenger(UUID passengerHash){
+    public Passenger getPassenger(UUID passengerHash) {
         Passenger passenger;
         passenger = getPassengerFromHibernate(passengerHash);
         if (passenger == null) {

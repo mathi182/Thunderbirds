@@ -1,50 +1,58 @@
 package ca.ulaval.glo4002.thunderbird.boarding.contexts;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
+import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerFactoryProvider;
+import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystemFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepositoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerRequest;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepositoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneServiceGlo3000;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerRequest;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.time.Instant;
 import java.util.List;
 
 public class DemoContext implements Context {
     @Override
     public void apply() {
+        EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManagerProvider.setEntityManager(entityManager);
+
         registerFlightRepository();
         registerPassengerRepository();
+
+        EntityManagerProvider.clearEntityManager();
+        entityManager.close();
     }
 
-    private FlightRepository registerFlightRepository() {
+    private void registerFlightRepository() {
         AMSSystem amsSystem = new AMSSystemFactory().create();
-
         PlaneService planeService = new PlaneServiceGlo3000();
         FlightRepository flightRepository = new HibernateFlightRepository(amsSystem, planeService);
-        new FlightRepositoryProvider().setFlightRepository(flightRepository);
 
+        ServiceLocator.registerSingleton(FlightRepository.class, flightRepository);
         initializeDefaultFlights(flightRepository, amsSystem, planeService);
-        return flightRepository;
     }
 
-    private PassengerRepository registerPassengerRepository() {
+    private void registerPassengerRepository() {
         PassengerAssembler assembler = new PassengerAssembler();
         PassengerRequest Request = new PassengerRequest();
         PassengerService service = new PassengerService(assembler,Request);
         PassengerRepository passengerRepository = new HibernatePassengerRepository(service);
-        new PassengerRepositoryProvider().setPassengerRepository(passengerRepository);
-        return passengerRepository;
+
+        ServiceLocator.registerSingleton(PassengerRepository.class, passengerRepository);
     }
 
     private void initializeDefaultFlights(FlightRepository flightRepository, AMSSystem amsSystem, PlaneService planeService) {

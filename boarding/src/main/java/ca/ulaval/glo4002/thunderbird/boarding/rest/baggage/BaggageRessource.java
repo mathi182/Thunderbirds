@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepositoryProvider;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -40,8 +40,7 @@ public class BaggageRessource {
     }
 
     private Passenger getPassenger(UUID passengerHash){
-        PassengerRepositoryProvider provider = new PassengerRepositoryProvider();
-        PassengerRepository repository = provider.getPassengerRepository();
+        PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
         return repository.getPassenger(passengerHash);
     }
 }
