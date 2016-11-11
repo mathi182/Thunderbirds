@@ -22,6 +22,11 @@ public class PassengerTest {
     }
 
     @Test
+    public void shouldReturnTheRightSeatClass() {
+        assertEquals(TestConfig.SEAT_CLASS, passenger.getSeatClass());
+    }
+
+    @Test
     public void shouldReturnNoReservation() {
         assertNull(passenger.getReservation());
     }
@@ -52,4 +57,5 @@ public class PassengerTest {
 
         passenger.checkin();
     }
+
 }

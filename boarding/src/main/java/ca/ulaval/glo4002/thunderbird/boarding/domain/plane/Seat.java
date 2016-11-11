@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.plane;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.expceptions.SeatAlreadyTakenException;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,8 +9,6 @@ import javax.persistence.Id;
 
 @Entity
 public class Seat {
-
-    public enum SeatClass {ANY, ECONOMY, BUSINESS}
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -81,5 +81,13 @@ public class Seat {
 
     public boolean hasLowerPrice(Seat seat) {
         return price < seat.getPrice();
+    }
+
+    public enum SeatClass {
+        ANY,
+        ECONOMY,
+        BUSINESS,
+        BIG_FRONT,
+        PREMIUM_ECONOMY
     }
 }

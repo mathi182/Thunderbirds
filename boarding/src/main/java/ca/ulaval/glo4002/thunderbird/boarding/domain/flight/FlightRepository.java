@@ -1,6 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.persistence.flight;
-
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
 import java.time.Instant;
 
