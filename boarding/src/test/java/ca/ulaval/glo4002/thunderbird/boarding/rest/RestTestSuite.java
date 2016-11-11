@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BaggageResourceRestTest;
 import ca.ulaval.glo4002.thunderbird.reservation.ReservationServer;
-import ca.ulaval.glo4002.thunderbird.reservation.event.EventsResource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -34,5 +33,6 @@ public class RestTestSuite {
     @AfterClass
     public static void tearDownClass() {
         boardingServer.stop();
+        reservationServer.stop();
     }
 }
