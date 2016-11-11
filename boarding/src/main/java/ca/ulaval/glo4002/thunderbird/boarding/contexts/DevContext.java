@@ -1,6 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding.contexts;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
+import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerFactoryProvider;
+import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystemFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
@@ -15,6 +17,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerRequest;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -24,9 +28,16 @@ public class DevContext implements Context {
 
     @Override
     public void apply() {
+        EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManagerProvider.setEntityManager(entityManager);
+
         registerFlightRepository();
         registerPassengerRepository();
         fillDatabase();
+
+        EntityManagerProvider.clearEntityManager();
+        entityManager.close();
     }
 
     private void registerFlightRepository() {
