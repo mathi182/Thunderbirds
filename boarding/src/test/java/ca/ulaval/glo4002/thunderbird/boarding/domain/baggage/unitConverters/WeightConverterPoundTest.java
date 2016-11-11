@@ -16,14 +16,14 @@ public class WeightConverterPoundTest {
     }
 
     @Test
-    public void given0Pound_whenConverting_shouldReturn0Grams() {
+    public void givenZeroPound_whenConverting_shouldReturn0Gram() {
         int actual = converterPound.convertToGrams(0);
 
         assertEquals(0, actual);
     }
 
     @Test
-    public void givenAWeightInPound_whenConverting_shouldReturnTheSameWeightInGrams() {
+    public void givenAWeightInPounds_whenConverting_shouldReturnTheSameWeightInGrams() {
         int actual = converterPound.convertToGrams(A_WEIGHT_IN_POUND);
 
         assertEquals(THE_SAME_WEIGHT_IN_GRAMS, actual);
