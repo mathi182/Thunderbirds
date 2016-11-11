@@ -60,7 +60,6 @@ public class DevContext implements Context {
     private void fillDatabase() {
         Passenger passenger = createPassenger();
         PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
-        //im getting a java null ptr right here somewhere really deep in some java classes i dont even know... rip
         repository.savePassenger(passenger);
         EXISTENT_BOARDING_PASSENGER_HASH = passenger.getHash();
     }

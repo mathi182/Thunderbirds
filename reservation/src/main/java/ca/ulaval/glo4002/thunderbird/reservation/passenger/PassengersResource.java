@@ -21,7 +21,6 @@ public class PassengersResource {
         return passengerAssembler.toDTO(passenger);
     }
 
-    //TODO find a way to make this method private even when we test it
     private Passenger getPassenger(UUID passenger_hash) {
         return Passenger.findByPassengerHash(passenger_hash);
     }
