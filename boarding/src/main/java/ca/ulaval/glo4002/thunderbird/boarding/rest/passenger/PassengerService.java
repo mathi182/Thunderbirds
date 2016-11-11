@@ -21,6 +21,7 @@ public class PassengerService {
         ClientResponse response = passengerRequest.getPassengerResponse(passengerHash.toString());
         validateResponse(response, passengerHash);
         PassengerDTO request = response.getEntity(PassengerDTO.class);
+
         return getPassengerFromRequest(request);
     }
 

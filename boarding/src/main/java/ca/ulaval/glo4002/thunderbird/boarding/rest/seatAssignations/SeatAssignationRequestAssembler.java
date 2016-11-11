@@ -13,8 +13,7 @@ public class SeatAssignationRequestAssembler {
 
     public Passenger getDomainPassenger(SeatAssignationRequest request) {
         PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
-        Passenger passenger = repository.getPassenger(request.passengerHash);
-        return passenger;
+        return repository.getPassenger(request.passengerHash);
     }
 
     public SeatAssignationStrategy.AssignMode getMode(SeatAssignationRequest request) {

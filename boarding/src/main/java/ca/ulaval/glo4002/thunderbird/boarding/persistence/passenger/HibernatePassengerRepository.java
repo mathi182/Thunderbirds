@@ -24,11 +24,13 @@ public class HibernatePassengerRepository implements PassengerRepository {
             passenger = getPassengerFromAPI(passengerHash);
             savePassenger(passenger);
         }
+
         return passenger;
     }
 
     private Passenger getPassengerFromHibernate(UUID passengerHash) {
         EntityManager entityManager = new EntityManagerProvider().getEntityManager();
+
         return entityManager.find(Passenger.class, passengerHash);
     }
 

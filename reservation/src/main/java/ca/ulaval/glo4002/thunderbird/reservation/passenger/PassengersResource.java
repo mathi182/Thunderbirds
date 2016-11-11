@@ -16,8 +16,9 @@ public class PassengersResource {
     @Path("{passenger_hash}")
     public PassengerDTO fetchPassenger(@PathParam("passenger_hash") UUID passenger_hash) {
         Passenger passenger = getPassenger(passenger_hash);
-        PassengerDTO passengerDTO = new PassengerAssembler().toDTO(passenger);
-        return passengerDTO;
+        PassengerAssembler passengerAssembler = new PassengerAssembler();
+
+        return passengerAssembler.toDTO(passenger);
     }
 
     //TODO find a way to make this method private even when we test it

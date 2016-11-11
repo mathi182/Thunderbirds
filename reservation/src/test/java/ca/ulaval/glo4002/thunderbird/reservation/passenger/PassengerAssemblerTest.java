@@ -20,7 +20,7 @@ public class PassengerAssemblerTest {
     private Passenger passengerMock;
 
     @Before
-    public void setup(){
+    public void setup() {
         passengerMock = mock(Passenger.class);
         willReturn(PASSENGER_HASH).given(passengerMock).getId();
         willReturn(SEAT_CLASS).given(passengerMock).getSeatClass();
@@ -31,25 +31,25 @@ public class PassengerAssemblerTest {
     }
 
     @Test
-    public void givenNewPassenger_whenConvertingToDTO_ShouldGetCorrectPassengerHash(){
-        PassengerDTO  passengerDTO = passengerAssembler.toDTO(passengerMock);
+    public void givenNewPassenger_whenConvertingToDTO_shouldGetCorrectPassengerHash() {
+        PassengerDTO passengerDTO = passengerAssembler.toDTO(passengerMock);
         String actualValue = passengerDTO.passengerHash;
 
         String expectedValue = PASSENGER_HASH.toString();
-        assertEquals(expectedValue,actualValue);
+        assertEquals(expectedValue, actualValue);
     }
 
     @Test
-    public void givenNewPassenger_whenConvertingToDTOShouldReturnCorrectValues(){
-        PassengerDTO  passengerDTO = passengerAssembler.toDTO(passengerMock);
+    public void givenNewPassenger_whenConvertingToDTO_shouldReturnCorrectValues() {
+        PassengerDTO passengerDTO = passengerAssembler.toDTO(passengerMock);
         String actualPassengerHash = passengerDTO.passengerHash;
         String actualSeatClass = passengerDTO.seatClass;
         String actualFlightNumber = passengerDTO.flightNumber;
-        String actualFlighDate = passengerDTO.flightDate;
+        String actualFlightDate = passengerDTO.flightDate;
 
-        assertEquals(PASSENGER_HASH.toString(),actualPassengerHash);
-        assertEquals(SEAT_CLASS,actualSeatClass);
-        assertEquals(FLIGHT_NUMBER,actualFlightNumber);
-        assertEquals(FLIGHT_DATE.toString(),actualFlighDate);
+        assertEquals(PASSENGER_HASH.toString(), actualPassengerHash);
+        assertEquals(SEAT_CLASS, actualSeatClass);
+        assertEquals(FLIGHT_NUMBER, actualFlightNumber);
+        assertEquals(FLIGHT_DATE.toString(), actualFlightDate);
     }
 }

@@ -73,6 +73,7 @@ public class DemoContext implements Context {
         String dash8Model = amsSystem.getPlaneModel(flightNumber);
         Plane dash8Plane = planeService.getPlaneInformation(dash8Model);
         List<Seat> dash8Seats = planeService.getSeats(dash8Model);
+
         return new Flight(flightNumber, Instant.now(), dash8Plane, dash8Seats);
     }
 }
