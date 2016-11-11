@@ -22,7 +22,6 @@ public class BaggageResourceRestTest {
     private static final String INVALID_UNIT = "invalid_unit";
     private static final String VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER_HASH.toString();
 
-    @Ignore
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
@@ -55,7 +54,6 @@ public class BaggageResourceRestTest {
         return regex;
     }
 
-    @Ignore
     @Test
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
         //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
@@ -81,7 +79,6 @@ public class BaggageResourceRestTest {
         assertNotNull(refusationReason);
     }
 
-    @Ignore
     @Test
     public void givenAnInvalidWeightUnitBaggage_whenRegisteringBaggage_shouldReturnBadRequest() {
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_DESCRIPTION,
