@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.servlet.DispatcherType;
@@ -88,7 +89,10 @@ public class BoardingServer implements Runnable {
     }
 
     private void configurerJersey(ServletContextHandler servletContextHandler) {
-        ResourceConfig resourceConfig = new ResourceConfig().packages("ca.ulaval.glo4002.thunderbird.boarding");
+        ResourceConfig resourceConfig = new ResourceConfig().packages("ca.ulaval.glo4002.thunderbird.boarding")
+                .property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true)
+                .property(ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK, true);
+
         ServletContainer container = new ServletContainer(resourceConfig);
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");

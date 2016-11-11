@@ -1,12 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.DimensionConverter;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.DimensionConverterFactory;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.WeightConverter;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.WeightConverterFactory;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
-import ca.ulaval.glo4002.thunderbird.boarding.util.Strings;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.DimensionConverter;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.DimensionConverterFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.WeightConverter;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.WeightConverterFactory;
 
 public class RegisterBaggageRequestAssembler {
     public Baggage getDomainBaggage(RegisterBaggageRequest request) {

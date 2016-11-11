@@ -1,16 +1,14 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.LinearDimensionUnits.IN;
-import static ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.DimensionConverterFactory.CENTIMER_UNIT_FROM_REQUEST;
-import static ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.DimensionConverterFactory.INCH_UNIT_FROM_REQUEST;
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.DimensionConverterFactory.CENTIMER_UNIT_FROM_REQUEST;
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.DimensionConverterFactory.INCH_UNIT_FROM_REQUEST;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class DimensionConverterFactoryTest {
-
     DimensionConverterFactory dimensionConverterFactory;
 
     @Before

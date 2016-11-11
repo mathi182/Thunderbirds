@@ -1,7 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters;
 
 public class DimensionConverterCentimeters implements DimensionConverter {
-
     public static final int MILLIMETERS_IN_CM = 10;
 
     @Override

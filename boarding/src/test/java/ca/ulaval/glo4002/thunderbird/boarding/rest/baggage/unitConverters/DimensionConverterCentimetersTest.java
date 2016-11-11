@@ -1,12 +1,11 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DimensionConverterCentimetersTest {
-
     public static final int A_DIMENSION_IN_CENTIMETERS = 1;
     public static final int SAME_DIMENSION_IN_MILLIMETERS = 10;
 
@@ -18,7 +17,7 @@ public class DimensionConverterCentimetersTest {
     }
 
     @Test
-    public void given0Cm_whenConverting_shouldConvertTo0Mm () {
+    public void given0Cm_whenConverting_shouldConvertTo0Mm() {
         int actual = dimensionConverterCentimeters.convertToMillimeters(0);
 
         assertEquals(0, actual);

@@ -1,9 +1,9 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class WeightConverterPoundTest {
     private static final double A_WEIGHT_IN_POUND = 23;

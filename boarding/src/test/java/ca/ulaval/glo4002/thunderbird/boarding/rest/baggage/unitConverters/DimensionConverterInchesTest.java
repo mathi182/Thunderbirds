@@ -1,12 +1,11 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DimensionConverterInchesTest {
-
     public static final int A_DIMENSION_IN_INCHES = 2;
     public static final int SAME_DIMENSION_IN_MILLIMETERS = 50;
 

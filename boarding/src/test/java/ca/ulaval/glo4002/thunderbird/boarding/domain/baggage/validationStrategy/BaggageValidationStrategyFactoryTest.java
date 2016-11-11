@@ -1,13 +1,10 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategy;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.EconomyCheckedBaggageValidationStrategy;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class BaggageValidationStrategyFactoryTest {
     BaggageValidationStrategyFactory factory;
