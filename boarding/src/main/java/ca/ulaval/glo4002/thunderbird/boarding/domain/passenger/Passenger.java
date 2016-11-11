@@ -32,10 +32,7 @@ public class Passenger {
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
         this(passengerHash,seatClass,flightDate,flightNumber);
-        this.baggages = baggages;
-        for (Baggage baggage : baggages) {
-            baggage.setPassenger(this);
-        }
+        this.baggages = new ArrayList<>(baggages);
     }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber){

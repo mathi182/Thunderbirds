@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Path("/passengers/{passenger_hash}/baggages")
 @Produces(MediaType.APPLICATION_JSON)
-public class BaggageRessource {
+public class BaggageResource {
     @Context
     UriInfo uriInfo;
 

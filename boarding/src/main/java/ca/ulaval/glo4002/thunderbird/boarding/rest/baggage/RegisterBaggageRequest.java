@@ -9,7 +9,7 @@ public class RegisterBaggageRequest {
     @JsonProperty("linear_dimension_unit")
     public String linearDimensionUnit;
 
-    @JsonProperty("weightInG")
+    @JsonProperty("weight")
     public Integer weight;
 
     @JsonProperty("weight_unit")
@@ -18,8 +18,6 @@ public class RegisterBaggageRequest {
     @JsonProperty("type")
     public String type;
 
-    public RegisterBaggageRequest() {
-    }
 
     public RegisterBaggageRequest(String linearDimensionUnit, Integer linearDimension, String weightUnit,
                                   Integer weight,  String type) {

@@ -13,7 +13,8 @@ import static org.eclipse.jetty.http.HttpStatus.Code.OK;
 public class BaggageWeightInvalidExceptionMapper implements ExceptionMapper<BaggageWeightInvalidException> {
     @Override
     public Response toResponse(BaggageWeightInvalidException e) {
-        RegisterBaggageResponseBody registerBaggageResponseBody = new RegisterBaggageResponseBody(false, "weightInG refused");
+        RegisterBaggageResponseBody registerBaggageResponseBody = new RegisterBaggageResponseBody(false, "weight " +
+                "invalid");
         return Response.status(OK.getCode()).entity(registerBaggageResponseBody).build();
     }
 }

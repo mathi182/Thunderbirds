@@ -16,10 +16,6 @@ public class Baggage {
     private int weightInGrams;
     private String type;
 
-    @ManyToOne
-    @JoinColumn(name = "passenger")
-    @JsonBackReference
-    private Passenger passenger;
 
     public Baggage(int linearDimensionInMm, int weightInG, String type) {
         this.baggageHash = UUID.randomUUID();
@@ -39,10 +35,6 @@ public class Baggage {
         // for hibernate
     }
 
-    public void setPassenger(Passenger passenger) {
-        this.passenger = passenger;
-    }
-
     public int getWeightInGrams() {
         return weightInGrams;
     }
@@ -55,19 +47,25 @@ public class Baggage {
         return baggageHash;
     }
 
+    public String getType() {
+        return type;
+    }
+
     @Override
-    public boolean equals(java.lang.Object obj) {
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
         if (!Baggage.class.isAssignableFrom(obj.getClass())) {
             return false;
         }
+
         Baggage baggage = (Baggage) obj;
-        boolean baggageHashAreEquals = baggageHash.equals(baggage.baggageHash);
-        boolean weightsAreEquals = getWeightInGrams() == baggage.weightInGrams;
-        boolean dimensionAreEquals = getDimensionInMm() == baggage.linearDimensionInMm;
-        boolean typeAreEquals = type.equals(baggage.type);
+        boolean baggageHashAreEquals = baggageHash.equals(baggage.getBaggageHash());
+        boolean weightsAreEquals = weightInGrams == baggage.getWeightInGrams();
+        boolean dimensionAreEquals = linearDimensionInMm == baggage.getDimensionInMm();
+        boolean typeAreEquals = type.equals(baggage.getType());
+
         return baggageHashAreEquals && weightsAreEquals &&
                 dimensionAreEquals && typeAreEquals;
     }
