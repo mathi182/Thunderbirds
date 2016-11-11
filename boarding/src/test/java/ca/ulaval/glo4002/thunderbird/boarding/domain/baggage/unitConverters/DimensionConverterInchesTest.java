@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class DimensionConverterInchesTest {
 
-    public static final int A_DIMENSION_IN_INCHES1 = 2;
+    public static final int A_DIMENSION_IN_INCHES = 2;
     public static final int SAME_DIMENSION_IN_MILLIMETERS = 50;
 
     private DimensionConverterInches dimensionConverterInches;
@@ -26,7 +26,7 @@ public class DimensionConverterInchesTest {
 
     @Test
     public void givenADimension_whenConverting_shouldConvertToMm() {
-        int actual = dimensionConverterInches.convertToMillimeters(A_DIMENSION_IN_INCHES1);
+        int actual = dimensionConverterInches.convertToMillimeters(A_DIMENSION_IN_INCHES);
 
         assertEquals(SAME_DIMENSION_IN_MILLIMETERS, actual);
     }

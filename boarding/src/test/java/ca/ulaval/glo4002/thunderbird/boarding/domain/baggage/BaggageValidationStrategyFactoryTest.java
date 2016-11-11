@@ -18,7 +18,7 @@ public class BaggageValidationStrategyFactoryTest {
     }
 
     @Test
-    public void givenEconomyMode_whenGetStrategy_shouldReturnEconomyCheckedBaggageValidationStrategy() throws Exception {
+    public void givenEconomyMode_whenGettingStrategy_shouldReturnEconomyCheckedBaggageValidationStrategy() {
         BaggageValidationStrategy strategy = factory.getStrategy(BaggageValidationStrategy.ValidationMode.ECONOMY);
 
         assertThat(strategy, instanceOf(EconomyCheckedBaggageValidationStrategy.class));

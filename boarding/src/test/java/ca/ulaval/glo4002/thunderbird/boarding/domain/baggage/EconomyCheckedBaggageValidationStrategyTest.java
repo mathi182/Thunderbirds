@@ -21,20 +21,20 @@ public class EconomyCheckedBaggageValidationStrategyTest {
     }
 
     @Test
-    public void givenValidCheckedBaggage_whenValidate_shouldDoNothing() {
-        Baggage checkedBaggage = new Baggage(VALID_LINEAR_DIMENSION_IN_MM, VALID_WEIGHT_IN_GRAMS, VALID_TYPE);
-        economyCheckedBaggageValidationStrategy.validateBaggage(checkedBaggage);
+    public void givenValidCheckedBaggage_whenValidating_shouldDoNothing() {
+        Baggage baggage = new Baggage(VALID_LINEAR_DIMENSION_IN_MM, VALID_WEIGHT_IN_GRAMS, VALID_TYPE);
+        economyCheckedBaggageValidationStrategy.validateBaggage(baggage);
     }
 
     @Test(expected = BaggageWeightInvalidException.class)
-    public void givenInvalidWeightInGCheckedBaggage_whenValidate_shouldThrowBaggageWeightInvalidException() {
-        Baggage checkedBaggage = new Baggage(VALID_LINEAR_DIMENSION_IN_MM, INVALID_WEIGHT_IN_GRAMS, VALID_TYPE);
-        economyCheckedBaggageValidationStrategy.validateBaggage(checkedBaggage);
+    public void givenInvalidWeightInGCheckedBaggage_whenValidating_shouldThrowBaggageWeightInvalidException() {
+        Baggage baggage = new Baggage(VALID_LINEAR_DIMENSION_IN_MM, INVALID_WEIGHT_IN_GRAMS, VALID_TYPE);
+        economyCheckedBaggageValidationStrategy.validateBaggage(baggage);
     }
 
     @Test(expected = BaggageDimensionInvalidException.class)
-    public void givenInvalidDimensionInMmCheckedBaggage_whenValidate_shouldThrowBaggageDimensionInvalidException() {
-        Baggage checkedBaggage = new Baggage(INVALID_LINEAR_DIMENSION_IN_MM, VALID_WEIGHT_IN_GRAMS, VALID_TYPE);
-        economyCheckedBaggageValidationStrategy.validateBaggage(checkedBaggage);
+    public void givenInvalidDimensionInMmCheckedBaggage_whenValidating_shouldThrowBaggageDimensionInvalidException() {
+        Baggage baggage = new Baggage(INVALID_LINEAR_DIMENSION_IN_MM, VALID_WEIGHT_IN_GRAMS, VALID_TYPE);
+        economyCheckedBaggageValidationStrategy.validateBaggage(baggage);
     }
 }

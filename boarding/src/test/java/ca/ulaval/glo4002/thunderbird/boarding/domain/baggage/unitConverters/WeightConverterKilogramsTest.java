@@ -17,14 +17,14 @@ public class WeightConverterKilogramsTest {
     }
 
     @Test
-    public void given0Kilograms_whenConverting_shouldReturn0Grams() {
+    public void given0Kilogram_whenConverting_shouldReturn0Gram() {
         int actual = weightConverter.convertToGrams(0);
 
         assertEquals(0, actual);
     }
 
     @Test
-    public void givenWeight_whenConverting_shouldConvertToGrams() throws Exception {
+    public void givenWeightInKgs_whenConverting_shouldConvertToGrams() throws Exception {
         int actual = weightConverter.convertToGrams(SAME_WEIGHT_IN_KGS);
 
         assertEquals(SAME_WEIGHT_IN_GRAMS, actual);

@@ -19,14 +19,14 @@ public class DimensionConverterFactoryTest {
     }
 
     @Test
-    public void givenCentimeters_whenGetStrategy_shouldReturnDimensionConverterCentimeters() {
+    public void givenCentimeters_whenGettingStrategy_shouldReturnDimensionConverterCentimeters() {
         DimensionConverter dimensionConverter = dimensionConverterFactory.getConverter(CENTIMER_UNIT_FROM_REQUEST);
 
         assertThat(dimensionConverter, instanceOf(DimensionConverterCentimeters.class));
     }
 
     @Test
-    public void givenInches_whenGetStrategy_shouldReturnDimensionConverterInches() {
+    public void givenInches_whenGettingStrategy_shouldReturnDimensionConverterInches() {
         DimensionConverter dimensionConverter = dimensionConverterFactory.getConverter(INCH_UNIT_FROM_REQUEST);
 
         assertThat(dimensionConverter, instanceOf(DimensionConverterInches.class));
