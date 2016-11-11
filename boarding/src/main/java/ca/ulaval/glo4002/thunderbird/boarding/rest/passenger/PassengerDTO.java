@@ -8,10 +8,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PassengerDTO {
     public String passengerHash;
     public String seatClass;
+    public String flightNumber;
+    public String flightDate;
 
     public PassengerDTO(@JsonProperty("passenger_hash")String passengerHash,
-                        @JsonProperty("seat_class") String seatClass){
+                        @JsonProperty("seat_class") String seatClass,
+                        @JsonProperty("flight_date") String flightDate,
+                        @JsonProperty("flight_number") String flightNumber) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
+        this.flightDate = flightDate;
+        this.flightNumber = flightNumber;
     }
 }

@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategyFactory;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepositoryProvider;
-import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -19,15 +19,15 @@ import java.util.Random;
 @Path(SeatAssignationsResource.PATH)
 @Produces(MediaType.APPLICATION_JSON)
 public class SeatAssignationsResource {
-
     public static final String PATH = "/seat-assignations/";
-    private FlightRepository repository;
 
     @Context
     UriInfo uriInfo;
 
+    private FlightRepository repository;
+
     public SeatAssignationsResource() {
-        repository = new FlightRepositoryProvider().getFlightRepository();
+        repository = ServiceLocator.resolve(FlightRepository.class);
     }
 
     @POST
@@ -49,19 +49,19 @@ public class SeatAssignationsResource {
                 .build();
     }
 
-    private Flight getFlight(SeatAssignationRequest request){
+    private Flight getFlight(SeatAssignationRequest request) {
         SeatAssignationRequestAssembler seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
         Passenger passenger = seatAssignationRequestAssembler.getDomainPassenger(request);
         return repository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
     }
 
-    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationRequest request){
+    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationRequest request) {
         SeatAssignationRequestAssembler seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
         SeatAssignationStrategy.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
         return new SeatAssignationStrategyFactory().getStrategy(assignMode, request.seatClass);
     }
 
-    private TakenSeatDTO convertSeatToDTO(Seat seat){
+    private TakenSeatDTO convertSeatToDTO(Seat seat) {
         TakenSeatAssembler assembler = new TakenSeatAssembler();
         return assembler.fromDomain(seat);
     }

@@ -5,7 +5,8 @@ import io.restassured.response.Response;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_PASSENGER_HASH;
+import java.util.UUID;
+
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
 import static junit.framework.TestCase.*;
@@ -20,7 +21,7 @@ public class BaggageResourceRestTest {
     private static final int WEIGHT = 10;
     private static final int INVALID_WEIGHT = 400;
     private static final String INVALID_UNIT = "invalid_unit";
-    private static final String VALID_PASSENGER_HASH = EXISTENT_PASSENGER_HASH.toString();
+    private static final String VALID_PASSENGER_HASH = UUID.randomUUID().toString();
 
     @Ignore
     @Test

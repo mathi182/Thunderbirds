@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 
 import java.util.List;
 
-public interface PlaneRepository {
+public interface PlaneService {
     Plane getPlaneInformation(String modelID);
     List<Seat> getSeats(String modelID);
 }
