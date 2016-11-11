@@ -60,7 +60,8 @@ public class Passenger {
 
     public void addBaggage(Baggage baggage) {
         if (getBaggagesCount() < BAGGAGE_AMOUNT_AUTHORIZED) {
-            baggage = setBaggagePrice(baggage);
+            float price = getBaggageBasePrice();
+            baggage.setPrice(price);
             this.baggages.add(baggage);
             baggage.setPassenger(this);
         } else {
@@ -72,25 +73,23 @@ public class Passenger {
         return this.baggages.size();
     }
 
-    //TODO: ecrire le test pour verifier que le set se fait vraiment correctement...
-    private Baggage setBaggagePrice(Baggage baggage) {
-        float baggagePrice;
-
+    public float getBaggageBasePrice() {
         if (this.baggages.isEmpty()) {
-            baggagePrice = FIRST_BAGGAGE_BASE_PRICE;
+            return FIRST_BAGGAGE_BASE_PRICE;
         } else {
-            baggagePrice = ADDITIONAL_BAGGAGE_BASE_PRICE;
+            return ADDITIONAL_BAGGAGE_BASE_PRICE;
         }
-        baggage.setPrice(baggagePrice);
+    }
 
-        return baggage;
+    public List<Baggage> getBaggages() {
+        return this.baggages;
     }
 
     public Instant getFlightDate() {
-        return flightDate;
+        return this.flightDate;
     }
 
     public String getFlightNumber() {
-        return flightNumber;
+        return this.flightNumber;
     }
 }
