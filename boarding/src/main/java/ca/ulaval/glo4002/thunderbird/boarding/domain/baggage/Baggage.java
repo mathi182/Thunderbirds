@@ -1,8 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -68,5 +65,9 @@ public class Baggage {
 
         return baggageHashAreEquals && weightsAreEquals &&
                 dimensionAreEquals && typeAreEquals;
+    }
+
+    public void validate() {
+
     }
 }

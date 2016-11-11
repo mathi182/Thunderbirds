@@ -27,7 +27,8 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 
 Pour lancer les serveurs (par défaut sur les ports 8787 pour reservation et 8888 pour boarding) :
 ```
-projet/app$ mvn exec:java
+projet/$ mvn exec:java -pl reservation
+projet/$ mvn exec:java -pl boarding
 ```
 
 ###Configuration des ports

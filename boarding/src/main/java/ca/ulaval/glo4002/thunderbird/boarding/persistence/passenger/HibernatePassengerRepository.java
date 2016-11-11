@@ -30,7 +30,6 @@ public class HibernatePassengerRepository implements PassengerRepository {
 
     private Passenger getPassengerFromHibernate(UUID passengerHash) {
         EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-
         return entityManager.find(Passenger.class, passengerHash);
     }
 
