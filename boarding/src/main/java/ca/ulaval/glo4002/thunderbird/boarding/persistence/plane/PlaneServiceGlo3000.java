@@ -22,12 +22,15 @@ public class PlaneServiceGlo3000 implements PlaneService {
         verifyResponse(response, modelID);
 
         PlaneDTO dto = response.getEntity(PlaneDTO.class);
-        return new PlaneAssembler().toDomain(dto);
+        PlaneAssembler planeAssembler = new PlaneAssembler();
+
+        return planeAssembler.toDomain(dto);
     }
 
     private ClientResponse getResource(String url) {
         Client client = Client.create();
         WebResource resource = client.resource(url);
+
         return resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
     }
 

@@ -5,6 +5,9 @@ import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.Instant;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ReservationTest {
@@ -17,22 +20,26 @@ public class ReservationTest {
 
     @Test
     public void shouldReturnTheRightId() {
-        assertEquals(TestConfig.RESERVATION_NUMBER, reservation.getId());
+        int actualReservationNumber = reservation.getId();
+        assertEquals(TestConfig.RESERVATION_NUMBER, actualReservationNumber);
     }
 
     @Test
     public void shouldReturnTheRightFlightNumber() {
-        assertEquals(TestConfig.FLIGHT_NUMBER, reservation.getFlightNumber());
+        String actualFlightNumber = reservation.getFlightNumber();
+        assertEquals(TestConfig.FLIGHT_NUMBER, actualFlightNumber);
     }
 
     @Test
     public void shouldReturnTheRightFlightDate() {
-        assertEquals(TestConfig.FLIGHT_DATE, reservation.getFlightDate());
+        Instant actualFlightDate = reservation.getFlightDate();
+        assertEquals(TestConfig.FLIGHT_DATE, actualFlightDate);
     }
 
     @Test
     public void shouldReturnAPassenger() {
-        assertFalse(reservation.getPassengers().isEmpty());
+        List<Passenger> passengerList = reservation.getPassengers();
+        assertFalse(passengerList.isEmpty());
     }
 
     @Test
@@ -45,15 +52,21 @@ public class ReservationTest {
 
     @Test
     public void givenPassengerReservation_shouldBeTheSameFlightNumber() {
-        Passenger passenger = reservation.getPassengers().get(0);
+        List<Passenger> passengerList = reservation.getPassengers();
+        Passenger passenger = passengerList.get(0);
+        String expectedFlightNumber = reservation.getFlightNumber();
+        String actualFlightNumber = passenger.getFlightNumber();
 
-        assertSame(reservation.getFlightNumber(), passenger.getFlightNumber());
+        assertEquals(expectedFlightNumber, actualFlightNumber);
     }
 
     @Test
     public void givenPassengerReservation_shouldBeTheSameFlightDate() {
-        Passenger passenger = reservation.getPassengers().get(0);
+        List<Passenger> passengerList = reservation.getPassengers();
+        Passenger passenger = passengerList.get(0);
+        Instant expectedFlightDate = reservation.getFlightDate();
+        Instant actualFlightDate = passenger.getFlightDate();
 
-        assertSame(reservation.getFlightDate(), passenger.getFlightDate());
+        assertEquals(expectedFlightDate, actualFlightDate);
     }
 }

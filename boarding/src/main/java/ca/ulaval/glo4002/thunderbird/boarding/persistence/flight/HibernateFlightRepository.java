@@ -33,6 +33,7 @@ public class HibernateFlightRepository implements FlightRepository {
         } catch (NoResultException ex) {
             flight = createFlight(flightNumber, flightDate);
         }
+
         return flight;
     }
 
@@ -62,6 +63,7 @@ public class HibernateFlightRepository implements FlightRepository {
         String modelID = amsSystem.getPlaneModel(flightNumber);
         Plane plane = planeService.getPlaneInformation(modelID);
         List<Seat> seats = planeService.getSeats(modelID);
+
         return new Flight(flightNumber, flightDate, plane, seats);
     }
 }

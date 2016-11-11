@@ -8,7 +8,8 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PassengerTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
@@ -19,38 +20,38 @@ public class PassengerTest {
     private Passenger passenger;
 
     @Before
-    public void setup(){
+    public void setup() {
         passenger = new Passenger(VALID_PASSENGER_HASH, VALID_PASSENGER_SEAT_CLASS, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
     }
 
     @Test
-    public void givenNewPassenger_whenGettingPassengerID_shouldReturnPassengerID(){
+    public void givenNewPassenger_whenGettingPassengerID_shouldReturnPassengerID() {
         UUID actualValue = passenger.getHash();
 
         UUID expectedValue = VALID_PASSENGER_HASH;
-        assertEquals(expectedValue,actualValue);
+        assertEquals(expectedValue, actualValue);
     }
 
     @Test
-    public void givenNewPassenger_whenComparingSeatClass_shouldBeTheSameAsTheOneWeInputed(){
+    public void givenNewPassenger_whenComparingSeatClass_shouldBeTheSameAsTheOneWeInputed() {
         boolean actualValue = passenger.isSameSeatClass(VALID_PASSENGER_SEAT_CLASS);
 
         assertTrue(actualValue);
     }
 
     @Test
-    public void givenNewPassenger_whenGettingPassengerFlightDate_shouldReturnFlightDate(){
+    public void givenNewPassenger_whenGettingPassengerFlightDate_shouldReturnFlightDate() {
         Instant actualValue = passenger.getFlightDate();
 
         Instant expectedValue = VALID_FLIGHT_DATE;
-        assertEquals(expectedValue,actualValue);
+        assertEquals(expectedValue, actualValue);
     }
 
     @Test
-    public void givenNewPassenger_whenGettingPassengerFlightNumber_shouldReturnPassengerFlightNumber(){
+    public void givenNewPassenger_whenGettingPassengerFlightNumber_shouldReturnPassengerFlightNumber() {
         String actualValue = passenger.getFlightNumber();
 
         String expectedValue = VALID_FLIGHT_NUMBER;
-        assertEquals(expectedValue,actualValue);
+        assertEquals(expectedValue, actualValue);
     }
 }

@@ -37,6 +37,7 @@ public class InMemoryFlightRepository implements FlightRepository {
         if (flight == null) {
             flight = fetchFlight(flightNumber, flightDate);
         }
+
         return flight;
     }
 
@@ -44,6 +45,7 @@ public class InMemoryFlightRepository implements FlightRepository {
         String modelID = amsSystem.getPlaneModel(flightNumber);
         Plane plane = planeService.getPlaneInformation(modelID);
         List<Seat> seats = planeService.getSeats(modelID);
+
         return new Flight(flightNumber, flightDate, plane, seats);
     }
 

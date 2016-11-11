@@ -44,25 +44,19 @@ public class DevContext implements Context {
     }
 
     private Passenger createPassenger() {
-        String firstName = FIRST_NAME;
-        String lastName = LAST_NAME;
-        int age = AGE;
         String passportNumber = "passportNumber";
-        String seatClass = SEAT_CLASS;
 
-        return new Passenger(firstName, lastName, age, passportNumber, seatClass);
+        return new Passenger(FIRST_NAME, LAST_NAME, AGE, passportNumber, SEAT_CLASS);
     }
 
     private Reservation createReservation(Passenger passenger) {
-        int number = EXISTENT_RESERVATION_NUMBER;
         String date = "2016-01-31";
         String confirmation = "A3833";
         String payment = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
-        String flightNumber = FLIGHT_NUMBER;
         Instant flightDate = ISO_INSTANT.parse(FLIGHT_DATE_STRING, Instant::from);
         ArrayList<Passenger> passengers = new ArrayList<>();
         passengers.add(passenger);
 
-        return new Reservation(number, date, confirmation, flightNumber, flightDate, payment, passengers);
+        return new Reservation(EXISTENT_RESERVATION_NUMBER, date, confirmation, FLIGHT_NUMBER, flightDate, payment, passengers);
     }
 }
