@@ -49,26 +49,26 @@ public class Passenger {
     }
 
     public boolean isSameSeatClass(Seat.SeatClass seatClass) {
-        return this.seatClass.equals(seatClass);
+        return seatClass.equals(seatClass);
     }
 
     public void addBaggage(Baggage baggage) {
-        if (getBaggagesCount() < BAGGAGE_AMOUNT_AUTHORIZED) {
+        if (getBaggageCount() < BAGGAGE_AMOUNT_AUTHORIZED) {
             float price = getBaggageBasePrice();
             baggage.setPrice(price);
-            this.baggages.add(baggage);
+            baggages.add(baggage);
             baggage.setPassenger(this);
         } else {
             throw new BaggageAmountAuthorizedException();
         }
     }
 
-    public int getBaggagesCount() {
-        return this.baggages.size();
+    public int getBaggageCount() {
+        return baggages.size();
     }
 
     public float getBaggageBasePrice() {
-        if (this.baggages.isEmpty()) {
+        if (baggages.isEmpty()) {
             return FIRST_BAGGAGE_BASE_PRICE;
         } else {
             return ADDITIONAL_BAGGAGE_BASE_PRICE;
@@ -76,14 +76,14 @@ public class Passenger {
     }
 
     public List<Baggage> getBaggages() {
-        return this.baggages;
+        return baggages;
     }
 
     public Instant getFlightDate() {
-        return this.flightDate;
+        return flightDate;
     }
 
     public String getFlightNumber() {
-        return this.flightNumber;
+        return flightNumber;
     }
 }

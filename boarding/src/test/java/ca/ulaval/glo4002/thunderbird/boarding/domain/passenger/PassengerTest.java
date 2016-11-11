@@ -57,7 +57,7 @@ public class PassengerTest {
     @Test
     public void givenNewPassengerWithBaggages_whenGettingBaggagesCount_shouldBeTheSameABaggagesCount() {
         int expectedCount = BAGGAGE_AMOUNT_AUTHORIZED;
-        int actualCount = passengerWithMaximalBaggageAmountAuthorized.getBaggagesCount();
+        int actualCount = passengerWithMaximalBaggageAmountAuthorized.getBaggageCount();
         assertEquals(expectedCount, actualCount);
     }
 
@@ -66,7 +66,7 @@ public class PassengerTest {
         passengerWithoutBaggage.addBaggage(baggageMock);
 
         int expectedCount = 1;
-        int actualCount = passengerWithoutBaggage.getBaggagesCount();
+        int actualCount = passengerWithoutBaggage.getBaggageCount();
         assertEquals(expectedCount, actualCount);
     }
 
