@@ -37,18 +37,6 @@ public class RegisterBaggageRequestAssemblerTest {
         assertEquals(expectedBaggage, actualBaggage);
     }
 
-    @Test(expected = MissingFieldException.class)
-    public void givenMissingField_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
-        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,
-                                                                                   LINEAR_DIMENSION,
-                                                                                   WEIGHT_UNIT_FROM_REQUEST,
-                                                                                   null,
-                                                                                   null);
-
-        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
-        registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
-    }
-
     @Test(expected = NoSuchStrategyException.class)
     public void givenInvalidWeightUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,

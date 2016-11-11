@@ -43,7 +43,6 @@ public class Baggage {
         this.type = type;
     }
 
-
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
     }
@@ -58,5 +57,22 @@ public class Baggage {
 
     public UUID getBaggageHash() {
         return baggageHash;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!Baggage.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        Baggage baggage = (Baggage) obj;
+        boolean baggageHashAreEquals = baggageHash.equals(baggage.baggageHash);
+        boolean weightsAreEquals = getWeightInGrams() == baggage.weightInGrams;
+        boolean dimensionAreEquals = getDimensionInMm() == baggage.linearDimensionInMm;
+        boolean typeAreEquals = type.equals(baggage.type);
+        return baggageHashAreEquals && weightsAreEquals &&
+                dimensionAreEquals && typeAreEquals;
     }
 }
