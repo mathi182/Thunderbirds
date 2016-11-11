@@ -2,10 +2,10 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.exceptions.IllegalFieldWebException;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.*;
 
 public class RegisterBaggageRequestAssemblerTest {
@@ -20,7 +20,7 @@ public class RegisterBaggageRequestAssemblerTest {
     public static final String VALID_BAGGAGE_TYPE = "checked";
 
     @Test
-    public void givenValidRequest_whenGetDomainBaggage_shouldReturnCheckedBaggageEconomy() throws Exception {
+    public void givenValidRequest_whenGetDomainBaggage_shouldReturnBaggage() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,
                                                                                    LINEAR_DIMENSION,
                                                                                    WEIGHT_UNIT_FROM_REQUEST,
@@ -49,7 +49,7 @@ public class RegisterBaggageRequestAssemblerTest {
         registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
     }
 
-    @Test(expected = IllegalFieldWebException.class)
+    @Test(expected = NoSuchStrategyException.class)
     public void givenInvalidWeightUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(DIMENSION_UNIT_FROM_REQUEST,
                                                                                    LINEAR_DIMENSION,
@@ -61,7 +61,7 @@ public class RegisterBaggageRequestAssemblerTest {
         registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
     }
 
-    @Test(expected = IllegalFieldWebException.class)
+    @Test(expected = NoSuchStrategyException.class)
     public void givenInvalidDimensionUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() throws Exception {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(INVALID_UNIT,
                                                                                    LINEAR_DIMENSION,

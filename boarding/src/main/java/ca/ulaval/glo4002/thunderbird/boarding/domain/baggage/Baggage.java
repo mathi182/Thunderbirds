@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.omg.CORBA.Object;
 
 import javax.persistence.*;
 import java.util.UUID;
