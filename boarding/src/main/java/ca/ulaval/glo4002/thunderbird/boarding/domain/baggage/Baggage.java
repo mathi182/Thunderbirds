@@ -47,14 +47,6 @@ public class Baggage {
         this.passenger = passenger;
     }
 
-    public boolean validateDimension(int limitInMm) {
-        return linearDimensionInMm < limitInMm;
-    }
-
-    public boolean validateWeight(int limitInG) {
-        return weightInGrams < limitInG;
-    }
-
     public int getWeightInGrams() {
         return weightInGrams;
     }
