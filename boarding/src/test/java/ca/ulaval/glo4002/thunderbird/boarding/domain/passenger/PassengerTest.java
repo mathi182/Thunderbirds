@@ -55,7 +55,7 @@ public class PassengerTest {
     }
 
     @Test
-    public void givenNewPassengerWithBaggages_whenGettingBaggagesCount_shouldBeTheSameABaggagesCount() {
+    public void givenPassengerWithBaggages_whenGettingBaggagesCount_shouldBeTheSameAsHisNumberOfBaggages() {
         int expectedCount = BAGGAGE_AMOUNT_AUTHORIZED;
         int actualCount = passengerWithMaximalBaggageAmountAuthorized.getBaggageCount();
         assertEquals(expectedCount, actualCount);
@@ -76,7 +76,7 @@ public class PassengerTest {
     }
 
     @Test
-    public void givenAPassengerWithoutBaggageAndAFirstBaggage_whenGettingBasePrice_shouldReturnFirstBaggageBasePrice() {
+    public void givenAPassengerWithoutBaggage_whenGettingBasePrice_shouldReturnFirstBaggageBasePrice() {
         float actualBasePrice = passengerWithoutBaggage.getBaggageBasePrice();
         assertTrue(FIRST_BAGGAGE_BASE_PRICE == actualBasePrice);
     }
@@ -109,16 +109,15 @@ public class PassengerTest {
     public void givenNewPassenger_whenGettingPassengerFlightDate_shouldReturnFlightDate() {
         Instant actualFlightDate = passengerWithoutBaggage.getFlightDate();
 
-        Instant expectedValue = VALID_FLIGHT_DATE;
-        assertEquals(expectedValue, actualFlightDate);
+        Instant expectedFlightDate = VALID_FLIGHT_DATE;
+        assertEquals(expectedFlightDate, actualFlightDate);
     }
 
     @Test
     public void givenNewPassenger_whenGettingPassengerFlightNumber_shouldReturnPassengerFlightNumber() {
         String actualFlightNumber = passengerWithoutBaggage.getFlightNumber();
 
-        String expectedValue = VALID_FLIGHT_NUMBER;
-        assertEquals(expectedValue, actualFlightNumber);
-        assertEquals(expectedValue, actualFlightNumber);
+        String expectedFlightNumber = VALID_FLIGHT_NUMBER;
+        assertEquals(expectedFlightNumber, actualFlightNumber);
     }
 }

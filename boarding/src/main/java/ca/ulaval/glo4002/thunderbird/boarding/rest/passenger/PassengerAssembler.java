@@ -8,8 +8,6 @@ import java.util.UUID;
 
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
-;
-
 public class PassengerAssembler {
 
     private static final String ECONOMY = "economy";
