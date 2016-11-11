@@ -34,6 +34,6 @@ public class PassengersResourceRestTest {
                 .body("passenger_hash", equalTo(DevContext.EXISTENT_PASSENGER_HASH.toString()))
                 .body("seat_class", equalTo(DevContext.SEAT_CLASS))
                 .body("flight_number", equalTo(DevContext.FLIGHT_NUMBER))
-                .body("flight_date",equalTo(DevContext.FLIGHT_DATE_STRING));
+                .body("flight_date", equalTo(DevContext.FLIGHT_DATE_STRING));
     }
 }
