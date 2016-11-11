@@ -1,15 +1,11 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.CheckedBaggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.LinearDimensionUnits;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.WeightUnits;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.DimensionConverter;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.DimensionConverterFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.WeightConverter;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.unitConverters.WeightConverterFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.MissingFieldException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.exceptions.IllegalFieldWebException;
 import ca.ulaval.glo4002.thunderbird.boarding.util.Strings;
 
 public class RegisterBaggageRequestAssembler {
@@ -18,8 +14,9 @@ public class RegisterBaggageRequestAssembler {
 
         int dimension = convertRequestDimension(request);
         int weight = convertRequestWeight(request);
+        String type = request.type;
 
-        return new Baggage(dimension, weight);
+        return new Baggage(dimension, weight, type);
     }
 
     private int convertRequestDimension(RegisterBaggageRequest request) {
@@ -56,34 +53,5 @@ public class RegisterBaggageRequestAssembler {
         if (request.weight == null) {
             throw new MissingFieldException("weightInG");
         }
-
-        String dimensionUnitToUpper = request.linearDimensionUnit.toUpperCase();
-        if (!dimensionUnitFromRequestIsValid(dimensionUnitToUpper)) {
-            throw new IllegalFieldWebException();
-        }
-
-        String weightUnitToUpper = request.weightUnit.toUpperCase();
-        if (!weightUnitFromRequestIsValid(weightUnitToUpper)) {
-            throw new IllegalFieldWebException();
-        }
-    }
-
-    private boolean dimensionUnitFromRequestIsValid(String dimensionUnitToUpper) {
-        try {
-            LinearDimensionUnits.valueOf(dimensionUnitToUpper);
-        }
-        catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean weightUnitFromRequestIsValid(String weightUnitToUpper) {
-        try {
-            WeightUnits.valueOf(weightUnitToUpper);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
     }
 }

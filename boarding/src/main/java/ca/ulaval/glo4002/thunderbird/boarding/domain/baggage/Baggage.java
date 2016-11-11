@@ -28,11 +28,20 @@ public class Baggage {
     @JsonBackReference
     private Passenger passenger;
 
-    public Baggage(int linearDimensionInMm, int weightInG) {
+    public Baggage(int linearDimensionInMm, int weightInG, String type) {
         this.baggageHash = UUID.randomUUID();
         this.linearDimensionInMm = linearDimensionInMm;
         this.weightInGrams = weightInG;
+        this.type = type;
     }
+
+    public Baggage(UUID baggageHash, int linearDimensionInMm, int weightInG, String type) {
+        this.baggageHash = baggageHash;
+        this.linearDimensionInMm = linearDimensionInMm;
+        this.weightInGrams = weightInG;
+        this.type = type;
+    }
+
 
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
@@ -52,5 +61,9 @@ public class Baggage {
 
     public int getDimensionInMm() {
         return linearDimensionInMm;
+    }
+
+    public UUID getBaggageHash() {
+        return baggageHash;
     }
 }
