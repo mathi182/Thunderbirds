@@ -34,7 +34,7 @@ public class SeatAssignationsResourceRestTest {
     @Ignore
     @Test
     public void givenAValidPassengerHashAndAValidMode_whenAssigningSeat_shouldAssignSeat() {
-        //Should use passengerHash based on Passenger from boarding created by DevContext of boarding -> we still call it from Reservation here
+        //Should use passengerHash based on passenger from boarding created by DevContext of boarding -> we still call it from Reservation here
         seatAssignationRequest.passengerHash = EXISTENT_PASSENGER_HASH;
         seatAssignationRequest.mode = VALID_MODE;
 
