@@ -1,10 +1,14 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.UUID;
 
 @Path("/passengers/{passenger_hash}/baggages")
 @Produces(MediaType.APPLICATION_JSON)
@@ -15,7 +19,7 @@ public class BaggageRessource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") String passengerHash) {
-        //TODO: find the passenger with the api
+        //TODO: get passenger from the repository
         //TODO: validate the passenger baggage count limit
         Baggage baggage = convertRequestToBaggage(request);
         //TODO: save the baggage in passenger repository from boarding
@@ -32,5 +36,10 @@ public class BaggageRessource {
     private URI buildLocationUri(String baggageHash) {
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
         return uriBuilder.path(baggageHash).build();
+    }
+
+    private Passenger getPassenger(UUID passengerHash) {
+        PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
+        return repository.getPassenger(passengerHash);
     }
 }

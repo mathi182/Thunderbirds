@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.plane;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.exceptions.PlaneNotFoundException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -9,7 +10,7 @@ import com.sun.jersey.api.client.WebResource;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-public class PlaneRepositoryImpl implements PlaneRepository {
+public class PlaneServiceGlo3000 implements PlaneService {
     private static final String PLANE_SERVICE_LOCATION = "http://glo3000.ift.ulaval.ca/plane-blueprint";
     private static final String PLANE_INFORMATION_PATH_FORMAT = "/planes/%1s.json";
     private static final String SEATS_INFORMATION_PATH_FORMAT = "/planes/%1s/seats.json";
@@ -21,15 +22,16 @@ public class PlaneRepositoryImpl implements PlaneRepository {
         verifyResponse(response, modelID);
 
         PlaneDTO dto = response.getEntity(PlaneDTO.class);
-        Plane plane = new PlaneAssembler().toDomain(dto);
-        return plane;
+        PlaneAssembler planeAssembler = new PlaneAssembler();
+
+        return planeAssembler.toDomain(dto);
     }
 
     private ClientResponse getResource(String url) {
         Client client = Client.create();
         WebResource resource = client.resource(url);
-        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-        return response;
+
+        return resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
     }
 
     private void verifyResponse(ClientResponse response, String modelID) {
@@ -47,8 +49,8 @@ public class PlaneRepositoryImpl implements PlaneRepository {
         verifyResponse(response, modelID);
 
         SeatsInformationDTO dto = response.getEntity(SeatsInformationDTO.class);
-        List<Seat> seats = new SeatsAssembler().toDomain(dto);
 
-        return seats;
+        SeatsAssembler seatsAssembler = new SeatsAssembler();
+        return seatsAssembler.toDomain(dto);
     }
 }

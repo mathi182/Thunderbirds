@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.persistence;
+package ca.ulaval.glo4002.thunderbird.boarding.application.jpa;
 
 import javax.persistence.EntityManager;
 
@@ -21,6 +21,10 @@ public class EntityManagerProvider {
         localEntityManager.get().getTransaction().begin();
         transaction.run();
         localEntityManager.get().getTransaction().commit();
+    }
+
+    public void persistInTransaction(Object object) {
+        executeInTransaction(() -> localEntityManager.get().persist(object));
     }
 }
 

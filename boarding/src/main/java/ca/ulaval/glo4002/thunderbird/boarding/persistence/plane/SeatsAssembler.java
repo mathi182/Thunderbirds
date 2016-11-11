@@ -25,7 +25,8 @@ public class SeatsAssembler {
         HashMap<Integer, Seat.SeatClass> rowClasses = new HashMap<>();
         for (SeatsInformationDTO.PriceClassDTO priceClass : classes) {
             for (int row : priceClass.rows) {
-                rowClasses.put(row, Seat.SeatClass.valueOf(priceClass.name.toUpperCase()));
+                String name = priceClass.name.toUpperCase().replace("-", "_");
+                rowClasses.put(row, Seat.SeatClass.valueOf(name));
             }
         }
         return rowClasses;

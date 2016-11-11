@@ -14,13 +14,15 @@ public class PassengersResource {
 
     @GET
     @Path("{passenger_hash}")
-    public Passenger fetchPassenger(@PathParam("passenger_hash") UUID passenger_hash) {
+    public PassengerDTO fetchPassenger(@PathParam("passenger_hash") UUID passenger_hash) {
         Passenger passenger = getPassenger(passenger_hash);
-        return passenger;
+        PassengerAssembler passengerAssembler = new PassengerAssembler();
+
+        return passengerAssembler.toDTO(passenger);
     }
 
     //TODO find a way to make this method private even when we test it
-    public Passenger getPassenger(UUID passenger_hash) {
+    private Passenger getPassenger(UUID passenger_hash) {
         return Passenger.findByPassengerHash(passenger_hash);
     }
 }
