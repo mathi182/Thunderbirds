@@ -16,6 +16,12 @@ import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 public class DevContext implements Context {
     public final static int EXISTENT_RESERVATION_NUMBER = 100;
     public static UUID EXISTENT_PASSENGER_HASH;
+    public static final String FIRST_NAME = "firstName";
+    public static final String LAST_NAME = "lastName";
+    public static final int AGE = 100;
+    public static final String SEAT_CLASS = "seatClass";
+    public static final String FLIGHT_NUMBER = "AC1765";
+    public static final String FLIGHT_DATE_STRING = "2016-09-06T13:00:00Z";
 
     @Override
     public void apply() {
@@ -38,25 +44,19 @@ public class DevContext implements Context {
     }
 
     private Passenger createPassenger() {
-        String firstName = "firstName";
-        String lastName = "lastName";
-        int age = 100;
         String passportNumber = "passportNumber";
-        String seatClass = "seatClass";
 
-        return new Passenger(firstName, lastName, age, passportNumber, seatClass);
+        return new Passenger(FIRST_NAME, LAST_NAME, AGE, passportNumber, SEAT_CLASS);
     }
 
     private Reservation createReservation(Passenger passenger) {
-        int number = EXISTENT_RESERVATION_NUMBER;
         String date = "2016-01-31";
         String confirmation = "A3833";
         String payment = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
-        String flightNumber = "AC1765";
-        Instant flightDate = ISO_INSTANT.parse("2016-09-06T13:00:00Z", Instant::from);
+        Instant flightDate = ISO_INSTANT.parse(FLIGHT_DATE_STRING, Instant::from);
         ArrayList<Passenger> passengers = new ArrayList<>();
         passengers.add(passenger);
 
-        return new Reservation(number, date, confirmation, flightNumber, flightDate, payment, passengers);
+        return new Reservation(EXISTENT_RESERVATION_NUMBER, date, confirmation, FLIGHT_NUMBER, flightDate, payment, passengers);
     }
 }

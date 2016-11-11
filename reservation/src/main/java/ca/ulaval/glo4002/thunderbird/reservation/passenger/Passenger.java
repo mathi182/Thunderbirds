@@ -103,4 +103,8 @@ public class Passenger {
         }
         isCheckedIn = true;
     }
+
+    public String getSeatClass() {
+        return seatClass;
+    }
 }
