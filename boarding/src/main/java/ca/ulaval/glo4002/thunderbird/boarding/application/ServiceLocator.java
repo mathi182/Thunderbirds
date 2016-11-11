@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceLocator {
-
     private static final Map<Class<?>, Object> services = new HashMap<>();
 
     private ServiceLocator() {
@@ -30,5 +29,4 @@ public class ServiceLocator {
     public static void reset() {
         services.clear();
     }
-
 }
