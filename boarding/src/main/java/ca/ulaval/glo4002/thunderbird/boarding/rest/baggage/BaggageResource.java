@@ -26,7 +26,8 @@ public class BaggageResource {
         baggage.validate();
         passenger.addBaggage(baggage);
 
-        String baggageRegistrationIdString = String.valueOf(new Random().nextInt(Integer.MAX_VALUE));
+        int id = new Random().nextInt(Integer.MAX_VALUE);
+        String baggageRegistrationIdString = String.valueOf(id);
         URI uri = buildLocationUri(baggageRegistrationIdString);
         RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
         return Response.created(uri).entity(baggageResponseBody).build();
