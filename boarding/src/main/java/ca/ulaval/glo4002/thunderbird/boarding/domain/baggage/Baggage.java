@@ -32,10 +32,7 @@ public class Baggage {
     }
 
     public Baggage(UUID baggageHash, int linearDimensionInMm, int weightInG, String type, float price) {
-        this.baggageHash = baggageHash;
-        this.linearDimensionInMm = linearDimensionInMm;
-        this.weightInGrams = weightInG;
-        this.type = type;
+        this(baggageHash, linearDimensionInMm, weightInG, type);
         this.price = price;
     }
 
