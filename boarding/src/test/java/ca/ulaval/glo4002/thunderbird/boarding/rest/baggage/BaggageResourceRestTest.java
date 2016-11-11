@@ -3,11 +3,10 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 import io.restassured.response.Response;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
-import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
-import static org.eclipse.jetty.http.HttpStatus.Code.CREATED;
-import static org.eclipse.jetty.http.HttpStatus.Code.OK;
+import static org.eclipse.jetty.http.HttpStatus.Code.*;
 import static org.junit.Assert.*;
 
 public class BaggageResourceRestTest {
