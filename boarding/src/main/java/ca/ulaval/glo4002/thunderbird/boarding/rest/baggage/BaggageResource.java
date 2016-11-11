@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Path("/passengers/{passenger_hash}/baggages")
 @Produces(MediaType.APPLICATION_JSON)
-public class BaggageRessource {
+public class BaggageResource {
     @Context
     UriInfo uriInfo;
 
@@ -22,7 +22,6 @@ public class BaggageRessource {
         //TODO: get passenger from the repository
         //TODO: validate the passenger baggage count limit
         Baggage baggage = convertRequestToBaggage(request);
-        baggage.validate();
         //TODO: save the baggage in passenger repository from boarding
         URI uri = buildLocationUri("baggageHash");
         RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
