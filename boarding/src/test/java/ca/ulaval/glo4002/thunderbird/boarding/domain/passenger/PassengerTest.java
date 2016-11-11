@@ -16,13 +16,18 @@ import java.util.UUID;
 import static ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 public class PassengerTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
     private static final Seat.SeatClass VALID_PASSENGER_SEAT_CLASS = Seat.SeatClass.ECONOMY;
     private static final Instant VALID_FLIGHT_DATE = Instant.ofEpochMilli(new Date().getTime());
     private static final String VALID_FLIGHT_NUMBER = "QK-918";
+    private static final int BAGGAGE_LINEAR_DIMENSION_IN_MM = 10;
+    private static final int BAGGAGE_WEIGHT_IN_G = 10;
+    private static final String BAGGAGE_TYPE = "checked";
+    private static final int FIRST_BAGGAGE = 0;
+    private static final int SECOND_BAGGAGE = 0;
 
     private Passenger passengerWithoutBaggage;
     private Passenger passengerWithMaximalBaggageAmountAuthorized;
@@ -88,24 +93,35 @@ public class PassengerTest {
         assertTrue(ADDITIONAL_BAGGAGE_BASE_PRICE == actualBasePrice);
     }
 
-    //TODO: le test ne verifie pas tellement le retour dans la liste, misere a mocker un baggage et rapatrier ses attributs settes par la fonction
-    @Ignore
     @Test
     public void givenNewPassengerWithNoBaggage_whenAddingBaggage_shouldHaveOneBaggageWithFirstBaggageBasePrice() {
-        passengerWithoutBaggage.addBaggage(baggageMock);
+        Baggage baggage = new Baggage(BAGGAGE_LINEAR_DIMENSION_IN_MM, BAGGAGE_WEIGHT_IN_G, BAGGAGE_TYPE);
+        passengerWithoutBaggage.addBaggage(baggage);
 
-        verify(baggageMock).setPrice(FIRST_BAGGAGE_BASE_PRICE);
+        List<Baggage> baggages = passengerWithoutBaggage.getBaggages();
+        Baggage firstBaggage = baggages.get(FIRST_BAGGAGE);
+        float actualPrice = firstBaggage.getPrice();
+
+        assertTrue(FIRST_BAGGAGE_BASE_PRICE == actualPrice);
     }
-
-    //TODO: le test ne verifie pas tellement le retour dans la liste, misere a mocker un baggage et rapatrier ses attributs settes par la fonction
+    
     @Ignore
     @Test
     public void givenNewPassengerWithNoBaggage_whenAddingTwoBaggages_shouldHaveFirstBaggageWithFirstBasePriceAndNextWithAdditionalBasePrice() {
-        passengerWithoutBaggage.addBaggage(baggageMock);
-        passengerWithoutBaggage.addBaggage(baggageMock);
+        Baggage firstBaggage = new Baggage(BAGGAGE_LINEAR_DIMENSION_IN_MM, BAGGAGE_WEIGHT_IN_G, BAGGAGE_TYPE);
+        Baggage secondBaggage = new Baggage(BAGGAGE_LINEAR_DIMENSION_IN_MM, BAGGAGE_WEIGHT_IN_G, BAGGAGE_TYPE);
+        passengerWithoutBaggage.addBaggage(firstBaggage);
+        passengerWithoutBaggage.addBaggage(secondBaggage);
 
-        verify(baggageMock, times(1)).setPrice(FIRST_BAGGAGE_BASE_PRICE);
-        verify(baggageMock, times(1)).setPrice(ADDITIONAL_BAGGAGE_BASE_PRICE);
+        List<Baggage> baggages = passengerWithoutBaggage.getBaggages();
+        //La valeur des prix quand on regarde dans la liste baggages est ok. Mais quand on get le baggage individuellement, elles deviennent invalide???
+        Baggage firstBaggageFromPassenger = baggages.get(FIRST_BAGGAGE);
+        Baggage secondBaggageFromPassenger = baggages.get(SECOND_BAGGAGE);
+        float firstBaggageActualPrice = firstBaggageFromPassenger.getPrice();
+        float secondBaggageActualPrice = secondBaggageFromPassenger.getPrice();
+
+        assertTrue(FIRST_BAGGAGE_BASE_PRICE == firstBaggageActualPrice);
+        assertTrue(ADDITIONAL_BAGGAGE_BASE_PRICE == secondBaggageActualPrice);
     }
 
     @Test
