@@ -2,12 +2,9 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
-import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import java.util.UUID;
 
 public class HibernatePassengerRepository implements PassengerRepository {
@@ -42,15 +39,7 @@ public class HibernatePassengerRepository implements PassengerRepository {
 
     @Override
     public void savePassenger(Passenger passenger) {
-        EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            transaction.begin();
-            entityManager.persist(passenger);
-            transaction.commit();
-        } catch (HibernateException e) {
-            transaction.rollback();
-            throw new RepositorySavingException("Could not save passenger " + passenger.getHash() + "");
-        }
+        EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
+        entityManagerProvider.persistInTransaction(passenger);
     }
 }

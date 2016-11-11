@@ -22,5 +22,9 @@ public class EntityManagerProvider {
         transaction.run();
         localEntityManager.get().getTransaction().commit();
     }
+
+    public void persistInTransaction(Object object) {
+        executeInTransaction(() -> localEntityManager.get().persist(object));
+    }
 }
 
