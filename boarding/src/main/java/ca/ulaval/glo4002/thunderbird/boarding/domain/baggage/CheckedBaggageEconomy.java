@@ -14,6 +14,10 @@ public class CheckedBaggageEconomy extends CheckedBaggage {
         super(linearDimensionUnit, linearDimension, weightUnit, weight);
     }
 
+    protected CheckedBaggageEconomy() {
+        //for hibernate
+    }
+
     @Override
     protected int getDimensionLimit() {
         switch (linearDimensionUnit) {

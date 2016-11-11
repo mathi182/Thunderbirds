@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.exceptions.BaggageAmountAuthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -18,28 +17,19 @@ public class Passenger {
     public static final float ADDITIONAL_BAGGAGE_BASE_PRICE = 50f;
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID passengerHash;
-    @Column
     private Seat.SeatClass seatClass;
-    @Column
     private Instant flightDate;
-    @Column
     private String flightNumber;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "passenger")
-    @JsonManagedReference
     private List<Baggage> baggages;
-
-    public Passenger() {
-        //for hibernate
-    }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
         this(passengerHash, seatClass, flightDate, flightNumber);
         this.baggages = baggages;
-        for (Baggage baggage : baggages) {
-            baggage.setPassenger(this);
-        }
+        this.baggages.forEach(baggage -> baggage.setPassenger(this));
     }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber) {
@@ -50,11 +40,15 @@ public class Passenger {
         this.baggages = new ArrayList<>();
     }
 
+    protected Passenger() {
+        //for hibernate
+    }
+
     public UUID getHash() {
         return passengerHash;
     }
 
-    public boolean isSameSeatClass(Seat.SeatClass seatClass){
+    public boolean isSameSeatClass(Seat.SeatClass seatClass) {
         return this.seatClass.equals(seatClass);
     }
 

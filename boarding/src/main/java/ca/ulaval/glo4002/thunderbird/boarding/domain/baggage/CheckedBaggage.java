@@ -10,7 +10,11 @@ import javax.persistence.Entity;
 @DiscriminatorValue("Checked")
 public abstract class CheckedBaggage extends Baggage {
     public CheckedBaggage(LinearDimensionUnits linearDimensionUnit, Integer linearDimension, WeightUnits weightUnit, Integer weight) {
-        super(linearDimensionUnit,linearDimension, weightUnit, weight);
+        super(linearDimensionUnit, linearDimension, weightUnit, weight);
+    }
+
+    protected CheckedBaggage() {
+        //for hibernate
     }
 
     @Override
@@ -19,7 +23,7 @@ public abstract class CheckedBaggage extends Baggage {
         validateWeight();
     }
 
-    private void validateDimension () {
+    private void validateDimension() {
         Integer dimensionlimit = getDimensionLimit();
         if (linearDimension > dimensionlimit) {
             throw new BaggageDimensionInvalidException();
@@ -28,7 +32,7 @@ public abstract class CheckedBaggage extends Baggage {
 
     protected abstract int getDimensionLimit();
 
-    private void validateWeight () {
+    private void validateWeight() {
         Integer weightLimit = getWeightLimit();
         if (weight > weightLimit) {
             throw new BaggageWeightInvalidException();
