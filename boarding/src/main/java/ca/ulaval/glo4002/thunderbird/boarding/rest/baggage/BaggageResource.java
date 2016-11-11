@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerReposito
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.Random;
 import java.util.UUID;
 
 @Path("/passengers/{passenger_hash}/baggages")
@@ -19,11 +20,16 @@ public class BaggageResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") String passengerHash) {
-        //TODO: get passenger from the repository
-        //TODO: validate the passenger baggage count limit
+        Passenger passenger = getPassenger(UUID.fromString(passengerHash));
         Baggage baggage = convertRequestToBaggage(request);
-        //TODO: save the baggage in passenger repository from boarding
-        URI uri = buildLocationUri("baggageHash");
+
+        //TODO: faire la validation du baggage ici
+        passenger.addBaggage(baggage);
+
+        int id = new Random().nextInt(Integer.MAX_VALUE);
+        String baggageRegistrationIdString = String.valueOf(id);
+        URI uri = buildLocationUri(baggageRegistrationIdString);
+
         RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
         return Response.created(uri).entity(baggageResponseBody).build();
     }

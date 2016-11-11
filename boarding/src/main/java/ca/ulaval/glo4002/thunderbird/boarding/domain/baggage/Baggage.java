@@ -15,6 +15,7 @@ public class Baggage {
     private int linearDimensionInMm;
     private int weightInGrams;
     private String type;
+    private float price;
 
     public Baggage(int linearDimensionInMm, int weightInG, String type) {
         this.baggageHash = UUID.randomUUID();
@@ -28,6 +29,11 @@ public class Baggage {
         this.linearDimensionInMm = linearDimensionInMm;
         this.weightInGrams = weightInG;
         this.type = type;
+    }
+
+    public Baggage(UUID baggageHash, int linearDimensionInMm, int weightInG, String type, float price) {
+        this(baggageHash, linearDimensionInMm, weightInG, type);
+        this.price = price;
     }
 
     protected Baggage() {
@@ -68,4 +74,9 @@ public class Baggage {
         return baggageHashAreEquals && weightsAreEquals &&
                 dimensionAreEquals && typeAreEquals;
     }
+
+    public float getPrice() {
+        return price;
+    }
 }
+
