@@ -10,7 +10,7 @@ import static org.eclipse.jetty.http.HttpStatus.Code.CREATED;
 import static org.eclipse.jetty.http.HttpStatus.Code.OK;
 import static org.junit.Assert.*;
 
-public class BagageRessourceRestTest {
+public class BaggageResourceRestTest {
     public static final String CM_UNIT_FROM_REQUEST = "cm";
     public static final int LINEAR_DIMENSION = 10;
     public static final String KG_UNIT_FROM_REQUEST = "kg";
