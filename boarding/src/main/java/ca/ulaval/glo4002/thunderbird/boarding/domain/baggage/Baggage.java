@@ -43,7 +43,7 @@ public abstract class Baggage {
     }
 
     public float getPrice() {
-        return this.price;
+        return price;
     }
 
     public void setPrice(float price) {
