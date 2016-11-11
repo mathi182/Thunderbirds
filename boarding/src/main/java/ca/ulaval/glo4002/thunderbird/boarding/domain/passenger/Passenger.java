@@ -54,9 +54,8 @@ public class Passenger {
 
     public void addBaggage(Baggage baggage) {
         if (getBaggageCount() < BAGGAGE_AMOUNT_AUTHORIZED) {
-            float price = getBaggageBasePrice();
-            baggage.setPrice(price);
-            baggages.add(baggage);
+            Baggage pricedBaggage = createPricedBaggage(baggage);
+            baggages.add(pricedBaggage);
         } else {
             throw new BaggageAmountAuthorizedException();
         }
@@ -64,6 +63,11 @@ public class Passenger {
 
     public int getBaggageCount() {
         return baggages.size();
+    }
+
+    private Baggage createPricedBaggage(Baggage baggage) {
+        float price = getBaggageBasePrice();
+        return new Baggage(baggage.getBaggageHash(), baggage.getDimensionInMm(), baggage.getWeightInGrams(), baggage.getType(), price);
     }
 
     public float getBaggageBasePrice() {

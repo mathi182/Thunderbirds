@@ -31,6 +31,14 @@ public class Baggage {
         this.type = type;
     }
 
+    public Baggage(UUID baggageHash, int linearDimensionInMm, int weightInG, String type, float price) {
+        this.baggageHash = baggageHash;
+        this.linearDimensionInMm = linearDimensionInMm;
+        this.weightInGrams = weightInG;
+        this.type = type;
+        this.price = price;
+    }
+
     protected Baggage() {
         // for hibernate
     }
