@@ -2,9 +2,10 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.flight;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ public class InMemoryFlightRepositoryTest {
     private static final String A_PLANE_MODEL = "dash-8";
     private static final String A_FLIGHT_NUMBER = "QK-918";
     private static final Instant A_FLIGHT_DATE = Instant.ofEpochMilli(1478195361);
-    
+
     private AMSSystem amsSystem;
     private PlaneService planeService;
     private FlightRepository flightRepository;

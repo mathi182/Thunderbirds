@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -39,7 +39,7 @@ public class BaggageRessource {
         return uriBuilder.path(baggageHash).build();
     }
 
-    private Passenger getPassenger(UUID passengerHash){
+    private Passenger getPassenger(UUID passengerHash) {
         PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
         return repository.getPassenger(passengerHash);
     }

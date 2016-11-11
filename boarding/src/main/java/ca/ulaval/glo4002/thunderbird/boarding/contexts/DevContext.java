@@ -3,10 +3,10 @@ package ca.ulaval.glo4002.thunderbird.boarding.contexts;
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystemFactory;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.FlightRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneServiceGlo3000;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
@@ -31,7 +31,7 @@ public class DevContext implements Context {
     private void registerPassengerRepository() {
         PassengerAssembler assembler = new PassengerAssembler();
         PassengerRequest request = new PassengerRequest();
-        PassengerService service = new PassengerService(assembler,request);
+        PassengerService service = new PassengerService(assembler, request);
         PassengerRepository passengerRepository = new HibernatePassengerRepository(service);
 
         ServiceLocator.registerSingleton(PassengerRepository.class, passengerRepository);

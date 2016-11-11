@@ -2,9 +2,10 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.flight;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -12,16 +13,6 @@ import java.util.List;
 
 
 public class InMemoryFlightRepository implements FlightRepository {
-    private class FlightID {
-        private String flightNumber;
-        private Instant flightDate;
-
-        public FlightID(String flightNumber, Instant flightDate) {
-            this.flightNumber = flightNumber;
-            this.flightDate = flightDate;
-        }
-    }
-
     private HashMap<FlightID, Flight> flights = new HashMap<>();
     private AMSSystem amsSystem;
     private PlaneService planeService;
@@ -51,5 +42,15 @@ public class InMemoryFlightRepository implements FlightRepository {
     public void saveFlight(Flight flight) {
         FlightID flightID = new FlightID(flight.getFlightNumber(), flight.getFlightDate());
         flights.put(flightID, flight);
+    }
+
+    private class FlightID {
+        private String flightNumber;
+        private Instant flightDate;
+
+        public FlightID(String flightNumber, Instant flightDate) {
+            this.flightNumber = flightNumber;
+            this.flightDate = flightDate;
+        }
     }
 }

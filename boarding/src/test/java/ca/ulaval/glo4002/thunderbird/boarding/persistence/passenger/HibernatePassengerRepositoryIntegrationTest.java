@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.CheckedBaggageEconomy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
@@ -11,7 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import static ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.LinearDimensionUnits.CM;
 import static ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.WeightUnits.KG;
@@ -58,12 +62,12 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenEmptyRepository_whenGettingAPassengerPresentInReservation_shouldReturnThePassenger() {
 
-        Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION,Seat.SeatClass.ANY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
+        Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION, Seat.SeatClass.ANY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
         willReturn(expectedPassenger).given(passengerService).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
         Passenger actualPassenger = hibernatePassengerRepository.getPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
-        assertEquals(expectedPassenger,actualPassenger);
+        assertEquals(expectedPassenger, actualPassenger);
     }
 
     @Test
