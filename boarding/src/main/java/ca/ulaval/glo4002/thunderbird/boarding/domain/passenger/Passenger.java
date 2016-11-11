@@ -18,7 +18,7 @@ public class Passenger {
     private Instant flightDate;
     private String flightNumber;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "passenger")
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<Baggage> baggages;
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {

@@ -1,6 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import java.util.UUID;
 
 @Entity
@@ -12,7 +15,6 @@ public class Baggage {
     private int linearDimensionInMm;
     private int weightInGrams;
     private String type;
-
 
     public Baggage(int linearDimensionInMm, int weightInG, String type) {
         this.baggageHash = UUID.randomUUID();
@@ -65,9 +67,5 @@ public class Baggage {
 
         return baggageHashAreEquals && weightsAreEquals &&
                 dimensionAreEquals && typeAreEquals;
-    }
-
-    public void validate() {
-
     }
 }
