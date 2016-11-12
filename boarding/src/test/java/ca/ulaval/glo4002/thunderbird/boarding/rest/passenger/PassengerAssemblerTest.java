@@ -20,7 +20,7 @@ public class PassengerAssemblerTest {
     private static final String VALID_FLIGHT_NUMBER = "QK-918";
 
     @Test
-    public void givenFilledPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger(){
+    public void givenFilledPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger() {
         PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), ECONOMY, VALID_FLIGHT_DATE.toString(), VALID_FLIGHT_NUMBER);
 
         PassengerAssembler passengerAssembler = new PassengerAssembler();
@@ -38,7 +38,7 @@ public class PassengerAssemblerTest {
     }
 
     @Test
-    public void givenBusinessPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger(){
+    public void givenBusinessPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger() {
         PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), BUSINESS, VALID_FLIGHT_DATE.toString(), VALID_FLIGHT_NUMBER);
         Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
         UUID actualPassengerHash = actualPassenger.getHash();
