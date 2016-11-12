@@ -65,13 +65,13 @@ public class BaggageResourceRestTest {
 
         Response response =
                 givenBaseRequest()
-                .body(registerBagageRequest)
-                .when()
-                        .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                .then()
-                .statusCode(OK.getCode())
-                .extract()
-                .response();
+                    .body(registerBagageRequest)
+                    .when()
+                    .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                    .then()
+                    .statusCode(OK.getCode())
+                    .extract()
+                    .response();
 
         Boolean allowed = response.path("allowed");
         assertFalse(allowed);

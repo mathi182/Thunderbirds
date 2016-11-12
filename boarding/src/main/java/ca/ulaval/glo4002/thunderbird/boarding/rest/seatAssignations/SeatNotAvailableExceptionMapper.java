@@ -11,8 +11,7 @@ import static javax.ws.rs.core.Response.Status;
 @Provider
 public class SeatNotAvailableExceptionMapper implements ExceptionMapper<SeatNotAvailableException> {
     @Override
-    public Response toResponse(SeatNotAvailableException exception)
-    {
+    public Response toResponse(SeatNotAvailableException exception) {
         return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();
     }
 }
