@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.exceptions.BaggageAmountAuthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.luggage.Luggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.exceptions.LuggageAmountAuthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 
 import javax.persistence.*;
@@ -24,11 +24,11 @@ public class Passenger {
     private String flightNumber;
 
     @OneToMany(cascade = {CascadeType.ALL})
-    private List<Baggage> baggages;
+    private List<Luggage> luggages;
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Luggage> luggages) {
         this(passengerHash, seatClass, flightDate, flightNumber);
-        this.baggages = new ArrayList<>(baggages);
+        this.luggages = new ArrayList<>(luggages);
 
     }
 
@@ -37,7 +37,7 @@ public class Passenger {
         this.seatClass = seatClass;
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
-        this.baggages = new ArrayList<>();
+        this.luggages = new ArrayList<>();
     }
 
     protected Passenger() {
@@ -49,33 +49,33 @@ public class Passenger {
     }
 
     public boolean isSameSeatClass(Seat.SeatClass seatClass) {
-        return seatClass.equals(seatClass);
+        return this.seatClass.equals(seatClass);
     }
 
-    public void addBaggage(Baggage baggage) {
-        if (getBaggageCount() < BAGGAGE_AMOUNT_AUTHORIZED) {
-            float price = getBaggageBasePrice();
-            baggage.setPrice(price);
-            baggages.add(baggage);
+    public void addBaggage(Luggage luggage) {
+        if (getLuggagesCount() < BAGGAGE_AMOUNT_AUTHORIZED) {
+            float price = getLuggageBasePrice();
+            luggage.setPrice(price);
+            luggages.add(luggage);
         } else {
-            throw new BaggageAmountAuthorizedException();
+            throw new LuggageAmountAuthorizedException();
         }
     }
 
-    public int getBaggageCount() {
-        return baggages.size();
+    public int getLuggagesCount() {
+        return luggages.size();
     }
 
-    public float getBaggageBasePrice() {
-        if (baggages.isEmpty()) {
+    public float getLuggageBasePrice() {
+        if (luggages.isEmpty()) {
             return FIRST_BAGGAGE_BASE_PRICE;
         } else {
             return ADDITIONAL_BAGGAGE_BASE_PRICE;
         }
     }
 
-    public List<Baggage> getBaggages() {
-        return baggages;
+    public List<Luggage> getLuggages() {
+        return luggages;
     }
 
     public Instant getFlightDate() {
