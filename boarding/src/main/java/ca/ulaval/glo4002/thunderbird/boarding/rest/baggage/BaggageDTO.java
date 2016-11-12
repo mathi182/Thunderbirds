@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
-/**
- * Created by mathi on 2016-11-11.
- */
 public class BaggageDTO {
+    public int weight;
+    public int linear_dimension;
+    public float price;
 }

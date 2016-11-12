@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerReposito
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -32,6 +33,25 @@ public class BaggageResource {
 
         RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
         return Response.created(uri).entity(baggageResponseBody).build();
+    }
+
+    @GET
+    public Response getBaggagesList(@PathParam("passenger_hash") String passengerHash) {
+        try {
+            Passenger passenger = getPassenger(UUID.fromString(passengerHash));
+            BaggagesListDTO baggagesListDTO = getBaggagesListDTOFromPassenger(passenger);
+
+            return Response.ok(baggagesListDTO, MediaType.APPLICATION_JSON).build();
+        } catch (Exception ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
+    private BaggagesListDTO getBaggagesListDTOFromPassenger(Passenger passenger) {
+        List<Baggage> baggages = passenger.getBaggages();
+        BaggagesListAssembler baggagesListAssembler = new BaggagesListAssembler();
+
+        return baggagesListAssembler.toDTO(baggages);
     }
 
     private Baggage convertRequestToBaggage(RegisterBaggageRequest request) {

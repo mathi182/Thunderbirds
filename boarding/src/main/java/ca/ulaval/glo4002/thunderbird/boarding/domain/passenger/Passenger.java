@@ -78,6 +78,15 @@ public class Passenger {
         }
     }
 
+    public float getBaggagesTotalPrice() {
+        float totalPrice = 0f;
+        for (Baggage baggage : baggages) {
+            totalPrice += baggage.getPrice();
+        }
+
+        return totalPrice;
+    }
+
     public List<Baggage> getBaggages() {
         return baggages;
     }
