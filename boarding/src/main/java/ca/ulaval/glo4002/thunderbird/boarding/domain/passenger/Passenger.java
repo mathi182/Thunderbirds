@@ -83,6 +83,10 @@ public class Passenger {
         return totalPrice;
     }
 
+    public Seat.SeatClass getSeatClass() {
+        return seatClass;
+    }
+
     public List<Baggage> getBaggages() {
         return baggages;
     }

@@ -29,7 +29,7 @@ public class BaggageResourceRestTest {
 
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
-        RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
                                                                                   KG_UNIT_FROM_REQUEST,
                                                                                   WEIGHT,
@@ -37,9 +37,9 @@ public class BaggageResourceRestTest {
 
         Response response =
                 givenBaseRequest()
-                        .body(registerBagageRequest)
+                        .body(registerBaggageRequest)
                         .when()
-                        .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
+                        .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                         .then()
                         .statusCode(CREATED.getCode())
                         .extract()
@@ -49,8 +49,8 @@ public class BaggageResourceRestTest {
         assertTrue(locationValidity);
         Boolean allowed = response.path("allowed");
         assertTrue(allowed);
-        String refusationReason = response.path("refusation_reason");
-        assertNull(refusationReason);
+        String deniedReason = response.path("refusation_reason");
+        assertNull(deniedReason);
     }
 
     @Test
@@ -83,10 +83,9 @@ public class BaggageResourceRestTest {
     }
 
     @Test
-    @Ignore // delete this when baggage validates its weight and dimension again
+    @Ignore
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
-        //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
-        RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
                                                                                   KG_UNIT_FROM_REQUEST,
                                                                                   INVALID_WEIGHT,
@@ -94,32 +93,32 @@ public class BaggageResourceRestTest {
 
         Response response =
                 givenBaseRequest()
-                .body(registerBagageRequest)
-                .when()
-                .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
-                .then()
-                .statusCode(OK.getStatusCode())
-                .extract()
-                .response();
+                    .body(registerBaggageRequest)
+                    .when()
+                    .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                    .then()
+                    .statusCode(OK.getStatusCode())
+                    .extract()
+                    .response();
 
         Boolean allowed = response.path("allowed");
         assertFalse(allowed);
-        String refusationReason = response.path("refusation_reason");
-        assertNotNull(refusationReason);
+        String deniedReason = response.path("refusation_reason");
+        assertNotNull(deniedReason);
     }
 
     @Test
     public void givenAnInvalidWeightUnitBaggage_whenRegisteringBaggage_shouldReturnBadRequest() {
-        RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
                                                                                   INVALID_UNIT,
                                                                                   WEIGHT,
                                                                                   CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         givenBaseRequest()
-                .body(registerBagageRequest)
+                .body(registerBaggageRequest)
                 .when()
-                .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
+                .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then()
                 .statusCode(BAD_REQUEST.getCode());
     }

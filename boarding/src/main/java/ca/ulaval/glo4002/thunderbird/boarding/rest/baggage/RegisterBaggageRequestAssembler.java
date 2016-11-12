@@ -1,12 +1,16 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.DimensionConverter;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.DimensionConverterFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.WeightConverter;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.WeightConverterFactory;
 
 public class RegisterBaggageRequestAssembler {
+
     public Baggage getDomainBaggage(RegisterBaggageRequest request) {
         int dimension = convertRequestDimension(request);
         int weight = convertRequestWeight(request);
@@ -26,4 +30,5 @@ public class RegisterBaggageRequestAssembler {
         WeightConverter weightConverter = weightConverterFactory.getConverter(request.weightUnit);
         return weightConverter.convertToGrams(request.weight);
     }
+
 }
