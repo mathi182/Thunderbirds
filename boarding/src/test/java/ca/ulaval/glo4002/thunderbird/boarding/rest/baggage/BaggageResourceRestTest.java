@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import io.restassured.response.Response;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.regex.Pattern;
@@ -23,7 +22,6 @@ public class BaggageResourceRestTest {
     private static final String VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER_HASH.toString();
 
     @Test
-    @Ignore
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
@@ -57,7 +55,7 @@ public class BaggageResourceRestTest {
         return pattern.matcher(location).matches();
     }
 
-    @Test // delete this when baggage validates its weight and dimension again
+    @Test
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
@@ -82,7 +80,6 @@ public class BaggageResourceRestTest {
     }
 
     @Test
-    @Ignore
     public void givenAnInvalidWeightUnitBaggage_whenRegisteringBaggage_shouldReturnBadRequest() {
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,

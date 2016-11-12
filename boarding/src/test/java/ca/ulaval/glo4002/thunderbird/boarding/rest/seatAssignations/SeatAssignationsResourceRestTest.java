@@ -80,17 +80,4 @@ public class SeatAssignationsResourceRestTest {
                 .then()
                 .statusCode(BAD_REQUEST.getCode());
     }
-
-    @Test
-    public void givenNoMoreSeats_whenAssigningSeat_shouldReturnBadRequest() {
-        seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER_HASH;
-        seatAssignationRequest.mode = VALID_MODE;
-
-        givenBaseRequest()
-                .body(seatAssignationRequest)
-                .when()
-                .post(SeatAssignationsResource.PATH)
-                .then()
-                .statusCode(BAD_REQUEST.getCode());
-    }
 }
