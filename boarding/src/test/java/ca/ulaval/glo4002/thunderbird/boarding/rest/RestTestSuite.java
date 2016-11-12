@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest;
 
 import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BagageRessourceRestTest;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BaggageResourceRestTest;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationsResourceRestTest;
 import ca.ulaval.glo4002.thunderbird.reservation.ReservationServer;
 import org.junit.AfterClass;
@@ -10,10 +10,11 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        BagageRessourceRestTest.class,
-        SeatAssignationsResourceRestTest.class
+        SeatAssignationsResourceRestTest.class,
+        BaggageResourceRestTest.class
 })
 public class RestTestSuite {
     public static final int TEST_SERVER_PORT_BOARDING = 9292;
@@ -35,6 +36,6 @@ public class RestTestSuite {
     @AfterClass
     public static void tearDownClass() {
         boardingServer.stop();
+        reservationServer.stop();
     }
-
 }

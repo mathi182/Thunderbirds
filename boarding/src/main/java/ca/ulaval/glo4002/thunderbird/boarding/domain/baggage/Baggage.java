@@ -1,41 +1,82 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import java.util.UUID;
 
 @Entity
 @Inheritance
-@DiscriminatorColumn(name = "BAGGAGE_TYPE")
-public abstract class Baggage {
+public class Baggage {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    protected UUID baggageHash;
-    protected LinearDimensionUnits linearDimensionUnit;
-    protected Integer linearDimension;
-    protected WeightUnits weightUnit;
-    protected Integer weight;
+    private UUID baggageHash;
+    private int linearDimensionInMm;
+    private int weightInGrams;
+    private String type;
+    private float price;
 
-    @ManyToOne
-    @JoinColumn(name = "passengerHash")
-    private Passenger passenger;
-
-    public Baggage(LinearDimensionUnits linearDimensionUnit, Integer linearDimension, WeightUnits weightUnit, Integer weight) {
+    public Baggage(int linearDimensionInMm, int weightInG, String type) {
         this.baggageHash = UUID.randomUUID();
-        this.linearDimension = linearDimension;
-        this.linearDimensionUnit = linearDimensionUnit;
-        this.weightUnit = weightUnit;
-        this.weight = weight;
+        this.linearDimensionInMm = linearDimensionInMm;
+        this.weightInGrams = weightInG;
+        this.type = type;
+    }
+
+    public Baggage(UUID baggageHash, int linearDimensionInMm, int weightInG, String type) {
+        this.baggageHash = baggageHash;
+        this.linearDimensionInMm = linearDimensionInMm;
+        this.weightInGrams = weightInG;
+        this.type = type;
+    }
+
+    public Baggage(UUID baggageHash, int linearDimensionInMm, int weightInG, String type, float price) {
+        this(baggageHash, linearDimensionInMm, weightInG, type);
+        this.price = price;
     }
 
     protected Baggage() {
-        //for hibernate
+        // for hibernate
     }
 
-    public abstract void validate();
+    public int getWeightInGrams() {
+        return weightInGrams;
+    }
 
-    public void setPassenger(Passenger passenger) {
-        this.passenger = passenger;
+    public int getDimensionInMm() {
+        return linearDimensionInMm;
+    }
+
+    public UUID getBaggageHash() {
+        return baggageHash;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!Baggage.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+
+        Baggage baggage = (Baggage) obj;
+        boolean baggageHashAreEquals = baggageHash.equals(baggage.getBaggageHash());
+        boolean weightsAreEquals = weightInGrams == baggage.getWeightInGrams();
+        boolean dimensionAreEquals = linearDimensionInMm == baggage.getDimensionInMm();
+        boolean typeAreEquals = type.equals(baggage.getType());
+
+        return baggageHashAreEquals && weightsAreEquals &&
+                dimensionAreEquals && typeAreEquals;
+    }
+
+    public float getPrice() {
+        return price;
     }
 }
+
