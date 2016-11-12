@@ -23,6 +23,7 @@ public class BaggageResourceRestTest {
     private static final String VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER_HASH.toString();
 
     @Test
+    @Ignore
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
@@ -34,7 +35,7 @@ public class BaggageResourceRestTest {
                 givenBaseRequest()
                         .body(registerBagageRequest)
                         .when()
-                        .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
+                        .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                         .then()
                         .statusCode(CREATED.getCode())
                         .extract()
@@ -56,10 +57,8 @@ public class BaggageResourceRestTest {
         return pattern.matcher(location).matches();
     }
 
-    @Test
-    @Ignore // delete this when baggage validates its weight and dimension again
+    @Test // delete this when baggage validates its weight and dimension again
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
-        //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
                                                                                   KG_UNIT_FROM_REQUEST,
@@ -70,7 +69,7 @@ public class BaggageResourceRestTest {
                 givenBaseRequest()
                 .body(registerBagageRequest)
                 .when()
-                        .post("/passengers/" + VALID_PASSENGER_HASH + " / baggages")
+                        .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then()
                 .statusCode(OK.getCode())
                 .extract()
@@ -83,6 +82,7 @@ public class BaggageResourceRestTest {
     }
 
     @Test
+    @Ignore
     public void givenAnInvalidWeightUnitBaggage_whenRegisteringBaggage_shouldReturnBadRequest() {
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
@@ -93,7 +93,7 @@ public class BaggageResourceRestTest {
         givenBaseRequest()
                 .body(registerBagageRequest)
                 .when()
-                .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
+                .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then()
                 .statusCode(BAD_REQUEST.getCode());
     }

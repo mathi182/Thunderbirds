@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import io.restassured.response.Response;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -82,7 +81,6 @@ public class SeatAssignationsResourceRestTest {
                 .statusCode(BAD_REQUEST.getCode());
     }
 
-    @Ignore
     @Test
     public void givenNoMoreSeats_whenAssigningSeat_shouldReturnBadRequest() {
         seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER_HASH;

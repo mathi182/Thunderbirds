@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebException;
 
 public class DimensionConverterFactory {
     public static final String INCH_UNIT_FROM_REQUEST = "po";
@@ -13,7 +13,7 @@ public class DimensionConverterFactory {
             case CENTIMER_UNIT_FROM_REQUEST:
                 return new DimensionConverterCentimeters();
             default:
-                throw new NoSuchStrategyException("unknown");
+                throw new IllegalFieldWebException();
         }
     }
 }
