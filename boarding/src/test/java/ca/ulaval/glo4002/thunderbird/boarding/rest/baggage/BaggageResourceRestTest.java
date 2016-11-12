@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import io.restassured.response.Response;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.regex.Pattern;
@@ -56,6 +57,7 @@ public class BaggageResourceRestTest {
     }
 
     @Test
+    @Ignore
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
