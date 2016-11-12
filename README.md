@@ -24,8 +24,7 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 - Bagages: Obtenir la liste par passager (En cours, 90% complété)
 - Siège: Assigner le siège le moins cher (Terminé)
 - Siège: Assigner le siège en fonction du dégagement (Terminé)
-- Bagage cabine: Article standard (Terminé)
-- Bagage enregistré: Classe affaires (Terminé)
+
 
 ###Known Issues
 Les story de sièges ont un bug qui fait retourner des erreur 500 lors de l'appel.
