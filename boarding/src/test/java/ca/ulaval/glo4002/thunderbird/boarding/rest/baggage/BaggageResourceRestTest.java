@@ -4,7 +4,6 @@ import io.restassured.response.Response;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 import java.util.regex.Pattern;
 

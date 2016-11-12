@@ -20,7 +20,7 @@ import java.util.Random;
 @Produces(MediaType.APPLICATION_JSON)
 public class SeatAssignationsResource {
     public static final String PATH = "/seat-assignations/";
-
+    
     @Context
     UriInfo uriInfo;
 
@@ -41,7 +41,7 @@ public class SeatAssignationsResource {
 
         TakenSeatDTO takenSeatDTO = convertSeatToDTO(seat);
 
-        String seatAssignationsIdString = String.valueOf(new Random().nextInt());
+        String seatAssignationsIdString = String.valueOf(new Random().nextInt(Integer.MAX_VALUE));
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
         URI uri = uriBuilder.path(seatAssignationsIdString).build();
         return Response.created(uri)
