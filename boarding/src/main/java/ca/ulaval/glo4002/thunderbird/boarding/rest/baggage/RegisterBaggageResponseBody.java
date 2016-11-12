@@ -8,12 +8,12 @@ public class RegisterBaggageResponseBody {
     public boolean allowed;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("refusation_reason")
-    public String refusationReason;
+    @JsonProperty("denied_reason")
+    public String deniedReason;
 
-    public RegisterBaggageResponseBody(boolean allowed, String refusationReason) {
+    public RegisterBaggageResponseBody(boolean allowed, String deniedReason) {
         this.allowed = allowed;
-        this.refusationReason = refusationReason;
+        this.deniedReason = deniedReason;
     }
 
     public RegisterBaggageResponseBody(boolean allowed) {
