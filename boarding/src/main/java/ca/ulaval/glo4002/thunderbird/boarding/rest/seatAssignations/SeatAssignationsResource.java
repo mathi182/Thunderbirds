@@ -20,7 +20,7 @@ import java.util.Random;
 @Produces(MediaType.APPLICATION_JSON)
 public class SeatAssignationsResource {
     public static final String PATH = "/seat-assignations/";
-
+    
     @Context
     UriInfo uriInfo;
 

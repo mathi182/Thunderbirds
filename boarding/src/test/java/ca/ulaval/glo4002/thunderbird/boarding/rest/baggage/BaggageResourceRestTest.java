@@ -34,7 +34,7 @@ public class BaggageResourceRestTest {
                 givenBaseRequest()
                         .body(registerBaggageRequest)
                         .when()
-                        .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
+                        .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                         .then()
                         .statusCode(CREATED.getCode())
                         .extract()
@@ -57,9 +57,8 @@ public class BaggageResourceRestTest {
     }
 
     @Test
-    @Ignore // delete this when baggage validates its weight and dimension again
+    @Ignore
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
-        //TODO: utiliser un passengerHash d'un passenger existant quand la ressource fera cette validation
         RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
                                                                                   KG_UNIT_FROM_REQUEST,
@@ -68,13 +67,13 @@ public class BaggageResourceRestTest {
 
         Response response =
                 givenBaseRequest()
-                .body(registerBagageRequest)
-                .when()
-                        .post("/passengers/" + VALID_PASSENGER_HASH + " / baggages")
-                .then()
-                .statusCode(OK.getCode())
-                .extract()
-                .response();
+                    .body(registerBagageRequest)
+                    .when()
+                    .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                    .then()
+                    .statusCode(OK.getCode())
+                    .extract()
+                    .response();
 
         Boolean allowed = response.path("allowed");
         assertFalse(allowed);
@@ -93,7 +92,7 @@ public class BaggageResourceRestTest {
         givenBaseRequest()
                 .body(registerBaggageRequest)
                 .when()
-                .post("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
+                .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then()
                 .statusCode(BAD_REQUEST.getCode());
     }

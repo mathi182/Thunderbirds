@@ -21,8 +21,8 @@ public class BaggageResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") String passengerHash) {
-        Passenger passenger = getPassenger(UUID.fromString(passengerHash));
+    public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") UUID passengerHash) {
+        Passenger passenger = getPassenger(passengerHash);
         Baggage baggage = convertRequestToBaggage(request);
 
         validateBaggage(baggage, request);
