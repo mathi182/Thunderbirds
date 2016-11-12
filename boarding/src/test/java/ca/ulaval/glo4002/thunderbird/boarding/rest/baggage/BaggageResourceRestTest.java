@@ -59,7 +59,7 @@ public class BaggageResourceRestTest {
     @Test
     @Ignore
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
-        RegisterBaggageRequest registerBagageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
+        RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
                                                                                   KG_UNIT_FROM_REQUEST,
                                                                                   INVALID_WEIGHT,
@@ -67,7 +67,7 @@ public class BaggageResourceRestTest {
 
         Response response =
                 givenBaseRequest()
-                    .body(registerBagageRequest)
+                    .body(registerBaggageRequest)
                     .when()
                     .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                     .then()

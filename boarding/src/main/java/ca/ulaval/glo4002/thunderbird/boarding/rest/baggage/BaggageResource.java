@@ -25,7 +25,7 @@ public class BaggageResource {
         Passenger passenger = getPassenger(passengerHash);
         Baggage baggage = convertRequestToBaggage(request);
 
-        validateBaggage(baggage, request);
+        validateBaggage(baggage, passenger);
         passenger.addBaggage(baggage);
 
         URI uri = buildURI();
@@ -41,11 +41,9 @@ public class BaggageResource {
         return buildLocationUri(baggageRegistrationIdString);
     }
 
-    private void validateBaggage(Baggage baggage, RegisterBaggageRequest request) {
-        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
-        BaggageValidationStrategy.ValidationMode validationMode = registerBaggageRequestAssembler.getMode(request);
+    private void validateBaggage(Baggage baggage, Passenger passenger) {
         BaggageValidationStrategyFactory factory = new BaggageValidationStrategyFactory();
-        BaggageValidationStrategy strategy = factory.getStrategy(validationMode);
+        BaggageValidationStrategy strategy = factory.getStrategy(passenger.getSeatClass());
         strategy.validateBaggage(baggage);
     }
 
