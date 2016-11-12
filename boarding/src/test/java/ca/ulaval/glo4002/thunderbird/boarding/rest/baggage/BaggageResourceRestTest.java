@@ -44,7 +44,7 @@ public class BaggageResourceRestTest {
         assertTrue(locationValidity);
         Boolean allowed = response.path("allowed");
         assertTrue(allowed);
-        String deniedReason = response.path("denied_reason");
+        String deniedReason = response.path("refusation_reason");
         assertNull(deniedReason);
     }
 
@@ -77,7 +77,7 @@ public class BaggageResourceRestTest {
 
         Boolean allowed = response.path("allowed");
         assertFalse(allowed);
-        String deniedReason = response.path("denied_reason");
+        String deniedReason = response.path("refusation_reason");
         assertNotNull(deniedReason);
     }
 
