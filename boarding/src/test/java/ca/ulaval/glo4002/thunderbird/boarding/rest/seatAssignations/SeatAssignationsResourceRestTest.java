@@ -19,7 +19,7 @@ public class SeatAssignationsResourceRestTest {
     private static final String VALID_MODE = "RANDOM";
     private static final String INVALID_MODE = "INVALID";
 
-    SeatAssignationRequest seatAssignationRequest;
+    private SeatAssignationRequest seatAssignationRequest;
 
     @Before
     public void setUp() {
