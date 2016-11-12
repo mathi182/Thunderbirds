@@ -22,16 +22,18 @@ public class PassengerAssemblerTest {
     @Test
     public void givenFilledPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger(){
         PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), ECONOMY, VALID_FLIGHT_DATE.toString(), VALID_FLIGHT_NUMBER);
-        Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
+
+        PassengerAssembler passengerAssembler = new PassengerAssembler();
+        Passenger actualPassenger = passengerAssembler.toDomain(passengerDTO);
+
         UUID actualPassengerHash = actualPassenger.getHash();
         Instant actualFlightDate = actualPassenger.getFlightDate();
-        String actualFlighNumber = actualPassenger.getFlightNumber();
+        String actualFlightNumber = actualPassenger.getFlightNumber();
         boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(ECONOMY_SEAT_CLASS);
 
-        assertEquals(VALID_PASSENGER_HASH,actualPassengerHash);
-        assertEquals(VALID_FLIGHT_DATE,actualFlightDate);
-        assertEquals(VALID_FLIGHT_NUMBER,actualFlighNumber);
         assertEquals(VALID_PASSENGER_HASH, actualPassengerHash);
+        assertEquals(VALID_FLIGHT_DATE, actualFlightDate);
+        assertEquals(VALID_FLIGHT_NUMBER, actualFlightNumber);
         assertTrue(isTheSameSeatClass);
     }
 
@@ -40,10 +42,13 @@ public class PassengerAssemblerTest {
         PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(), BUSINESS, VALID_FLIGHT_DATE.toString(), VALID_FLIGHT_NUMBER);
         Passenger actualPassenger = new PassengerAssembler().toDomain(passengerDTO);
         UUID actualPassengerHash = actualPassenger.getHash();
+        Instant actualFlightDate = actualPassenger.getFlightDate();
+        String actualFlightNumber = actualPassenger.getFlightNumber();
         boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(BUSINESS_SEAT_CLASS);
 
-        UUID expectedPassengerHash = VALID_PASSENGER_HASH;
-        assertEquals(expectedPassengerHash, actualPassengerHash);
+        assertEquals(VALID_PASSENGER_HASH, actualPassengerHash);
+        assertEquals(VALID_FLIGHT_DATE, actualFlightDate);
+        assertEquals(VALID_FLIGHT_NUMBER, actualFlightNumber);
         assertTrue(isTheSameSeatClass);
     }
 }
