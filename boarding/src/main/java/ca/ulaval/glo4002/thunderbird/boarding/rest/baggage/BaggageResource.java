@@ -28,12 +28,17 @@ public class BaggageResource {
         validateBaggage(baggage, request);
         passenger.addBaggage(baggage);
 
-        int id = new Random().nextInt(Integer.MAX_VALUE);
-        String baggageRegistrationIdString = String.valueOf(id);
-        URI uri = buildLocationUri(baggageRegistrationIdString);
+        URI uri = buildURI();
 
         RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
         return Response.created(uri).entity(baggageResponseBody).build();
+    }
+
+    private URI buildURI() {
+        int id = new Random().nextInt(Integer.MAX_VALUE);
+        String baggageRegistrationIdString = String.valueOf(id);
+
+        return buildLocationUri(baggageRegistrationIdString);
     }
 
     private void validateBaggage(Baggage baggage, RegisterBaggageRequest request) {
