@@ -6,12 +6,12 @@ public class RegisterBaggageResponseBody {
     @JsonProperty("allowed")
     public boolean allowed;
 
-    @JsonProperty("refusation_reason")
-    public String refusationReason;
+    @JsonProperty("denied_reason")
+    public String deniedReason;
 
-    public RegisterBaggageResponseBody(boolean allowed, String refusationReason) {
+    public RegisterBaggageResponseBody(boolean allowed, String deniedReason) {
         this.allowed = allowed;
-        this.refusationReason = refusationReason;
+        this.deniedReason = deniedReason;
     }
 
     public RegisterBaggageResponseBody(boolean allowed) {
