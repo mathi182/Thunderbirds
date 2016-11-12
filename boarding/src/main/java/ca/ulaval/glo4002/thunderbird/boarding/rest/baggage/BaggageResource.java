@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 
@@ -23,7 +25,7 @@ public class BaggageResource {
         Passenger passenger = getPassenger(UUID.fromString(passengerHash));
         Baggage baggage = convertRequestToBaggage(request);
 
-        //TODO: faire la validation du baggage ici
+        validateBaggage(baggage, request);
         passenger.addBaggage(baggage);
 
         int id = new Random().nextInt(Integer.MAX_VALUE);
@@ -34,9 +36,17 @@ public class BaggageResource {
         return Response.created(uri).entity(baggageResponseBody).build();
     }
 
+    private void validateBaggage(Baggage baggage, RegisterBaggageRequest request) {
+        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        BaggageValidationStrategy.ValidationMode validationMode = registerBaggageRequestAssembler.getMode(request);
+        BaggageValidationStrategyFactory factory = new BaggageValidationStrategyFactory();
+        BaggageValidationStrategy strategy = factory.getStrategy(validationMode);
+        strategy.validateBaggage(baggage);
+    }
+
     private Baggage convertRequestToBaggage(RegisterBaggageRequest request) {
-        RegisterBaggageRequestAssembler registerBagageRequestAssembler = new RegisterBaggageRequestAssembler();
-        return registerBagageRequestAssembler.getDomainBaggage(request);
+        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        return registerBaggageRequestAssembler.getDomainBaggage(request);
     }
 
     private URI buildLocationUri(String baggageHash) {
