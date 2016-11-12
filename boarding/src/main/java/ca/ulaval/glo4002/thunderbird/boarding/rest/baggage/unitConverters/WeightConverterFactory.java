@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebException;
 
 public class WeightConverterFactory {
     public static final String POUND_FROM_REQUEST = "lbs";
@@ -13,7 +13,7 @@ public class WeightConverterFactory {
             case POUND_FROM_REQUEST:
                 return new WeightConverterPound();
             default:
-                throw new NoSuchStrategyException("unknown");
+                throw new IllegalFieldWebException();
         }
     }
 }
