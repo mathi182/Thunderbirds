@@ -69,8 +69,9 @@ public class DevContext implements Context {
         Seat.SeatClass seatClass = Seat.SeatClass.ECONOMY;
         Instant flightDate = Instant.ofEpochMilli(new Date().getTime());
         String flightNumber = "QK-918";
+        boolean vip = false;
 
-        return new Passenger(passengerHash, seatClass, flightDate, flightNumber);
+        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, vip);
     }
 }
 

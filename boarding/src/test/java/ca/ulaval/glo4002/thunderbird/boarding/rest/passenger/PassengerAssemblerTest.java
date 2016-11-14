@@ -1,87 +1,67 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat.SeatClass;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.time.Instant;
 import java.util.UUID;
 
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler.BUSINESS;
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler.ECONOMY;
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PassengerAssemblerTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.randomUUID();
-    private static final Seat.SeatClass ECONOMY_SEAT_CLASS = Seat.SeatClass.ECONOMY;
-    private static final Seat.SeatClass BUSINESS_SEAT_CLASS = Seat.SeatClass.BUSINESS;
-    private static final String ECONOMY = "economy";
-    private static final String BUSINESS = "business";
     private static final String ANY = "any";
+    private static final String FLIGHT_DATE = "2016-09-06T13:00:00Z";
+    private static final String FLIGHT_NUMBER = "QK-918";
+    private static final boolean VIP = true;
 
-    private static final Instant VALID_FLIGHT_DATE = Instant.now();
-    private static final String VALID_FLIGHT_NUMBER = "QK-918";
     private PassengerAssembler passengerAssembler;
-    private PassengerDTO passengerDTO;
-    private Passenger actualPassenger;
+
+    @Before
+    public void setUp() {
+        passengerAssembler = new PassengerAssembler();
+    }
 
     @Test
     public void givenFilledPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger() {
-        passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(),
-                ECONOMY,
-                VALID_FLIGHT_DATE.toString(),
-                VALID_FLIGHT_NUMBER);
+        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH, ANY, FLIGHT_DATE, FLIGHT_NUMBER, VIP);
 
-        passengerAssembler = new PassengerAssembler();
-        actualPassenger = passengerAssembler.toDomain(passengerDTO);
+        Passenger actualPassenger = passengerAssembler.toDomain(passengerDTO);
 
         UUID actualPassengerHash = actualPassenger.getHash();
-        Instant actualFlightDate = actualPassenger.getFlightDate();
+        String actualFlightDate = ISO_INSTANT.format(actualPassenger.getFlightDate());
         String actualFlightNumber = actualPassenger.getFlightNumber();
-        boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(ECONOMY_SEAT_CLASS);
-
+        boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(SeatClass.ANY);
+        boolean isVip = actualPassenger.isVip();
         assertEquals(VALID_PASSENGER_HASH, actualPassengerHash);
-        assertEquals(VALID_FLIGHT_DATE, actualFlightDate);
-        assertEquals(VALID_FLIGHT_NUMBER, actualFlightNumber);
+        assertEquals(FLIGHT_DATE, actualFlightDate);
+        assertEquals(FLIGHT_NUMBER, actualFlightNumber);
+        assertTrue(isTheSameSeatClass);
+        assertEquals(VIP, isVip);
+    }
+
+    @Test
+    public void givenEconomyPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectSeatClass() {
+        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH, ECONOMY, FLIGHT_DATE, FLIGHT_NUMBER, VIP);
+
+        Passenger actualPassenger = passengerAssembler.toDomain(passengerDTO);
+
+        boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(SeatClass.ECONOMY);
         assertTrue(isTheSameSeatClass);
     }
 
     @Test
-    public void givenBusinessPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger() {
-        passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(),
-                BUSINESS,
-                VALID_FLIGHT_DATE.toString(),
-                VALID_FLIGHT_NUMBER);
+    public void givenBusinessPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectSeatClass() {
+        PassengerDTO passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH, BUSINESS, FLIGHT_DATE, FLIGHT_NUMBER, VIP);
 
-        passengerAssembler = new PassengerAssembler();
-        actualPassenger = passengerAssembler.toDomain(passengerDTO);
-        UUID actualPassengerHash = actualPassenger.getHash();
-        Instant actualFlightDate = actualPassenger.getFlightDate();
-        String actualFlightNumber = actualPassenger.getFlightNumber();
-        boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(BUSINESS_SEAT_CLASS);
+        Passenger actualPassenger = passengerAssembler.toDomain(passengerDTO);
 
-        assertEquals(VALID_PASSENGER_HASH, actualPassengerHash);
-        assertEquals(VALID_FLIGHT_DATE, actualFlightDate);
-        assertEquals(VALID_FLIGHT_NUMBER, actualFlightNumber);
-        assertTrue(isTheSameSeatClass);
-    }
-
-    @Test
-    public void givenAnySeatClassPassengerRequest_whenTransformingToDomain_shouldBeTheCorrectPassenger() {
-        passengerDTO = new PassengerDTO(VALID_PASSENGER_HASH.toString(),
-                ANY,
-                VALID_FLIGHT_DATE.toString(),
-                VALID_FLIGHT_NUMBER);
-        passengerAssembler = new PassengerAssembler();
-        actualPassenger = passengerAssembler.toDomain(passengerDTO);
-
-        UUID actualPassengerHash = actualPassenger.getHash();
-        Instant actualFlightDate = actualPassenger.getFlightDate();
-        String actualFlightNumber = actualPassenger.getFlightNumber();
-        boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(BUSINESS_SEAT_CLASS);
-
-        assertEquals(VALID_PASSENGER_HASH, actualPassengerHash);
-        assertEquals(VALID_FLIGHT_DATE, actualFlightDate);
-        assertEquals(VALID_FLIGHT_NUMBER, actualFlightNumber);
+        boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(SeatClass.BUSINESS);
         assertTrue(isTheSameSeatClass);
     }
 }

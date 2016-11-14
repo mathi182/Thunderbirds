@@ -20,7 +20,7 @@ public class ReservationTest {
 
     @Test
     public void shouldReturnTheRightId() {
-        int actualReservationNumber = reservation.getId();
+        Integer actualReservationNumber = reservation.getId();
         assertEquals(TestConfig.RESERVATION_NUMBER, actualReservationNumber);
     }
 

@@ -9,6 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PassengerTest {
+    private static boolean NOT_VIP = false;
     private Passenger passenger;
 
     @Before
@@ -45,17 +46,23 @@ public class PassengerTest {
     }
 
     @Test
+    public void shouldNotBeVip() {
+        assertFalse(passenger.isVip());
+    }
+
+    @Test
     public void whenCheckin_shouldBeCheckedIn() {
-        passenger.checkin();
+        boolean isVip = true;
+        passenger.checkin(isVip);
 
         assertTrue(passenger.isCheckedIn());
+        assertTrue(passenger.isVip());
     }
 
     @Test(expected = PassengerAlreadyCheckedInException.class)
     public void givenPassengerAlreadyCheckin_whenCheckin_shouldThrowAnException() {
-        passenger.checkin();
+        passenger.checkin(NOT_VIP);
 
-        passenger.checkin();
+        passenger.checkin(NOT_VIP);
     }
-
 }

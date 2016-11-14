@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -29,10 +30,13 @@ public class Passenger {
     private String passportNumber;
     @NotBlank
     private String seatClass;
+    @NotNull
     @JsonIgnore
-    private int age;
+    private Integer age;
     @JsonIgnore
     private boolean isCheckedIn = false;
+    @JsonIgnore
+    private boolean isVip = false;
 
     @ManyToOne
     @JoinColumn(name = "reservationNumber")
@@ -40,7 +44,7 @@ public class Passenger {
     private Reservation reservation;
 
     @JsonCreator
-    public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
+    public Passenger(String firstName, String lastName, Integer age, String passportNumber, String seatClass) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -89,6 +93,10 @@ public class Passenger {
         return isCheckedIn;
     }
 
+    public boolean isVip() {
+        return isVip;
+    }
+
     public Reservation getReservation() {
         return reservation;
     }
@@ -97,11 +105,12 @@ public class Passenger {
         this.reservation = reservation;
     }
 
-    public void checkin() {
+    public void checkin(boolean vip) {
         if (isCheckedIn) {
             throw new PassengerAlreadyCheckedInException(passengerHash);
         }
         isCheckedIn = true;
+        isVip = vip;
     }
 
     public String getSeatClass() {

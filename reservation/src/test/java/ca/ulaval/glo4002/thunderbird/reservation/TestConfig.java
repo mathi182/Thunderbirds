@@ -10,7 +10,7 @@ import java.util.Arrays;
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
 public class TestConfig {
-    public static final int RESERVATION_NUMBER = 43525;
+    public static final Integer RESERVATION_NUMBER = 43525;
     public static final String RESERVATION_DATE = "2016-01-31";
     public static final String RESERVATION_CONFIRMATION = "A3833";
     public static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";

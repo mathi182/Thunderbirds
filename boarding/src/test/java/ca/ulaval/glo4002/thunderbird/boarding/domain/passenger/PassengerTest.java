@@ -7,9 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import static ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger.*;
@@ -22,28 +20,25 @@ public class PassengerTest {
     private static final Seat.SeatClass VALID_PASSENGER_SEAT_CLASS = Seat.SeatClass.ECONOMY;
     private static final Instant VALID_FLIGHT_DATE = Instant.ofEpochMilli(new Date().getTime());
     private static final String VALID_FLIGHT_NUMBER = "QK-918";
+    private static final boolean NOT_VIP = false;
     private static final int BAGGAGE_LINEAR_DIMENSION_IN_MM = 10;
     private static final int BAGGAGE_WEIGHT_IN_G = 10;
     private static final String BAGGAGE_TYPE = "checked";
-    private static final int FIRST_BAGGAGE = 0;
-    private static final int SECOND_BAGGAGE = 1;
 
     private Passenger passengerWithoutBaggage;
     private Passenger passengerWithMaximalBaggageAmountAuthorized;
-    private Baggage baggageMock;
 
     @Before
     public void setup(){
-        passengerWithoutBaggage = new Passenger(VALID_PASSENGER_HASH, VALID_PASSENGER_SEAT_CLASS, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER);
-        baggageMock = mock(Baggage.class);
+        passengerWithoutBaggage = new Passenger(VALID_PASSENGER_HASH, VALID_PASSENGER_SEAT_CLASS,
+                VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, NOT_VIP);
 
-        List<Baggage> baggagesCountAuthorized = new ArrayList<>();
+        passengerWithMaximalBaggageAmountAuthorized = new Passenger(VALID_PASSENGER_HASH,
+                VALID_PASSENGER_SEAT_CLASS, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, NOT_VIP);
+
         for (int i = 0; i < BAGGAGE_AMOUNT_AUTHORIZED; i++) {
-            baggagesCountAuthorized.add(baggageMock);
+            passengerWithMaximalBaggageAmountAuthorized.addBaggage(mock(Baggage.class));
         }
-
-        passengerWithMaximalBaggageAmountAuthorized =
-                new Passenger(VALID_PASSENGER_HASH, VALID_PASSENGER_SEAT_CLASS, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, baggagesCountAuthorized);
     }
 
     @Test
@@ -69,7 +64,7 @@ public class PassengerTest {
 
     @Test
     public void givenNewPassengerWithNoBaggage_whenAddingBaggage_shouldHaveOneBaggage() {
-        passengerWithoutBaggage.addBaggage(baggageMock);
+        passengerWithoutBaggage.addBaggage(mock(Baggage.class));
 
         int expectedCount = 1;
         int actualCount = passengerWithoutBaggage.getBaggageCount();
@@ -78,7 +73,7 @@ public class PassengerTest {
 
     @Test(expected = BaggageAmountAuthorizedException.class)
     public void givenPassengerWithBaggageAmountAuthorized_whenAddingBaggage_shouldNotAddBaggage() {
-        passengerWithMaximalBaggageAmountAuthorized.addBaggage(baggageMock);
+        passengerWithMaximalBaggageAmountAuthorized.addBaggage(mock(Baggage.class));
     }
 
     @Test
@@ -98,23 +93,19 @@ public class PassengerTest {
         Baggage baggage = new Baggage(BAGGAGE_LINEAR_DIMENSION_IN_MM, BAGGAGE_WEIGHT_IN_G, BAGGAGE_TYPE);
         passengerWithoutBaggage.addBaggage(baggage);
 
-        List<Baggage> baggages = passengerWithoutBaggage.getBaggages();
-        Baggage firstBaggage = baggages.get(FIRST_BAGGAGE);
+        Baggage firstBaggage = passengerWithoutBaggage.getBaggages().get(0);
         float actualPrice = firstBaggage.getPrice();
-
         assertTrue(FIRST_BAGGAGE_BASE_PRICE == actualPrice);
     }
     
     @Test
     public void givenNewPassengerWithNoBaggage_whenAddingTwoBaggages_shouldHaveSecondBaggageWithAdditionalBasePrice() {
         Baggage firstBaggage = new Baggage(BAGGAGE_LINEAR_DIMENSION_IN_MM, BAGGAGE_WEIGHT_IN_G, BAGGAGE_TYPE);
-        Baggage secondBaggage = new Baggage(BAGGAGE_LINEAR_DIMENSION_IN_MM, BAGGAGE_WEIGHT_IN_G, BAGGAGE_TYPE);
-
         passengerWithoutBaggage.addBaggage(firstBaggage);
+        Baggage secondBaggage = new Baggage(BAGGAGE_LINEAR_DIMENSION_IN_MM, BAGGAGE_WEIGHT_IN_G, BAGGAGE_TYPE);
         passengerWithoutBaggage.addBaggage(secondBaggage);
 
-        List<Baggage> baggages = passengerWithoutBaggage.getBaggages();
-        Baggage secondBaggageFromPassenger = baggages.get(SECOND_BAGGAGE);
+        Baggage secondBaggageFromPassenger = passengerWithoutBaggage.getBaggages().get(1);
         float secondBaggageActualPrice = secondBaggageFromPassenger.getPrice();
         assertTrue(ADDITIONAL_BAGGAGE_BASE_PRICE == secondBaggageActualPrice);
     }

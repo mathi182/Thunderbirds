@@ -22,21 +22,17 @@ public class Passenger {
     private Seat.SeatClass seatClass;
     private Instant flightDate;
     private String flightNumber;
+    private boolean isVip;
 
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Baggage> baggages;
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
-        this(passengerHash, seatClass, flightDate, flightNumber);
-        this.baggages = new ArrayList<>(baggages);
-
-    }
-
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber) {
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, boolean isVip) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
+        this.isVip = isVip;
         this.baggages = new ArrayList<>();
     }
 
@@ -49,7 +45,7 @@ public class Passenger {
     }
 
     public boolean isSameSeatClass(Seat.SeatClass seatClass) {
-        return seatClass.equals(seatClass);
+        return this.seatClass.equals(seatClass);
     }
 
     public void addBaggage(Baggage baggage) {
@@ -80,6 +76,10 @@ public class Passenger {
 
     public List<Baggage> getBaggages() {
         return baggages;
+    }
+
+    public boolean isVip() {
+        return isVip;
     }
 
     public Instant getFlightDate() {
