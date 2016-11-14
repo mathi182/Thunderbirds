@@ -51,13 +51,9 @@ public class BaggageResource {
 
     @GET
     public Response getBaggagesList(@PathParam("passenger_hash") String passengerHash) {
-        try {
             Passenger passenger = getPassenger(UUID.fromString(passengerHash));
             BaggagesListDTO baggagesListDTO = getBaggagesListDTOFromPassenger(passenger);
             return Response.ok(baggagesListDTO, MediaType.APPLICATION_JSON).build();
-        } catch (PassengerNotFoundException ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
     }
 
     private Passenger getPassenger(UUID passengerHash) {

@@ -84,7 +84,6 @@ public class BaggageResourceRestTest {
     }
 
     @Test
-    @Ignore
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
                                                                                   LINEAR_DIMENSION,
