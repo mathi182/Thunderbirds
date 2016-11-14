@@ -13,6 +13,7 @@ import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBa
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
 import static org.eclipse.jetty.http.HttpStatus.Code.CREATED;
+import static org.eclipse.jetty.http.HttpStatus.Code.NOT_FOUND;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.*;
 
@@ -66,12 +67,12 @@ public class BaggageResourceRestTest {
     }
 
     @Test
-    public void givenAnInvalidPassenger_whenGettingBaggagesList_shouldGetBadRequest() {
+    public void givenAnInvalidPassenger_whenGettingBaggagesList_shouldGetNotFound() {
         givenBaseRequest()
                 .when()
                 .get("/passengers/" + INVALID_PASSENGER_UUID + "/baggages")
                 .then()
-                .statusCode(BAD_REQUEST.getCode());
+                .statusCode(NOT_FOUND.getCode());
     }
 
     private boolean isLocationValid(String location, String passengerHash) {
