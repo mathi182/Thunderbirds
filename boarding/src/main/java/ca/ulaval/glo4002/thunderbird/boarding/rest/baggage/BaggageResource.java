@@ -54,18 +54,21 @@ public class BaggageResource {
         try {
             Passenger passenger = getPassenger(UUID.fromString(passengerHash));
             BaggagesListDTO baggagesListDTO = getBaggagesListDTOFromPassenger(passenger);
-
             return Response.ok(baggagesListDTO, MediaType.APPLICATION_JSON).build();
         } catch (PassengerNotFoundException ex) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
+    private Passenger getPassenger(UUID passengerHash) {
+        PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
+        return repository.getPassenger(passengerHash);
+    }
+
+
     private BaggagesListDTO getBaggagesListDTOFromPassenger(Passenger passenger) {
         List<Baggage> baggages = passenger.getBaggages();
-        BaggagesListAssembler baggagesListAssembler = new BaggagesListAssembler();
-
-        return baggagesListAssembler.toDTO(baggages);
+        return new BaggagesListAssembler().toDTO(baggages);
     }
 
     private Baggage convertRequestToBaggage(RegisterBaggageRequest request) {
@@ -78,8 +81,4 @@ public class BaggageResource {
         return uriBuilder.path(baggageHash).build();
     }
 
-    private Passenger getPassenger(UUID passengerHash) {
-        PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
-        return repository.getPassenger(passengerHash);
-    }
 }
