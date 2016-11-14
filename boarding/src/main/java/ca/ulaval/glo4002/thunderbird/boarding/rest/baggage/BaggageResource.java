@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -55,8 +56,8 @@ public class BaggageResource {
             BaggagesListDTO baggagesListDTO = getBaggagesListDTOFromPassenger(passenger);
 
             return Response.ok(baggagesListDTO, MediaType.APPLICATION_JSON).build();
-        } catch (Exception ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (PassengerNotFoundException ex) {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 

@@ -7,16 +7,12 @@ import java.util.List;
 public class BaggagesListAssembler {
 
     public BaggagesListDTO toDTO(List<Baggage> baggages) {
+        BaggageAssembler baggageAssembler = new BaggageAssembler();
         BaggagesListDTO baggagesListDTO = new BaggagesListDTO();
         float totalPrice = 0f;
 
         for (Baggage baggage : baggages) {
-            BaggageDTO baggageDTO = new BaggageDTO();
-
-            baggageDTO.weight = baggage.getWeightInGrams();
-            baggageDTO.linear_dimension = baggage.getDimensionInMm();
-            baggageDTO.price = baggage.getPrice();
-
+            BaggageDTO baggageDTO = baggageAssembler.toDTO(baggage);
             baggagesListDTO.baggages.add(baggageDTO);
             totalPrice += baggage.getPrice();
         }
