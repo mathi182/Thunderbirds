@@ -72,16 +72,8 @@ public class BaggageResourceRestTest {
 
     private BaggagesListDTO buildExistentBoardingPassengerBaggagesListDTO () {
         List<BaggageDTO> baggageDTOArray = new ArrayList<BaggageDTO>();
-        BaggageAssembler baggageAssembler = new BaggageAssembler();
-
-        EXISTENT_BOARDING_PASSENGER.getBaggages().forEach(baggage -> {
-            BaggageDTO baggageDTO = baggageAssembler.toDTO(baggage);
-            baggageDTOArray.add(baggageDTO);
-        });
-
-        float baggagesTotalPrice = EXISTENT_BOARDING_PASSENGER.getBaggagesTotalPrice();
-
-        return  new BaggagesListDTO(baggagesTotalPrice, baggageDTOArray);
+        BaggagesListAssembler baggagesListAssembler = new BaggagesListAssembler();
+        return baggagesListAssembler.toDTO(EXISTENT_BOARDING_PASSENGER.getBaggages());
     }
 
     @Test
