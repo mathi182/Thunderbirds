@@ -45,7 +45,7 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
             if (isSeatGoodClass(seat)) {
                 if (cheapestSeat == null) {
                     cheapestSeat = seat;
-                } else if (seat.hasLowerPrice(cheapestSeat)) {
+                } else if (seat.hasLowerPriceThan(cheapestSeat)) {
                     cheapestSeat = seat;
                 }
             }

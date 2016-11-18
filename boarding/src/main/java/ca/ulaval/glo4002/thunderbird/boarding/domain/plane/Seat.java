@@ -71,7 +71,7 @@ public class Seat {
         if (seat.hasBetterViewThan(this)) {
             return seat;
         }
-        if (hasLowerPrice(seat)) {
+        if (hasLowerPriceThan(seat)) {
             return this;
         }
         return seat;
@@ -98,7 +98,7 @@ public class Seat {
         return legRoom == currentMostLegRoom;
     }
 
-    public boolean hasLowerPrice(Seat seat) {
+    public boolean hasLowerPriceThan(Seat seat) {
         return price < seat.getPrice();
     }
 

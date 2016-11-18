@@ -73,7 +73,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
     @Test
     public void givenAValidSeatsList_whenSelectionMostLegRoomWithMultipleResult_shouldReturnSeatWithLowestPrice() {
         willReturn(MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
-        willReturn(true).given(economicCheapestSeat).hasLowerPrice(any(Seat.class));
+        willReturn(true).given(economicCheapestSeat).hasLowerPriceThan(any(Seat.class));
         willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(anyInt());
         willReturn(false).given(economicCheapestSeat).hasMoreLegRoomThan(anyInt());
         willReturn(true).given(economicCheapestSeat).hasSameAmountOfLegRoom(anyInt());

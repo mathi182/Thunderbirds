@@ -12,7 +12,6 @@ import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 
 public class CheapestSeatAssignationStrategyTest {
@@ -51,7 +50,7 @@ public class CheapestSeatAssignationStrategyTest {
 
     @Test
     public void givenAValidSeatsList_whenSelectingCheapest_shouldReturnCheapestFromAnyClass() {
-        willReturn(true).given(cheapestEconomicSeat).hasLowerPrice(any(Seat.class));
+        willReturn(true).given(cheapestEconomicSeat).hasLowerPriceThan(any(Seat.class));
         strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.ANY);
 
         Seat takenSeat = strategy.assignSeat(seats);
@@ -62,7 +61,7 @@ public class CheapestSeatAssignationStrategyTest {
 
     @Test
     public void givenAValidSeatsList_whenSelectingCheapestFromBusiness_shouldFindCorrespondingToSeatClass() {
-        willReturn(true).given(cheapestBusinessSeat).hasLowerPrice(any(Seat.class));
+        willReturn(true).given(cheapestBusinessSeat).hasLowerPriceThan(any(Seat.class));
         strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
 
         Seat takenSeat = strategy.assignSeat(seats);

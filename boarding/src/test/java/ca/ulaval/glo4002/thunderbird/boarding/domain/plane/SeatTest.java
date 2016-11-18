@@ -98,7 +98,7 @@ public class SeatTest {
                 IS_EXIT_ROW, true);
         ;
 
-        hasLowerPrice = seat.hasLowerPrice(seatToCompareWith);
+        hasLowerPrice = seat.hasLowerPriceThan(seatToCompareWith);
 
         assertFalse(hasLowerPrice);
     }
@@ -109,7 +109,7 @@ public class SeatTest {
                 A_CLASS, IS_EXIT_ROW, true);
         ;
 
-        hasLowerPrice = seat.hasLowerPrice(seatToCompareWith);
+        hasLowerPrice = seat.hasLowerPriceThan(seatToCompareWith);
 
         assertTrue(hasLowerPrice);
     }
@@ -120,7 +120,7 @@ public class SeatTest {
                 IS_EXIT_ROW, true);
         ;
 
-        hasLowerPrice = seat.hasLowerPrice(seatToCompareWith);
+        hasLowerPrice = seat.hasLowerPriceThan(seatToCompareWith);
 
         assertFalse(hasLowerPrice);
     }

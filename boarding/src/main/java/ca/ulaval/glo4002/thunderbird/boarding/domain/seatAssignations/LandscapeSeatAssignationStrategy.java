@@ -39,10 +39,26 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
         Seat bestSeat = availableSeats.get(0);
 
         for (Seat seat : availableSeats) {
-            bestSeat = bestSeat.bestSeatViewBetween(seat);
+            if(seat.hasSameViewAs(bestSeat)){
+                bestSeat = getCheapestSeat(seat, bestSeat);
+            }
+            else{
+                if(seat.hasBetterViewThan(bestSeat)){
+                    bestSeat = seat;
+                }
+            }
         }
 
         return bestSeat;
+    }
+
+    private Seat getCheapestSeat(Seat first, Seat second){
+        if(first.hasLowerPriceThan(second)){
+            return first;
+        }
+        else{
+            return second;
+        }
     }
 
     private boolean seatIsCorrectClass(Seat seat) {
