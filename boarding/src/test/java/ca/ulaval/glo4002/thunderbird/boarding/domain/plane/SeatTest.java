@@ -124,4 +124,31 @@ public class SeatTest {
 
         assertFalse(hasLowerPrice);
     }
+
+    @Test
+    public void givenSameViewSeat_whenSeatHasSameView_shouldReturnTrue(){
+        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+
+        boolean hasSameView = seat.hasSameViewAs(seatToCompareWith);
+
+        assertTrue(hasSameView);
+    }
+
+    @Test
+    public void givenDifferentHasWindowSeat_whenSeatHasSameView_shouldReturnFalse(){
+        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, !HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+
+        boolean hasSameView = seat.hasSameViewAs(seatToCompareWith);
+
+        assertFalse(hasSameView);
+    }
+
+    @Test
+    public void givenDifferentHasClearViewSeat_whenSeatHasSameView_shouldReturnFalse(){
+        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, !HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+
+        boolean hasSameView = seat.hasSameViewAs(seatToCompareWith);
+
+        assertFalse(hasSameView);
+    }
 }

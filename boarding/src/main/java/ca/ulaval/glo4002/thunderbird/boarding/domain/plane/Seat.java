@@ -9,6 +9,13 @@ import javax.persistence.Id;
 
 @Entity
 public class Seat {
+    public enum SeatClass {
+        ANY,
+        ECONOMY,
+        BUSINESS,
+        BIG_FRONT,
+        PREMIUM_ECONOMY
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,6 +58,48 @@ public class Seat {
         isAvailable = false;
     }
 
+    //TODO make seat compare itself with a seat, not with an int
+    public boolean hasMoreLegRoomThan(int legRoomToCompare) {
+        return legRoom > legRoomToCompare;
+    }
+
+    //TODO refactor this. Cheapest seat should not be chosen here
+    public Seat bestSeatViewBetween(Seat seat) {
+        if (hasBetterViewThan(seat)) {
+            return this;
+        }
+        if (seat.hasBetterViewThan(this)) {
+            return seat;
+        }
+        if (hasLowerPrice(seat)) {
+            return this;
+        }
+        return seat;
+    }
+
+
+    private boolean hasBetterViewThan(Seat seat) {
+        if (hasWindow && !seat.hasWindow) {
+            return true;
+        }
+        if (!hasWindow && seat.hasWindow) {
+            return false;
+        }
+        return hasClearView && !seat.hasClearView;
+    }
+
+    public boolean hasSameViewAs(Seat seat) {
+        return hasWindow == seat.hasWindow && hasClearView == seat.hasClearView;
+    }
+
+    public boolean hasSameAmountOfLegRoom(int currentMostLegRoom) {
+        return legRoom == currentMostLegRoom;
+    }
+
+    public boolean hasLowerPrice(Seat seat) {
+        return price < seat.getPrice();
+    }
+
     public int getRow() {
         return rowNumber;
     }
@@ -63,66 +112,11 @@ public class Seat {
         return price;
     }
 
-    public SeatClass getSeatClass() {
-        return seatClass;
-    }
-
-    public boolean hasWindow() {
-        return hasWindow;
-    }
-
-    public boolean hasClearView() {
-        return hasClearView;
-    }
-
-    public boolean isCheaperThan(Seat seat) {
-        return price < seat.getPrice();
-    }
-
-    public boolean hasBetterViewThan(Seat seat) {
-        if (hasWindow && !seat.hasWindow()) {
-            return true;
-        }
-        if (!hasWindow && seat.hasWindow) {
-            return false;
-        }
-        return hasClearView && !seat.hasClearView();
-    }
-
-    public Seat bestSeatViewBetween(Seat seat) {
-        if (hasBetterViewThan(seat)) {
-            return this;
-        }
-        if (seat.hasBetterViewThan(this)) {
-            return seat;
-        }
-        if (isCheaperThan(seat)) {
-            return this;
-        }
-        return seat;
-    }
-
     public int getLegRoom() {
         return legRoom;
     }
 
-    public boolean hasMoreLegRoomThan(int legRoomToCompare) {
-        return legRoom > legRoomToCompare;
-    }
-
-    public boolean hasSameAmountOfLegRoom(int currentMostLegRoom) {
-        return legRoom == currentMostLegRoom;
-    }
-
-    public boolean hasLowerPrice(Seat seat) {
-        return price < seat.getPrice();
-    }
-
-    public enum SeatClass {
-        ANY,
-        ECONOMY,
-        BUSINESS,
-        BIG_FRONT,
-        PREMIUM_ECONOMY
+    public SeatClass getSeatClass() {
+        return seatClass;
     }
 }
