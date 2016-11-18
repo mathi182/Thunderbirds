@@ -7,14 +7,14 @@ import java.util.List;
 
 public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy {
 
-    private Seat.SeatClass classType;
+    private Seat.SeatClass chosenSeatClass;
 
     public LandscapeSeatAssignationStrategy() {
-        classType = Seat.SeatClass.ANY;
+        chosenSeatClass = Seat.SeatClass.ANY;
     }
 
     public LandscapeSeatAssignationStrategy(Seat.SeatClass seatClass) {
-        this.classType = seatClass;
+        this.chosenSeatClass = seatClass;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
     }
 
     private List<Seat> filterSeatsByClass(List<Seat> availableSeats) {
-        availableSeats.removeIf(seat -> !isSeatGoodClass(seat));
+        availableSeats.removeIf(seat -> !seatIsCorrectClass(seat));
 
         return availableSeats;
     }
@@ -45,7 +45,7 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
         return bestSeat;
     }
 
-    private boolean isSeatGoodClass(Seat seat) {
-        return classType.equals(Seat.SeatClass.ANY) || seat.getSeatClass().equals(classType);
+    private boolean seatIsCorrectClass(Seat seat) {
+        return chosenSeatClass.equals(Seat.SeatClass.ANY) || seat.getSeatClass().equals(chosenSeatClass);
     }
 }
