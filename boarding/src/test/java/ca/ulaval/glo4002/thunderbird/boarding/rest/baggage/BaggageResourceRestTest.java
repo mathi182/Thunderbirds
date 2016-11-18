@@ -1,10 +1,12 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
@@ -55,15 +57,31 @@ public class BaggageResourceRestTest {
     }
 
     @Test
-    public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() {
-        String expectedResult = "{\"total_price\":50.0,\"baggages\":[{\"weight\":1000,\"linear_dimension\":500,\"price\":0.0},{\"weight\":500,\"linear_dimension\":200,\"price\":50.0}]}";
+    public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() throws JsonProcessingException {
+        BaggagesListDTO baggagesListDTO = buildExistentBoardingPassengerBaggagesListDTO();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String expectedResponse = objectMapper.writeValueAsString(baggagesListDTO);
 
         givenBaseRequest()
                 .when()
                 .get("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
                 .then()
                 .statusCode(OK.getStatusCode())
-                .body(equalTo(expectedResult));
+                .body(equalTo(expectedResponse));
+    }
+
+    private BaggagesListDTO buildExistentBoardingPassengerBaggagesListDTO () {
+        List<BaggageDTO> baggageDTOArray = new ArrayList<BaggageDTO>();
+        BaggageAssembler baggageAssembler = new BaggageAssembler();
+
+        EXISTENT_BOARDING_PASSENGER.getBaggages().forEach(baggage -> {
+            BaggageDTO baggageDTO = baggageAssembler.toDTO(baggage);
+            baggageDTOArray.add(baggageDTO);
+        });
+
+        float baggagesTotalPrice = EXISTENT_BOARDING_PASSENGER.getBaggagesTotalPrice();
+
+        return  new BaggagesListDTO(baggagesTotalPrice, baggageDTOArray);
     }
 
     @Test
@@ -86,20 +104,20 @@ public class BaggageResourceRestTest {
     @Test
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
-                                                                                  LINEAR_DIMENSION,
-                                                                                  KG_UNIT_FROM_REQUEST,
-                                                                                  INVALID_WEIGHT,
-                                                                                  CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                LINEAR_DIMENSION,
+                KG_UNIT_FROM_REQUEST,
+                INVALID_WEIGHT,
+                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         Response response =
                 givenBaseRequest()
-                    .body(registerBaggageRequest)
-                    .when()
-                    .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                    .then()
-                    .statusCode(OK.getStatusCode())
-                    .extract()
-                    .response();
+                        .body(registerBaggageRequest)
+                        .when()
+                        .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                        .then()
+                        .statusCode(OK.getStatusCode())
+                        .extract()
+                        .response();
 
         Boolean allowed = response.path("allowed");
         assertFalse(allowed);
@@ -110,10 +128,10 @@ public class BaggageResourceRestTest {
     @Test
     public void givenAnInvalidWeightUnitBaggage_whenRegisteringBaggage_shouldReturnBadRequest() {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
-                                                                                  LINEAR_DIMENSION,
-                                                                                  INVALID_UNIT,
-                                                                                  WEIGHT,
-                                                                                  CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                LINEAR_DIMENSION,
+                INVALID_UNIT,
+                WEIGHT,
+                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         givenBaseRequest()
                 .body(registerBaggageRequest)
