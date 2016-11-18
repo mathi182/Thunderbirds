@@ -78,14 +78,17 @@ public class Seat {
     }
 
 
-    private boolean hasBetterViewThan(Seat seat) {
-        if (hasWindow && !seat.hasWindow) {
-            return true;
-        }
-        if (!hasWindow && seat.hasWindow) {
+    public boolean hasBetterViewThan(Seat seat) {
+        if(hasSameViewAs(seat)){
             return false;
         }
-        return hasClearView && !seat.hasClearView;
+        else{
+            if(hasWindow != seat.hasWindow)
+                return hasWindow;
+            else{
+                return hasClearView;
+            }
+        }
     }
 
     public boolean hasSameViewAs(Seat seat) {
