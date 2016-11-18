@@ -67,7 +67,6 @@ public class Seat {
         return seatClass;
     }
 
-<<<<<<< HEAD
     public boolean hasWindow() {
         return hasWindow;
     }
@@ -101,7 +100,8 @@ public class Seat {
             return this;
         }
         return seat;
-=======
+    }
+
     public int getLegRoom() {
         return legRoom;
     }
@@ -124,6 +124,5 @@ public class Seat {
         BUSINESS,
         BIG_FRONT,
         PREMIUM_ECONOMY
->>>>>>> dev
     }
 }
