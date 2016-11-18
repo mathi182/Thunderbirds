@@ -1,67 +1,59 @@
 package ca.ulaval.glo4002.thunderbird.reservation.reservation;
 
-import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidFieldException;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotBlank;
 
-import java.text.ParseException;
+import javax.persistence.*;
+import javax.validation.Valid;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.text.SimpleDateFormat;
-import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
-import static java.time.format.DateTimeFormatter.ISO_INSTANT;
-
 @Entity
 public class Reservation {
-    private static final String RESERVATION_DATE_FORMAT = "yyyy-MM-dd";
-
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     private int reservationNumber;
-    private Instant flightDate;
-    private Instant reservationDate;
-    private String reservationConfirmation;
-    private String paymentLocation;
+    @NotBlank
     private String flightNumber;
+    private Instant flightDate;
+    @NotBlank
+    @JsonIgnore
+    private String reservationDate;
+    @NotBlank
+    @JsonIgnore
+    private String reservationConfirmation;
+    @NotBlank
+    @JsonIgnore
+    private String paymentLocation;
 
+    @Valid
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "reservation")
     @JsonManagedReference
     private List<Passenger> passengers;
 
     @JsonCreator
-    public Reservation(@JsonProperty("reservation_number") int reservationNumber,
-                       @JsonProperty("reservation_date") String reservationDate,
-                       @JsonProperty("reservation_confirmation") String reservationConfirmation,
-                       @JsonProperty("flight_number") String flightNumber,
-                       @JsonProperty("flight_date") String flightDate,
-                       @JsonProperty("payment_location") String paymentLocation,
-                       @JsonProperty("passengers") ArrayList<Passenger> passengers) {
+    public Reservation(int reservationNumber,
+                       String reservationDate,
+                       String reservationConfirmation,
+                       String flightNumber,
+                       Instant flightDate,
+                       String paymentLocation,
+                       ArrayList<Passenger> passengers) {
         this.reservationNumber = reservationNumber;
-        this.reservationDate = reservationDateStringToInstant(reservationDate);
+        this.reservationDate = reservationDate;
         this.reservationConfirmation = reservationConfirmation;
         this.paymentLocation = paymentLocation;
-        this.flightDate = ISO_INSTANT.parse(flightDate, Instant::from);
+        this.flightDate = flightDate;
         this.flightNumber = flightNumber;
         this.passengers = new ArrayList<>(passengers);
         this.passengers.forEach(passenger -> passenger.setReservation(this));
-    }
-
-    private Instant reservationDateStringToInstant(String reservation_date){
-        SimpleDateFormat format = new SimpleDateFormat(RESERVATION_DATE_FORMAT);
-        try{
-            return format.parse(reservation_date).toInstant();
-        }
-        catch (ParseException e){
-            throw new InvalidFieldException("reservation_date");
-        }
     }
 
     protected Reservation() {
@@ -85,27 +77,18 @@ public class Reservation {
         entityManagerProvider.persistInTransaction(this);
     }
 
-    @JsonProperty("reservation_number")
-    public int getReservationNumber() {
+    public int getId() {
         return reservationNumber;
     }
 
-    @JsonProperty("flight_number")
     public String getFlightNumber() {
         return flightNumber;
     }
 
-    @JsonProperty("flight_date")
-    public String getFormattedFlightDate() {
-        return ISO_INSTANT.format(flightDate);
-    }
-
-    @JsonProperty("passengers")
     public List<Passenger> getPassengers() {
         return Collections.unmodifiableList(passengers);
     }
 
-    @JsonIgnore
     public Instant getFlightDate() {
         return flightDate;
     }

@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RegisterBaggageRequest {
     @JsonProperty("linear_dimension")
-    public Integer linearDimension;
+    public int linearDimension;
 
     @JsonProperty("linear_dimension_unit")
     public String linearDimensionUnit;
 
     @JsonProperty("weight")
-    public Integer weight;
+    public int weight;
 
     @JsonProperty("weight_unit")
     public String weightUnit;
@@ -19,10 +19,11 @@ public class RegisterBaggageRequest {
     public String type;
 
     public RegisterBaggageRequest() {
+        // Use for deserialization
     }
 
-    public RegisterBaggageRequest(String linearDimensionUnit, Integer linearDimension, String weightUnit,
-                                  Integer weight,  String type) {
+    public RegisterBaggageRequest(String linearDimensionUnit, int linearDimension, String weightUnit,
+                                  int weight, String type) {
         this.linearDimensionUnit = linearDimensionUnit;
         this.linearDimension = linearDimension;
         this.weightUnit = weightUnit;

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,16 +11,18 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 
 public class CheapestSeatAssignationStrategyTest {
 
     private CheapestSeatAssignationStrategy strategy;
     private List<Seat> seats;
-    Seat cheapestBusinessSeat;
-    Seat cheapestEconomicSeat;
-    Seat normalBusinessSeat;
-    Seat normalEconomicSeat;
+    private Seat cheapestBusinessSeat;
+    private Seat cheapestEconomicSeat;
+    private Seat normalBusinessSeat;
+    private Seat normalEconomicSeat;
     private static final double CHEAPEST_BUSINESS_PRICE = 100.0;
     private static final double CHEAPEST_ECONOMIC_PRICE = 50.0;
     private static final double NORMAL_BUSINESS_PRICE = 150.0;
@@ -48,6 +51,7 @@ public class CheapestSeatAssignationStrategyTest {
 
     @Test
     public void givenAValidSeatsList_whenSelectingCheapest_shouldReturnCheapestFromAnyClass() {
+        willReturn(true).given(cheapestEconomicSeat).hasLowerPrice(any(Seat.class));
         strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.ANY);
 
         Seat takenSeat = strategy.assignSeat(seats);
@@ -58,11 +62,20 @@ public class CheapestSeatAssignationStrategyTest {
 
     @Test
     public void givenAValidSeatsList_whenSelectingCheapestFromBusiness_shouldFindCorrespondingToSeatClass() {
+        willReturn(true).given(cheapestBusinessSeat).hasLowerPrice(any(Seat.class));
         strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
 
         Seat takenSeat = strategy.assignSeat(seats);
         double takenSeatPrice = takenSeat.getPrice();
 
         assertEquals(CHEAPEST_BUSINESS_PRICE, takenSeatPrice);
+    }
+
+    @Test (expected = NoMoreSeatAvailableException.class)
+    public void givenAValidSeatsListWithoutBusiness_whenSelectingCheapestSeatFromBusiness_shouldThrowNoMoreSeatAvailable() {
+        List<Seat> seatsWithoutBusiness = new ArrayList<>(Arrays.asList(cheapestEconomicSeat, normalEconomicSeat));
+        strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
+
+        strategy.assignSeat(seatsWithoutBusiness);
     }
 }

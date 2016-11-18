@@ -19,4 +19,5 @@ public class RandomSeatAssignationStrategy implements SeatAssignationStrategy {
 
         return availableSeats.get(chosenSeat);
     }
+
 }

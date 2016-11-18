@@ -11,12 +11,12 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static java.time.temporal.ChronoUnit.HOURS;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class CheckinAsSelfTest {
-
     private static final UUID PASSENGER_HASH = new UUID(1L, 2L);
     private static final Instant FLIGHT_DATE = Instant.parse("2016-09-06T13:00:00Z");
     private static final int MAX_LATE_CHECKIN_IN_HOUR = 6;
@@ -41,6 +41,11 @@ public class CheckinAsSelfTest {
                 return passengerMock;
             }
         };
+    }
+
+    @Test
+    public void shouldBeSelfCheckin() {
+        assertTrue(checkinAsSelf.isSelfCheckin());
     }
 
     @Test
