@@ -77,22 +77,21 @@ public class Seat {
         return seat;
     }
 
+    public boolean hasSameViewAs(Seat comparedSeat) {
+        return hasWindow == comparedSeat.hasWindow && hasClearView == comparedSeat.hasClearView;
+    }
 
-    public boolean hasBetterViewThan(Seat seat) {
-        if(hasSameViewAs(seat)){
+    public boolean hasBetterViewThan(Seat comparedSeat) {
+        if(hasSameViewAs(comparedSeat)){
             return false;
         }
         else{
-            if(hasWindow != seat.hasWindow)
+            if(hasWindow != comparedSeat.hasWindow)
                 return hasWindow;
             else{
                 return hasClearView;
             }
         }
-    }
-
-    public boolean hasSameViewAs(Seat seat) {
-        return hasWindow == seat.hasWindow && hasClearView == seat.hasClearView;
     }
 
     public boolean hasSameAmountOfLegRoom(int currentMostLegRoom) {
