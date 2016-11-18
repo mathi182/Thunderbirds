@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+//a
 public class BaggageDTO {
     @JsonProperty("weight")
     public int weight;
