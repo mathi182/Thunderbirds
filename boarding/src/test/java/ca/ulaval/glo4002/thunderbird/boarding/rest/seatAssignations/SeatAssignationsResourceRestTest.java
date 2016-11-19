@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER_HASH;
+import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
 import static org.eclipse.jetty.http.HttpStatus.Code.*;
@@ -27,7 +27,7 @@ public class SeatAssignationsResourceRestTest {
 
     @Test
     public void givenAValidPassengerHashAndAValidMode_whenAssigningSeat_shouldAssignSeat() {
-        seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER_HASH;
+        seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER.getHash();
         seatAssignationRequest.mode = VALID_MODE;
 
         Response response;
@@ -70,7 +70,7 @@ public class SeatAssignationsResourceRestTest {
 
     @Test
     public void givenAValidPassengerHashAndInvalidMode_whenAssigningSeat_shouldReturnBadRequest() {
-        seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER_HASH;
+        seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER.getHash();
         seatAssignationRequest.mode = INVALID_MODE;
 
         givenBaseRequest()
