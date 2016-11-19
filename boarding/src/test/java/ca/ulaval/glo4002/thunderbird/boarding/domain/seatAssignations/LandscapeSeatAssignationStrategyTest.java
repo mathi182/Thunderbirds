@@ -60,6 +60,7 @@ public class LandscapeSeatAssignationStrategyTest {
     }
 
     private void mockSeatsForAnyClass() {
+        /*
         willReturn(bestViewEconomicSeat).given(bestViewBusinessSeat).bestSeatViewBetween(bestViewEconomicSeat);
         willReturn(bestViewBusinessSeat).given(bestViewBusinessSeat).bestSeatViewBetween(argThat(not(bestViewEconomicSeat)));
         willReturn(bestViewEconomicSeat).given(bestViewEconomicSeat).bestSeatViewBetween(any(Seat.class));
@@ -80,6 +81,27 @@ public class LandscapeSeatAssignationStrategyTest {
                 return (Seat) invocation.getArguments()[0];
             }
         });
+*/
+
+        willReturn(true).given(bestViewBusinessSeat).hasBetterViewThan(worstViewBusinessSeat);
+        willReturn(true).given(bestViewBusinessSeat).hasBetterViewThan(goodViewBusinessSeat);
+        willReturn(false).given(bestViewBusinessSeat).hasBetterViewThan(bestViewBusinessSeat);
+        willReturn(true).given(goodViewBusinessSeat).hasBetterViewThan(worstViewBusinessSeat);
+        willReturn(false).given(goodViewBusinessSeat).hasBetterViewThan(goodViewBusinessSeat);
+        willReturn(false).given(goodViewBusinessSeat).hasBetterViewThan(bestViewBusinessSeat);
+        willReturn(false).given(worstViewBusinessSeat).hasBetterViewThan(worstViewBusinessSeat);
+        willReturn(false).given(worstViewBusinessSeat).hasBetterViewThan(goodViewBusinessSeat);
+        willReturn(false).given(worstViewBusinessSeat).hasBetterViewThan(bestViewBusinessSeat);
+
+        willReturn(true).given(bestViewBusinessSeat).hasSameViewAs(bestViewBusinessSeat);
+        willReturn(false).given(bestViewBusinessSeat).hasSameViewAs(goodViewBusinessSeat);
+        willReturn(false).given(bestViewBusinessSeat).hasSameViewAs(worstViewBusinessSeat);
+        willReturn(false).given(goodViewBusinessSeat).hasSameViewAs(bestViewBusinessSeat);
+        willReturn(true).given(goodViewBusinessSeat).hasSameViewAs(goodViewBusinessSeat);
+        willReturn(false).given(goodViewBusinessSeat).hasSameViewAs(worstViewBusinessSeat);
+        willReturn(false).given(worstViewBusinessSeat).hasSameViewAs(bestViewBusinessSeat);
+        willReturn(false).given(worstViewBusinessSeat).hasSameViewAs(goodViewBusinessSeat);
+        willReturn(true).given(worstViewBusinessSeat).hasSameViewAs(worstViewBusinessSeat);
     }
 
     private void mockSeatsByClass() {
@@ -127,13 +149,13 @@ public class LandscapeSeatAssignationStrategyTest {
         strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
         seats.clear();
 
-        Seat actualSeat = strategy.assignSeat(seats);
+        strategy.assignSeat(seats);
     }
 
     @Test(expected = NoMoreSeatAvailableException.class)
     public void givenAValidListWithoutEconomicSeat_whenSelectingBestLandscapeFromEconomic_shouldThrowNoMoreSeatException() {
         strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
 
-        Seat actualSeat = strategy.assignSeat(businessSeats);
+        strategy.assignSeat(businessSeats);
     }
 }
