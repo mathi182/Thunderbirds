@@ -46,8 +46,8 @@ public class BaggageResourceRestTest {
         assertTrue(locationValidity);
         Boolean allowed = response.path("allowed");
         assertTrue(allowed);
-        String refusationReason = response.path("refusation_reason");
-        assertNull(refusationReason);
+        String deniedReason = response.path("refusation_reason");
+        assertNull(deniedReason);
     }
 
     private boolean isLocationValid(String location, String passengerHash) {
@@ -59,7 +59,6 @@ public class BaggageResourceRestTest {
     }
 
     @Test
-    @Ignore
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
         Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
                                                                            LINEAR_DIMENSION,
@@ -79,8 +78,8 @@ public class BaggageResourceRestTest {
 
         Boolean allowed = response.path("allowed");
         assertFalse(allowed);
-        String refusationReason = response.path("refusation_reason");
-        assertNotNull(refusationReason);
+        String deniedReason = response.path("refusation_reason");
+        assertNotNull(deniedReason);
     }
 
     @Test
