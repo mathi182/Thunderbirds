@@ -20,17 +20,6 @@ public class SeatAssignationsResourceRestTest {
     private static final String VALID_MODE = "RANDOM";
     private static final String INVALID_MODE = "INVALID";
 
-    @Before
-    public void setUp() {
-    }
-
-    private Map<String, Object> createSeatAssignationBody(UUID passengerHash, String mode) {
-        Map<String, Object> seatAssignationBody = new HashMap<>();
-        seatAssignationBody.put("passenger_hash", passengerHash);
-        seatAssignationBody.put("mode", mode);
-        return seatAssignationBody;
-    }
-
     @Test
     public void givenAValidPassengerHashAndAValidMode_whenAssigningSeat_shouldAssignSeat() {
         Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER_HASH, VALID_MODE);
@@ -82,5 +71,12 @@ public class SeatAssignationsResourceRestTest {
                 .post(SeatAssignationsResource.PATH)
                 .then()
                 .statusCode(BAD_REQUEST.getCode());
+    }
+
+    private Map<String, Object> createSeatAssignationBody(UUID passengerHash, String mode) {
+        Map<String, Object> seatAssignationBody = new HashMap<>();
+        seatAssignationBody.put("passenger_hash", passengerHash);
+        seatAssignationBody.put("mode", mode);
+        return seatAssignationBody;
     }
 }
