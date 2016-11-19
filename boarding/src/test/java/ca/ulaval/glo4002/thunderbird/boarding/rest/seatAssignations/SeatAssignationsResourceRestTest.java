@@ -4,6 +4,8 @@ import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -18,21 +20,24 @@ public class SeatAssignationsResourceRestTest {
     private static final String VALID_MODE = "RANDOM";
     private static final String INVALID_MODE = "INVALID";
 
-    private SeatAssignationRequest seatAssignationRequest;
-
     @Before
     public void setUp() {
-        seatAssignationRequest = new SeatAssignationRequest();
+    }
+
+    private Map<String, Object> createSeatAssignationBody(UUID passengerHash, String mode) {
+        Map<String, Object> seatAssignationBody = new HashMap<>();
+        seatAssignationBody.put("passenger_hash", passengerHash);
+        seatAssignationBody.put("mode", mode);
+        return seatAssignationBody;
     }
 
     @Test
     public void givenAValidPassengerHashAndAValidMode_whenAssigningSeat_shouldAssignSeat() {
-        seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER_HASH;
-        seatAssignationRequest.mode = VALID_MODE;
+        Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER_HASH, VALID_MODE);
 
         Response response;
         response = givenBaseRequest()
-                .body(seatAssignationRequest)
+                .body(seatAssignationBody)
                 .when()
                 .post(SeatAssignationsResource.PATH)
                 .then()
@@ -57,11 +62,10 @@ public class SeatAssignationsResourceRestTest {
 
     @Test
     public void givenAnInvalidPassengerHashAndAValidMode_whenAssigningSeat_shouldReturnNotFound() {
-        seatAssignationRequest.passengerHash = NON_EXISTENT_PASSENGER_HASH;
-        seatAssignationRequest.mode = VALID_MODE;
+        Map<String, Object> seatAssignationBody = createSeatAssignationBody(NON_EXISTENT_PASSENGER_HASH, VALID_MODE);
 
         givenBaseRequest()
-                .body(seatAssignationRequest)
+                .body(seatAssignationBody)
                 .when()
                 .post(SeatAssignationsResource.PATH)
                 .then()
@@ -70,11 +74,10 @@ public class SeatAssignationsResourceRestTest {
 
     @Test
     public void givenAValidPassengerHashAndInvalidMode_whenAssigningSeat_shouldReturnBadRequest() {
-        seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER_HASH;
-        seatAssignationRequest.mode = INVALID_MODE;
+        Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER_HASH, INVALID_MODE);
 
         givenBaseRequest()
-                .body(seatAssignationRequest)
+                .body(seatAssignationBody)
                 .when()
                 .post(SeatAssignationsResource.PATH)
                 .then()
