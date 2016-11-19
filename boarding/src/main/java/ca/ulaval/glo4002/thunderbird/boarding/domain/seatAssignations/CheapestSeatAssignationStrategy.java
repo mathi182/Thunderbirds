@@ -39,22 +39,13 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
     }
 
     private Seat findCheapestSeat(List<Seat> availableSeats) {
-        Seat cheapestSeat = null;
+        Seat cheapestSeat = availableSeats.get(0);
 
         for (Seat seat : availableSeats) {
-            if (isSeatGoodClass(seat)) {
-                if (cheapestSeat == null) {
-                    cheapestSeat = seat;
-                } else if (seat.hasLowerPriceThan(cheapestSeat)) {
-                    cheapestSeat = seat;
-                }
+            if (seat.hasLowerPriceThan(cheapestSeat)) {
+                cheapestSeat = seat;
             }
         }
-
         return cheapestSeat;
-    }
-
-    private boolean isSeatGoodClass(Seat seat) {
-        return classType.equals(Seat.SeatClass.ANY) || seat.getSeatClass().equals(classType);
     }
 }
