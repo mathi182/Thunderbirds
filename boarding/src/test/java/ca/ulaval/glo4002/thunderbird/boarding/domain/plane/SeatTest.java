@@ -24,6 +24,7 @@ public class SeatTest {
     private boolean hasSameAmount;
     private Seat seat;
     private Seat seatToCompareWith;
+    private Seat seatComparing;
     private boolean hasLowerPrice;
 
     @Before
@@ -107,7 +108,6 @@ public class SeatTest {
     public void givenMostExpensiveSeat_whenIfSeatHasLowerPrice_shouldReturnTrue() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_MORE_EXPENSIVE_PRICE,
                 A_CLASS, IS_EXIT_ROW, true);
-        ;
 
         hasLowerPrice = seat.hasLowerPriceThan(seatToCompareWith);
 
@@ -118,7 +118,6 @@ public class SeatTest {
     public void givenSamePriceSeat_whenIfSeatHasLowerPrice_shouldReturnFalse() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS,
                 IS_EXIT_ROW, true);
-        ;
 
         hasLowerPrice = seat.hasLowerPriceThan(seatToCompareWith);
 
@@ -127,7 +126,7 @@ public class SeatTest {
 
     @Test
     public void givenSameViewSeat_whenSeatHasSameView_shouldReturnTrue(){
-        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+        seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasSameView = seat.hasSameViewAs(seatToCompareWith);
 
@@ -136,7 +135,7 @@ public class SeatTest {
 
     @Test
     public void givenDifferentHasWindowSeat_whenSeatHasSameView_shouldReturnFalse(){
-        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, !HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+        seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, !HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasSameView = seat.hasSameViewAs(seatToCompareWith);
 
@@ -145,7 +144,7 @@ public class SeatTest {
 
     @Test
     public void givenDifferentHasClearViewSeat_whenSeatHasSameView_shouldReturnFalse(){
-        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, !HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+        seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, !HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasSameView = seat.hasSameViewAs(seatToCompareWith);
 
@@ -154,7 +153,7 @@ public class SeatTest {
 
     @Test
     public void givenSameViewSeat_whenComparingView_shouldReturnFalse(){
-        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+        seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasBetterViewThan = seat.hasBetterViewThan(seatToCompareWith);
 
@@ -162,7 +161,7 @@ public class SeatTest {
     }
 
     @Test public void givenSeatWithNoWindow_whenComparingView_shouldReturnTrue(){
-        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, !HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+        seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, !HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasBetterViewThan = seat.hasBetterViewThan(seatToCompareWith);
 
@@ -170,7 +169,7 @@ public class SeatTest {
     }
 
     @Test public void givenSeatWithNoWindow_whenComparingViewWithNoWindowSeat_shouldReturnFalse(){
-        Seat seatComparing = new Seat(A_ROW, A_SEAT, A_LEGROOM, !HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+        seatComparing = new Seat(A_ROW, A_SEAT, A_LEGROOM, !HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasBetterViewThan = seatComparing.hasBetterViewThan(seat);
 
@@ -178,7 +177,7 @@ public class SeatTest {
     }
 
     @Test public void givenSeatWithNoClearView_whenComparingView_shouldReturnTrue(){
-        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, !HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+        seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, !HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasBetterViewThan = seat.hasBetterViewThan(seatToCompareWith);
 
@@ -186,9 +185,9 @@ public class SeatTest {
     }
 
     @Test public void givenSeatWithNoClearView_whenComparingViewWithNoClearViewSeat_shouldReturnFalse(){
-        Seat seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, !HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+        seatComparing = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, !HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
-        boolean hasBetterViewThan = seatToCompareWith.hasBetterViewThan(seat);
+        boolean hasBetterViewThan = seatComparing.hasBetterViewThan(seat);
 
         assertFalse(hasBetterViewThan);
     }
