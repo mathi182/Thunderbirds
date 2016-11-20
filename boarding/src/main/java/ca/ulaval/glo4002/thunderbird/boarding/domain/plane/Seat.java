@@ -82,15 +82,14 @@ public class Seat {
     }
 
     public boolean hasBetterViewThan(Seat comparedSeat) {
-        if(hasSameViewAs(comparedSeat)){
+        if (hasSameViewAs(comparedSeat)) {
             return false;
         }
-        else{
-            if(hasWindow != comparedSeat.hasWindow)
-                return hasWindow;
-            else{
-                return hasClearView;
-            }
+
+        if (hasWindow != comparedSeat.hasWindow)
+            return hasWindow;
+        else {
+            return hasClearView;
         }
     }
 

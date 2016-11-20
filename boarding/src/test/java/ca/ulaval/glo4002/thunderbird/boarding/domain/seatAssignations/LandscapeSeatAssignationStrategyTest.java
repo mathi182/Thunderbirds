@@ -121,14 +121,14 @@ public class LandscapeSeatAssignationStrategyTest {
     }
 
     @Test(expected = NoMoreSeatAvailableException.class)
-    public void   givenAValidListWithoutEconomicSeat_whenSelectingBestLandscapeFromEconomic_shouldThrowNoMoreSeatException() {
+    public void givenAValidListWithoutEconomicSeat_whenSelectingBestLandscapeFromEconomic_shouldThrowNoMoreSeatException() {
         strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
 
         strategy.assignSeat(businessSeats);
     }
 
     @Test
-    public void givenAValidListWithSameView_whenSelectingBestLandscapeFromEconomic_shouldReturnCheapestSeat(){
+    public void givenAValidListWithSameView_whenSelectingBestLandscapeFromEconomic_shouldReturnCheapestSeat() {
         willReturn(true).given(expensiveSeatMock).hasSameViewAs(cheapSeatMock);
         willReturn(true).given(cheapSeatMock).hasSameViewAs(expensiveSeatMock);
         willReturn(true).given(cheapSeatMock).hasLowerPriceThan(expensiveSeatMock);
@@ -141,10 +141,10 @@ public class LandscapeSeatAssignationStrategyTest {
         Seat actualValue = strategy.assignSeat(seats);
 
         Seat expectedValue = cheapSeatMock;
-        assertEquals(expectedValue,actualValue);
+        assertEquals(expectedValue, actualValue);
     }
 
-    private void mockBusinessSeats(){
+    private void mockBusinessSeats() {
         willReturn(true).given(bestViewBusinessSeat).hasBetterViewThan(worstViewBusinessSeat);
         willReturn(true).given(bestViewBusinessSeat).hasBetterViewThan(goodViewBusinessSeat);
         willReturn(false).given(bestViewBusinessSeat).hasBetterViewThan(bestViewBusinessSeat);
@@ -166,7 +166,7 @@ public class LandscapeSeatAssignationStrategyTest {
         willReturn(true).given(worstViewBusinessSeat).hasSameViewAs(worstViewBusinessSeat);
     }
 
-    private void mockEconomySeats(){
+    private void mockEconomySeats() {
         willReturn(true).given(bestViewEconomicSeat).hasBetterViewThan(worstViewEconomicSeat);
         willReturn(true).given(bestViewEconomicSeat).hasBetterViewThan(goodViewEconomicSeat);
         willReturn(false).given(bestViewEconomicSeat).hasBetterViewThan(bestViewEconomicSeat);
