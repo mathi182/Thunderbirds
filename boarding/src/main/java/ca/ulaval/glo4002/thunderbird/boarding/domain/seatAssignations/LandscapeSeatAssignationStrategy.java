@@ -4,6 +4,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,10 +23,14 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
 
     @Override
     public Seat assignSeat(List<Seat> availableSeats) {
-        availableSeats = filterSeatsByClass(availableSeats);
-        Seat bestSeat = findBestViewSeat(availableSeats);
+        List<Seat> filteredSeats = filterSeatsByClass(availableSeats);
+        if (filteredSeats.isEmpty()) {
+            throw new NoMoreSeatAvailableException();
+        }
 
-        return bestSeat;
+        filteredSeats = filterBestViewSeat(filteredSeats);
+
+        return chooseSeat(filteredSeats);
     }
 
     private List<Seat> filterSeatsByClass(List<Seat> availableSeats) {
@@ -33,50 +39,37 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
                     .stream()
                     .filter(seat -> seat.getSeatClass().equals(chosenSeatClass))
                     .collect(Collectors.toList());
-        } else {
-            return availableSeats;
         }
+        return availableSeats;
     }
 
-    private Seat findBestViewSeat(List<Seat> availableSeats) {
-        if (availableSeats.isEmpty()) {
-            throw new NoMoreSeatAvailableException();
-        }
+    private List<Seat> filterBestViewSeat(List<Seat> availableSeats) {
 
-        Seat bestSeat = getBestViewSeat(availableSeats);
-        List<Seat> bestSeatsList = getBestSeats(availableSeats, bestSeat);
-        return chooseSeat(bestSeatsList);
-    }
+        Seat currentBestSeat = availableSeats.get(0);
+        List<Seat> seats = new ArrayList<>(Collections.singletonList(currentBestSeat));
 
-    private Seat getBestViewSeat(List<Seat> availableSeats) {
-        Seat bestSeat = availableSeats.get(0);
-        for (Seat seat : availableSeats) {
-            if (seat.hasBetterViewThan(bestSeat)) {
-                bestSeat = seat;
+        for (int i = 1; i < availableSeats.size(); i++) {
+            Seat seat = availableSeats.get(i);
+            if (seat.hasBetterViewThan(currentBestSeat)) {
+                currentBestSeat = seat;
+
+                seats.clear();
+                seats.add(seat);
+            } else if (seat.hasSameViewAs(currentBestSeat)) {
+                seats.add(seat);
             }
         }
-        return bestSeat;
+
+        return seats;
     }
 
-    private List<Seat> getBestSeats(List<Seat> availableSeats, Seat bestSeat) {
-        List<Seat> bestSeatsList = new ArrayList<>();
-        bestSeatsList.add(bestSeat);
-        for (Seat seat : availableSeats) {
-            if (seat.hasSameViewAs(bestSeat)) {
-                bestSeatsList.add(seat);
-            }
+    private Seat chooseSeat(List<Seat> seats) {
+
+        if (seats.size() > 1) {
+            CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(chosenSeatClass);
+            return strategy.assignSeat(seats);
         }
-        return bestSeatsList;
+        return seats.get(0);
     }
 
-    private Seat chooseSeat(List<Seat> bestSeatsList) {
-        if (bestSeatsList.size() > 1) {
-            return new CheapestSeatAssignationStrategy(chosenSeatClass).assignSeat(bestSeatsList);
-        }
-        return bestSeatsList.get(0);
-    }
-
-    private boolean seatIsCorrectClass(Seat seat) {
-        return chosenSeatClass.equals(Seat.SeatClass.ANY) || seat.getSeatClass().equals(chosenSeatClass);
-    }
 }

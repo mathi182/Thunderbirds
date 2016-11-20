@@ -9,6 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Seat {
+
     public enum SeatClass {
         ANY,
         ECONOMY,

@@ -20,8 +20,6 @@ public class MostLegRoomSeatAssignationStrategyTest {
     private static final int MOST_LEG_ROOM = 100;
     private static final int SECOND_MOST_LEG_ROOM = 90;
     private static final int THIRD_MOST_LEG_ROOM = 50;
-    private static final double LOWEST_PRICE = 50;
-    private static final double PRICE = 100;
     private MostLegRoomSeatAssignationStrategy strategy;
     private Seat economicMostLegRoomSeat = mock(Seat.class);
     private Seat economicCheapestSeat = mock(Seat.class);
