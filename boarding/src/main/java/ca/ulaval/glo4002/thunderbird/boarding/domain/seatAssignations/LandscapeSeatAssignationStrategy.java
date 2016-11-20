@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy {
 
     private Seat.SeatClass chosenSeatClass;
-    private SeatAssignationStrategy lastResortStrategy;
 
     public LandscapeSeatAssignationStrategy() {
         this(Seat.SeatClass.ANY);
@@ -18,7 +17,6 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
 
     public LandscapeSeatAssignationStrategy(Seat.SeatClass seatClass) {
         this.chosenSeatClass = seatClass;
-        lastResortStrategy = new CheapestSeatAssignationStrategy(chosenSeatClass);
     }
 
     @Override
@@ -73,7 +71,7 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
 
     private Seat chooseSeat(List<Seat> bestSeatsList) {
         if (bestSeatsList.size() > 1) {
-            return lastResortStrategy.assignSeat(bestSeatsList);
+            return new CheapestSeatAssignationStrategy(chosenSeatClass).assignSeat(bestSeatsList);
         }
         return bestSeatsList.get(0);
     }
