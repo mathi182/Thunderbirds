@@ -66,15 +66,6 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
         return chosenSeat;
     }
 
-    private Seat getCheapestSeat(Seat first, Seat second){
-        if(first.hasLowerPriceThan(second)){
-            return first;
-        }
-        else{
-            return second;
-        }
-    }
-
     private boolean seatIsCorrectClass(Seat seat) {
         return chosenSeatClass.equals(Seat.SeatClass.ANY) || seat.getSeatClass().equals(chosenSeatClass);
     }
