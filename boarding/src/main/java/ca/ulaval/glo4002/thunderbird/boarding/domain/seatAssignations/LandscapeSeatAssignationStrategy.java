@@ -3,18 +3,21 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy {
 
     private Seat.SeatClass chosenSeatClass;
+    private SeatAssignationStrategy lastResortStrategy;
 
     public LandscapeSeatAssignationStrategy() {
-        chosenSeatClass = Seat.SeatClass.ANY;
+        this(Seat.SeatClass.ANY);
     }
 
     public LandscapeSeatAssignationStrategy(Seat.SeatClass seatClass) {
         this.chosenSeatClass = seatClass;
+        lastResortStrategy = new CheapestSeatAssignationStrategy(chosenSeatClass);
     }
 
     @Override
@@ -39,17 +42,28 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
         Seat bestSeat = availableSeats.get(0);
 
         for (Seat seat : availableSeats) {
-            if(seat.hasSameViewAs(bestSeat)){
-                bestSeat = getCheapestSeat(seat, bestSeat);
-            }
-            else{
                 if(seat.hasBetterViewThan(bestSeat)){
                     bestSeat = seat;
                 }
+        }
+
+        List<Seat> bestSeatsList = new ArrayList<>();
+        bestSeatsList.add(bestSeat);
+        for (Seat seat : availableSeats){
+            if(seat.hasSameViewAs(bestSeat)){
+                bestSeatsList.add(seat);
             }
         }
 
-        return bestSeat;
+        Seat chosenSeat;
+        if(bestSeatsList.size()>1){
+            chosenSeat = lastResortStrategy.assignSeat(bestSeatsList);
+        }
+        else{
+            chosenSeat = bestSeatsList.get(0);
+        }
+
+        return chosenSeat;
     }
 
     private Seat getCheapestSeat(Seat first, Seat second){
