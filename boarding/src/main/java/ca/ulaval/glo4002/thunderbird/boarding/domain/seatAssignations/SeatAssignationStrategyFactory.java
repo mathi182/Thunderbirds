@@ -14,7 +14,7 @@ public class SeatAssignationStrategyFactory {
             case CHEAPEST:
                 return new CheapestSeatAssignationStrategy(seatClass);
             case LANDSCAPE:
-                return new LandscapeSeatAssignationStrategy();
+                return new LandscapeSeatAssignationStrategy(seatClass);
             case LEGS:
                 return new MostLegRoomSeatAssignationStrategy(seatClass);
             default:
