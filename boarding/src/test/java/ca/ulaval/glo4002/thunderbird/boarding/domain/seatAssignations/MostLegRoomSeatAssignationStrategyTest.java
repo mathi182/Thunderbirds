@@ -12,7 +12,6 @@ import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 
 public class MostLegRoomSeatAssignationStrategyTest {
@@ -40,7 +39,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
     @Test
     public void givenAValidSeatsList_whenSelectingMostLegRoom_shouldReturnMostLegRoomFromAnyCLass() {
         willReturn(SECOND_MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
-        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(anyInt());
+        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
 
         Seat takenSeat = strategy.assignSeat(seats);
@@ -51,7 +50,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
     @Test
     public void givenAValidSeatsList_whenSelectingMostLegRoomFromEconomic_shouldReturnMostLegRoomFromEconomicClass() {
         willReturn(SECOND_MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
-        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(anyInt());
+        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
 
         Seat takenSeat = strategy.assignSeat(seats);
@@ -72,9 +71,9 @@ public class MostLegRoomSeatAssignationStrategyTest {
     public void givenAValidSeatsList_whenSelectionMostLegRoomWithMultipleResult_shouldReturnSeatWithLowestPrice() {
         willReturn(MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
         willReturn(true).given(economicCheapestSeat).hasLowerPriceThan(any(Seat.class));
-        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(anyInt());
-        willReturn(false).given(economicCheapestSeat).hasMoreLegRoomThan(anyInt());
-        willReturn(true).given(economicCheapestSeat).hasSameAmountOfLegRoom(anyInt());
+        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
+        willReturn(false).given(economicCheapestSeat).hasMoreLegRoomThan(any(Seat.class));
+        willReturn(true).given(economicCheapestSeat).hasSameAmountOfLegRoomAs(any(Seat.class));
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
 
         Seat takenSeat = strategy.assignSeat(seats);

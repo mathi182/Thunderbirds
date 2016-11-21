@@ -40,16 +40,16 @@ public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrate
     }
 
     private List<Seat> filterByLegRoom(List<Seat> filteredSeats) {
-        int currentMostLegRoom = 0;
+        Seat currentMostLegRoomSeat = filteredSeats.get(0);
         List<Seat> seats = new ArrayList<>();
 
         for (Seat seat : filteredSeats) {
-            if (seat.hasMoreLegRoomThan(currentMostLegRoom)) {
-                currentMostLegRoom = seat.getLegRoom();
+            if (seat.hasMoreLegRoomThan(currentMostLegRoomSeat)) {
+                currentMostLegRoomSeat = seat;
 
                 seats.clear();
                 seats.add(seat);
-            } else if (seat.hasSameAmountOfLegRoom(currentMostLegRoom)) {
+            } else if (seat.hasSameAmountOfLegRoomAs(currentMostLegRoomSeat)) {
                 seats.add(seat);
             }
         }
