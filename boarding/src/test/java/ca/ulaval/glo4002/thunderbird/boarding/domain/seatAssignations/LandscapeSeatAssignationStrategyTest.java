@@ -57,12 +57,7 @@ public class LandscapeSeatAssignationStrategyTest {
     }
 
     private void mockSeatsByClass() {
-        willReturn(bestViewEconomicSeat).given(bestViewEconomicSeat).bestSeatViewBetween(any(Seat.class));
-        willReturn(bestViewBusinessSeat).given(bestViewBusinessSeat).bestSeatViewBetween(any(Seat.class));
-        willReturn(goodViewBusinessSeat).given(goodViewBusinessSeat).bestSeatViewBetween(any(Seat.class));
-        willReturn(bestViewBusinessSeat).given(goodViewBusinessSeat).bestSeatViewBetween(bestViewBusinessSeat);
-        willReturn(goodViewEconomicSeat).given(goodViewEconomicSeat).bestSeatViewBetween(any(Seat.class));
-        willReturn(bestViewEconomicSeat).given(goodViewEconomicSeat).bestSeatViewBetween(bestViewEconomicSeat);
+
     }
 
     @Test

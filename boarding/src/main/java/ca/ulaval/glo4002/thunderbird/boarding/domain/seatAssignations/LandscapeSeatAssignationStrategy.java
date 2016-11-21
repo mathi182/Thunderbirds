@@ -44,7 +44,6 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
     }
 
     private List<Seat> filterBestViewSeat(List<Seat> availableSeats) {
-
         Seat currentBestSeat = availableSeats.get(0);
         List<Seat> seats = new ArrayList<>(Collections.singletonList(currentBestSeat));
 
@@ -64,7 +63,6 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
     }
 
     private Seat chooseSeat(List<Seat> seats) {
-
         if (seats.size() > 1) {
             CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(chosenSeatClass);
             return strategy.assignSeat(seats);
