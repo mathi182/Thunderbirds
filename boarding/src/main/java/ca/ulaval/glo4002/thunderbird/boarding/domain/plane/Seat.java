@@ -59,9 +59,12 @@ public class Seat {
         isAvailable = false;
     }
 
-    //TODO make seat compare itself with a seat, not with an int
-    public boolean hasMoreLegRoomThan(int legRoomToCompare) {
-        return legRoom > legRoomToCompare;
+    public boolean hasMoreLegRoomThan(Seat comparedSeat){
+        return legRoom > comparedSeat.legRoom;
+    }
+
+    public boolean hasSameAmountOfLegRoomAs(Seat comparedSeat){
+        return legRoom == comparedSeat.legRoom;
     }
 
     public boolean hasSameViewAs(Seat comparedSeat) {
@@ -78,10 +81,6 @@ public class Seat {
         else {
             return hasClearView;
         }
-    }
-
-    public boolean hasSameAmountOfLegRoom(int currentMostLegRoom) {
-        return legRoom == currentMostLegRoom;
     }
 
     public boolean hasLowerPriceThan(Seat seat) {

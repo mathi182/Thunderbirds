@@ -51,7 +51,6 @@ public class LandscapeSeatAssignationStrategyTest {
         businessSeats.addAll(Arrays.asList(bestViewBusinessSeat, goodViewBusinessSeat));
     }
 
-
     @Test
     public void givenAValidSeatsList_whenSelectingBestLandscape_shouldReturnBestFromAnyClass() {
         willReturn(true).given(bestViewEconomicSeat).hasBetterViewThan(bestViewBusinessSeat);
@@ -102,5 +101,4 @@ public class LandscapeSeatAssignationStrategyTest {
         Seat expectedSeat = cheapSeatMock;
         assertEquals(expectedSeat, actualSeat);
     }
-
 }
