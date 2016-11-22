@@ -64,20 +64,6 @@ public class Seat {
         return legRoom > legRoomToCompare;
     }
 
-    //TODO refactor this. Cheapest seat should not be chosen here
-    public Seat bestSeatViewBetween(Seat seat) {
-        if (hasBetterViewThan(seat)) {
-            return this;
-        }
-        if (seat.hasBetterViewThan(this)) {
-            return seat;
-        }
-        if (hasLowerPriceThan(seat)) {
-            return this;
-        }
-        return seat;
-    }
-
     public boolean hasSameViewAs(Seat comparedSeat) {
         return hasWindow == comparedSeat.hasWindow && hasClearView == comparedSeat.hasClearView;
     }
