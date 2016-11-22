@@ -6,10 +6,12 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -47,6 +49,24 @@ public class BaggageResource {
         strategy.validateBaggage(baggage);
     }
 
+    @GET
+    public Response getBaggagesList(@PathParam("passenger_hash") String passengerHash) {
+            Passenger passenger = getPassenger(UUID.fromString(passengerHash));
+            BaggagesListDTO baggagesListDTO = getBaggagesListDTOFromPassenger(passenger);
+            return Response.ok(baggagesListDTO, MediaType.APPLICATION_JSON).build();
+    }
+
+    private Passenger getPassenger(UUID passengerHash) {
+        PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
+        return repository.getPassenger(passengerHash);
+    }
+
+
+    private BaggagesListDTO getBaggagesListDTOFromPassenger(Passenger passenger) {
+        List<Baggage> baggages = passenger.getBaggages();
+        return new BaggagesListAssembler().toDTO(baggages);
+    }
+
     private Baggage convertRequestToBaggage(RegisterBaggageRequest request) {
         RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
         return registerBaggageRequestAssembler.getDomainBaggage(request);
@@ -57,8 +77,4 @@ public class BaggageResource {
         return uriBuilder.path(baggageHash).build();
     }
 
-    private Passenger getPassenger(UUID passengerHash) {
-        PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
-        return repository.getPassenger(passengerHash);
-    }
 }
