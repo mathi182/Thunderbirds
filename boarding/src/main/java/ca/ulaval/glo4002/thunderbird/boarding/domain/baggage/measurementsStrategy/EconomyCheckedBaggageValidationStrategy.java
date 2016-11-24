@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.measurementsStrategy;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;

@@ -60,6 +60,10 @@ public class Passenger {
         } else {
             throw new BaggageAmountAuthorizedException();
         }
+        /*
+          Création de la stratégie pour le type de baggage
+          Passer this à la stratégie
+         */
     }
 
     public int getBaggageCount() {
@@ -73,7 +77,6 @@ public class Passenger {
             return ADDITIONAL_BAGGAGE_BASE_PRICE;
         }
     }
-
 
     public Seat.SeatClass getSeatClass() {
         return seatClass;

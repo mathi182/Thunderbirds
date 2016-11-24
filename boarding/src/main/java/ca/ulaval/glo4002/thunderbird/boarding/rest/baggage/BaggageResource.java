@@ -2,11 +2,10 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategy;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.measurementsStrategy.BaggageValidationStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.measurementsStrategy.BaggageValidationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -26,6 +25,7 @@ public class BaggageResource {
     public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") UUID passengerHash) {
         Passenger passenger = getPassenger(passengerHash);
         Baggage baggage = convertRequestToBaggage(request);
+
 
         validateBaggage(baggage, passenger);
         passenger.addBaggage(baggage);
