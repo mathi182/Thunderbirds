@@ -49,7 +49,7 @@ public class Passenger {
     }
 
     public boolean isSameSeatClass(Seat.SeatClass seatClass) {
-        return seatClass.equals(seatClass);
+        return this.seatClass.equals(seatClass);
     }
 
     public void addBaggage(Baggage baggage) {
@@ -74,14 +74,6 @@ public class Passenger {
         }
     }
 
-    public float getBaggagesTotalPrice() {
-        float totalPrice = 0f;
-        for (Baggage baggage : baggages) {
-            totalPrice += baggage.getPrice();
-        }
-
-        return totalPrice;
-    }
 
     public Seat.SeatClass getSeatClass() {
         return seatClass;

@@ -7,7 +7,6 @@ import javax.persistence.Inheritance;
 import java.util.UUID;
 
 @Entity
-@Inheritance
 public class Baggage {
     @Id
     @Column(name = "id", updatable = false, nullable = false)

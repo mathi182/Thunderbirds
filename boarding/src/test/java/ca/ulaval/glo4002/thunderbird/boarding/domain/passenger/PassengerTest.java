@@ -132,4 +132,6 @@ public class PassengerTest {
 
         assertEquals(VALID_FLIGHT_NUMBER, actualFlightNumber);
     }
+
+
 }
