@@ -1,9 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.measurementsStrategy;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 
-public class BaggageValidationStrategyFactory {
+public class MeasurementsStrategyFactory {
     public BaggageValidationStrategy getStrategy(Seat.SeatClass seatClass) {
         switch (seatClass) {
             case ECONOMY:
@@ -12,4 +13,5 @@ public class BaggageValidationStrategyFactory {
                 throw new NoSuchStrategyException("unknown");
         }
     }
+
 }

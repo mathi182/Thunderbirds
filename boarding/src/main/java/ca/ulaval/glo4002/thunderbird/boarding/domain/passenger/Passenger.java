@@ -61,8 +61,8 @@ public class Passenger {
             throw new BaggageAmountAuthorizedException();
         }
         /*
-          Création de la stratégie pour le type de baggage
-          Passer this à la stratégie
+          Création de la stratégie de validation de la taille (utile parce que passager enregistre peut-etre pas de baggage)
+                Strat
          */
     }
 

@@ -77,11 +77,9 @@ public class PassengerAssemblerTest {
         UUID actualPassengerHash = actualPassenger.getHash();
         Instant actualFlightDate = actualPassenger.getFlightDate();
         String actualFlightNumber = actualPassenger.getFlightNumber();
-        boolean isTheSameSeatClass = actualPassenger.isSameSeatClass(BUSINESS_SEAT_CLASS);
 
         assertEquals(VALID_PASSENGER_HASH, actualPassengerHash);
         assertEquals(VALID_FLIGHT_DATE, actualFlightDate);
         assertEquals(VALID_FLIGHT_NUMBER, actualFlightNumber);
-        assertTrue(isTheSameSeatClass);
     }
 }

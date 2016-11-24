@@ -8,11 +8,11 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
 public class BaggageValidationStrategyFactoryTest {
-    BaggageValidationStrategyFactory factory;
+    MeasurementsStrategyFactory factory;
 
     @Before
     public void setUp() throws Exception {
-        factory = new BaggageValidationStrategyFactory();
+        factory = new MeasurementsStrategyFactory();
     }
 
     @Test

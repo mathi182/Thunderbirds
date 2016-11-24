@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.measurementsStrategy.BaggageValidationStrategy;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.measurementsStrategy.BaggageValidationStrategyFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.measurementsStrategy.MeasurementsStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 
@@ -44,7 +44,7 @@ public class BaggageResource {
     }
 
     private void validateBaggage(Baggage baggage, Passenger passenger) {
-        BaggageValidationStrategyFactory factory = new BaggageValidationStrategyFactory();
+        MeasurementsStrategyFactory factory = new MeasurementsStrategyFactory();
         BaggageValidationStrategy strategy = factory.getStrategy(passenger.getSeatClass());
         strategy.validateBaggage(baggage);
     }

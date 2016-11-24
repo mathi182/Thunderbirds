@@ -57,7 +57,7 @@ public class Baggage {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (obj == null){
             return false;
         }
         if (!Baggage.class.isAssignableFrom(obj.getClass())) {
