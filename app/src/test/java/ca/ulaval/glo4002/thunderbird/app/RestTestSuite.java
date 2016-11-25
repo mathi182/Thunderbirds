@@ -12,18 +12,12 @@ import org.junit.runners.Suite;
         AppRestTest.class
 })
 public class RestTestSuite {
-
-    private static Thread reservationThread;
-    private static Thread boardingThread;
-
     @BeforeClass
     public static void setUpClass() throws InterruptedException{
-        boardingThread = new Thread(new BoardingServer());
-        reservationThread = new Thread(new ReservationServer());
+        Thread boardingThread = new Thread(new BoardingServer());
+        Thread reservationThread = new Thread(new ReservationServer());
 
         boardingThread.start();
         reservationThread.start();
-
     }
-
 }

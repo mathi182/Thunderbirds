@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation.checkin;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,7 +18,7 @@ public class CheckinResource {
     UriInfo uriInfo;
 
     @POST
-    public Response checkin(@Valid Checkin checkin) {
+    public Response checkin(@Valid @NotNull Checkin checkin) {
         checkin.completeCheckin(Instant.now());
         checkin.save();
 

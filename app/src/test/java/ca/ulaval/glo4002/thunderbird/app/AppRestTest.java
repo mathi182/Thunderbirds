@@ -15,13 +15,11 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 public class AppRestTest {
-
     private static final String VALID_MODE = "random";
     private static final UUID NONEXISTENT_PASSENGER_HASH = UUID.randomUUID();
     private final int INVALID_RESERVATION_NUMBER = 14253;
     private final int BOARDING_PORT = 8888;
     private final int RESERVATION_PORT = 8787;
-
 
     @Test
     public void givenAnInvalidReservation_whenCreatingReservation_shouldReturnBadRequest(){
@@ -29,7 +27,7 @@ public class AppRestTest {
             .accept(ContentType.JSON)
             .port(RESERVATION_PORT)
             .contentType(ContentType.JSON)
-                .body("")
+            .body("")
         .when()
             .post(EventsResource.PATH + EventsResource.RESERVATION_CREATED)
         .then()
@@ -85,14 +83,14 @@ public class AppRestTest {
     @Test
     public void givenANonexistentPassengerHash_whenRegisteringABaggage_shouldReturnNotFound(){
         given()
-                .accept(ContentType.JSON)
-                .port(BOARDING_PORT)
-                .contentType(ContentType.JSON)
-                .body("")
-            .when()
-                .post("/passengers/" + NONEXISTENT_PASSENGER_HASH + "/baggages") //TODO Ajouter un PATH comme les autres resources?
-            .then()
-                .assertThat()
-                .statusCode(NOT_FOUND.getStatusCode());
+            .accept(ContentType.JSON)
+            .port(BOARDING_PORT)
+            .contentType(ContentType.JSON)
+            .body("")
+        .when()
+            .post("/passengers/" + NONEXISTENT_PASSENGER_HASH + "/baggages") //TODO Ajouter un PATH comme les autres resources?
+        .then()
+            .assertThat()
+            .statusCode(NOT_FOUND.getStatusCode());
     }
 }

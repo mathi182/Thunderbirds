@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,7 +21,7 @@ public class EventsResource {
 
     @POST
     @Path(RESERVATION_CREATED)
-    public Response createReservation(@Valid Reservation reservation) {
+    public Response createReservation(@Valid @NotNull Reservation reservation) {
         reservation.save();
         String reservationNumber = Integer.toString(reservation.getId());
 
