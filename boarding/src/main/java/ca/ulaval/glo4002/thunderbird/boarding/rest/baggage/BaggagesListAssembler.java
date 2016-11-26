@@ -5,18 +5,20 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import java.util.List;
 
 public class BaggagesListAssembler {
+    private BaggageAssembler baggageAssembler;
 
-    public BaggagesListDTO toDTO(List<Baggage> baggages) {
-        BaggageAssembler baggageAssembler = new BaggageAssembler();
+    public BaggagesListAssembler() {
+        this.baggageAssembler = new BaggageAssembler();
+    }
+
+    public BaggagesListDTO toDTO(float totalPridce, List<Baggage> baggages) {
         BaggagesListDTO baggagesListDTO = new BaggagesListDTO();
-        float totalPrice = 0f;
 
         for (Baggage baggage : baggages) {
             BaggageDTO baggageDTO = baggageAssembler.toDTO(baggage);
             baggagesListDTO.baggages.add(baggageDTO);
-            totalPrice += baggage.getPrice();
         }
-        baggagesListDTO.total_price = totalPrice;
+        baggagesListDTO.total_price = totalPridce;
 
         return baggagesListDTO;
     }

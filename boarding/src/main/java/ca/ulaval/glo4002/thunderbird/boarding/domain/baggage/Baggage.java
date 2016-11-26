@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -81,6 +84,16 @@ public class Baggage {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public void validate(int baggageDimensionLimitInMm, int baggageWeightLimitInGrams) {
+        if (this.weightInGrams > baggageWeightLimitInGrams) {
+            throw new BaggageWeightInvalidException();
+        }
+
+        if (this.linearDimensionInMm > baggageDimensionLimitInMm) {
+            throw new BaggageDimensionInvalidException();
+        }
     }
 }
 

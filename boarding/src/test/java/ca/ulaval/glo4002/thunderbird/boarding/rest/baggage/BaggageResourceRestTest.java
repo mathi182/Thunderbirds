@@ -1,22 +1,16 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.OK;
-import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
-import static org.eclipse.jetty.http.HttpStatus.Code.CREATED;
-import static org.eclipse.jetty.http.HttpStatus.Code.NOT_FOUND;
-import static org.hamcrest.Matchers.equalTo;
+import static org.eclipse.jetty.http.HttpStatus.Code.*;
 import static org.junit.Assert.*;
 
 public class BaggageResourceRestTest {
@@ -33,10 +27,10 @@ public class BaggageResourceRestTest {
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
         RegisterBaggageRequest registerBaggageRequest = new RegisterBaggageRequest(CM_UNIT_FROM_REQUEST,
-                                                                                  LINEAR_DIMENSION,
-                                                                                  KG_UNIT_FROM_REQUEST,
-                                                                                  WEIGHT,
-                                                                                  CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                LINEAR_DIMENSION,
+                KG_UNIT_FROM_REQUEST,
+                WEIGHT,
+                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         Response response =
                 givenBaseRequest()
@@ -57,23 +51,12 @@ public class BaggageResourceRestTest {
     }
 
     @Test
-    public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() throws JsonProcessingException {
-        BaggagesListDTO baggagesListDTO = buildExistentBoardingPassengerBaggagesListDTO();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String expectedResponse = objectMapper.writeValueAsString(baggagesListDTO);
-
+    public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() {
         givenBaseRequest()
                 .when()
                 .get("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
                 .then()
-                .statusCode(OK.getStatusCode())
-                .body(equalTo(expectedResponse));
-    }
-
-    private BaggagesListDTO buildExistentBoardingPassengerBaggagesListDTO () {
-        List<BaggageDTO> baggageDTOArray = new ArrayList<BaggageDTO>();
-        BaggagesListAssembler baggagesListAssembler = new BaggagesListAssembler();
-        return baggagesListAssembler.toDTO(EXISTENT_BOARDING_PASSENGER.getBaggages());
+                .statusCode(OK.getStatusCode());
     }
 
     @Test
