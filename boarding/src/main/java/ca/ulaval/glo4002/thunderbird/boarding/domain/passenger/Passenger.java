@@ -44,8 +44,8 @@ public class Passenger {
         return passengerHash;
     }
 
-    public boolean isSameSeatClass(Seat.SeatClass seatClass) {
-        return this.seatClass.equals(seatClass);
+    public boolean isSameSeatClass(Seat.SeatClass otherSeatClass) {
+        return seatClass.equals(otherSeatClass);
     }
 
     public void addBaggage(Baggage baggage) {

@@ -63,7 +63,7 @@ public class PassengerTest {
     }
 
     @Test
-    public void givenNewPassengerWithNoBaggage_whenAddingBaggage_shouldHaveOneBaggage() {
+    public void givenNewPassengerWithoutBaggage_whenAddingBaggage_shouldHaveOneBaggage() {
         passengerWithoutBaggage.addBaggage(mock(Baggage.class));
 
         int expectedCount = 1;
@@ -72,7 +72,7 @@ public class PassengerTest {
     }
 
     @Test(expected = BaggageAmountAuthorizedException.class)
-    public void givenPassengerWithBaggageAmountAuthorized_whenAddingBaggage_shouldNotAddBaggage() {
+    public void givenPassengerWithMaximumBaggagesAuthorized_whenAddingBaggage_shouldNotAddBaggage() {
         passengerWithMaximalBaggageAmountAuthorized.addBaggage(mock(Baggage.class));
     }
 
