@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.Assert.assertEquals;
 
 public class CheckedBaggagesFactoryTest {
     private final static UUID SOME_PASSENGER_HASH = new UUID(1L, 2L);
@@ -17,7 +18,7 @@ public class CheckedBaggagesFactoryTest {
 
         CheckedBaggages checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(SOME_PASSENGER_HASH, seatClass);
 
-        Assert.assertThat(checkedBaggages, instanceOf(EconomicCheckedBaggages.class));
+        Assert.assertThat(checkedBaggages, instanceOf(CheckedBaggages.class));
     }
 
     @Test
@@ -26,6 +27,6 @@ public class CheckedBaggagesFactoryTest {
 
         CheckedBaggages checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(SOME_PASSENGER_HASH, seatClass);
 
-        Assert.assertThat(checkedBaggages, instanceOf(BusinessCheckedBaggages.class));
+        Assert.assertThat(checkedBaggages, instanceOf(CheckedBaggages.class));
     }
 }
