@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageType;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seat.Seat;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -14,8 +14,8 @@ public class BaggageTest {
     private static final int DIFFERENT_LINEAR_DIMENSION_IN_MM = 11;
     private static final String BAGGAGE_TYPE = "checked";
     private static final String DIFFERENT_BAGGAGE_TYPE = "invalid";
-    public static final int WEIGHT_LIMIT = 11;
-    public static final int WEIGHT_LIMIT_TOO_LOW = 10;
+    public static final int WEIGHT_LIMIT = 10;
+    public static final int WEIGHT_LIMIT_TOO_LOW = 9;
     public static final int DIMENSION_LIMIT = 10;
     public static final int DIMENSION_LIMIT_TOO_LOW = 9;
 

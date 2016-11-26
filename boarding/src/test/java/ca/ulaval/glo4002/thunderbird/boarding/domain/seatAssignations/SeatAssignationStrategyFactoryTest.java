@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seat.Seat;
 import org.junit.Before;
 import org.junit.Test;
 

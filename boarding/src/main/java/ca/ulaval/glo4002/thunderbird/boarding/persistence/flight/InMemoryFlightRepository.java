@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seat.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 
 import java.time.Instant;

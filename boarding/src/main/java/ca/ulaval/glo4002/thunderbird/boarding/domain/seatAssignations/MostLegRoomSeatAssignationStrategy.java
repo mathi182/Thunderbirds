@@ -1,10 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seat.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;

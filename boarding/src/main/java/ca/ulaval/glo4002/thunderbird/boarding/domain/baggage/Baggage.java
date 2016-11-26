@@ -91,7 +91,7 @@ public class Baggage {
             throw new BaggageWeightInvalidException();
         }
 
-        if (this.linearDimensionInMm > baggageWeightLimitInGrams) {
+        if (this.linearDimensionInMm > baggageDimensionLimitInMm) {
             throw new BaggageDimensionInvalidException();
         }
     }

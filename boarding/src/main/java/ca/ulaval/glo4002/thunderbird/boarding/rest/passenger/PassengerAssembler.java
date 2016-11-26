@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seat.Seat;
 
 import java.time.Instant;
 import java.util.UUID;

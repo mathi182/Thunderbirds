@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seat.Seat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;

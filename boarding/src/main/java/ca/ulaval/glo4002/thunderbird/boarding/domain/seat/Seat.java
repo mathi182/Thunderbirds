@@ -1,6 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.Seat;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.seat;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.expceptions.SeatAlreadyTakenException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seat.expceptions.SeatAlreadyTakenException;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

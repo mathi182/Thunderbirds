@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seat.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.seatClassBaggageStrategy.SeatClassBaggageStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.seatClassBaggageStrategy.SeatClassBaggageTemplate;
 

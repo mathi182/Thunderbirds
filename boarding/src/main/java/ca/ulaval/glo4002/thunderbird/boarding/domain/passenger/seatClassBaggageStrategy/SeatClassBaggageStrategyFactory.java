@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.seatClassBaggageStrategy;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seat.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 
 public class SeatClassBaggageStrategyFactory {
