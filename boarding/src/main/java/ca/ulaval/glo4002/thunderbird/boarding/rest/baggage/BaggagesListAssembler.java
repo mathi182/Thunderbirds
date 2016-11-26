@@ -11,14 +11,14 @@ public class BaggagesListAssembler {
         this.baggageAssembler = new BaggageAssembler();
     }
 
-    public BaggagesListDTO toDTO(float totalPridce, List<Baggage> baggages) {
+    public BaggagesListDTO toDTO(float totalPrice, List<Baggage> baggages) {
         BaggagesListDTO baggagesListDTO = new BaggagesListDTO();
 
         for (Baggage baggage : baggages) {
             BaggageDTO baggageDTO = baggageAssembler.toDTO(baggage);
             baggagesListDTO.baggages.add(baggageDTO);
         }
-        baggagesListDTO.total_price = totalPridce;
+        baggagesListDTO.total_price = totalPrice;
 
         return baggagesListDTO;
     }

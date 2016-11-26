@@ -4,10 +4,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -43,7 +40,7 @@ public abstract class CheckedBaggages {
             throw new BaggageAmountUnauthorizedException();
         }
         validateBaggage(baggage);
-        SetBaggagePrice(baggage);
+        setBaggagePrice(baggage);
 
         baggages.add(baggage);
     }
@@ -54,5 +51,5 @@ public abstract class CheckedBaggages {
 
     protected abstract void validateBaggage(Baggage baggage);
 
-    protected abstract void SetBaggagePrice(Baggage baggage);
+    protected abstract void setBaggagePrice(Baggage baggage);
 }

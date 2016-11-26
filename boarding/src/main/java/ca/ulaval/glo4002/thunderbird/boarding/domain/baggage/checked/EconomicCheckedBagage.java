@@ -25,7 +25,7 @@ public class EconomicCheckedBagage extends CheckedBaggages {
     }
 
     @Override
-    protected void SetBaggagePrice(Baggage baggage) {
+    protected void setBaggagePrice(Baggage baggage) {
         if (baggages.size() + 1 == FREE_CHECKED_BAGGAGE) {
             baggage.setPrice(0);
         } else {
