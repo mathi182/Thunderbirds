@@ -71,7 +71,7 @@ public class BaggageResourceRestTest {
     private boolean isLocationValid(String location, String passengerHash) {
         String baseUrl = buildUrl("/passengers/" + passengerHash + "/baggages/");
         baseUrl = baseUrl.replace("/", "\\/");
-        Pattern pattern = Pattern.compile(baseUrl + "\\d+$");
+        Pattern pattern = Pattern.compile(baseUrl + ".*$");
 
         return pattern.matcher(location).matches();
     }

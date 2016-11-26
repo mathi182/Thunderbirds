@@ -6,16 +6,16 @@ import javax.persistence.Entity;
 import java.util.UUID;
 
 @Entity
-public class BusinessCheckedBaggage extends CheckedBaggages {
-    public static final int FREE_CHECKED_BAGGAGE = 2;
-    public static final int WEIGHT_LIMIT_IN_GRAMS = 30000;
+public class EconomicCheckedBaggages extends CheckedBaggages {
+    public static final int FREE_CHECKED_BAGGAGE = 1;
+    public static final int WEIGHT_LIMIT_IN_GRAMS = 23000;
     public static final int DIMENSION_LIMIT_IN_MM = 1580;
 
-    public BusinessCheckedBaggage(UUID passengerHash) {
+    public EconomicCheckedBaggages(UUID passengerHash) {
         super(passengerHash);
     }
 
-    protected BusinessCheckedBaggage() {
+    protected EconomicCheckedBaggages() {
         //for hibernate
     }
 
@@ -26,7 +26,7 @@ public class BusinessCheckedBaggage extends CheckedBaggages {
 
     @Override
     protected void setBaggagePrice(Baggage baggage) {
-        if (baggages.size() + 1 == FREE_CHECKED_BAGGAGE) {
+        if (baggages.size() < FREE_CHECKED_BAGGAGE) {
             baggage.setPrice(0);
         } else {
             baggage.setPrice(CHECKED_BAGGAGE_COST);

@@ -28,11 +28,9 @@ public class RegisterBaggageRequestAssemblerTest {
         RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
         Baggage actualBaggage = registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
 
-        Baggage expectedBaggage = new Baggage(actualBaggage.getBaggageHash(),
-                LINEAR_DIMENSION_CONVERTED,
-                WEIGHT_UNIT_CONVERTED,
-                VALID_BAGGAGE_TYPE);
-        assertEquals(expectedBaggage, actualBaggage);
+        assertEquals(LINEAR_DIMENSION_CONVERTED, actualBaggage.getDimensionInMm());
+        assertEquals(WEIGHT_UNIT_CONVERTED, actualBaggage.getWeightInGrams());
+        assertEquals(VALID_BAGGAGE_TYPE, actualBaggage.getType());
     }
 
     @Test(expected = IllegalFieldWebException.class)

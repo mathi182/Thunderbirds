@@ -9,9 +9,9 @@ public class CheckedBaggagesFactory {
     public static CheckedBaggages getCheckedBaggages(UUID pasengerHash, Seat.SeatClass seatClass) {
         switch (seatClass) {
             case ECONOMY:
-                return new EconomicCheckedBagage(pasengerHash);
+                return new EconomicCheckedBaggages(pasengerHash);
             case BUSINESS:
-                return new BusinessCheckedBaggage(pasengerHash);
+                return new BusinessCheckedBaggages(pasengerHash);
             default:
                 throw new NoSuchStrategyException("unknown");
         }

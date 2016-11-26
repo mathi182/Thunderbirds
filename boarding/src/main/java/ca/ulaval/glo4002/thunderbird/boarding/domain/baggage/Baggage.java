@@ -34,13 +34,12 @@ public class Baggage {
         this.type = type;
     }
 
-    public Baggage(UUID baggageHash, int linearDimensionInMm, int weightInG, String type, float price) {
-        this(baggageHash, linearDimensionInMm, weightInG, type);
-        this.price = price;
-    }
-
     protected Baggage() {
         // for hibernate
+    }
+
+    public UUID getId() {
+        return baggageHash;
     }
 
     public int getWeightInGrams() {
@@ -51,31 +50,8 @@ public class Baggage {
         return linearDimensionInMm;
     }
 
-    public UUID getBaggageHash() {
-        return baggageHash;
-    }
-
     public String getType() {
         return type;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!Baggage.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-
-        Baggage baggage = (Baggage) obj;
-        boolean baggageHashAreEquals = baggageHash.equals(baggage.getBaggageHash());
-        boolean weightsAreEquals = weightInGrams == baggage.getWeightInGrams();
-        boolean dimensionAreEquals = linearDimensionInMm == baggage.getDimensionInMm();
-        boolean typeAreEquals = type.equals(baggage.getType());
-
-        return baggageHashAreEquals && weightsAreEquals &&
-                dimensionAreEquals && typeAreEquals;
     }
 
     public float getPrice() {
@@ -96,4 +72,3 @@ public class Baggage {
         }
     }
 }
-
