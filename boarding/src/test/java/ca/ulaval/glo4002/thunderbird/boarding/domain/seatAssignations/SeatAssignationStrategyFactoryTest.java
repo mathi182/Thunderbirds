@@ -38,4 +38,12 @@ public class SeatAssignationStrategyFactoryTest {
 
         assertThat(strategy, instanceOf(MostLegRoomSeatAssignationStrategy.class));
     }
+
+    @Test
+    public void givenModeBestView_whenGettingStrategy_shouldReturnMostLegRoomSeatStrategy(){
+        SeatAssignationStrategy strategy = factory.getStrategy(SeatAssignationStrategy.AssignMode.LANDSCAPE, Seat
+                .SeatClass.ANY);
+
+        assertThat(strategy, instanceOf(LandscapeSeatAssignationStrategy.class));
+    }
 }

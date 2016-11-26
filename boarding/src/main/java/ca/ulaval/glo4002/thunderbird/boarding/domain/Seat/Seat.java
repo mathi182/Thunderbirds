@@ -10,6 +10,14 @@ import javax.persistence.Id;
 @Entity
 public class Seat {
 
+    public enum SeatClass {
+        ANY,
+        ECONOMY,
+        BUSINESS,
+        BIG_FRONT,
+        PREMIUM_ECONOMY
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -17,19 +25,19 @@ public class Seat {
     private String seatName;
     private int legRoom;
     private boolean hasWindow;
-    private boolean haveClearView;
+    private boolean hasClearView;
     private double price;
     private SeatClass seatClass;
     private boolean isExitRow;
     private boolean isAvailable;
 
-    public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean haveClearView, double price,
+    public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean hasClearView, double price,
                 SeatClass seatClass, boolean isExitRow, boolean isAvailable) {
         this.rowNumber = rowNumber;
         this.seatName = seatName;
         this.legRoom = legRoom;
         this.hasWindow = hasWindow;
-        this.haveClearView = haveClearView;
+        this.hasClearView = hasClearView;
         this.price = price;
         this.seatClass = seatClass;
         this.isExitRow = isExitRow;
@@ -51,6 +59,34 @@ public class Seat {
         isAvailable = false;
     }
 
+    public boolean hasMoreLegRoomThan(Seat comparedSeat){
+        return legRoom > comparedSeat.legRoom;
+    }
+
+    public boolean hasSameAmountOfLegRoomAs(Seat comparedSeat){
+        return legRoom == comparedSeat.legRoom;
+    }
+
+    public boolean hasSameViewAs(Seat comparedSeat) {
+        return hasWindow == comparedSeat.hasWindow && hasClearView == comparedSeat.hasClearView;
+    }
+
+    public boolean hasBetterViewThan(Seat comparedSeat) {
+        if (hasSameViewAs(comparedSeat)) {
+            return false;
+        }
+
+        if (hasWindow != comparedSeat.hasWindow)
+            return hasWindow;
+        else {
+            return hasClearView;
+        }
+    }
+
+    public boolean hasLowerPriceThan(Seat seat) {
+        return price < seat.getPrice();
+    }
+
     public int getRow() {
         return rowNumber;
     }
@@ -63,31 +99,11 @@ public class Seat {
         return price;
     }
 
-    public SeatClass getSeatClass() {
-        return seatClass;
-    }
-
     public int getLegRoom() {
         return legRoom;
     }
 
-    public boolean hasMoreLegRoomThan(int legRoomToCompare) {
-        return legRoom > legRoomToCompare;
-    }
-
-    public boolean hasSameAmountOfLegRoom(int currentMostLegRoom) {
-        return legRoom == currentMostLegRoom;
-    }
-
-    public boolean hasLowerPrice(Seat seat) {
-        return price < seat.getPrice();
-    }
-
-    public enum SeatClass {
-        ANY,
-        ECONOMY,
-        BUSINESS,
-        BIG_FRONT,
-        PREMIUM_ECONOMY
+    public SeatClass getSeatClass() {
+        return seatClass;
     }
 }

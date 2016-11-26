@@ -33,35 +33,31 @@ public class CheapestSeatAssignationStrategyTest {
         cheapestEconomicSeat = mock(Seat.class);
         normalBusinessSeat = mock(Seat.class);
         normalEconomicSeat = mock(Seat.class);
-        givenAValidSeatsList();
-    }
 
-    private void givenAValidSeatsList() {
-        willReturn(CHEAPEST_BUSINESS_PRICE).given(cheapestBusinessSeat).getPrice();
-        willReturn(CHEAPEST_ECONOMIC_PRICE).given(cheapestEconomicSeat).getPrice();
-        willReturn(NORMAL_BUSINESS_PRICE).given(normalBusinessSeat).getPrice();
-        willReturn(NORMAL_ECONOMIC_PRICE).given(normalEconomicSeat).getPrice();
         willReturn(Seat.SeatClass.BUSINESS).given(cheapestBusinessSeat).getSeatClass();
         willReturn(Seat.SeatClass.BUSINESS).given(normalBusinessSeat).getSeatClass();
         willReturn(Seat.SeatClass.ECONOMY).given(cheapestEconomicSeat).getSeatClass();
         willReturn(Seat.SeatClass.ECONOMY).given(normalEconomicSeat).getSeatClass();
+
         seats = new ArrayList<>(Arrays.asList(cheapestBusinessSeat, normalBusinessSeat, cheapestEconomicSeat, normalEconomicSeat));
     }
 
     @Test
     public void givenAValidSeatsList_whenSelectingCheapest_shouldReturnCheapestFromAnyClass() {
-        willReturn(true).given(cheapestEconomicSeat).hasLowerPrice(any(Seat.class));
+        willReturn(true).given(cheapestEconomicSeat).hasLowerPriceThan(any(Seat.class));
+        willReturn(CHEAPEST_ECONOMIC_PRICE).given(cheapestEconomicSeat).getPrice();
         strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.ANY);
 
         Seat takenSeat = strategy.assignSeat(seats);
         double takenSeatPrice = takenSeat.getPrice();
-
+        
         assertEquals(CHEAPEST_ECONOMIC_PRICE, takenSeatPrice);
     }
 
     @Test
     public void givenAValidSeatsList_whenSelectingCheapestFromBusiness_shouldFindCorrespondingToSeatClass() {
-        willReturn(true).given(cheapestBusinessSeat).hasLowerPrice(any(Seat.class));
+        willReturn(true).given(cheapestBusinessSeat).hasLowerPriceThan(any(Seat.class));
+        willReturn(CHEAPEST_BUSINESS_PRICE).given(cheapestBusinessSeat).getPrice();
         strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
 
         Seat takenSeat = strategy.assignSeat(seats);

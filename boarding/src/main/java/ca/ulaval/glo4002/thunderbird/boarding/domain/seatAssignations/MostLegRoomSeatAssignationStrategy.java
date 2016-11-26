@@ -4,6 +4,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +21,7 @@ public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrate
     public Seat assignSeat(List<Seat> availableSeats) {
         List<Seat> filteredSeats = filterBySeatClass(availableSeats);
 
-        if (filteredSeats.size() == 0) {
+        if (filteredSeats.isEmpty()) {
             throw new NoMoreSeatAvailableException();
         }
 
@@ -34,22 +36,23 @@ public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrate
                     .stream()
                     .filter(seat -> seat.getSeatClass().equals(classType))
                     .collect(Collectors.toList());
-        } else {
-            return availableSeats;
         }
+        return availableSeats;
+
     }
 
     private List<Seat> filterByLegRoom(List<Seat> filteredSeats) {
-        int currentMostLegRoom = 0;
-        List<Seat> seats = new ArrayList<>();
+        Seat currentMostLegRoomSeat = filteredSeats.get(0);
+        List<Seat> seats = new ArrayList<>(Collections.singletonList(currentMostLegRoomSeat));
 
-        for (Seat seat : filteredSeats) {
-            if (seat.hasMoreLegRoomThan(currentMostLegRoom)) {
-                currentMostLegRoom = seat.getLegRoom();
+        for (int i = 1; i < filteredSeats.size(); i++) {
+            Seat seat = filteredSeats.get(i);
+            if (seat.hasMoreLegRoomThan(currentMostLegRoomSeat)) {
+                currentMostLegRoomSeat = seat;
 
                 seats.clear();
                 seats.add(seat);
-            } else if (seat.hasSameAmountOfLegRoom(currentMostLegRoom)) {
+            } else if (seat.hasSameAmountOfLegRoomAs(currentMostLegRoomSeat)) {
                 seats.add(seat);
             }
         }
