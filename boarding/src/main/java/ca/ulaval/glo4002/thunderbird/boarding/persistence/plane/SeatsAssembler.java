@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.plane;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
 
 import java.util.*;
 

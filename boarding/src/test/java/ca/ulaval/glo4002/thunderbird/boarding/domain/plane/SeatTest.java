@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.plane;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.expceptions.SeatAlreadyTakenException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.expceptions.SeatAlreadyTakenException;
 import org.junit.Before;
 import org.junit.Test;
 

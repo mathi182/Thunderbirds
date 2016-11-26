@@ -2,12 +2,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategy;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -27,8 +23,8 @@ public class BaggageResource {
         Passenger passenger = getPassenger(passengerHash);
         Baggage baggage = convertRequestToBaggage(request);
 
-        validateBaggage(baggage, passenger);
         passenger.addBaggage(baggage);
+        savePassenger(passenger);
 
         URI uri = buildURI();
 
@@ -43,12 +39,6 @@ public class BaggageResource {
         return buildLocationUri(baggageRegistrationIdString);
     }
 
-    private void validateBaggage(Baggage baggage, Passenger passenger) {
-        BaggageValidationStrategyFactory factory = new BaggageValidationStrategyFactory();
-        BaggageValidationStrategy strategy = factory.getStrategy(passenger.getSeatClass());
-        strategy.validateBaggage(baggage);
-    }
-
     @GET
     public Response getBaggagesList(@PathParam("passenger_hash") String passengerHash) {
             Passenger passenger = getPassenger(UUID.fromString(passengerHash));
@@ -59,6 +49,11 @@ public class BaggageResource {
     private Passenger getPassenger(UUID passengerHash) {
         PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
         return repository.getPassenger(passengerHash);
+    }
+
+    private void savePassenger(Passenger passenger) {
+        PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
+        repository.savePassenger(passenger);
     }
 
 

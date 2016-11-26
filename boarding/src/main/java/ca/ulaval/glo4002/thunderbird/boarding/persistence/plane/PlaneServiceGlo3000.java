@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.plane;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.exceptions.PlaneNotFoundException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

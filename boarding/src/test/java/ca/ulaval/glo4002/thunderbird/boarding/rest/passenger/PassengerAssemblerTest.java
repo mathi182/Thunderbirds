@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.seatClassBaggageStrategy.BusinessSeatClassBaggageStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.seatClassBaggageStrategy.EconomySeatClassBaggageStrategy;
 import org.junit.Test;
 
 import java.time.Instant;

@@ -1,8 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.util.Strings;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.Seat.Seat;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -21,7 +20,6 @@ public class PassengerAssembler {
             String flightNumber = passengerDTO.flightNumber;
 
             return new Passenger(passengerHash, seatClass, flightDate, flightNumber);
-
     }
 
     private Seat.SeatClass getSeatClassFromString(String source) {
@@ -33,8 +31,6 @@ public class PassengerAssembler {
                 return Seat.SeatClass.BUSINESS;
             default:
                 return Seat.SeatClass.ANY;
-
         }
-
     }
 }
