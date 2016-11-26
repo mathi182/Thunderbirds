@@ -9,6 +9,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssign
 public class SeatAssignationRequestAssembler {
     private static final String RANDOM_MODE = "RANDOM";
     private static final String CHEAPEST_MODE = "CHEAPEST";
+    private static final String LANDSCAPE_MODE = "LANDSCAPE";
     private static final String LEGS_MODE = "LEGS";
 
     public Passenger getDomainPassenger(SeatAssignationRequest request) {
@@ -22,6 +23,8 @@ public class SeatAssignationRequestAssembler {
                 return SeatAssignationStrategy.AssignMode.RANDOM;
             case CHEAPEST_MODE:
                 return SeatAssignationStrategy.AssignMode.CHEAPEST;
+            case LANDSCAPE_MODE:
+                return SeatAssignationStrategy.AssignMode.LANDSCAPE;
             case LEGS_MODE:
                 return SeatAssignationStrategy.AssignMode.LEGS;
             default:
