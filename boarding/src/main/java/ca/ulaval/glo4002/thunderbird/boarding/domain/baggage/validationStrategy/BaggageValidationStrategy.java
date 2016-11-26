@@ -1,10 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.seatClassBaggageStrategy.BaggageValidationDTO;
 
 public interface BaggageValidationStrategy {
-    enum ValidationMode { ECONOMY }
-
-    void validateBaggage(Baggage baggage);
-
+    void validate(Baggage baggage, BaggageValidationDTO baggageValidationDTO);
 }
