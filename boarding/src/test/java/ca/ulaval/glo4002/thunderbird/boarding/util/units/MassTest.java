@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class MassTest {
 
@@ -53,4 +55,23 @@ public class MassTest {
 
         assertEquals(MASS_IN_KILOGRAMS, actualMass, DELTA);
     }
+
+    @Test
+    public void whenComparingWithLengthWithSameMillimeters_shouldReturnTrue() {
+        mass = Mass.fromGrams(MASS_IN_GRAMS);
+        Mass secondMass = Mass.fromGrams(MASS_IN_GRAMS);
+        boolean areEquals = mass.equals(secondMass);
+
+        assertTrue(areEquals);
+    }
+
+    @Test
+    public void whenComparingWithOtherObject_shouldReturnFalse() {
+        mass = Mass.fromGrams(MASS_IN_GRAMS);
+        Object obj = new Object();
+        boolean areEquals = mass.equals(obj);
+
+        assertFalse(areEquals);
+    }
+
 }

@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity

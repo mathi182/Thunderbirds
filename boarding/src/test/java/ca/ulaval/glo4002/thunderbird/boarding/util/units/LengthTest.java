@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class LengthTest {
 
@@ -52,4 +54,23 @@ public class LengthTest {
 
         assertEquals(LENGTH_IN_INCHES, actualLength, DELTA);
     }
+
+    @Test
+    public void whenComparingWithLengthWithSameMillimeters_shouldReturnTrue() {
+        length = Length.fromMillimeters(LENGTH_IN_MILLIMETERS);
+        Length secondLength = Length.fromMillimeters(LENGTH_IN_MILLIMETERS);
+        boolean areEquals = length.equals(secondLength);
+
+        assertTrue(areEquals);
+    }
+
+    @Test
+    public void whenComparingWithOtherObject_shouldReturnFalse() {
+        length = Length.fromMillimeters(LENGTH_IN_MILLIMETERS);
+        Object obj = new Object();
+        boolean areEquals = length.equals(obj);
+
+        assertFalse(areEquals);
+    }
+
 }
