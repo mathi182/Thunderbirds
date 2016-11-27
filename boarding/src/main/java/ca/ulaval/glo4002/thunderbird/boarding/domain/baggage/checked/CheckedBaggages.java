@@ -51,7 +51,7 @@ public class CheckedBaggages {
     }
 
     public void addBaggage(Baggage baggage) {
-        if (baggages.size() <= checkedBaggageCountLimit) {
+        if (baggages.size() >= checkedBaggageCountLimit) {
             throw new BaggageAmountUnauthorizedException();
         }
         validateBaggage(baggage);
