@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
@@ -33,6 +34,12 @@ public class FlightTest {
         seats.add(seat);
         flight = new Flight(A_FLIGHT_NUMBER, A_FLIGHT_DATE, plane, seats);
         strategy = mock(SeatAssignationStrategy.class);
+    }
+
+    @Test
+    public void shouldReturnRightValues() {
+        assertEquals(A_FLIGHT_NUMBER, flight.getFlightNumber());
+        assertEquals(A_FLIGHT_DATE, flight.getFlightDate());
     }
 
     @Test(expected = SeatNotAvailableException.class)
