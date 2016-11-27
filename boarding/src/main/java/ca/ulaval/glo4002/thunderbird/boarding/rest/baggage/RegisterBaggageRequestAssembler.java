@@ -7,6 +7,11 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 public class RegisterBaggageRequestAssembler {
 
+    private static final String KILOGRAMS = "kg";
+    private static final String POUNDS = "lbs";
+    private static final String CENTIMETERS = "cm";
+    private static final String INCHES = "lbs";
+
     public Baggage getDomainBaggage(RegisterBaggageRequest request) {
         Length dimension = getDimension(request);
         Mass weight = getWeight(request);
@@ -17,9 +22,9 @@ public class RegisterBaggageRequestAssembler {
 
     private Mass getWeight(RegisterBaggageRequest request) {
         switch (request.weightUnit) {
-            case "kg":
+            case KILOGRAMS:
                 return Mass.fromKilograms(request.weight);
-            case "lbs":
+            case POUNDS:
                 return Mass.fromPounds(request.weight);
             default:
                 throw new IllegalFieldWebException();
@@ -28,9 +33,9 @@ public class RegisterBaggageRequestAssembler {
 
     private Length getDimension(RegisterBaggageRequest request) {
         switch (request.linearDimensionUnit) {
-            case "cm":
+            case CENTIMETERS:
                 return Length.fromCentimeters(request.linearDimension);
-            case "po":
+            case INCHES:
                 return Length.fromInches(request.linearDimension);
             default:
                 throw new IllegalFieldWebException();

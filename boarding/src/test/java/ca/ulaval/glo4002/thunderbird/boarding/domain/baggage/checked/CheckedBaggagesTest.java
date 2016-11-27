@@ -21,6 +21,10 @@ public class CheckedBaggagesTest {
     private final Baggage baggageB = mock(Baggage.class);
     private final CheckedBaggages economicCheckedBaggages = CheckedBaggagesFactory.getCheckedBaggages(ECONOMY);
 
+
+    private static final int CHECKED_BAGGAGE_COST = 50;
+    private static final int ECONOMIC_WEIGHT_LIMIT_IN_GRAMS = 23000;
+    private static final int ECONOMIC_DIMENSION_LIMIT_IN_MM = 1580;
     @Before
     public void setUp() {
         willReturn(1f).given(baggageA).getPrice();
@@ -37,7 +41,7 @@ public class CheckedBaggagesTest {
     }
 
     @Test
-    public void givenTwoBaggages_whenWeAddTheseBaggages_shouldHaveOneFreeBaggage() {
+    public void givenTwoBaggages_whenAddingTheseBaggages_shouldHaveFirstBaggageFree() {
         Baggage baggageA = mock(Baggage.class);
         Baggage baggageB = mock(Baggage.class);
 
@@ -49,14 +53,14 @@ public class CheckedBaggagesTest {
     }
 
     @Test
-    public void whenWeGetAllBaggages_shouldBeEmpty() {
+    public void givenAnEmptyCheckedBaggages_whenGettingAllBaggages_shouldBeEmpty() {
         List<Baggage> baggages = economicCheckedBaggages.getBaggages();
 
         assertTrue(baggages.isEmpty());
     }
 
     @Test
-    public void givenWeAddABaggage_whenWeGetAllBaggages_shouldNotBeEmpty() {
+    public void givenAnEmptyBaggageList_whenAddingABaggageAndRetrievingTheList_shouldNotBeEmpty() {
         economicCheckedBaggages.addBaggage(mock(Baggage.class));
 
         List<Baggage> baggages = economicCheckedBaggages.getBaggages();
@@ -65,7 +69,7 @@ public class CheckedBaggagesTest {
     }
 
     @Test
-    public void givenTwoBaggages_whenWeCalculatePrice_shouldReturnPriceSum() {
+    public void givenTwoBaggages_whenCalculatingPrice_shouldReturnPriceSum() {
         economicCheckedBaggages.addBaggage(baggageA);
         economicCheckedBaggages.addBaggage(baggageB);
 
@@ -77,7 +81,7 @@ public class CheckedBaggagesTest {
     }
 
     @Test(expected = BaggageAmountUnauthorizedException.class)
-    public void givenMaximumNumberOfBaggages_whenAddAnOther_shouldThrowAnException() {
+    public void givenMaximumNumberOfBaggages_whenAddingAnother_shouldThrowAnException() {
         economicCheckedBaggages.addBaggage(mock(Baggage.class));
         economicCheckedBaggages.addBaggage(mock(Baggage.class));
         economicCheckedBaggages.addBaggage(mock(Baggage.class));

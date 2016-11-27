@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class BaggageTest {
     private static final UUID BAGGAGE_HASH = new UUID(2L, 2L);
@@ -18,6 +17,8 @@ public class BaggageTest {
     private static final int WEIGHT_VALUE = 22;
     private static final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
     private static final String TYPE = "Type";
+    private static final int INVALID_DIMENSION_VALUE = LINEAR_DIMENSION_VALUE - 1;
+    private static final int INVALID_WEIGHT_VALUE = WEIGHT_VALUE - 1;
 
     private final Baggage baggage = new Baggage(BAGGAGE_HASH, LINEAR_DIMENSION, WEIGHT, TYPE);
 
@@ -31,7 +32,7 @@ public class BaggageTest {
     }
 
     @Test
-    public void givenAPrice_whenSetThisPrice_shouldBeSaved() {
+    public void givenAPrice_whenSettingThisPrice_shouldBeSaved() {
         float expectedPrice = 5342;
 
         baggage.setPrice(expectedPrice);
@@ -47,11 +48,11 @@ public class BaggageTest {
 
     @Test(expected = BaggageDimensionInvalidException.class)
     public void whenDimensionIsInvalid_shouldThrowAnException() {
-        baggage.validate(LINEAR_DIMENSION_VALUE - 1, WEIGHT_VALUE);
+        baggage.validate(INVALID_DIMENSION_VALUE, WEIGHT_VALUE);
     }
 
     @Test(expected = BaggageWeightInvalidException.class)
     public void whenWeightIsInvalid_shouldThrowAnException() {
-        baggage.validate(LINEAR_DIMENSION_VALUE, WEIGHT_VALUE - 1);
+        baggage.validate(LINEAR_DIMENSION_VALUE, INVALID_WEIGHT_VALUE);
     }
 }

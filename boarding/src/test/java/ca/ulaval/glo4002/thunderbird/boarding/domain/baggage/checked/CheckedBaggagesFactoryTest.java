@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.instanceOf;
 
 public class CheckedBaggagesFactoryTest {
     @Test
-    public void givenEconomicSeatClass_whenGetCheckedBaggages_shouldReturnEconomicCheckedBaggages() {
+    public void givenEconomicSeatClass_whenGettingCheckedBaggages_shouldReturnEconomicCheckedBaggages() {
         Seat.SeatClass seatClass = Seat.SeatClass.ECONOMY;
 
         CheckedBaggages checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(seatClass);
@@ -17,7 +17,7 @@ public class CheckedBaggagesFactoryTest {
     }
 
     @Test
-    public void givenBusinessSeatClass_whenGetCheckedBaggages_shouldReturnBusinessCheckedBaggages() {
+    public void givenBusinessSeatClass_whenGettingCheckedBaggages_shouldReturnBusinessCheckedBaggages() {
         Seat.SeatClass seatClass = Seat.SeatClass.BUSINESS;
 
         CheckedBaggages checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(seatClass);
