@@ -10,7 +10,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssign
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationRequest;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationRequestAssembler;
 
-
 public class SeatAssignationApplicationService {
 
     private final SeatAssignationRequestAssembler seatAssignationRequestAssembler;
@@ -18,7 +17,7 @@ public class SeatAssignationApplicationService {
 
     public SeatAssignationApplicationService() {
         this.repository = ServiceLocator.resolve(FlightRepository.class);
-        seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
+        this.seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
     }
 
     public Seat assignSeat(SeatAssignationRequest request) {
