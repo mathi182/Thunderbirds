@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,9 +18,8 @@ import java.util.List;
 @Entity
 public class Reservation {
     @Id
-    @NotNull
     @Column(name = "id", updatable = false, nullable = false)
-    private Integer reservationNumber;
+    private int reservationNumber;
     @NotBlank
     private String flightNumber;
     private Instant flightDate;
@@ -41,7 +39,7 @@ public class Reservation {
     private List<Passenger> passengers;
 
     @JsonCreator
-    public Reservation(Integer reservationNumber,
+    public Reservation(int reservationNumber,
                        String reservationDate,
                        String reservationConfirmation,
                        String flightNumber,
@@ -62,13 +60,12 @@ public class Reservation {
         // for hibernate
     }
 
-    public static Reservation findByReservationNumber(Integer reservationNumber) {
+    public static Reservation findByReservationNumber(int reservationNumber) {
         EntityManager entityManager = new EntityManagerProvider().getEntityManager();
         Reservation reservation = entityManager.find(Reservation.class, reservationNumber);
 
         if (reservation == null) {
-            String reservationNumberString = Integer.toString(reservationNumber);
-            throw new ReservationNotFoundException(reservationNumberString);
+            throw new ReservationNotFoundException(reservationNumber);
         }
 
         return reservation;
@@ -79,7 +76,7 @@ public class Reservation {
         entityManagerProvider.persistInTransaction(this);
     }
 
-    public Integer getId() {
+    public int getId() {
         return reservationNumber;
     }
 

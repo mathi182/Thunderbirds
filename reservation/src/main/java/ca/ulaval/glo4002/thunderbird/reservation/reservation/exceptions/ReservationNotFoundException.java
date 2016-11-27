@@ -9,7 +9,7 @@ public class ReservationNotFoundException extends ElementNotFoundException imple
         super("reservation not found");
     }
 
-    public ReservationNotFoundException(String id) {
+    public ReservationNotFoundException(int id) {
         super("reservation not found with id " + id);
     }
 }

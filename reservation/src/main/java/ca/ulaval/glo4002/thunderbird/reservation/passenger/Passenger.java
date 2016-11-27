@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -30,9 +29,8 @@ public class Passenger {
     private String passportNumber;
     @NotBlank
     private String seatClass;
-    @NotNull
     @JsonIgnore
-    private Integer age;
+    private int age;
     @JsonIgnore
     private boolean isCheckedIn = false;
     @JsonIgnore
@@ -44,7 +42,7 @@ public class Passenger {
     private Reservation reservation;
 
     @JsonCreator
-    public Passenger(String firstName, String lastName, Integer age, String passportNumber, String seatClass) {
+    public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
