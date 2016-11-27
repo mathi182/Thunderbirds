@@ -6,22 +6,17 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BaggagesListAssembler;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BaggagesListDTO;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageRequest;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageRequestAssembler;
 
-import java.util.List;
 import java.util.UUID;
 
 public class BaggageApplicationService {
 
-    private BaggagesListAssembler baggagesListAssembler;
     private RegisterBaggageRequestAssembler registerBaggageRequestAssembler;
     private  BaggageValidationStrategyFactory factory;
 
     public BaggageApplicationService() {
-        this.baggagesListAssembler = new BaggagesListAssembler();
         this.registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
         this.factory = new BaggageValidationStrategyFactory();
     }
@@ -34,13 +29,7 @@ public class BaggageApplicationService {
         passenger.addBaggage(baggage);
     }
 
-    public BaggagesListDTO getBaggagesListDTOFromPassenger(String passengerHash) {
-        Passenger passenger = getPassenger(UUID.fromString(passengerHash));
-        List<Baggage> baggages = passenger.getBaggages();
-        return baggagesListAssembler.toDTO(baggages);
-    }
-
-    private Passenger getPassenger(UUID passengerHash) {
+    public Passenger getPassenger(UUID passengerHash) {
         PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
         return repository.getPassenger(passengerHash);
     }
