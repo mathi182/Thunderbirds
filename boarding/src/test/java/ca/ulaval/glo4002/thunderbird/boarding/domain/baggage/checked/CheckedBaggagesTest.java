@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggagesFactory.*;
 import static ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat.SeatClass.ECONOMY;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.willReturn;
@@ -16,15 +15,14 @@ import static org.mockito.Mockito.verify;
 
 public class CheckedBaggagesTest {
     private static final float BAGGAGE_PRICE_SUM = 3;
+    private static final int CHECKED_BAGGAGE_COST = 50;
+    private static final int ECONOMIC_WEIGHT_LIMIT_IN_GRAMS = 23000;
+    private static final int ECONOMIC_DIMENSION_LIMIT_IN_MM = 1580;
 
     private final Baggage baggageA = mock(Baggage.class);
     private final Baggage baggageB = mock(Baggage.class);
     private final CheckedBaggages economicCheckedBaggages = CheckedBaggagesFactory.getCheckedBaggages(ECONOMY);
 
-
-    private static final int CHECKED_BAGGAGE_COST = 50;
-    private static final int ECONOMIC_WEIGHT_LIMIT_IN_GRAMS = 23000;
-    private static final int ECONOMIC_DIMENSION_LIMIT_IN_MM = 1580;
     @Before
     public void setUp() {
         willReturn(1f).given(baggageA).getPrice();
