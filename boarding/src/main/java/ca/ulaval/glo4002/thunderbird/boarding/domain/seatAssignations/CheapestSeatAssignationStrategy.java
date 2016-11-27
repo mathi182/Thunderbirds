@@ -4,38 +4,33 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy {
 
-    private Seat.SeatClass classType;
+    private SeatFilter seatFilter;
 
     public CheapestSeatAssignationStrategy(Seat.SeatClass classType) {
-        this.classType = classType;
+        if (classType.equals(Seat.SeatClass.ANY)) {
+            seatFilter = new NoOperationSeatClassFilter();
+        } else {
+            seatFilter = new SeatClassSeatFilter(classType);
+        }
+    }
+
+    //For tests
+    public CheapestSeatAssignationStrategy(SeatFilter seatFilter) {
+        this.seatFilter = seatFilter;
     }
 
     @Override
     public Seat assignSeat(List<Seat> availableSeats) {
-        List<Seat> filteredSeats = filterBySeatClass(availableSeats);
+        List<Seat> filteredSeats = seatFilter.filter(availableSeats);
 
         if (filteredSeats.size() == 0) {
             throw new NoMoreSeatAvailableException();
         }
 
         return findCheapestSeat(filteredSeats);
-    }
-
-    private List<Seat> filterBySeatClass(List<Seat> availableSeats) {
-        List<Seat> seats;
-        if (classType != Seat.SeatClass.ANY) {
-            seats = availableSeats
-                    .stream()
-                    .filter(seat -> seat.getSeatClass().equals(classType))
-                    .collect(Collectors.toList());
-        } else {
-            seats = availableSeats;
-        }
-        return seats;
     }
 
     private Seat findCheapestSeat(List<Seat> availableSeats) {
