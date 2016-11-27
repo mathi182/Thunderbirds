@@ -17,7 +17,7 @@ public class BaggageResource {
     private BaggageApplicationService baggageApplicationService;
     private RegisterBaggageResponseBody registerBaggageResponseBody;
 
-    public BaggageResource(){
+    public BaggageResource() {
         this.baggageApplicationService = new BaggageApplicationService();
         this.registerBaggageResponseBody = new RegisterBaggageResponseBody(true);
     }

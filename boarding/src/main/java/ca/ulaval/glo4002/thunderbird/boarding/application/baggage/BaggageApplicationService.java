@@ -17,14 +17,18 @@ import java.util.UUID;
 public class BaggageApplicationService {
 
     private BaggagesListAssembler baggagesListAssembler;
+    private RegisterBaggageRequestAssembler registerBaggageRequestAssembler;
+    private  BaggageValidationStrategyFactory factory;
 
     public BaggageApplicationService() {
         this.baggagesListAssembler = new BaggagesListAssembler();
+        this.registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        this.factory = new BaggageValidationStrategyFactory();
     }
 
     public void registerBaggage(UUID passengerHash, RegisterBaggageRequest request) {
         Passenger passenger = getPassenger(passengerHash);
-        Baggage baggage = convertRequestToBaggage(request);
+        Baggage baggage = registerBaggageRequestAssembler.getDomainBaggage(request);
 
         validateBaggage(baggage, passenger);
         passenger.addBaggage(baggage);
@@ -41,13 +45,7 @@ public class BaggageApplicationService {
         return repository.getPassenger(passengerHash);
     }
 
-    private Baggage convertRequestToBaggage(RegisterBaggageRequest request) {
-        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
-        return registerBaggageRequestAssembler.getDomainBaggage(request);
-    }
-
     private void validateBaggage(Baggage baggage, Passenger passenger) {
-        BaggageValidationStrategyFactory factory = new BaggageValidationStrategyFactory();
         BaggageValidationStrategy strategy = factory.getStrategy(passenger.getSeatClass());
         strategy.validateBaggage(baggage);
     }
