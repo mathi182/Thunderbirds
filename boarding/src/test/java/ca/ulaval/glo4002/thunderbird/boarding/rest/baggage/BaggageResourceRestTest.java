@@ -1,44 +1,41 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.OK;
-import static org.eclipse.jetty.http.HttpStatus.Code.BAD_REQUEST;
-import static org.eclipse.jetty.http.HttpStatus.Code.CREATED;
-import static org.eclipse.jetty.http.HttpStatus.Code.NOT_FOUND;
-import static org.hamcrest.Matchers.equalTo;
+import static org.eclipse.jetty.http.HttpStatus.Code.*;
 import static org.junit.Assert.*;
 
 public class BaggageResourceRestTest {
-    public static final String CM_UNIT_FROM_REQUEST = "cm";
-    public static final int LINEAR_DIMENSION = 10;
-    public static final String KG_UNIT_FROM_REQUEST = "kg";
-    public static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
-    public static final int WEIGHT = 10;
-    public static final int INVALID_WEIGHT = 4000;
-    public static final String INVALID_UNIT = "invalid_unit";
+    private static final String CM_UNIT_FROM_REQUEST = "cm";
+    private static final int LINEAR_DIMENSION = 10;
+    private static final String KG_UNIT_FROM_REQUEST = "kg";
+    private static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
+    private static final int WEIGHT = 10;
+    private static final int INVALID_WEIGHT = 4000;
+    private static final String INVALID_UNIT = "invalid_unit";
     private static final String VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER.getHash().toString();
     private static final UUID INVALID_PASSENGER_UUID = UUID.randomUUID();
 
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
-        Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
+        Map<String, Object> registerBaggageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
                                                                            LINEAR_DIMENSION,
                                                                            KG_UNIT_FROM_REQUEST,
                                                                            WEIGHT,
                                                                            CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         Response response = givenBaseRequest()
-                        .body(registerBagageBody)
+                        .body(registerBaggageBody)
                         .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                         .then().statusCode(CREATED.getCode())
                         .extract().response();
@@ -52,23 +49,12 @@ public class BaggageResourceRestTest {
     }
 
     @Test
-    public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() throws JsonProcessingException {
-        BaggagesListDTO baggagesListDTO = buildExistentBoardingPassengerBaggagesListDTO();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String expectedResponse = objectMapper.writeValueAsString(baggagesListDTO);
-
+    public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() {
         givenBaseRequest()
                 .when()
                 .get("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
                 .then()
-                .statusCode(OK.getStatusCode())
-                .body(equalTo(expectedResponse));
-    }
-
-    private BaggagesListDTO buildExistentBoardingPassengerBaggagesListDTO () {
-        List<BaggageDTO> baggageDTOArray = new ArrayList<BaggageDTO>();
-        BaggagesListAssembler baggagesListAssembler = new BaggagesListAssembler();
-        return baggagesListAssembler.toDTO(EXISTENT_BOARDING_PASSENGER.getBaggages());
+                .statusCode(OK.getStatusCode());
     }
 
     @Test
@@ -83,7 +69,7 @@ public class BaggageResourceRestTest {
     private boolean isLocationValid(String location, String passengerHash) {
         String baseUrl = buildUrl("/passengers/" + passengerHash + "/baggages/");
         baseUrl = baseUrl.replace("/", "\\/");
-        Pattern pattern = Pattern.compile(baseUrl + "\\d+$");
+        Pattern pattern = Pattern.compile(baseUrl + ".*$");
 
         return pattern.matcher(location).matches();
     }
