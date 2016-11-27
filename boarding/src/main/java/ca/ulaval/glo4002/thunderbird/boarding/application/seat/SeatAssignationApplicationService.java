@@ -22,11 +22,10 @@ public class SeatAssignationApplicationService {
     }
 
     public Seat assignSeat(SeatAssignationRequest request) {
-
         Flight flight = getFlight(request);
         SeatAssignationStrategy strategy = getSeatAssignationStrategy(request);
-        Seat seat = flight.assignSeat(strategy);
-        seat.take();
+        Seat seat = flight.findAvailableSeat(strategy);
+        seat.markAsUnavailable();
         return seat;
     }
 

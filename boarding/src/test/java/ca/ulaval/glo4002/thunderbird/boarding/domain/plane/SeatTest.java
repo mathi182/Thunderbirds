@@ -34,7 +34,7 @@ public class SeatTest {
 
     @Test
     public void whenTakingASeat_ShouldNotBeAvailableAfterward() {
-        seat.take();
+        seat.markAsUnavailable();
 
         assertFalse(seat.isAvailable());
     }
@@ -46,9 +46,9 @@ public class SeatTest {
 
     @Test(expected = SeatAlreadyTakenException.class)
     public void givenATakenSeat_whenTaking_ShouldThrowSeatTakenException() {
-        seat.take();
+        seat.markAsUnavailable();
 
-        seat.take();
+        seat.markAsUnavailable();
     }
 
     @Test

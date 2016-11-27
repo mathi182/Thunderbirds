@@ -42,7 +42,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
         willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
 
-        Seat takenSeat = strategy.assignSeat(seats);
+        Seat takenSeat = strategy.findAvailableSeat(seats);
 
         assertEquals(economicMostLegRoomSeat, takenSeat);
     }
@@ -53,7 +53,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
         willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
 
-        Seat takenSeat = strategy.assignSeat(seats);
+        Seat takenSeat = strategy.findAvailableSeat(seats);
 
         assertEquals(economicMostLegRoomSeat, takenSeat);
     }
@@ -64,7 +64,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
         List<Seat> seatsWithoutBusiness = new ArrayList<>(Arrays.asList(economicCheapestSeat, economicMostLegRoomSeat));
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
 
-        strategy.assignSeat(seatsWithoutBusiness);
+        strategy.findAvailableSeat(seatsWithoutBusiness);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
         willReturn(true).given(economicCheapestSeat).hasSameAmountOfLegRoomAs(any(Seat.class));
         strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
 
-        Seat takenSeat = strategy.assignSeat(seats);
+        Seat takenSeat = strategy.findAvailableSeat(seats);
 
         assertEquals(economicCheapestSeat, takenSeat);
     }
