@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,5 +29,10 @@ public class CheckedBaggagesFactoryTest {
         CheckedBaggages checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(SOME_PASSENGER_HASH, seatClass);
 
         Assert.assertThat(checkedBaggages, instanceOf(CheckedBaggages.class));
+    }
+
+    @Test (expected = NoSuchStrategyException.class)
+    public void givenInvalidSeatClass_whenGetCheckedBaggages_shouldThrowNoSuchStrategyException() {
+        CheckedBaggagesFactory.getCheckedBaggages(SOME_PASSENGER_HASH, Seat.SeatClass.ANY);
     }
 }
