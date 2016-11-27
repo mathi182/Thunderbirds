@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.app;
 
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BaggageResource;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationRequest;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationsResource;
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
@@ -88,7 +89,7 @@ public class AppRestTest {
             .contentType(ContentType.JSON)
             .body("")
         .when()
-            .post("/passengers/" + NONEXISTENT_PASSENGER_HASH + "/baggages") //TODO Ajouter un PATH comme les autres resources?
+            .post(BaggageResource.PATH + NONEXISTENT_PASSENGER_HASH + BaggageResource.BAGGAGES)
         .then()
             .assertThat()
             .statusCode(NOT_FOUND.getStatusCode());

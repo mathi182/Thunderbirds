@@ -6,7 +6,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -18,6 +17,8 @@ import java.util.UUID;
 @Path("/passengers/{passenger_hash}/baggages")
 @Produces(MediaType.APPLICATION_JSON)
 public class BaggageResource {
+    public static final String PATH = "/passengers/";
+    public static final String BAGGAGES = "baggages";
     @Context
     UriInfo uriInfo;
 

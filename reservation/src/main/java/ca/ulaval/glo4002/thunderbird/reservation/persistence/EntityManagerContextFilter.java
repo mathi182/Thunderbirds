@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.reservation.persistence;
 
+import ca.ulaval.glo4002.thunderbird.reservation.exceptions.InvalidResourceException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.*;
@@ -21,7 +23,11 @@ public class EntityManagerContextFilter implements Filter {
             entityManager = entityManagerFactory.createEntityManager();
             EntityManagerProvider.setEntityManager(entityManager);
             chain.doFilter(request, response);
-        } finally {
+
+        } catch (ServletException e) {
+            throw new InvalidResourceException(e.getMessage());
+        }
+        finally {
             if (entityManager != null) {
                 entityManager.close();
             }
