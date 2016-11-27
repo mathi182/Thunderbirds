@@ -12,6 +12,8 @@ import java.util.List;
 
 @Embeddable
 public class CheckedBaggages {
+    private static final float FREE = 0;
+
     private int freeCheckedBaggageCount;
     private int weightLimitInGrams;
     private int dimensionLimitInMm;
@@ -66,7 +68,7 @@ public class CheckedBaggages {
 
     private void setBaggagePrice(Baggage baggage) {
         if (baggages.size() < freeCheckedBaggageCount) {
-            baggage.setPrice(0);
+            baggage.setPrice(FREE);
         } else {
             baggage.setPrice(checkedBaggageCost);
         }
