@@ -4,22 +4,32 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrategy {
 
     private Seat.SeatClass classType;
+    private SeatFilter seatFilter;
 
     public MostLegRoomSeatAssignationStrategy(Seat.SeatClass classType) {
         this.classType = classType;
+        if (classType.equals(Seat.SeatClass.ANY)) {
+            seatFilter = new NoOperationSeatClassFilter();
+        } else {
+            seatFilter = new SeatClassSeatFilter(classType);
+        }
+    }
+
+    //For tests
+    public MostLegRoomSeatAssignationStrategy(Seat.SeatClass classType, SeatFilter seatFilter) {
+        this.classType = classType;
+        this.seatFilter = seatFilter;
     }
 
     @Override
     public Seat assignSeat(List<Seat> availableSeats) {
-        List<Seat> filteredSeats = filterBySeatClass(availableSeats);
+        List<Seat> filteredSeats = seatFilter.filter(availableSeats);
 
         if (filteredSeats.isEmpty()) {
             throw new NoMoreSeatAvailableException();
@@ -28,17 +38,6 @@ public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrate
         filteredSeats = filterByLegRoom(filteredSeats);
 
         return getBestSeat(filteredSeats);
-    }
-
-    private List<Seat> filterBySeatClass(List<Seat> availableSeats) {
-        if (classType != Seat.SeatClass.ANY) {
-            return availableSeats
-                    .stream()
-                    .filter(seat -> seat.getSeatClass().equals(classType))
-                    .collect(Collectors.toList());
-        }
-        return availableSeats;
-
     }
 
     private List<Seat> filterByLegRoom(List<Seat> filteredSeats) {
