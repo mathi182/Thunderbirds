@@ -7,11 +7,13 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.mock;
 
 public class LandscapeSeatAssignationStrategyTest {
@@ -25,6 +27,7 @@ public class LandscapeSeatAssignationStrategyTest {
     private Seat goodViewEconomicSeat;
     private Seat expensiveSeatMock;
     private Seat cheapSeatMock;
+    private SeatFilter seatFilter;
 
     @Before
     public void before() {
@@ -37,6 +40,7 @@ public class LandscapeSeatAssignationStrategyTest {
         goodViewEconomicSeat = mock(Seat.class);
         expensiveSeatMock = mock(Seat.class);
         cheapSeatMock = mock(Seat.class);
+        seatFilter = mock(SeatFilter.class);
         givenAValidSeatsList();
     }
 
@@ -54,35 +58,21 @@ public class LandscapeSeatAssignationStrategyTest {
     @Test
     public void givenAValidSeatsList_whenSelectingBestLandscape_shouldReturnBestFromAnyClass() {
         willReturn(true).given(bestViewEconomicSeat).hasBetterViewThan(bestViewBusinessSeat);
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
+        willReturn(seats).given(seatFilter.filter(anyCollectionOf(Seat.class)));
+        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY, seatFilter);
 
         Seat actualSeat = strategy.assignSeat(seats);
 
         assertEquals(bestViewEconomicSeat, actualSeat);
     }
 
-    @Test
-    public void givenAValidSeatsList_whenSelectingBestLandscapeFromBusiness_shouldReturnBestFromBusiness() {
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
-        Seat actualSeat = strategy.assignSeat(seats);
-
-        assertEquals(bestViewBusinessSeat, actualSeat);
-    }
-
     @Test(expected = NoMoreSeatAvailableException.class)
     public void givenAnEmptyList_whenSelectingBestLandscape_shouldThrowNoMoreSeatException() {
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
+        willReturn(Collections.emptyList()).given(seatFilter).filter(anyCollectionOf(Seat.class));
+        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY, seatFilter);
         seats.clear();
 
         strategy.assignSeat(seats);
-    }
-
-    @Test(expected = NoMoreSeatAvailableException.class)
-    public void
-    givenAValidListWithoutEconomicSeat_whenSelectingBestLandscapeFromEconomic_shouldThrowNoMoreSeatException() {
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
-
-        strategy.assignSeat(businessSeats);
     }
 
     @Test
@@ -90,11 +80,12 @@ public class LandscapeSeatAssignationStrategyTest {
         willReturn(true).given(cheapSeatMock).hasSameViewAs(expensiveSeatMock);
         willReturn(false).given(cheapSeatMock).hasBetterViewThan(expensiveSeatMock);
         willReturn(true).given(cheapSeatMock).hasLowerPriceThan(any(Seat.class));
+        willReturn(seats).given(seatFilter).filter(anyCollectionOf(Seat.class));
 
         seats.clear();
         seats.add(expensiveSeatMock);
         seats.add(cheapSeatMock);
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
+        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY, seatFilter);
 
         Seat actualSeat = strategy.assignSeat(seats);
 

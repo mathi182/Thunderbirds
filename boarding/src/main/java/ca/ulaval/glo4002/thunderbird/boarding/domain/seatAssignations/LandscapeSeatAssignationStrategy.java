@@ -4,26 +4,32 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy {
 
     private Seat.SeatClass chosenSeatClass;
-
-    public LandscapeSeatAssignationStrategy() {
-        this(Seat.SeatClass.ANY);
-    }
+    private SeatFilter seatFilter;
 
     public LandscapeSeatAssignationStrategy(Seat.SeatClass seatClass) {
+        if (seatClass.equals(Seat.SeatClass.ANY)) {
+            seatFilter = new NoOperationSeatClassFilter();
+        } else {
+            seatFilter = new SeatClassSeatFilter(seatClass);
+        }
+        this.chosenSeatClass = seatClass;
+    }
+
+    //For tests
+    public LandscapeSeatAssignationStrategy(Seat.SeatClass seatClass, SeatFilter seatFilter) {
+        this.seatFilter = seatFilter;
         this.chosenSeatClass = seatClass;
     }
 
     @Override
     public Seat assignSeat(List<Seat> availableSeats) {
-        List<Seat> filteredSeats = filterSeatsByClass(availableSeats);
+        List<Seat> filteredSeats = seatFilter.filter(availableSeats);
         if (filteredSeats.isEmpty()) {
             throw new NoMoreSeatAvailableException();
         }
@@ -31,16 +37,6 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
         filteredSeats = filterBestViewSeat(filteredSeats);
 
         return chooseSeat(filteredSeats);
-    }
-
-    private List<Seat> filterSeatsByClass(List<Seat> availableSeats) {
-        if (chosenSeatClass != Seat.SeatClass.ANY) {
-            return availableSeats
-                    .stream()
-                    .filter(seat -> seat.getSeatClass().equals(chosenSeatClass))
-                    .collect(Collectors.toList());
-        }
-        return availableSeats;
     }
 
     private List<Seat> filterBestViewSeat(List<Seat> availableSeats) {
