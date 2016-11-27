@@ -19,7 +19,7 @@ public class Passenger {
     private Instant flightDate;
     private String flightNumber;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Embedded
     private CheckedBaggages checkedBaggages;
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
@@ -31,7 +31,7 @@ public class Passenger {
         this.seatClass = seatClass;
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
-        this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(passengerHash, seatClass);
+        this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(seatClass);
     }
 
     protected Passenger() {
