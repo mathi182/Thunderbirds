@@ -49,9 +49,7 @@ public class CheckinResourceRestTest {
     private void validateStatusFromCheckinResourceRequest(Map<String, Object> requestBody, Response.Status expectedStatus) {
         givenBaseRequest()
                 .body(requestBody)
-                .when()
-                .post(CheckinResource.PATH)
-                .then()
-                .statusCode(expectedStatus.getStatusCode());
+                .when().post(CheckinResource.PATH)
+                .then().statusCode(expectedStatus.getStatusCode());
     }
 }

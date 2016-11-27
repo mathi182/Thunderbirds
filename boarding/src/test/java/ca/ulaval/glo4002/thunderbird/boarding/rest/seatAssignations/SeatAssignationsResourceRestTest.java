@@ -27,12 +27,9 @@ public class SeatAssignationsResourceRestTest {
         Response response;
         response = givenBaseRequest()
                 .body(seatAssignationBody)
-                .when()
-                .post(SeatAssignationsResource.PATH)
-                .then()
-                .statusCode(CREATED.getCode())
-                .extract()
-                .response();
+                .when().post(SeatAssignationsResource.PATH)
+                .then().statusCode(CREATED.getCode())
+                .extract().response();
 
         Boolean locationValidity = isLocationValid(response.getHeader("Location"));
         assertTrue(locationValidity);
@@ -55,10 +52,8 @@ public class SeatAssignationsResourceRestTest {
 
         givenBaseRequest()
                 .body(seatAssignationBody)
-                .when()
-                .post(SeatAssignationsResource.PATH)
-                .then()
-                .statusCode(NOT_FOUND.getCode());
+                .when().post(SeatAssignationsResource.PATH)
+                .then().statusCode(NOT_FOUND.getCode());
     }
 
     @Test
@@ -67,10 +62,8 @@ public class SeatAssignationsResourceRestTest {
 
         givenBaseRequest()
                 .body(seatAssignationBody)
-                .when()
-                .post(SeatAssignationsResource.PATH)
-                .then()
-                .statusCode(BAD_REQUEST.getCode());
+                .when().post(SeatAssignationsResource.PATH)
+                .then().statusCode(BAD_REQUEST.getCode());
     }
 
     private Map<String, Object> createSeatAssignationBody(UUID passengerHash, String mode) {

@@ -42,10 +42,8 @@ public class EventsResourceRestTest {
 
         givenBaseRequest()
                 .body(generateReservationMap())
-                .when()
-                .post(createReservationPath)
-                .then()
-                .statusCode(CREATED.getStatusCode())
+                .when().post(createReservationPath)
+                .then().statusCode(CREATED.getStatusCode())
                 .header("Location", buildUrl(locationExpected));
     }
 

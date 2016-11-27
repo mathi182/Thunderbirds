@@ -18,10 +18,8 @@ public class PassengersResourceRestTest {
     @Test
     public void givenRandomPassengerHash_whenAskingForPassenger_shouldReturnNotFound() {
         givenBaseRequest()
-                .when()
-                .get(PASSENGER_REST_FORMAT , RANDOM_UUID.toString())
-                .then()
-                .statusCode(NOT_FOUND.getStatusCode());
+                .when().get(PASSENGER_REST_FORMAT , RANDOM_UUID.toString())
+                .then().statusCode(NOT_FOUND.getStatusCode());
     }
 
     @Test
@@ -29,8 +27,7 @@ public class PassengersResourceRestTest {
         givenBaseRequest()
                 .when()
                 .get(PASSENGER_REST_FORMAT, DevContext.EXISTENT_PASSENGER_HASH)
-                .then()
-                .statusCode(OK.getStatusCode())
+                .then().statusCode(OK.getStatusCode())
                 .body("passenger_hash", equalTo(DevContext.EXISTENT_PASSENGER_HASH.toString()))
                 .body("seat_class", equalTo(DevContext.SEAT_CLASS))
                 .body("flight_number", equalTo(DevContext.FLIGHT_NUMBER))

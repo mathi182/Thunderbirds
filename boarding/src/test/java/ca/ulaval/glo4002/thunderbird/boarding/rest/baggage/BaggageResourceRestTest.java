@@ -32,15 +32,11 @@ public class BaggageResourceRestTest {
                                                                            WEIGHT,
                                                                            CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
-        Response response =
-                givenBaseRequest()
+        Response response = givenBaseRequest()
                         .body(registerBagageBody)
-                        .when()
-                        .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                        .then()
-                        .statusCode(CREATED.getCode())
-                        .extract()
-                        .response();
+                        .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                        .then().statusCode(CREATED.getCode())
+                        .extract().response();
 
         Boolean locationValidity = isLocationValid(response.getHeader("Location"), VALID_PASSENGER_HASH);
         assertTrue(locationValidity);
@@ -66,15 +62,11 @@ public class BaggageResourceRestTest {
                                                                            INVALID_WEIGHT,
                                                                            CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
-        Response response =
-                givenBaseRequest()
+        Response response = givenBaseRequest()
                     .body(registerBagageBody)
-                    .when()
-                    .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                    .then()
-                    .statusCode(OK.getCode())
-                    .extract()
-                    .response();
+                    .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                    .then().statusCode(OK.getCode())
+                    .extract().response();
 
         Boolean allowed = response.path("allowed");
         assertFalse(allowed);
@@ -92,10 +84,8 @@ public class BaggageResourceRestTest {
 
         givenBaseRequest()
                 .body(registerBaggageBody)
-                .when()
-                .post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                .then()
-                .statusCode(BAD_REQUEST.getCode());
+                .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                .then().statusCode(BAD_REQUEST.getCode());
     }
 
     private Map<String, Object> createRegisterBaggageBody (String linearDimensionUnit,
