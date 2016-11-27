@@ -23,4 +23,16 @@ public class Plane {
     protected Plane() {
         // for hibernate
     }
+
+    public String getPlaneModel() {
+        return planeModel;
+    }
+
+    public int getNumberSeats() {
+        return numberSeats;
+    }
+
+    public int getCargoWeight() {
+        return cargoWeight;
+    }
 }

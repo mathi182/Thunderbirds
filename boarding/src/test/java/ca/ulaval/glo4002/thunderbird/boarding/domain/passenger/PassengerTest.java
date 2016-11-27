@@ -25,6 +25,14 @@ public class PassengerTest {
     }
 
     @Test
+    public void shouldReturnRightValues() {
+        assertEquals(VALID_PASSENGER_SEAT_CLASS, passenger.getSeatClass());
+        assertEquals(VALID_FLIGHT_DATE, passenger.getFlightDate());
+        assertEquals(VALID_FLIGHT_NUMBER, passenger.getFlightNumber());
+        assertEquals(VALID_PASSENGER_HASH, passenger.getHash());
+    }
+
+    @Test
     public void givenNewPassenger_whenGettingPassengerID_shouldReturnPassengerID(){
         UUID actualID = passenger.getHash();
 
