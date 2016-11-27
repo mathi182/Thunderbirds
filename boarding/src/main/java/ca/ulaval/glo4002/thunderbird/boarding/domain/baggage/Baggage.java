@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,22 +17,22 @@ public class Baggage {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID baggageHash;
-    private int linearDimensionInMm;
-    private int weightInGrams;
+    private Length linearDimension;
+    private Mass weight;
     private String type;
     private float price;
 
-    public Baggage(int linearDimensionInMm, int weightInG, String type) {
+    public Baggage(Length linearDimension, Mass weight, String type) {
         this.baggageHash = UUID.randomUUID();
-        this.linearDimensionInMm = linearDimensionInMm;
-        this.weightInGrams = weightInG;
+        this.linearDimension = linearDimension;
+        this.weight = weight;
         this.type = type;
     }
 
-    public Baggage(UUID baggageHash, int linearDimensionInMm, int weightInG, String type) {
+    public Baggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
         this.baggageHash = baggageHash;
-        this.linearDimensionInMm = linearDimensionInMm;
-        this.weightInGrams = weightInG;
+        this.linearDimension = linearDimension;
+        this.weight = weight;
         this.type = type;
     }
 
@@ -42,12 +44,12 @@ public class Baggage {
         return baggageHash;
     }
 
-    public int getWeightInGrams() {
-        return weightInGrams;
+    public Mass getWeight() {
+        return weight;
     }
 
-    public int getDimensionInMm() {
-        return linearDimensionInMm;
+    public Length getDimension() {
+        return linearDimension;
     }
 
     public String getType() {
@@ -63,11 +65,11 @@ public class Baggage {
     }
 
     public void validate(int baggageDimensionLimitInMm, int baggageWeightLimitInGrams) {
-        if (this.weightInGrams > baggageWeightLimitInGrams) {
+        if (weight.toGrams() > baggageWeightLimitInGrams) {
             throw new BaggageWeightInvalidException();
         }
 
-        if (this.linearDimensionInMm > baggageDimensionLimitInMm) {
+        if (linearDimension.toMillimeters() > baggageDimensionLimitInMm) {
             throw new BaggageDimensionInvalidException();
         }
     }

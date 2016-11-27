@@ -1,34 +1,38 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.DimensionConverter;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.DimensionConverterFactory;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.WeightConverter;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.unitConverters.WeightConverterFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 public class RegisterBaggageRequestAssembler {
 
     public Baggage getDomainBaggage(RegisterBaggageRequest request) {
-        int dimension = convertRequestDimension(request);
-        int weight = convertRequestWeight(request);
+        Length dimension = getDimension(request);
+        Mass weight = getWeight(request);
         String type = request.type;
 
         return new Baggage(dimension, weight, type);
     }
 
-    private int convertRequestDimension(RegisterBaggageRequest request) {
-        DimensionConverterFactory dimensionConverterFactory = new DimensionConverterFactory();
-        DimensionConverter dimensionConverter = dimensionConverterFactory.getConverter(request.linearDimensionUnit);
-        return dimensionConverter.convertToMillimeters(request.linearDimension);
+    private Mass getWeight(RegisterBaggageRequest request) {
+        switch (request.weightUnit) {
+            case "kg":
+                return Mass.fromKilograms(request.weight);
+            case "lbs":
+                return Mass.fromPounds(request.weight);
+            default:
+                return Mass.fromKilograms(request.weight); //À discuter
+        }
     }
 
-    private int convertRequestWeight(RegisterBaggageRequest request) {
-        WeightConverterFactory weightConverterFactory = new WeightConverterFactory();
-        WeightConverter weightConverter = weightConverterFactory.getConverter(request.weightUnit);
-        return weightConverter.convertToGrams(request.weight);
+    private Length getDimension(RegisterBaggageRequest request) {
+        switch (request.linearDimensionUnit) {
+            case "cm":
+                return Length.fromCentimeters(request.linearDimension);
+            case "po":
+                return Length.fromInches(request.linearDimension);
+            default:
+                return Length.fromCentimeters(request.linearDimension); //À discuter
+        }
     }
-
 }

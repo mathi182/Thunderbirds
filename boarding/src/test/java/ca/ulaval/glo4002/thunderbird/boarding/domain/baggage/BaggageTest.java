@@ -20,7 +20,7 @@ public class BaggageTest {
     public void shouldReturnRightValues() {
         assertEquals(BAGGAGE_HASH, baggage.getId());
         assertEquals(LINEAR_DIMENSION, baggage.getDimensionInMm());
-        assertEquals(WEIGHT, baggage.getWeightInGrams());
+        assertEquals(WEIGHT, baggage.getWeight());
         assertEquals(TYPE, baggage.getType());
         assertEquals(0, baggage.getPrice(), 0.0f);
     }

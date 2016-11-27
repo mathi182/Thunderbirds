@@ -19,7 +19,9 @@ public class Length {
         return millimeters / MILLIMETERS_IN_A_INCH;
     }
 
-    public double toMillimeters() { return millimeters;}
+    public double toMillimeters() {
+        return millimeters;
+    }
 
     public static Length fromMillimeters(double millimeters) {
         return new Length(millimeters);

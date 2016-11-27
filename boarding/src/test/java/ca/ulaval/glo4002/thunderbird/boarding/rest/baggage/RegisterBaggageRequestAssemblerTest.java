@@ -29,7 +29,7 @@ public class RegisterBaggageRequestAssemblerTest {
         Baggage actualBaggage = registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
 
         assertEquals(LINEAR_DIMENSION_CONVERTED, actualBaggage.getDimensionInMm());
-        assertEquals(WEIGHT_UNIT_CONVERTED, actualBaggage.getWeightInGrams());
+        assertEquals(WEIGHT_UNIT_CONVERTED, actualBaggage.getWeight());
         assertEquals(VALID_BAGGAGE_TYPE, actualBaggage.getType());
     }
 

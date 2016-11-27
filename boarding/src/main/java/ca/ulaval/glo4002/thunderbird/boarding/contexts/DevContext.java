@@ -17,6 +17,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneServiceGlo3
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerRequest;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -71,8 +73,14 @@ public class DevContext implements Context {
         String flightNumber = "QK-918";
         Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber);
 
-        Baggage baggage1 = new Baggage(500, 1000, "checked");
-        Baggage baggage2 = new Baggage(200, 500, "checked");
+        Length length1 = Length.fromMillimeters(500);
+        Mass mass1 = Mass.fromGrams(1000);
+
+        Length length2 = Length.fromMillimeters(200);
+        Mass mass2 = Mass.fromGrams(500);
+
+        Baggage baggage1 = new Baggage(length1, mass1, "checked");
+        Baggage baggage2 = new Baggage(length2, mass2, "checked");
         passenger.addBaggage(baggage1);
         passenger.addBaggage(baggage2);
 
