@@ -80,4 +80,16 @@ public class MostLegRoomSeatAssignationStrategyTest {
 
         assertEquals(economicCheapestSeat, takenSeat);
     }
+
+    @Test
+    public void givenAValidSeatsList_whenSelectionMostLegRoomWithSecondSeatAsBest_shouldClearFirstListAndReturnSecondSeat() {
+        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(economicCheapestSeat);
+
+        List<Seat> seatsWithMostLegRoomAsSecond = new ArrayList<>(Arrays.asList(economicCheapestSeat, economicMostLegRoomSeat));
+        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
+
+        Seat takenSeat = strategy.assignSeat(seatsWithMostLegRoomAsSecond);
+
+        assertEquals(economicMostLegRoomSeat, takenSeat);
+    }
 }

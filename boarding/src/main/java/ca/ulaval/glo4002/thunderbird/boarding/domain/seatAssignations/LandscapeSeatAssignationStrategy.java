@@ -13,10 +13,6 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
 
     private Seat.SeatClass chosenSeatClass;
 
-    public LandscapeSeatAssignationStrategy() {
-        this(Seat.SeatClass.ANY);
-    }
-
     public LandscapeSeatAssignationStrategy(Seat.SeatClass seatClass) {
         this.chosenSeatClass = seatClass;
     }
