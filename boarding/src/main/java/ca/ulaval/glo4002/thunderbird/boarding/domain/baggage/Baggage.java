@@ -16,10 +16,13 @@ public class Baggage {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID baggageHash;
-    private Length linearDimension;
-    private Mass weight;
     private String type;
     private float price;
+
+    @Embedded
+    private Length linearDimension;
+    @Embedded
+    private Mass weight;
 
     public Baggage(Length linearDimension, Mass weight, String type) {
         this.baggageHash = UUID.randomUUID();
