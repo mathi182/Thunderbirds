@@ -1,9 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import io.restassured.response.Response;
-import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -18,27 +19,16 @@ public class SeatAssignationsResourceRestTest {
     private static final String VALID_MODE = "RANDOM";
     private static final String INVALID_MODE = "INVALID";
 
-    private SeatAssignationRequest seatAssignationRequest;
-
-    @Before
-    public void setUp() {
-        seatAssignationRequest = new SeatAssignationRequest();
-    }
-
     @Test
     public void givenAValidPassengerHashAndAValidMode_whenAssigningSeat_shouldAssignSeat() {
-        seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER.getHash();
-        seatAssignationRequest.mode = VALID_MODE;
+        Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), VALID_MODE);
 
         Response response;
         response = givenBaseRequest()
-                .body(seatAssignationRequest)
-                .when()
-                .post(SeatAssignationsResource.PATH)
-                .then()
-                .statusCode(CREATED.getCode())
-                .extract()
-                .response();
+                .body(seatAssignationBody)
+                .when().post(SeatAssignationsResource.PATH)
+                .then().statusCode(CREATED.getCode())
+                .extract().response();
 
         Boolean locationValidity = isLocationValid(response.getHeader("Location"));
         assertTrue(locationValidity);
@@ -57,27 +47,29 @@ public class SeatAssignationsResourceRestTest {
 
     @Test
     public void givenAnInvalidPassengerHashAndAValidMode_whenAssigningSeat_shouldReturnNotFound() {
-        seatAssignationRequest.passengerHash = NON_EXISTENT_PASSENGER_HASH;
-        seatAssignationRequest.mode = VALID_MODE;
+        Map<String, Object> seatAssignationBody = createSeatAssignationBody(NON_EXISTENT_PASSENGER_HASH, VALID_MODE);
 
         givenBaseRequest()
-                .body(seatAssignationRequest)
-                .when()
-                .post(SeatAssignationsResource.PATH)
-                .then()
-                .statusCode(NOT_FOUND.getCode());
+                .body(seatAssignationBody)
+                .when().post(SeatAssignationsResource.PATH)
+                .then().statusCode(NOT_FOUND.getCode());
     }
 
     @Test
     public void givenAValidPassengerHashAndInvalidMode_whenAssigningSeat_shouldReturnBadRequest() {
-        seatAssignationRequest.passengerHash = EXISTENT_BOARDING_PASSENGER.getHash();
-        seatAssignationRequest.mode = INVALID_MODE;
+        Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), INVALID_MODE);
+
 
         givenBaseRequest()
-                .body(seatAssignationRequest)
-                .when()
-                .post(SeatAssignationsResource.PATH)
-                .then()
-                .statusCode(BAD_REQUEST.getCode());
+                .body(seatAssignationBody)
+                .when().post(SeatAssignationsResource.PATH)
+                .then().statusCode(BAD_REQUEST.getCode());
+    }
+
+    private Map<String, Object> createSeatAssignationBody(UUID passengerHash, String mode) {
+        Map<String, Object> seatAssignationBody = new HashMap<>();
+        seatAssignationBody.put("passenger_hash", passengerHash);
+        seatAssignationBody.put("mode", mode);
+        return seatAssignationBody;
     }
 }
