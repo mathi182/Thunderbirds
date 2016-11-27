@@ -9,8 +9,8 @@ import java.util.UUID;
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
 public class PassengerAssembler {
-    public static final String ECONOMY = "economy";
-    public static final String BUSINESS = "business";
+    private static final String ECONOMY = "economy";
+    private static final String BUSINESS = "business";
 
     public Passenger toDomain(PassengerDTO passengerDTO) {
         Seat.SeatClass seatClass = getSeatClassFromString(passengerDTO.seatClass);
