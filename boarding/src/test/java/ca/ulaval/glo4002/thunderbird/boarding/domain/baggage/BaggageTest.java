@@ -1,72 +1,58 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
 
 public class BaggageTest {
-    private static final int LINEAR_DIMENSION_IN_MM = 10;
-    private static final int WEIGHT_IN_G = 10;
-    private static final int DIFFERENT_WEIGHT_IN_G = 11;
-    private static final int DIFFERENT_LINEAR_DIMENSION_IN_MM = 11;
-    private static final String BAGGAGE_TYPE = "checked";
-    private static final String DIFFERENT_BAGGAGE_TYPE = "invalid";
+    private static final UUID BAGGAGE_HASH = new UUID(2L, 2L);
+    private static final int LINEAR_DIMENSION_VALUE = 11;
+    private static final Length LINEAR_DIMENSION = Length.fromMillimeters(LINEAR_DIMENSION_VALUE);
+    private static final int WEIGHT_VALUE = 22;
+    private static final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
+    private static final String TYPE = "Type";
+    private static final int INVALID_DIMENSION_VALUE = LINEAR_DIMENSION_VALUE - 1;
+    private static final int INVALID_WEIGHT_VALUE = WEIGHT_VALUE - 1;
+
+    private final Baggage baggage = new Baggage(BAGGAGE_HASH, LINEAR_DIMENSION, WEIGHT, TYPE);
 
     @Test
-    public void givenNull_whenEquals_shouldReturnFalse() throws Exception {
-        Baggage baggage = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_G, "checked");
-
-        boolean resultActual = baggage.equals(null);
-
-        assertFalse(resultActual);
+    public void shouldReturnRightValues() {
+        assertEquals(BAGGAGE_HASH, baggage.getId());
+        assertEquals(LINEAR_DIMENSION, baggage.getDimension());
+        assertEquals(WEIGHT, baggage.getWeight());
+        assertEquals(TYPE, baggage.getType());
+        assertEquals(0, baggage.getPrice(), 0.0f);
     }
 
     @Test
-    public void givenSameObject_whenEquals_shouldReturnTrue() throws Exception {
-        Baggage baggage1 = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_G, BAGGAGE_TYPE);
-        Baggage baggage2 = baggage1;
+    public void givenAPrice_whenSettingThisPrice_shouldBeSaved() {
+        float expectedPrice = 5342;
 
-        boolean resultActual = baggage1.equals(baggage2);
-        assertTrue(resultActual);
+        baggage.setPrice(expectedPrice);
+
+        float actualPrice = baggage.getPrice();
+        assertEquals(expectedPrice, actualPrice, 0.0f);
     }
 
     @Test
-    public void givenAnotherObject_whenEquals_shouldReturnFalse() {
-        Baggage baggage1 = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_G, BAGGAGE_TYPE);
-        Object object = new Object();
-
-        boolean resultActual = baggage1.equals(object);
-        assertFalse(resultActual);
-
+    public void whenDimensionAndWeightAreValid_shouldNotThrowAnException() {
+        baggage.validate(LINEAR_DIMENSION_VALUE, WEIGHT_VALUE);
     }
 
-    @Test
-    public void givenBaggagesWithDifferentType_whenEquals_shouldReturnFalse() throws Exception {
-        Baggage baggage1 = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_G, BAGGAGE_TYPE);
-        Baggage baggage2 = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_G, DIFFERENT_BAGGAGE_TYPE);
-
-        boolean resultActual = baggage1.equals(baggage2);
-
-        assertFalse(resultActual);
+    @Test(expected = BaggageDimensionInvalidException.class)
+    public void whenDimensionIsInvalid_shouldThrowAnException() {
+        baggage.validate(INVALID_DIMENSION_VALUE, WEIGHT_VALUE);
     }
 
-    @Test
-    public void givenBaggageWithDifferentWeight_whenEquals_shouldReturnFalse() throws Exception {
-        Baggage baggage1 = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_G, BAGGAGE_TYPE);
-        Baggage baggage2 = new Baggage(LINEAR_DIMENSION_IN_MM, DIFFERENT_WEIGHT_IN_G, BAGGAGE_TYPE);
-
-        boolean resultActual = baggage1.equals(baggage2);
-
-        assertFalse(resultActual);
-    }
-
-    @Test
-    public void givenBaggageWithDifferentDimension_whenEquals_shouldReturnFalse() throws Exception {
-        Baggage baggage1 = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_G, BAGGAGE_TYPE);
-        Baggage baggage2 = new Baggage(DIFFERENT_LINEAR_DIMENSION_IN_MM, WEIGHT_IN_G, BAGGAGE_TYPE);
-
-        boolean resultActual = baggage1.equals(baggage2);
-
-        assertFalse(resultActual);
+    @Test(expected = BaggageWeightInvalidException.class)
+    public void whenWeightIsInvalid_shouldThrowAnException() {
+        baggage.validate(LINEAR_DIMENSION_VALUE, INVALID_WEIGHT_VALUE);
     }
 }

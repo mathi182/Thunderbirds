@@ -3,19 +3,14 @@ package ca.ulaval.glo4002.thunderbird.reservation.passenger;
 import ca.ulaval.glo4002.thunderbird.reservation.TestConfig;
 import ca.ulaval.glo4002.thunderbird.reservation.passenger.exceptions.PassengerAlreadyCheckedInException;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class PassengerTest {
-    private static boolean NOT_VIP = false;
-    private Passenger passenger;
-
-    @Before
-    public void givenDefaultPassenger() {
-        passenger = TestConfig.getDefaultPassenger();
-    }
+    private static boolean VIP = false;
+    
+    private Passenger passenger = TestConfig.getDefaultPassenger();
 
     @Test
     public void shouldReturnAnId() {
@@ -61,8 +56,8 @@ public class PassengerTest {
 
     @Test(expected = PassengerAlreadyCheckedInException.class)
     public void givenPassengerAlreadyCheckin_whenCheckin_shouldThrowAnException() {
-        passenger.checkin(NOT_VIP);
+        passenger.checkin(VIP);
 
-        passenger.checkin(NOT_VIP);
+        passenger.checkin(VIP);
     }
 }
