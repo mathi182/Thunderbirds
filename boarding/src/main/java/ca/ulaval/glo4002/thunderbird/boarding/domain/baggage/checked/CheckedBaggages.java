@@ -22,7 +22,7 @@ public class CheckedBaggages {
     private int checkedBaggageCost;
 
     @OneToMany(cascade = {CascadeType.ALL})
-    protected List<Baggage> baggages;
+    private List<Baggage> baggages;
 
     @Id
     private UUID passengerHash;

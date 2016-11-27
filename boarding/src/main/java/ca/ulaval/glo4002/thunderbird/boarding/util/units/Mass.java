@@ -1,40 +1,20 @@
 package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.UUID;
+import javax.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class Mass {
-
     private static final double GRAMS_IN_A_POUND = 453.592;
     private static final double GRAMS_IN_A_KILOGRAM = 1000;
 
     private double grams;
-    @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
 
     private Mass(double grams) {
         this.grams = grams;
-        id = UUID.randomUUID();
     }
 
     protected Mass() {
         // for hibernate
-    }
-
-    public double toPounds() {
-        return grams / GRAMS_IN_A_POUND;
-    }
-
-    public double toGrams() {
-        return grams;
-    }
-
-    public double toKilograms() {
-        return grams / GRAMS_IN_A_KILOGRAM;
     }
 
     public static Mass fromPounds(double pounds) {
@@ -49,6 +29,17 @@ public class Mass {
         return new Mass(kilograms * GRAMS_IN_A_KILOGRAM);
     }
 
+    public double toPounds() {
+        return grams / GRAMS_IN_A_POUND;
+    }
+
+    public double toGrams() {
+        return grams;
+    }
+
+    public double toKilograms() {
+        return grams / GRAMS_IN_A_KILOGRAM;
+    }
 
     @Override
     public boolean equals(Object obj) {

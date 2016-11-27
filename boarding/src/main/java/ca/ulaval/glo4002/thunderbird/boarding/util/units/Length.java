@@ -1,40 +1,20 @@
 package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.UUID;
+import javax.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class Length {
-
     private static final double MILLIMETERS_IN_A_CENTIMETER = 10;
     private static final double MILLIMETERS_IN_A_INCH = 25.4;
 
     private double millimeters;
-    @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
 
     private Length(double millimeters) {
         this.millimeters = millimeters;
-        id = UUID.randomUUID();
     }
 
     protected Length() {
         // for hibernate
-    }
-
-    public double toCentimeters() {
-        return millimeters / MILLIMETERS_IN_A_CENTIMETER;
-    }
-
-    public double toInches() {
-        return millimeters / MILLIMETERS_IN_A_INCH;
-    }
-
-    public double toMillimeters() {
-        return millimeters;
     }
 
     public static Length fromMillimeters(double millimeters) {
@@ -47,6 +27,18 @@ public class Length {
 
     public static Length fromInches(double inches) {
         return new Length(inches * MILLIMETERS_IN_A_INCH);
+    }
+
+    public double toCentimeters() {
+        return millimeters / MILLIMETERS_IN_A_CENTIMETER;
+    }
+
+    public double toInches() {
+        return millimeters / MILLIMETERS_IN_A_INCH;
+    }
+
+    public double toMillimeters() {
+        return millimeters;
     }
 
     @Override

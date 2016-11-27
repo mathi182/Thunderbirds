@@ -12,16 +12,11 @@ import javax.persistence.Entity;
 import java.util.UUID;
 
 @Entity
-@Inheritance
 public class Baggage {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID baggageHash;
-    @OneToOne
-    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private Length linearDimension;
-    @OneToOne
-    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private Mass weight;
     private String type;
     private float price;
