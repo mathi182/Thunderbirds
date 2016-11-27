@@ -58,7 +58,7 @@ public class LandscapeSeatAssignationStrategyTest {
     @Test
     public void givenAValidSeatsList_whenSelectingBestLandscape_shouldReturnBestFromAnyClass() {
         willReturn(true).given(bestViewEconomicSeat).hasBetterViewThan(bestViewBusinessSeat);
-        willReturn(seats).given(seatFilter.filter(anyCollectionOf(Seat.class)));
+        willReturn(seats).given(seatFilter).filter(anyCollectionOf(Seat.class));
         strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY, seatFilter);
 
         Seat actualSeat = strategy.assignSeat(seats);
