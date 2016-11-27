@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +14,7 @@ public class SeatAssignationRequestAssemblerTest {
     private static final String RANDOM_ASSIGNATION_MODE = "RANDOM";
     private static final String CHEAPEST_ASSIGNATION_MODE = "CHEAPEST";
     private static final String MOST_LEG_ROOM_ASSIGNATION_MODE = "LEGS";
+    private static final String LANDSCAPE_ASSIGNATION_MODE = "LANDSCAPE";
     private static final UUID PASSENGER_HASH = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
 
     private SeatAssignationRequestAssembler assemblerTest;
@@ -49,6 +50,16 @@ public class SeatAssignationRequestAssemblerTest {
         SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
 
         SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.CHEAPEST;
+        assertEquals(expectedValue, actualValue);
+    }
+
+    @Test
+    public void givenLandscapeAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnLandscapeMode() {
+        requestTest.mode = LANDSCAPE_ASSIGNATION_MODE;
+
+        SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
+
+        SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.LANDSCAPE;
         assertEquals(expectedValue,actualValue);
     }
 
