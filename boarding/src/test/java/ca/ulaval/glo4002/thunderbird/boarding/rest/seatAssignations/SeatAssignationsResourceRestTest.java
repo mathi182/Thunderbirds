@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import io.restassured.response.Response;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,7 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER_HASH;
+import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
 import static org.eclipse.jetty.http.HttpStatus.Code.*;
@@ -22,7 +21,7 @@ public class SeatAssignationsResourceRestTest {
 
     @Test
     public void givenAValidPassengerHashAndAValidMode_whenAssigningSeat_shouldAssignSeat() {
-        Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER_HASH, VALID_MODE);
+        Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), VALID_MODE);
 
         Response response;
         response = givenBaseRequest()
@@ -58,7 +57,8 @@ public class SeatAssignationsResourceRestTest {
 
     @Test
     public void givenAValidPassengerHashAndInvalidMode_whenAssigningSeat_shouldReturnBadRequest() {
-        Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER_HASH, INVALID_MODE);
+        Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), INVALID_MODE);
+
 
         givenBaseRequest()
                 .body(seatAssignationBody)

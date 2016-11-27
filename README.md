@@ -35,8 +35,7 @@ Les story de sièges ont un bug qui fait retourner des erreur 500 lors de l'appe
 
 Pour lancer les serveurs (par défaut sur les ports 8787 pour reservation et 8888 pour boarding) :
 ```
-projet/$ mvn exec:java -pl reservation
-projet/$ mvn exec:java -pl boarding
+projet/app$ mvn exec:java
 ```
 
 ###Configuration des ports

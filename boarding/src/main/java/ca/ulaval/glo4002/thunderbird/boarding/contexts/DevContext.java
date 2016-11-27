@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.contexts;
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerFactoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystemFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
@@ -20,11 +21,10 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.time.Instant;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 public class DevContext implements Context {
-    public static UUID EXISTENT_BOARDING_PASSENGER_HASH;
+    public static Passenger EXISTENT_BOARDING_PASSENGER;
 
     @Override
     public void apply() {
@@ -61,7 +61,7 @@ public class DevContext implements Context {
         Passenger passenger = createPassenger();
         PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
         repository.savePassenger(passenger);
-        EXISTENT_BOARDING_PASSENGER_HASH = passenger.getHash();
+        EXISTENT_BOARDING_PASSENGER = passenger;
     }
 
     private Passenger createPassenger() {
@@ -69,8 +69,14 @@ public class DevContext implements Context {
         Seat.SeatClass seatClass = Seat.SeatClass.ECONOMY;
         Instant flightDate = Instant.ofEpochMilli(new Date().getTime());
         String flightNumber = "QK-918";
+        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber);
 
-        return new Passenger(passengerHash, seatClass, flightDate, flightNumber);
+        Baggage baggage1 = new Baggage(500, 1000, "checked");
+        Baggage baggage2 = new Baggage(200, 500, "checked");
+        passenger.addBaggage(baggage1);
+        passenger.addBaggage(baggage2);
+
+        return passenger;
     }
 }
 
