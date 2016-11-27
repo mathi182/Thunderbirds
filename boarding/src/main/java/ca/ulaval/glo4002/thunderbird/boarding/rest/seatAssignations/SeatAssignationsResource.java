@@ -34,13 +34,11 @@ public class SeatAssignationsResource {
         TakenSeatDTO takenSeatDTO = assembler.fromDomain(assignedSeat);
 
         URI uri = buildUri();
-        return Response.created(uri)
-                .entity(takenSeatDTO)
-                .build();
+        return Response.created(uri).entity(takenSeatDTO).build();
     }
 
     private URI buildUri() {
-        String seatAssignationsIdString = String.valueOf(UUID.randomUUID());
+        String seatAssignationsIdString = UUID.randomUUID().toString();
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
         return uriBuilder.path(seatAssignationsIdString).build();
     }
