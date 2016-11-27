@@ -26,6 +26,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private static final UUID VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION = UUID.randomUUID();
     private static final UUID NON_EXISTENT_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID PASSENGER_UUID_WITH_BAGGAGE = UUID.randomUUID();
+    private static final UUID PASSENGER_UUID_WITHOUT_BAGGAGES = UUID.randomUUID();
     private static final Instant VALID_FLIGHT_DATE = Instant.ofEpochMilli(new Date().getTime());
     private static final String VALID_FLIGHT_NUMBER = "QK-918";
     private static final Length LINEAR_DIMENSION_IN_MM = Length.fromMillimeters(10);
@@ -87,5 +88,18 @@ public class HibernatePassengerRepositoryIntegrationTest {
         Passenger actualPassenger = hibernatePassengerRepository.getPassenger(PASSENGER_UUID_WITH_BAGGAGE);
 
         assertEquals(expectedPassenger, actualPassenger);
+    }
+
+    @Test
+    public void givenPassengerWithNoBaggages_whenAddingBaggages_shouldSaveBaggagesCorrectly() throws RepositorySavingException{
+        Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITHOUT_BAGGAGES,
+                Seat.SeatClass.ECONOMY,
+                VALID_FLIGHT_DATE,
+                VALID_FLIGHT_NUMBER);
+
+        Baggage baggage = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+        expectedPassenger.addBaggage(baggage);
+
+        hibernatePassengerRepository.savePassenger(expectedPassenger);
     }
 }

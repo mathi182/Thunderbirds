@@ -4,11 +4,11 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageD
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
+import org.hibernate.annotations.*;
 
-import javax.persistence.Column;
+import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
 import java.util.UUID;
 
 @Entity
@@ -17,7 +17,11 @@ public class Baggage {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID baggageHash;
+    @OneToOne
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private Length linearDimension;
+    @OneToOne
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private Mass weight;
     private String type;
     private float price;
