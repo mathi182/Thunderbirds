@@ -14,19 +14,12 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageReques
 import java.util.List;
 import java.util.UUID;
 
-public class BaggageApplication {
+public class BaggageApplicationService {
 
     private BaggagesListAssembler baggagesListAssembler;
 
-    public BaggageApplication() {
+    public BaggageApplicationService() {
         this.baggagesListAssembler = new BaggagesListAssembler();
-
-    }
-
-    private void validateBaggage(Baggage baggage, Passenger passenger) {
-        BaggageValidationStrategyFactory factory = new BaggageValidationStrategyFactory();
-        BaggageValidationStrategy strategy = factory.getStrategy(passenger.getSeatClass());
-        strategy.validateBaggage(baggage);
     }
 
     public void registerBaggage(UUID passengerHash, RegisterBaggageRequest request) {
@@ -37,9 +30,10 @@ public class BaggageApplication {
         passenger.addBaggage(baggage);
     }
 
-    private Baggage convertRequestToBaggage(RegisterBaggageRequest request) {
-        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
-        return registerBaggageRequestAssembler.getDomainBaggage(request);
+    public BaggagesListDTO getBaggagesListDTOFromPassenger(String passengerHash) {
+        Passenger passenger = getPassenger(UUID.fromString(passengerHash));
+        List<Baggage> baggages = passenger.getBaggages();
+        return baggagesListAssembler.toDTO(baggages);
     }
 
     private Passenger getPassenger(UUID passengerHash) {
@@ -47,9 +41,14 @@ public class BaggageApplication {
         return repository.getPassenger(passengerHash);
     }
 
-    public BaggagesListDTO getBaggagesListDTOFromPassenger(String passengerHash) {
-        Passenger passenger = getPassenger(UUID.fromString(passengerHash));
-        List<Baggage> baggages = passenger.getBaggages();
-        return baggagesListAssembler.toDTO(baggages);
+    private Baggage convertRequestToBaggage(RegisterBaggageRequest request) {
+        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        return registerBaggageRequestAssembler.getDomainBaggage(request);
+    }
+
+    private void validateBaggage(Baggage baggage, Passenger passenger) {
+        BaggageValidationStrategyFactory factory = new BaggageValidationStrategyFactory();
+        BaggageValidationStrategy strategy = factory.getStrategy(passenger.getSeatClass());
+        strategy.validateBaggage(baggage);
     }
 }
