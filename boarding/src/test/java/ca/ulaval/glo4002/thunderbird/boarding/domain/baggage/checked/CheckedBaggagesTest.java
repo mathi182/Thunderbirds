@@ -6,8 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.UUID;
 
+import static ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggagesFactory.*;
+import static ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat.SeatClass.ECONOMY;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
@@ -18,54 +19,44 @@ public class CheckedBaggagesTest {
 
     private final Baggage baggageA = mock(Baggage.class);
     private final Baggage baggageB = mock(Baggage.class);
-
-    private static final UUID SOME_PASSENGER_HASH = new UUID(1L, 2L);
-    private static final int CHECKED_BAGGAGE_COST = CheckedBaggages.CHECKED_BAGGAGE_COST;
-    private static final int FREE_BAGGAGE_COST = 0;
-
-    private static final int DIMENSION_LIMIT_IN_MM = CheckedBaggagesFactory.ECONOMIC_DIMENSION_LIMIT_IN_MM;
-    private static final int WEIGHT_LIMIT_IN_GRAMS = CheckedBaggagesFactory.ECONOMIC_WEIGHT_LIMIT_IN_GRAMS;
-    private static final int FREE_CHECKED_BAGGAGE = CheckedBaggagesFactory.ECONOMIC_FREE_CHECKED_BAGGAGE;
-
-    private final CheckedBaggages economicCheckedBaggages = new CheckedBaggages(SOME_PASSENGER_HASH,
-            FREE_CHECKED_BAGGAGE, WEIGHT_LIMIT_IN_GRAMS, DIMENSION_LIMIT_IN_MM);
+    private final CheckedBaggages economicCheckedBaggages = CheckedBaggagesFactory.getCheckedBaggages(ECONOMY);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         willReturn(1f).given(baggageA).getPrice();
         willReturn(2f).given(baggageB).getPrice();
     }
 
     @Test
-    public void givenABaggage_whenValidate_shouldValidateWithTheRightLimits() {
+    public void givenABaggage_whenWeValidate_shouldValidateWithTheRightLimits() {
         Baggage baggage = mock(Baggage.class);
 
         economicCheckedBaggages.addBaggage(baggage);
 
-        verify(baggage).validate(DIMENSION_LIMIT_IN_MM, WEIGHT_LIMIT_IN_GRAMS);
+        verify(baggage).validate(ECONOMIC_DIMENSION_LIMIT_IN_MM, ECONOMIC_WEIGHT_LIMIT_IN_GRAMS);
     }
 
     @Test
-    public void givenTwoBaggages_whenAddingTheseBaggages_shouldHaveOneFreeBaggage() {
+    public void givenTwoBaggages_whenWeAddTheseBaggages_shouldHaveOneFreeBaggage() {
         Baggage baggageA = mock(Baggage.class);
         Baggage baggageB = mock(Baggage.class);
 
         economicCheckedBaggages.addBaggage(baggageA);
         economicCheckedBaggages.addBaggage(baggageB);
 
-        verify(baggageA).setPrice(FREE_BAGGAGE_COST);
+        verify(baggageA).setPrice(0);
         verify(baggageB).setPrice(CHECKED_BAGGAGE_COST);
     }
 
     @Test
-    public void whenGetBaggages_shouldBeEmpty() {
+    public void whenWeGetAllBaggages_shouldBeEmpty() {
         List<Baggage> baggages = economicCheckedBaggages.getBaggages();
 
         assertTrue(baggages.isEmpty());
     }
 
     @Test
-    public void whenAddABaggage_whenGetBaggages_shouldNotBeEmpty() {
+    public void givenWeAddABaggage_whenWeGetAllBaggages_shouldNotBeEmpty() {
         economicCheckedBaggages.addBaggage(mock(Baggage.class));
 
         List<Baggage> baggages = economicCheckedBaggages.getBaggages();
@@ -74,7 +65,7 @@ public class CheckedBaggagesTest {
     }
 
     @Test
-    public void givenTwoBaggages_whenCalculatePrice_shouldReturnPriceSum() {
+    public void givenTwoBaggages_whenWeCalculatePrice_shouldReturnPriceSum() {
         economicCheckedBaggages.addBaggage(baggageA);
         economicCheckedBaggages.addBaggage(baggageB);
 
