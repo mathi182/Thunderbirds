@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.app;
+package ca.ulaval.glo4002.thunderbird.app.rest;
 
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BaggageResource;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationRequest;

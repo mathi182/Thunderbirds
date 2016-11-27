@@ -61,7 +61,7 @@ public class ReservationServer implements Runnable {
         }
     }
 
-    public void join() {
+    private void join() {
         try {
             server.join();
         } catch (Exception e) {
@@ -75,7 +75,6 @@ public class ReservationServer implements Runnable {
         try {
             server.destroy();
         } catch (Exception e) {
-            return;
         }
     }
 
@@ -99,5 +98,9 @@ public class ReservationServer implements Runnable {
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
         servletContextHandler.addFilter(EntityManagerContextFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
+    }
+
+    public boolean isReady() {
+        return server.isStarted();
     }
 }

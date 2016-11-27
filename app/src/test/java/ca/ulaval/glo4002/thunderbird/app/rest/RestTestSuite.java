@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.app;
+package ca.ulaval.glo4002.thunderbird.app.rest;
 
 
 import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
@@ -7,6 +7,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+
+import java.util.concurrent.TimeUnit;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -23,6 +25,8 @@ public class RestTestSuite {
 
         boardingThread.start();
         reservationThread.start();
+
+        TimeUnit.SECONDS.sleep(12); //Waiting for the servers to be fully started
     }
 
     @AfterClass
