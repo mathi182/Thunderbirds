@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 
+import java.util.Objects;
+
 public class Length {
 
     private static final double MILLIMETERS_IN_A_CENTIMETER = 10;
@@ -35,4 +37,13 @@ public class Length {
         return new Length(inches * MILLIMETERS_IN_A_INCH);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Length)) {
+            return false;
+        }
+
+        Length other = (Length) obj;
+        return millimeters == other.millimeters;
+    }
 }

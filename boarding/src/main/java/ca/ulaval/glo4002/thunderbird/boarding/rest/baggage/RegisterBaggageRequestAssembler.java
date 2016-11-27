@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebException;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
@@ -21,7 +22,7 @@ public class RegisterBaggageRequestAssembler {
             case "lbs":
                 return Mass.fromPounds(request.weight);
             default:
-                return Mass.fromKilograms(request.weight); //À discuter
+                throw new IllegalFieldWebException();
         }
     }
 
@@ -32,7 +33,7 @@ public class RegisterBaggageRequestAssembler {
             case "po":
                 return Length.fromInches(request.linearDimension);
             default:
-                return Length.fromCentimeters(request.linearDimension); //À discuter
+                throw new IllegalFieldWebException();
         }
     }
 }

@@ -7,6 +7,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,8 +28,8 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private static final UUID PASSENGER_UUID_WITH_BAGGAGE = UUID.randomUUID();
     private static final Instant VALID_FLIGHT_DATE = Instant.ofEpochMilli(new Date().getTime());
     private static final String VALID_FLIGHT_NUMBER = "QK-918";
-    private static final int LINEAR_DIMENSION_IN_MM = 10;
-    private static final int WEIGHT_IN_KGS = 10;
+    private static final Length LINEAR_DIMENSION_IN_MM = Length.fromMillimeters(10);
+    private static final Mass WEIGHT_IN_KGS = Mass.fromKilograms(10);
     private PassengerRepository hibernatePassengerRepository;
     private PassengerService passengerService = mock(PassengerService.class);
 

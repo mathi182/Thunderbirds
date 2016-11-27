@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebException;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -27,9 +28,11 @@ public class RegisterBaggageRequestAssemblerTest {
 
         RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
         Baggage actualBaggage = registerBaggageRequestAssembler.getDomainBaggage(registerBaggageRequest);
+        int actualLength = (int) actualBaggage.getDimension().toMillimeters();
+        int actualMass = (int)  actualBaggage.getWeight().toGrams();
 
-        assertEquals(LINEAR_DIMENSION_CONVERTED, actualBaggage.getDimensionInMm());
-        assertEquals(WEIGHT_UNIT_CONVERTED, actualBaggage.getWeight());
+        assertEquals(LINEAR_DIMENSION_CONVERTED, actualLength);
+        assertEquals(WEIGHT_UNIT_CONVERTED, actualMass);
         assertEquals(VALID_BAGGAGE_TYPE, actualBaggage.getType());
     }
 

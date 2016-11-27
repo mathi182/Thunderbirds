@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 
+import java.util.Objects;
 
 public class Mass {
 
@@ -34,5 +35,16 @@ public class Mass {
 
     public static Mass fromKilograms(double kilograms) {
         return new Mass(kilograms * GRAMS_IN_A_KILOGRAM);
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Mass)) {
+            return false;
+        }
+
+        Mass other = (Mass) obj;
+        return grams == other.grams;
     }
 }
