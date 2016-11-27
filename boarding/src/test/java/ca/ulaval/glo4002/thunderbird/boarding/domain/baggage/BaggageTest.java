@@ -20,6 +20,7 @@ public class BaggageTest {
     private static final String TYPE = "Type";
 
     private final Baggage baggage = new Baggage(BAGGAGE_HASH, LINEAR_DIMENSION, WEIGHT, TYPE);
+    private final Baggage newBaggage = new Baggage(LINEAR_DIMENSION, WEIGHT, TYPE);
 
     @Test
     public void shouldReturnRightValues() {
@@ -28,6 +29,11 @@ public class BaggageTest {
         assertEquals(WEIGHT, baggage.getWeight());
         assertEquals(TYPE, baggage.getType());
         assertEquals(0, baggage.getPrice(), 0.0f);
+
+        assertEquals(LINEAR_DIMENSION, newBaggage.getDimension());
+        assertEquals(WEIGHT, newBaggage.getWeight());
+        assertEquals(TYPE, baggage.getType());
+        assertEquals(0, newBaggage.getPrice(), 0.0f);
     }
 
     @Test

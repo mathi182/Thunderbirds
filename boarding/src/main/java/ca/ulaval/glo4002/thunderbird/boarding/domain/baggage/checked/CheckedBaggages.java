@@ -66,11 +66,11 @@ public class CheckedBaggages {
         return Collections.unmodifiableList(baggages);
     }
 
-    public void validateBaggage(Baggage baggage) {
+    private void validateBaggage(Baggage baggage) {
         baggage.validate(dimensionLimitInMm, weightLimitInGrams);
     }
 
-    public void setBaggagePrice(Baggage baggage) {
+    private void setBaggagePrice(Baggage baggage) {
         if (baggages.size() < freeCheckedBaggageCount) {
             baggage.setPrice(0);
         } else {
