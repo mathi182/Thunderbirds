@@ -23,22 +23,24 @@ public class BaggageResourceRestTest {
     private static final int WEIGHT = 10;
     private static final int INVALID_WEIGHT = 4000;
     private static final String INVALID_UNIT = "invalid_unit";
-    private static final String VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER.getHash().toString();
+    private static final UUID VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER.getHash();
     private static final UUID INVALID_PASSENGER_UUID = UUID.randomUUID();
+
+    private static final String UUIDRegex = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
 
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
-        Map<String, Object> registerBaggageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
+        Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
                                                                            LINEAR_DIMENSION,
                                                                            KG_UNIT_FROM_REQUEST,
                                                                            WEIGHT,
                                                                            CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         Response response = givenBaseRequest()
-                        .body(registerBaggageBody)
-                        .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                        .then().statusCode(CREATED.getCode())
-                        .extract().response();
+                .and().body(registerBagageBody)
+                .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                .then().statusCode(CREATED.getCode())
+                .and().extract().response();
 
         Boolean locationValidity = isLocationValid(response.getHeader("Location"), VALID_PASSENGER_HASH);
         assertTrue(locationValidity);
@@ -51,27 +53,15 @@ public class BaggageResourceRestTest {
     @Test
     public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() {
         givenBaseRequest()
-                .when()
-                .get("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
-                .then()
-                .statusCode(OK.getStatusCode());
+                .when().get("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
+                .then().statusCode(OK.getStatusCode());
     }
 
     @Test
     public void givenAnInvalidPassenger_whenGettingBaggagesList_shouldGetNotFound() {
         givenBaseRequest()
-                .when()
-                .get("/passengers/" + INVALID_PASSENGER_UUID + "/baggages")
-                .then()
-                .statusCode(NOT_FOUND.getCode());
-    }
-
-    private boolean isLocationValid(String location, String passengerHash) {
-        String baseUrl = buildUrl("/passengers/" + passengerHash + "/baggages/");
-        baseUrl = baseUrl.replace("/", "\\/");
-        Pattern pattern = Pattern.compile(baseUrl + ".*$");
-
-        return pattern.matcher(location).matches();
+                .when().get("/passengers/" + INVALID_PASSENGER_UUID + "/baggages")
+                .then().statusCode(NOT_FOUND.getCode());
     }
 
     @Test
@@ -83,10 +73,10 @@ public class BaggageResourceRestTest {
                                                                            CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         Response response = givenBaseRequest()
-                    .body(registerBagageBody)
-                    .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                    .then().statusCode(OK.getStatusCode())
-                    .extract().response();
+                .and().body(registerBagageBody)
+                .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                .then().statusCode(OK.getStatusCode())
+                .and().extract().response();
 
         Boolean allowed = response.path("allowed");
         assertFalse(allowed);
@@ -102,25 +92,30 @@ public class BaggageResourceRestTest {
                                                                             WEIGHT,
                                                                             CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
-
         givenBaseRequest()
                 .body(registerBaggageBody)
                 .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then().statusCode(BAD_REQUEST.getCode());
     }
 
-    private Map<String, Object> createRegisterBaggageBody (String linearDimensionUnit,
-                                                           int linearDimension,
-                                                           String weightUnit,
-                                                           int weight,
-                                                           String baggageType) {
+    private boolean isLocationValid(String location, UUID passengerHash) {
+        String baseUrl = buildUrl("/passengers/" + passengerHash + "/baggages/");
+        baseUrl = baseUrl.replace("/", "\\/");
+        Pattern pattern = Pattern.compile(baseUrl + UUIDRegex);
+        return pattern.matcher(location).matches();
+    }
+
+    private Map<String, Object> createRegisterBaggageBody(String linearDimensionUnit,
+                                                          int linearDimension,
+                                                          String weightUnit,
+                                                          int weight,
+                                                          String baggageType) {
         Map<String, Object> registerBaggageBody = new HashMap<>();
         registerBaggageBody.put("linear_dimension_unit", linearDimensionUnit);
         registerBaggageBody.put("linear_dimension", linearDimension);
         registerBaggageBody.put("weight", weight);
         registerBaggageBody.put("weight_unit", weightUnit);
         registerBaggageBody.put("type", baggageType);
-
-        return  registerBaggageBody;
+        return registerBaggageBody;
     }
 }
