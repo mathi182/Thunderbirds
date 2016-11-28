@@ -7,6 +7,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.exceptions.RepositorySavingException;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,15 +21,16 @@ import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
 
 public class HibernatePassengerRepositoryIntegrationTest {
+    public static final String CHECKED = "checked";
     private static final UUID VALID_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION = UUID.randomUUID();
     private static final UUID NON_EXISTENT_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID PASSENGER_UUID_WITH_BAGGAGE = UUID.randomUUID();
+    private static final UUID PASSENGER_UUID_WITHOUT_BAGGAGES = UUID.randomUUID();
     private static final Instant VALID_FLIGHT_DATE = Instant.ofEpochMilli(new Date().getTime());
     private static final String VALID_FLIGHT_NUMBER = "QK-918";
-    private static final int LINEAR_DIMENSION_IN_MM = 10;
-    private static final int WEIGHT_IN_KGS = 10;
-    public static final String CHECKED = "checked";
+    private static final Length LINEAR_DIMENSION_IN_MM = Length.fromMillimeters(10);
+    private static final Mass WEIGHT_IN_KGS = Mass.fromKilograms(10);
     private PassengerRepository hibernatePassengerRepository;
     private PassengerService passengerService = mock(PassengerService.class);
 
@@ -47,7 +50,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenEmptyRepository_whenSavingPassenger_shouldBeSavedCorrectly() throws RepositorySavingException {
         Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID,
-                                                    Seat.SeatClass.ANY,
+                                                    Seat.SeatClass.ECONOMY,
                                                     VALID_FLIGHT_DATE,
                                                     VALID_FLIGHT_NUMBER);
 
@@ -60,7 +63,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenEmptyRepository_whenGettingAPassengerPresentInReservation_shouldReturnThePassenger() {
         Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION,
-                                                    Seat.SeatClass.ANY,
+                                                    Seat.SeatClass.ECONOMY,
                                                     VALID_FLIGHT_DATE,
                                                     VALID_FLIGHT_NUMBER);
         willReturn(expectedPassenger).given(passengerService).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
@@ -76,7 +79,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
         List<Baggage> baggageList = new ArrayList<>();
         baggageList.add(baggage);
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE,
-                                                    Seat.SeatClass.ANY,
+                                                    Seat.SeatClass.ECONOMY,
                                                     VALID_FLIGHT_DATE,
                                                     VALID_FLIGHT_NUMBER,
                                                     baggageList);
@@ -85,5 +88,18 @@ public class HibernatePassengerRepositoryIntegrationTest {
         Passenger actualPassenger = hibernatePassengerRepository.getPassenger(PASSENGER_UUID_WITH_BAGGAGE);
 
         assertEquals(expectedPassenger, actualPassenger);
+    }
+
+    @Test
+    public void givenPassengerWithNoBaggages_whenAddingBaggages_shouldSaveBaggagesCorrectly() throws RepositorySavingException{
+        Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITHOUT_BAGGAGES,
+                Seat.SeatClass.ECONOMY,
+                VALID_FLIGHT_DATE,
+                VALID_FLIGHT_NUMBER);
+
+        Baggage baggage = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+        expectedPassenger.addBaggage(baggage);
+
+        hibernatePassengerRepository.savePassenger(expectedPassenger);
     }
 }

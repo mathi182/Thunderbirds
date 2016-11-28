@@ -2,40 +2,26 @@ package ca.ulaval.glo4002.thunderbird.boarding.application.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategy;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageRequest;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageRequestAssembler;
 
 import java.util.UUID;
 
 public class BaggageApplicationService {
-
-    private RegisterBaggageRequestAssembler registerBaggageRequestAssembler;
-    private  BaggageValidationStrategyFactory factory;
+    private final PassengerRepository repository;
 
     public BaggageApplicationService() {
-        this.registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
-        this.factory = new BaggageValidationStrategyFactory();
+        this.repository = ServiceLocator.resolve(PassengerRepository.class);
     }
 
-    public void registerBaggage(UUID passengerHash, RegisterBaggageRequest request) {
-        Passenger passenger = getPassenger(passengerHash);
-        Baggage baggage = registerBaggageRequestAssembler.getDomainBaggage(request);
-
-        validateBaggage(baggage, passenger);
+    public UUID registerBaggage(UUID passengerHash, Baggage baggage) {
+        Passenger passenger = repository.getPassenger(passengerHash);
         passenger.addBaggage(baggage);
+
+        return baggage.getId();
     }
 
     public Passenger getPassenger(UUID passengerHash) {
-        PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
         return repository.getPassenger(passengerHash);
-    }
-
-    private void validateBaggage(Baggage baggage, Passenger passenger) {
-        BaggageValidationStrategy strategy = factory.getStrategy(passenger.getSeatClass());
-        strategy.validateBaggage(baggage);
     }
 }
