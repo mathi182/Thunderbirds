@@ -25,6 +25,7 @@ public class BaggageResourceRestTest {
     private static final String INVALID_UNIT = "invalid_unit";
     private static final String VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER.getHash().toString();
     private static final UUID INVALID_PASSENGER_UUID = UUID.randomUUID();
+    private static final String LOCATION_HEADER = "Location";
 
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
@@ -40,7 +41,7 @@ public class BaggageResourceRestTest {
                         .then().statusCode(CREATED.getCode())
                         .extract().response();
 
-        Boolean locationValidity = isLocationValid(response.getHeader("Location"), VALID_PASSENGER_HASH);
+        Boolean locationValidity = isLocationValid(response.getHeader(LOCATION_HEADER), VALID_PASSENGER_HASH);
         assertTrue(locationValidity);
         Boolean allowed = response.path("allowed");
         assertTrue(allowed);
