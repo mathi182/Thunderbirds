@@ -23,22 +23,22 @@ public class CheckinAsSelfTest {
     private static final int MAX_EARLY_CHECKIN_IN_HOUR = 48;
 
     private Checkin checkinAsSelf;
-    private Passenger passengerMock;
+    private Passenger passenger;
 
     @Before
     public void setup() {
         Reservation reservationMock = mock(Reservation.class);
         willReturn(FLIGHT_DATE).given(reservationMock).getFlightDate();
 
-        passengerMock = mock(Passenger.class);
-        willReturn(PASSENGER_HASH).given(passengerMock).getId();
-        willReturn(false).given(passengerMock).isCheckedIn();
-        willReturn(reservationMock).given(passengerMock).getReservation();
+        passenger = mock(Passenger.class);
+        willReturn(PASSENGER_HASH).given(passenger).getId();
+        willReturn(false).given(passenger).isCheckedIn();
+        willReturn(reservationMock).given(passenger).getReservation();
 
         checkinAsSelf = new Checkin(PASSENGER_HASH, Checkin.SELF) {
             @Override
             public Passenger getPassenger() {
-                return passengerMock;
+                return passenger;
             }
         };
     }
@@ -54,8 +54,8 @@ public class CheckinAsSelfTest {
 
         checkinAsSelf.completeCheckin(validDate);
 
-        verify(passengerMock).checkin();
-        verify(passengerMock).save();
+        verify(passenger).checkin();
+        verify(passenger).save();
     }
 
     @Test
@@ -64,8 +64,8 @@ public class CheckinAsSelfTest {
 
         checkinAsSelf.completeCheckin(validDate);
 
-        verify(passengerMock).checkin();
-        verify(passengerMock).save();
+        verify(passenger).checkin();
+        verify(passenger).save();
     }
 
     @Test(expected = CheckinNotOnTimeException.class)
@@ -84,7 +84,7 @@ public class CheckinAsSelfTest {
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenPassengerWithoutReservation_whenCompletingCheckin_shouldNotCompleteCheckin() {
-        willReturn(null).given(passengerMock).getReservation();
+        willReturn(null).given(passenger).getReservation();
 
         checkinAsSelf.completeCheckin(FLIGHT_DATE);
     }

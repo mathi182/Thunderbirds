@@ -19,21 +19,21 @@ public class CheckinAsAgentTest {
     private static final Instant TODAYS_DATE = Instant.parse("2016-09-06T13:00:00Z");
 
     private Checkin checkinAsAgent;
-    private Passenger passengerMock;
-    private Reservation reservationMock;
+    private Passenger passenger;
+    private Reservation reservation;
 
     @Before
     public void setup() {
-        reservationMock = mock(Reservation.class);
-        passengerMock = mock(Passenger.class);
-        willReturn(PASSENGER_HASH).given(passengerMock).getId();
-        willReturn(false).given(passengerMock).isCheckedIn();
-        willReturn(reservationMock).given(passengerMock).getReservation();
+        reservation = mock(Reservation.class);
+        passenger = mock(Passenger.class);
+        willReturn(PASSENGER_HASH).given(passenger).getId();
+        willReturn(false).given(passenger).isCheckedIn();
+        willReturn(reservation).given(passenger).getReservation();
 
         checkinAsAgent = new Checkin(PASSENGER_HASH, AGENT_ID) {
             @Override
             public Passenger getPassenger() {
-                return passengerMock;
+                return passenger;
             }
         };
     }
@@ -47,14 +47,14 @@ public class CheckinAsAgentTest {
     public void whenCompletingCheckin_shouldCheckinAndSavePassenger() {
         checkinAsAgent.completeCheckin(TODAYS_DATE);
 
-        verify(reservationMock, never()).getFlightDate();
-        verify(passengerMock).checkin();
-        verify(passengerMock).save();
+        verify(reservation, never()).getFlightDate();
+        verify(passenger).checkin();
+        verify(passenger).save();
     }
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenPassengerWithoutReservation_whenCompletingCheckin_shouldNotCompleteCheckin() {
-        willReturn(null).given(passengerMock).getReservation();
+        willReturn(null).given(passenger).getReservation();
 
         checkinAsAgent.completeCheckin(TODAYS_DATE);
     }
