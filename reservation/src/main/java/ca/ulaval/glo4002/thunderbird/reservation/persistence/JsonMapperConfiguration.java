@@ -22,7 +22,7 @@ import static com.fasterxml.jackson.databind.MapperFeature.*;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class CustomJsonProvider extends JacksonJaxbJsonProvider {
+public class JsonMapperConfiguration extends JacksonJaxbJsonProvider {
     private static ObjectMapper mapper = new ObjectMapper();
 
     static {
@@ -40,7 +40,7 @@ public class CustomJsonProvider extends JacksonJaxbJsonProvider {
         mapper.setVisibility(FIELD, ANY);
     }
 
-    public CustomJsonProvider() {
+    public JsonMapperConfiguration() {
         super();
         setMapper(mapper);
     }
