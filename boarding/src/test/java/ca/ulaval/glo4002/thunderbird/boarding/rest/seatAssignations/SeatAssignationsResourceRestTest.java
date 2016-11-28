@@ -28,10 +28,11 @@ public class SeatAssignationsResourceRestTest {
         response = givenBaseRequest()
                 .body(seatAssignationBody)
                 .when()
-                    .post(SeatAssignationsResource.PATH)
+                .post(SeatAssignationsResource.PATH)
                 .then()
                 .assertThat()
                 .statusCode(CREATED.getCode())
+                .and()
                 .extract().response();
 
         Boolean locationValidity = isLocationValid(response.getHeader("Location"));
