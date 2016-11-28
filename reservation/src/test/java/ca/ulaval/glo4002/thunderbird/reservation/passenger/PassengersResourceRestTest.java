@@ -25,13 +25,12 @@ public class PassengersResourceRestTest {
     @Test
     public void givenExistingPassengerHash_whenAskingForPassenger_shouldReturnExistentPassenger() {
         givenBaseRequest()
-                .when()
-                .get(PASSENGER_REST_FORMAT, DevContext.EXISTENT_PASSENGER_HASH)
+                .when().get(PASSENGER_REST_FORMAT, DevContext.EXISTENT_PASSENGER_HASH)
                 .then().statusCode(OK.getStatusCode())
-                .body("passenger_hash", equalTo(DevContext.EXISTENT_PASSENGER_HASH.toString()))
-                .body("seat_class", equalTo(DevContext.SEAT_CLASS))
-                .body("flight_number", equalTo(DevContext.FLIGHT_NUMBER))
-                .body("flight_date", equalTo(DevContext.FLIGHT_DATE_STRING))
-                .body("vip",equalTo(false));
+                .and().body("passenger_hash", equalTo(DevContext.EXISTENT_PASSENGER_HASH.toString()))
+                .and().body("seat_class", equalTo(DevContext.SEAT_CLASS))
+                .and().body("flight_number", equalTo(DevContext.FLIGHT_NUMBER))
+                .and().body("flight_date", equalTo(DevContext.FLIGHT_DATE_STRING))
+                .and().body("vip",equalTo(false));
     }
 }
