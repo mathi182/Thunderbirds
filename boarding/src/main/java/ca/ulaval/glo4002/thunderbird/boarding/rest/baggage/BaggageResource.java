@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.validationStrategy.BaggageValidationStrategyFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 
@@ -19,24 +21,35 @@ public class BaggageResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") String passengerHash) {
-        Passenger passenger = getPassenger(UUID.fromString(passengerHash));
+    public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") UUID passengerHash) {
+        Passenger passenger = getPassenger(passengerHash);
         Baggage baggage = convertRequestToBaggage(request);
 
-        //TODO: faire la validation du baggage ici
+        validateBaggage(baggage, passenger);
         passenger.addBaggage(baggage);
 
-        int id = new Random().nextInt(Integer.MAX_VALUE);
-        String baggageRegistrationIdString = String.valueOf(id);
-        URI uri = buildLocationUri(baggageRegistrationIdString);
+        URI uri = buildURI();
 
         RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
         return Response.created(uri).entity(baggageResponseBody).build();
     }
 
+    private URI buildURI() {
+        int id = new Random().nextInt(Integer.MAX_VALUE);
+        String baggageRegistrationIdString = String.valueOf(id);
+
+        return buildLocationUri(baggageRegistrationIdString);
+    }
+
+    private void validateBaggage(Baggage baggage, Passenger passenger) {
+        BaggageValidationStrategyFactory factory = new BaggageValidationStrategyFactory();
+        BaggageValidationStrategy strategy = factory.getStrategy(passenger.getSeatClass());
+        strategy.validateBaggage(baggage);
+    }
+
     private Baggage convertRequestToBaggage(RegisterBaggageRequest request) {
-        RegisterBaggageRequestAssembler registerBagageRequestAssembler = new RegisterBaggageRequestAssembler();
-        return registerBagageRequestAssembler.getDomainBaggage(request);
+        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        return registerBaggageRequestAssembler.getDomainBaggage(request);
     }
 
     private URI buildLocationUri(String baggageHash) {
