@@ -35,7 +35,7 @@ public class RandomSeatAssignationStrategyTest {
     public void givenAListOfAvailableSeats_shouldChooseAccordingToRandom() {
         willReturn(A_RANDOM_NUMBER).given(random).nextInt(anyInt());
 
-        Seat takenSeat = strategy.assignSeat(seats);
+        Seat takenSeat = strategy.findAvailableSeat(seats);
 
         assertSame(seats.get(A_RANDOM_NUMBER), takenSeat);
     }
@@ -44,7 +44,7 @@ public class RandomSeatAssignationStrategyTest {
     public void givenAListOfAvailableSeats_whenChoosing_shouldNotRandomiseHigherThanTheNumberOfSeats() {
         willReturn(A_RANDOM_NUMBER).given(random).nextInt(anyInt());
 
-        strategy.assignSeat(seats);
+        strategy.findAvailableSeat(seats);
 
         verify(random).nextInt(seats.size());
     }

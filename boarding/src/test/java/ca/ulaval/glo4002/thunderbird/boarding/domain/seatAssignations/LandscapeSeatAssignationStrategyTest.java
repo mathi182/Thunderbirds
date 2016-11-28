@@ -56,7 +56,7 @@ public class LandscapeSeatAssignationStrategyTest {
         willReturn(true).given(bestViewEconomicSeat).hasBetterViewThan(bestViewBusinessSeat);
         strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
 
-        Seat actualSeat = strategy.assignSeat(seats);
+        Seat actualSeat = strategy.findAvailableSeat(seats);
 
         assertEquals(bestViewEconomicSeat, actualSeat);
     }
@@ -64,7 +64,7 @@ public class LandscapeSeatAssignationStrategyTest {
     @Test
     public void givenAValidSeatsList_whenSelectingBestLandscapeFromBusiness_shouldReturnBestFromBusiness() {
         strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
-        Seat actualSeat = strategy.assignSeat(seats);
+        Seat actualSeat = strategy.findAvailableSeat(seats);
 
         assertEquals(bestViewBusinessSeat, actualSeat);
     }
@@ -74,7 +74,7 @@ public class LandscapeSeatAssignationStrategyTest {
         strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
         seats.clear();
 
-        strategy.assignSeat(seats);
+        strategy.findAvailableSeat(seats);
     }
 
     @Test(expected = NoMoreSeatAvailableException.class)
@@ -82,7 +82,7 @@ public class LandscapeSeatAssignationStrategyTest {
     givenAValidListWithoutEconomicSeat_whenSelectingBestLandscapeFromEconomic_shouldThrowNoMoreSeatException() {
         strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
 
-        strategy.assignSeat(businessSeats);
+        strategy.findAvailableSeat(businessSeats);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class LandscapeSeatAssignationStrategyTest {
         seats.add(cheapSeatMock);
         strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
 
-        Seat actualSeat = strategy.assignSeat(seats);
+        Seat actualSeat = strategy.findAvailableSeat(seats);
 
         Seat expectedSeat = cheapSeatMock;
         assertEquals(expectedSeat, actualSeat);

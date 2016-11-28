@@ -1,9 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
+import ca.ulaval.glo4002.thunderbird.boarding.application.baggage.BaggageApplicationService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -20,41 +19,35 @@ public class BaggageResource {
     @Context
     UriInfo uriInfo;
 
-    private PassengerRepository repository;
+    private final BaggageApplicationService baggageApplicationService;
+    private final BaggagesListAssembler baggagesListAssembler;
+    private final RegisterBaggageAssembler registerBaggageAssembler;
 
     public BaggageResource() {
-        this.repository = ServiceLocator.resolve(PassengerRepository.class);
+        this.baggageApplicationService = new BaggageApplicationService();
+        this.baggagesListAssembler = new BaggagesListAssembler();
+        this.registerBaggageAssembler = new RegisterBaggageAssembler();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerBaggage(RegisterBaggageDTO request, @PathParam("passenger_hash") UUID passengerHash) {
-        Passenger passenger = repository.getPassenger(passengerHash);
-        Baggage baggage = convertRequestToBaggage(request);
-        passenger.addBaggage(baggage);
+        Baggage baggage = registerBaggageAssembler.getDomainBaggage(request);
+        UUID baggageId = baggageApplicationService.registerBaggage(passengerHash, baggage);
 
-        String baggageId = baggage.getId().toString();
-        URI uri = uriInfo.getAbsolutePathBuilder().path(baggageId).build();
-        RegisterBaggageResponse baggageResponseBody = new RegisterBaggageResponse(true);
-        return Response.created(uri).entity(baggageResponseBody).build();
+        URI uri = uriInfo.getAbsolutePathBuilder().path(baggageId.toString()).build();
+        RegisterBaggageResponse baggageResponse = new RegisterBaggageResponse(true);
+
+        return Response.created(uri).entity(baggageResponse).build();
     }
 
     @GET
     public Response getBaggagesList(@PathParam("passenger_hash") UUID passengerHash) {
-        Passenger passenger = repository.getPassenger(passengerHash);
-        BaggagesListDTO baggagesListDTO = getBaggagesListDTOFromPassenger(passenger);
-        return Response.ok(baggagesListDTO, MediaType.APPLICATION_JSON).build();
-    }
-
-    private BaggagesListDTO getBaggagesListDTOFromPassenger(Passenger passenger) {
+        Passenger passenger = baggageApplicationService.getPassenger(passengerHash);
         List<Baggage> baggages = passenger.getBaggages();
         float price = passenger.calculateBaggagesPrice();
+        BaggagesListDTO baggagesListDTO = baggagesListAssembler.toDTO(price, baggages);
 
-        return new BaggagesListAssembler().toDTO(price, baggages);
-    }
-
-    private Baggage convertRequestToBaggage(RegisterBaggageDTO request) {
-        RegisterBaggageAssembler registerBaggageRequestAssembler = new RegisterBaggageAssembler();
-        return registerBaggageRequestAssembler.getDomainBaggage(request);
+        return Response.ok(baggagesListDTO, MediaType.APPLICATION_JSON).build();
     }
 }

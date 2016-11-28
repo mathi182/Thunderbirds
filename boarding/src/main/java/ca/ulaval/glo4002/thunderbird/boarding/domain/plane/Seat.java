@@ -10,14 +10,6 @@ import javax.persistence.Id;
 @Entity
 public class Seat {
 
-    public enum SeatClass {
-        ANY,
-        ECONOMY,
-        BUSINESS,
-        BIG_FRONT,
-        PREMIUM_ECONOMY
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -30,7 +22,6 @@ public class Seat {
     private SeatClass seatClass;
     private boolean isExitRow;
     private boolean isAvailable;
-
     public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean hasClearView, double price,
                 SeatClass seatClass, boolean isExitRow, boolean isAvailable) {
         this.rowNumber = rowNumber;
@@ -52,7 +43,7 @@ public class Seat {
         return isAvailable;
     }
 
-    public void take() {
+    public void markAsUnavailable() {
         if (!isAvailable) {
             throw new SeatAlreadyTakenException();
         }
@@ -105,5 +96,13 @@ public class Seat {
 
     public SeatClass getSeatClass() {
         return seatClass;
+    }
+
+    public enum SeatClass {
+        ANY,
+        ECONOMY,
+        BUSINESS,
+        BIG_FRONT,
+        PREMIUM_ECONOMY
     }
 }

@@ -1,12 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.application.seat.SeatAssignationApplicationService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategyFactory;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -14,7 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.Random;
+import java.util.UUID;
 
 @Path(SeatAssignationsResource.PATH)
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,46 +18,28 @@ public class SeatAssignationsResource {
 
     @Context
     UriInfo uriInfo;
-
-    private FlightRepository repository;
+    private SeatAssignationApplicationService applicationService;
+    private final TakenSeatAssembler assembler;
 
     public SeatAssignationsResource() {
-        repository = ServiceLocator.resolve(FlightRepository.class);
+        assembler = new TakenSeatAssembler();
+        applicationService = new SeatAssignationApplicationService();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response assignSeat(SeatAssignationDTO request) {
-        Flight flight = getFlight(request);
-        SeatAssignationStrategy strategy = getSeatAssignationStrategy(request);
+        Seat assignedSeat = applicationService.assignSeat(request);
 
-        Seat seat = flight.assignSeat(strategy);
-        seat.take();
+        TakenSeatDTO takenSeatDTO = assembler.fromDomain(assignedSeat);
 
-        TakenSeatDTO takenSeatDTO = convertSeatToDTO(seat);
+        URI uri = buildUri();
+        return Response.created(uri).entity(takenSeatDTO).build();
+    }
 
-        String seatAssignationsIdString = String.valueOf(new Random().nextInt(Integer.MAX_VALUE));
+    private URI buildUri() {
+        String seatAssignationsIdString = UUID.randomUUID().toString();
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-        URI uri = uriBuilder.path(seatAssignationsIdString).build();
-        return Response.created(uri)
-                .entity(takenSeatDTO)
-                .build();
-    }
-
-    private Flight getFlight(SeatAssignationDTO request) {
-        SeatAssignationAssembler seatAssignationRequestAssembler = new SeatAssignationAssembler();
-        Passenger passenger = seatAssignationRequestAssembler.getDomainPassenger(request);
-        return repository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
-    }
-
-    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request) {
-        SeatAssignationAssembler seatAssignationRequestAssembler = new SeatAssignationAssembler();
-        SeatAssignationStrategy.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
-        return new SeatAssignationStrategyFactory().getStrategy(assignMode, request.seatClass);
-    }
-
-    private TakenSeatDTO convertSeatToDTO(Seat seat) {
-        TakenSeatAssembler assembler = new TakenSeatAssembler();
-        return assembler.fromDomain(seat);
+        return uriBuilder.path(seatAssignationsIdString).build();
     }
 }

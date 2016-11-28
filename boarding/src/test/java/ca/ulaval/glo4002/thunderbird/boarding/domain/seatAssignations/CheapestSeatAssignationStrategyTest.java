@@ -16,16 +16,16 @@ import static org.mockito.Mockito.mock;
 
 public class CheapestSeatAssignationStrategyTest {
 
+    private static final double CHEAPEST_BUSINESS_PRICE = 100.0;
+    private static final double CHEAPEST_ECONOMIC_PRICE = 50.0;
+    private static final double NORMAL_BUSINESS_PRICE = 150.0;
+    private static final double NORMAL_ECONOMIC_PRICE = 80.0;
     private CheapestSeatAssignationStrategy strategy;
     private List<Seat> seats;
     private Seat cheapestBusinessSeat;
     private Seat cheapestEconomicSeat;
     private Seat normalBusinessSeat;
     private Seat normalEconomicSeat;
-    private static final double CHEAPEST_BUSINESS_PRICE = 100.0;
-    private static final double CHEAPEST_ECONOMIC_PRICE = 50.0;
-    private static final double NORMAL_BUSINESS_PRICE = 150.0;
-    private static final double NORMAL_ECONOMIC_PRICE = 80.0;
 
     @Before
     public void before() {
@@ -48,7 +48,7 @@ public class CheapestSeatAssignationStrategyTest {
         willReturn(CHEAPEST_ECONOMIC_PRICE).given(cheapestEconomicSeat).getPrice();
         strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.ANY);
 
-        Seat takenSeat = strategy.assignSeat(seats);
+        Seat takenSeat = strategy.findAvailableSeat(seats);
         double takenSeatPrice = takenSeat.getPrice();
         
         assertEquals(CHEAPEST_ECONOMIC_PRICE, takenSeatPrice);
@@ -60,7 +60,7 @@ public class CheapestSeatAssignationStrategyTest {
         willReturn(CHEAPEST_BUSINESS_PRICE).given(cheapestBusinessSeat).getPrice();
         strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
 
-        Seat takenSeat = strategy.assignSeat(seats);
+        Seat takenSeat = strategy.findAvailableSeat(seats);
         double takenSeatPrice = takenSeat.getPrice();
 
         assertEquals(CHEAPEST_BUSINESS_PRICE, takenSeatPrice);
@@ -71,6 +71,6 @@ public class CheapestSeatAssignationStrategyTest {
         List<Seat> seatsWithoutBusiness = new ArrayList<>(Arrays.asList(cheapestEconomicSeat, normalEconomicSeat));
         strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
 
-        strategy.assignSeat(seatsWithoutBusiness);
+        strategy.findAvailableSeat(seatsWithoutBusiness);
     }
 }

@@ -19,6 +19,7 @@ public class SeatAssignationsResourceRestTest {
     private static final String VALID_MODE = "RANDOM";
     private static final String INVALID_MODE = "INVALID";
     private static final String LOCATION_HEADER = "Location";
+    private static final String UUID_REGEX = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
 
     @Test
     public void givenAValidPassengerHashAndAValidMode_whenAssigningSeat_shouldAssignSeat() {
@@ -27,8 +28,12 @@ public class SeatAssignationsResourceRestTest {
         Response response;
         response = givenBaseRequest()
                 .body(seatAssignationBody)
-                .when().post(SeatAssignationsResource.PATH)
-                .then().statusCode(CREATED.getCode())
+                .when()
+                .post(SeatAssignationsResource.PATH)
+                .then()
+                .assertThat()
+                .statusCode(CREATED.getCode())
+                .and()
                 .extract().response();
 
         Boolean locationValidity = isLocationValid(response.getHeader(LOCATION_HEADER));
@@ -41,7 +46,7 @@ public class SeatAssignationsResourceRestTest {
     private boolean isLocationValid(String location) {
         String baseUrl = buildUrl(SeatAssignationsResource.PATH);
         baseUrl = baseUrl.replace("/", "\\/");
-        Pattern pattern = Pattern.compile(baseUrl + "\\d+$");
+        Pattern pattern = Pattern.compile(baseUrl + UUID_REGEX);
 
         return pattern.matcher(location).matches();
     }

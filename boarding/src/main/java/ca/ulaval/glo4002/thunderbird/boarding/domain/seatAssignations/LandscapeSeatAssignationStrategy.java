@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +21,7 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
     }
 
     @Override
-    public Seat assignSeat(List<Seat> availableSeats) {
+    public Seat findAvailableSeat(List<Seat> availableSeats) {
         List<Seat> filteredSeats = filterSeatsByClass(availableSeats);
         if (filteredSeats.isEmpty()) {
             throw new NoMoreSeatAvailableException();
@@ -65,7 +64,7 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
     private Seat chooseSeat(List<Seat> seats) {
         if (seats.size() > 1) {
             CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(chosenSeatClass);
-            return strategy.assignSeat(seats);
+            return strategy.findAvailableSeat(seats);
         }
         return seats.get(0);
     }

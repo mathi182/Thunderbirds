@@ -14,7 +14,7 @@ public class RandomSeatAssignationStrategy implements SeatAssignationStrategy {
     }
 
     @Override
-    public Seat assignSeat(List<Seat> availableSeats) {
+    public Seat findAvailableSeat(List<Seat> availableSeats) {
         int chosenSeat = random.nextInt(availableSeats.size());
 
         return availableSeats.get(chosenSeat);
