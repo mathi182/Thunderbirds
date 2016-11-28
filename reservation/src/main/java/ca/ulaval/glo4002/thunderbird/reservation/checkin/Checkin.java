@@ -32,11 +32,14 @@ public class Checkin {
     private UUID passengerHash;
     @NotBlank
     private String by;
+    @NotNull
+    private Boolean vip;
 
     @JsonCreator
-    public Checkin(UUID passengerHash, String by) {
+    public Checkin(UUID passengerHash, String by, Boolean vip) {
         this.passengerHash = passengerHash;
         this.by = by;
+        this.vip = vip;
     }
 
     protected Checkin() {
@@ -96,7 +99,7 @@ public class Checkin {
     }
 
     private void checkinAndSave(Passenger passenger) {
-        passenger.checkin();
+        passenger.checkin(vip);
         passenger.save();
     }
 }

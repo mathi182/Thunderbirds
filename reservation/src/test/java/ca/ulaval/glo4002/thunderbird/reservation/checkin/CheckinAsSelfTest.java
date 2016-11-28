@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 public class CheckinAsSelfTest {
     private static final UUID PASSENGER_HASH = new UUID(1L, 2L);
     private static final Instant FLIGHT_DATE = Instant.parse("2016-09-06T13:00:00Z");
+    private static final boolean NOT_VIP = false;
     private static final int MAX_LATE_CHECKIN_IN_HOUR = 6;
     private static final int MAX_EARLY_CHECKIN_IN_HOUR = 48;
 
@@ -32,10 +33,9 @@ public class CheckinAsSelfTest {
 
         passengerMock = mock(Passenger.class);
         willReturn(PASSENGER_HASH).given(passengerMock).getId();
-        willReturn(false).given(passengerMock).isCheckedIn();
         willReturn(reservationMock).given(passengerMock).getReservation();
 
-        checkinAsSelf = new Checkin(PASSENGER_HASH, Checkin.SELF) {
+        checkinAsSelf = new Checkin(PASSENGER_HASH, Checkin.SELF, NOT_VIP) {
             @Override
             public Passenger getPassenger() {
                 return passengerMock;
@@ -54,7 +54,7 @@ public class CheckinAsSelfTest {
 
         checkinAsSelf.completeCheckin(validDate);
 
-        verify(passengerMock).checkin();
+        verify(passengerMock).checkin(NOT_VIP);
         verify(passengerMock).save();
     }
 
@@ -64,7 +64,7 @@ public class CheckinAsSelfTest {
 
         checkinAsSelf.completeCheckin(validDate);
 
-        verify(passengerMock).checkin();
+        verify(passengerMock).checkin(NOT_VIP);
         verify(passengerMock).save();
     }
 

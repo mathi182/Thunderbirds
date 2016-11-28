@@ -18,19 +18,17 @@ public class Passenger {
     private Seat.SeatClass seatClass;
     private Instant flightDate;
     private String flightNumber;
+    private boolean isVip;
 
     @Embedded
     private CheckedBaggages checkedBaggages;
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
-        this(passengerHash, seatClass, flightDate, flightNumber);
-    }
-
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber) {
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, boolean isVip) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
+        this.isVip = isVip;
         this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(seatClass);
     }
 
@@ -40,18 +38,6 @@ public class Passenger {
 
     public UUID getHash() {
         return passengerHash;
-    }
-
-    public boolean isSameSeatClass(Seat.SeatClass seatClass) {
-        return this.seatClass.equals(seatClass);
-    }
-
-    public float calculateBaggagesPrice() {
-        return checkedBaggages.calculatePrice();
-    }
-
-    public void addBaggage(Baggage baggage) {
-        checkedBaggages.addBaggage(baggage);
     }
 
     public Seat.SeatClass getSeatClass() {
@@ -64,6 +50,18 @@ public class Passenger {
 
     public String getFlightNumber() {
         return flightNumber;
+    }
+
+    public boolean isVip() {
+        return isVip;
+    }
+
+    public float calculateBaggagesPrice() {
+        return checkedBaggages.calculatePrice();
+    }
+
+    public void addBaggage(Baggage baggage) {
+        checkedBaggages.addBaggage(baggage);
     }
 
     public List<Baggage> getBaggages() {

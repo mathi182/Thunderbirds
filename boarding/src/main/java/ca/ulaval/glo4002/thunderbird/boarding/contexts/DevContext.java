@@ -23,7 +23,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.time.Instant;
-import java.util.*;
+import java.util.Date;
+import java.util.UUID;
 
 public class DevContext implements Context {
     public static Passenger EXISTENT_BOARDING_PASSENGER;
@@ -71,7 +72,9 @@ public class DevContext implements Context {
         Seat.SeatClass seatClass = Seat.SeatClass.ECONOMY;
         Instant flightDate = Instant.ofEpochMilli(new Date().getTime());
         String flightNumber = "QK-918";
-        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber);
+        boolean vip = false;
+        
+        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, vip);
 
         Length length1 = Length.fromMillimeters(500);
         Mass mass1 = Mass.fromGrams(1000);

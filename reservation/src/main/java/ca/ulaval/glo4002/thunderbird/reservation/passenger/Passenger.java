@@ -33,6 +33,8 @@ public class Passenger {
     private int age;
     @JsonIgnore
     private boolean isCheckedIn = false;
+    @JsonIgnore
+    private boolean isVip = false;
 
     @ManyToOne
     @JoinColumn(name = "reservationNumber")
@@ -89,6 +91,10 @@ public class Passenger {
         return isCheckedIn;
     }
 
+    public boolean isVip() {
+        return isVip;
+    }
+
     public Reservation getReservation() {
         return reservation;
     }
@@ -97,11 +103,12 @@ public class Passenger {
         this.reservation = reservation;
     }
 
-    public void checkin() {
+    public void checkin(boolean vip) {
         if (isCheckedIn) {
             throw new PassengerAlreadyCheckedInException(passengerHash);
         }
         isCheckedIn = true;
+        isVip = vip;
     }
 
     public String getSeatClass() {
