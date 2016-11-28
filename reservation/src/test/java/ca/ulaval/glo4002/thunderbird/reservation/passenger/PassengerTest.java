@@ -32,7 +32,7 @@ public class PassengerTest {
     }
 
     @Test
-    public void whenSetAReservation_shouldReturnThisReservation() {
+    public void whenSettingReservation_shouldReturnThisReservation() {
         Reservation expectedReservation = TestConfig.getDefaultReservation();
         passenger.setReservation(expectedReservation);
 

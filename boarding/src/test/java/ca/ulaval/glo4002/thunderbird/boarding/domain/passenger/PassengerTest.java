@@ -32,7 +32,7 @@ public class PassengerTest {
     }
 
     @Test
-    public void givenNewPassenger_whenComparingSeatClass_shouldBeTheSameAsTheOneWeInputed(){
+    public void givenNewPassenger_whenComparingSeatClass_shouldBeTheSameAsTheOneWeInputted() {
         boolean actualSeatClass = passenger.isSameSeatClass(VALID_PASSENGER_SEAT_CLASS);
 
         assertTrue(actualSeatClass);

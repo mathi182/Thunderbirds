@@ -23,7 +23,7 @@ public class ReservationIntegrationTest {
     }
 
     @Test
-    public void whenAReservationIsSaved_shouldBeAbleToRetrieve() {
+    public void whenSavingReservation_shouldBeAbleToRetrieve() {
         reservation.save();
 
         Reservation retrievedReservation = Reservation.findByReservationNumber(reservation.getId());

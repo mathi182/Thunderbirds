@@ -32,7 +32,7 @@ public class CheckinValidationTest {
     }
 
     @Test
-    public void givenValidCheckin_whenValidate_shouldNotHaveErrors() {
+    public void givenValidCheckin_whenValidating_shouldNotHaveErrors() {
         Checkin checkin = new Checkin(PASSENGER_HASH, Checkin.SELF);
 
         Set<ConstraintViolation<Checkin>> constraintViolations = validator.validate(checkin);
@@ -41,7 +41,7 @@ public class CheckinValidationTest {
     }
 
     @Test
-    public void givenCheckinWithoutPassengerHash_whenValidate_shouldHaveAnError() {
+    public void givenCheckinWithoutPassengerHash_whenValidating_shouldHaveAnError() {
         UUID invalidPassengerHash = null;
         Checkin checkin = new Checkin(invalidPassengerHash, Checkin.SELF);
 
@@ -53,7 +53,7 @@ public class CheckinValidationTest {
     }
 
     @Test
-    public void givenCheckinWithoutName_whenValidate_shouldHaveAnError() {
+    public void givenCheckinWithoutName_whenValidating_shouldHaveAnError() {
         String invalidName = null;
         Checkin checkin = new Checkin(PASSENGER_HASH, invalidName);
 
@@ -65,7 +65,7 @@ public class CheckinValidationTest {
     }
 
     @Test
-    public void givenCheckinWithEmptyName_whenValidate_shouldHaveAnError() {
+    public void givenCheckinWithEmptyName_whenValidating_shouldHaveAnError() {
         String invalidName = "  ";
         Checkin checkin = new Checkin(PASSENGER_HASH, invalidName);
 

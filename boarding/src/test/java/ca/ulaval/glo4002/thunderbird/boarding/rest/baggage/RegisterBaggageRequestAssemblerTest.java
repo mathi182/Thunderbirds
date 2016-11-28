@@ -18,7 +18,7 @@ public class RegisterBaggageRequestAssemblerTest {
     public static final String VALID_BAGGAGE_TYPE = "checked";
 
     @Test
-    public void givenValidRequest_whenGetDomainBaggage_shouldReturnBaggage() {
+    public void givenValidRequest_whenGettingDomainBaggage_shouldReturnBaggage() {
         RegisterBaggageDTO registerBaggageRequest = new RegisterBaggageDTO(DIMENSION_UNIT_FROM_REQUEST,
                 LINEAR_DIMENSION,
                 WEIGHT_UNIT_FROM_REQUEST,
@@ -36,7 +36,7 @@ public class RegisterBaggageRequestAssemblerTest {
     }
 
     @Test(expected = IllegalFieldWebException.class)
-    public void givenInvalidWeightUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() {
+    public void givenInvalidWeightUnit_whenGettingDomainBaggage_shouldThrowMissingFieldException() {
         RegisterBaggageDTO registerBaggageRequest = new RegisterBaggageDTO(DIMENSION_UNIT_FROM_REQUEST,
                 LINEAR_DIMENSION,
                 INVALID_UNIT,
@@ -48,7 +48,7 @@ public class RegisterBaggageRequestAssemblerTest {
     }
 
     @Test(expected = IllegalFieldWebException.class)
-    public void givenInvalidDimensionUnit_whenGetDomainBaggage_shouldThrowMissingFieldException() {
+    public void givenInvalidDimensionUnit_whenGettingDomainBaggage_shouldThrowMissingFieldException() {
         RegisterBaggageDTO registerBaggageRequest = new RegisterBaggageDTO(INVALID_UNIT,
                 LINEAR_DIMENSION,
                 WEIGHT_UNIT_FROM_REQUEST,
