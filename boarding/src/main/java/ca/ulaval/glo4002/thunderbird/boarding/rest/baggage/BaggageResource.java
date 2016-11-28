@@ -28,14 +28,14 @@ public class BaggageResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") UUID passengerHash) {
+    public Response registerBaggage(RegisterBaggageDTO request, @PathParam("passenger_hash") UUID passengerHash) {
         Passenger passenger = repository.getPassenger(passengerHash);
         Baggage baggage = convertRequestToBaggage(request);
         passenger.addBaggage(baggage);
 
         String baggageId = baggage.getId().toString();
         URI uri = uriInfo.getAbsolutePathBuilder().path(baggageId).build();
-        RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
+        RegisterBaggageResponse baggageResponseBody = new RegisterBaggageResponse(true);
         return Response.created(uri).entity(baggageResponseBody).build();
     }
 
@@ -53,8 +53,8 @@ public class BaggageResource {
         return new BaggagesListAssembler().toDTO(price, baggages);
     }
 
-    private Baggage convertRequestToBaggage(RegisterBaggageRequest request) {
-        RegisterBaggageRequestAssembler registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+    private Baggage convertRequestToBaggage(RegisterBaggageDTO request) {
+        RegisterBaggageAssembler registerBaggageRequestAssembler = new RegisterBaggageAssembler();
         return registerBaggageRequestAssembler.getDomainBaggage(request);
     }
 }
