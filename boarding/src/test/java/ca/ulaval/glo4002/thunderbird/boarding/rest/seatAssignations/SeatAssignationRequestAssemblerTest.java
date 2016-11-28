@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,27 +16,27 @@ public class SeatAssignationRequestAssemblerTest {
     private static final String MOST_LEG_ROOM_ASSIGNATION_MODE = "LEGS";
     private static final UUID PASSENGER_HASH = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
 
-    private SeatAssignationRequestAssembler assemblerTest;
-    private SeatAssignationRequest requestTest;
+    private SeatAssignationAssembler assemblerTest;
+    private SeatAssignationDTO requestTest;
 
     @Before
-    public void setup(){
-        assemblerTest = new SeatAssignationRequestAssembler();
-        requestTest = new SeatAssignationRequest();
+    public void setup() {
+        assemblerTest = new SeatAssignationAssembler();
+        requestTest = new SeatAssignationDTO();
     }
 
     @Test
-    public void givenRandomAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnRandomMode(){
+    public void givenRandomAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnRandomMode() {
         requestTest.mode = RANDOM_ASSIGNATION_MODE;
 
         SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
 
         SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.RANDOM;
-        assertEquals(expectedValue,actualValue);
+        assertEquals(expectedValue, actualValue);
     }
 
     @Test(expected = NoSuchStrategyException.class)
-    public void givenInvalidAssignationModeSeatAssignationRequest_whenGettingMode_shouldThrowNoSuchStrategyException(){
+    public void givenInvalidAssignationModeSeatAssignationRequest_whenGettingMode_shouldThrowNoSuchStrategyException() {
         requestTest.mode = INVALID_ASSIGNATION_MODE;
 
         assemblerTest.getMode(requestTest);
@@ -49,7 +49,7 @@ public class SeatAssignationRequestAssemblerTest {
         SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
 
         SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.CHEAPEST;
-        assertEquals(expectedValue,actualValue);
+        assertEquals(expectedValue, actualValue);
     }
 
     @Test

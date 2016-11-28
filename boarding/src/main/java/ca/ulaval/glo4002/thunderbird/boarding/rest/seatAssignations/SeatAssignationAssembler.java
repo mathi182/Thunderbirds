@@ -6,18 +6,18 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 
-public class SeatAssignationRequestAssembler {
+public class SeatAssignationAssembler {
     private static final String RANDOM_MODE = "RANDOM";
     private static final String CHEAPEST_MODE = "CHEAPEST";
     private static final String LANDSCAPE_MODE = "LANDSCAPE";
     private static final String LEGS_MODE = "LEGS";
 
-    public Passenger getDomainPassenger(SeatAssignationRequest request) {
+    public Passenger getDomainPassenger(SeatAssignationDTO request) {
         PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
         return repository.getPassenger(request.passengerHash);
     }
 
-    public SeatAssignationStrategy.AssignMode getMode(SeatAssignationRequest request) {
+    public SeatAssignationStrategy.AssignMode getMode(SeatAssignationDTO request) {
         switch (request.mode) {
             case RANDOM_MODE:
                 return SeatAssignationStrategy.AssignMode.RANDOM;

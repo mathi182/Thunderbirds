@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class SeatAssignationRequest {
+public class SeatAssignationDTO {
     @JsonProperty("passenger_hash")
     public UUID passengerHash;
 
@@ -15,7 +15,7 @@ public class SeatAssignationRequest {
     @JsonProperty("seat_class")
     public Seat.SeatClass seatClass;
 
-    public SeatAssignationRequest() {
+    public SeatAssignationDTO() {
 
     }
 }

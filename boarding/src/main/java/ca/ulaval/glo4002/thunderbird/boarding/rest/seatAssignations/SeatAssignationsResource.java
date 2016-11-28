@@ -20,7 +20,7 @@ import java.util.Random;
 @Produces(MediaType.APPLICATION_JSON)
 public class SeatAssignationsResource {
     public static final String PATH = "/seat-assignations/";
-    
+
     @Context
     UriInfo uriInfo;
 
@@ -32,7 +32,7 @@ public class SeatAssignationsResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response assignSeat(SeatAssignationRequest request) {
+    public Response assignSeat(SeatAssignationDTO request) {
         Flight flight = getFlight(request);
         SeatAssignationStrategy strategy = getSeatAssignationStrategy(request);
 
@@ -49,14 +49,14 @@ public class SeatAssignationsResource {
                 .build();
     }
 
-    private Flight getFlight(SeatAssignationRequest request) {
-        SeatAssignationRequestAssembler seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
+    private Flight getFlight(SeatAssignationDTO request) {
+        SeatAssignationAssembler seatAssignationRequestAssembler = new SeatAssignationAssembler();
         Passenger passenger = seatAssignationRequestAssembler.getDomainPassenger(request);
         return repository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
     }
 
-    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationRequest request) {
-        SeatAssignationRequestAssembler seatAssignationRequestAssembler = new SeatAssignationRequestAssembler();
+    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request) {
+        SeatAssignationAssembler seatAssignationRequestAssembler = new SeatAssignationAssembler();
         SeatAssignationStrategy.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
         return new SeatAssignationStrategyFactory().getStrategy(assignMode, request.seatClass);
     }
