@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.filters;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerFactoryProvider;
-import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.jpa.EntityManagerFactoryProvider;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.jpa.EntityManagerProvider;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.application.jpa;
+package ca.ulaval.glo4002.thunderbird.boarding.persistence.jpa;
 
 import javax.persistence.EntityManager;
 
