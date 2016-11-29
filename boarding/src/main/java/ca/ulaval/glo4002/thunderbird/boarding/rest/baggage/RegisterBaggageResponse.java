@@ -5,18 +5,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RegisterBaggageResponse {
     @JsonProperty("allowed")
-    public boolean allowed;
+    private boolean allowed;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("refusation_reason")
-    public String refusation_reason;
+    @JsonProperty("refusationReason")
+    private String refusationReason;
 
-    public RegisterBaggageResponse(boolean allowed, String refusation_reason) {
+    private RegisterBaggageResponse(boolean allowed, String refusationReason) {
         this.allowed = allowed;
-        this.refusation_reason = refusation_reason;
+        this.refusationReason = refusationReason;
     }
 
-    public RegisterBaggageResponse(boolean allowed) {
+    private RegisterBaggageResponse(boolean allowed) {
         this.allowed = allowed;
+    }
+
+    public static RegisterBaggageResponse accepted() {
+        return new RegisterBaggageResponse(true);
+    }
+
+    public static RegisterBaggageResponse refused(String refusationReason) {
+        return new RegisterBaggageResponse(false, refusationReason);
     }
 }

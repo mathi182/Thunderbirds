@@ -32,10 +32,10 @@ public class BaggageResourceRestTest {
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
         Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
-                                                                           LINEAR_DIMENSION,
-                                                                           KG_UNIT_FROM_REQUEST,
-                                                                           WEIGHT,
-                                                                           CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                LINEAR_DIMENSION,
+                KG_UNIT_FROM_REQUEST,
+                WEIGHT,
+                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         Response response = givenBaseRequest()
                 .and().body(registerBagageBody)
@@ -47,7 +47,7 @@ public class BaggageResourceRestTest {
         assertTrue(locationValidity);
         Boolean allowed = response.path("allowed");
         assertTrue(allowed);
-        String deniedReason = response.path("refusation_reason");
+        String deniedReason = response.path("refusationReason");
         assertNull(deniedReason);
     }
 
@@ -68,10 +68,10 @@ public class BaggageResourceRestTest {
     @Test
     public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
         Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
-                                                                           LINEAR_DIMENSION,
-                                                                           KG_UNIT_FROM_REQUEST,
-                                                                           INVALID_WEIGHT,
-                                                                           CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                LINEAR_DIMENSION,
+                KG_UNIT_FROM_REQUEST,
+                INVALID_WEIGHT,
+                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         Response response = givenBaseRequest()
                 .and().body(registerBagageBody)
@@ -81,17 +81,17 @@ public class BaggageResourceRestTest {
 
         Boolean allowed = response.path("allowed");
         assertFalse(allowed);
-        String deniedReason = response.path("refusation_reason");
+        String deniedReason = response.path("refusationReason");
         assertNotNull(deniedReason);
     }
 
     @Test
     public void givenAnInvalidWeightUnitBaggage_whenRegisteringBaggage_shouldReturnBadRequest() {
         Map<String, Object> registerBaggageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
-                                                                            LINEAR_DIMENSION,
-                                                                            INVALID_UNIT,
-                                                                            WEIGHT,
-                                                                            CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                LINEAR_DIMENSION,
+                INVALID_UNIT,
+                WEIGHT,
+                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
         givenBaseRequest()
                 .body(registerBaggageBody)

@@ -13,8 +13,8 @@ import static org.eclipse.jetty.http.HttpStatus.Code.OK;
 public class BaggageDimensionInvalidExceptionMapper implements ExceptionMapper<BaggageDimensionInvalidException> {
     @Override
     public Response toResponse(BaggageDimensionInvalidException e) {
-        RegisterBaggageResponse registerBaggageResponseBody = new RegisterBaggageResponse(false, "dimensions " +
-                "invalid");
-        return Response.status(OK.getCode()).entity(registerBaggageResponseBody).build();
+        //RegisterBaggageResponse registerBaggageResponseBody = new RegisterBaggageResponse(false, "dimensions " + "invalid");
+        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("dimensions " + "invalid");
+        return Response.status(OK.getCode()).entity(registerBaggageResponse).build();
     }
 }

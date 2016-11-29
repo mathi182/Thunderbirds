@@ -36,9 +36,10 @@ public class BaggageResource {
         UUID baggageId = baggageApplicationService.registerBaggage(passengerHash, baggage);
 
         URI uri = uriInfo.getAbsolutePathBuilder().path(baggageId.toString()).build();
-        RegisterBaggageResponse baggageResponse = new RegisterBaggageResponse(true);
+        //RegisterBaggageResponse baggageResponse = new RegisterBaggageResponse(true);
+        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.accepted();
 
-        return Response.created(uri).entity(baggageResponse).build();
+        return Response.created(uri).entity(registerBaggageResponse).build();
     }
 
     @GET

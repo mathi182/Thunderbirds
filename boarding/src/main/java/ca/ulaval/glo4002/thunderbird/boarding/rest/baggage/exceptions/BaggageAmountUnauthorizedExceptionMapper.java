@@ -13,7 +13,8 @@ import static org.eclipse.jetty.http.HttpStatus.Code.OK;
 public class BaggageAmountUnauthorizedExceptionMapper implements ExceptionMapper<BaggageAmountUnauthorizedException> {
     @Override
     public Response toResponse(BaggageAmountUnauthorizedException e) {
-        RegisterBaggageResponse registerBaggageResponseBody = new RegisterBaggageResponse(false, "baggages amount authorized is reached");
-        return Response.status(OK.getCode()).entity(registerBaggageResponseBody).build();
+        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("baggages amount authorized is reached");
+        //registerBaggageResponse = new RegisterBaggageResponse(false, "baggages amount authorized is reached");
+        return Response.status(OK.getCode()).entity(registerBaggageResponse).build();
     }
 }
