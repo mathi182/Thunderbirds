@@ -14,7 +14,6 @@ public class BaggageAmountUnauthorizedExceptionMapper implements ExceptionMapper
     @Override
     public Response toResponse(BaggageAmountUnauthorizedException e) {
         RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("baggages amount authorized is reached");
-        //registerBaggageResponse = new RegisterBaggageResponse(false, "baggages amount authorized is reached");
         return Response.status(OK.getCode()).entity(registerBaggageResponse).build();
     }
 }
