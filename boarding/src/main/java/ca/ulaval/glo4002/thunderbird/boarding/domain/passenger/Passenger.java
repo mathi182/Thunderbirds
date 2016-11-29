@@ -19,16 +19,18 @@ public class Passenger {
     private Instant flightDate;
     private String flightNumber;
     private boolean isVip;
+    private boolean isCheckin;
 
     @Embedded
     private CheckedBaggages checkedBaggages;
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, boolean isVip) {
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, boolean isVip, boolean isCheckin) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
         this.isVip = isVip;
+        this.isCheckin = isCheckin;
         this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(seatClass);
     }
 
@@ -66,5 +68,9 @@ public class Passenger {
 
     public List<Baggage> getBaggages() {
         return checkedBaggages.getBaggages();
+    }
+
+    public boolean isCheckin() {
+        return isCheckin;
     }
 }

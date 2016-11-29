@@ -19,7 +19,7 @@ public class PassengerAssembler {
         String flightNumber = passengerDTO.flightNumber;
         Boolean isVip = passengerDTO.vip;
 
-        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, isVip);
+        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, isVip, false);
     }
 
     private Seat.SeatClass getSeatClassFromString(String source) {

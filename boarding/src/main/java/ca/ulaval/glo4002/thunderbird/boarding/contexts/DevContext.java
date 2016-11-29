@@ -74,7 +74,7 @@ public class DevContext implements Context {
         String flightNumber = "QK-918";
         boolean vip = false;
         
-        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, vip);
+        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, vip, false);
 
         Length length1 = Length.fromMillimeters(500);
         Mass mass1 = Mass.fromGrams(1000);

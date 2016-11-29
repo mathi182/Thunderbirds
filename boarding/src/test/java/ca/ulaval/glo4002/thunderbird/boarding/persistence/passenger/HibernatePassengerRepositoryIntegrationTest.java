@@ -46,7 +46,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void whenSavingPassenger_shouldBeSavedCorrectly() {
         Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID,
-                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP);
+                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, false);
 
         repository.savePassenger(expectedPassenger);
 
@@ -57,7 +57,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void whenGettingAPassengerPresentInReservation_shouldReturnThePassenger() {
         Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION,
-                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP);
+                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, false);
         willReturn(expectedPassenger).given(passengerService).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
         Passenger actualPassenger = repository.getPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
@@ -68,7 +68,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenPassengerWithBaggage_whenSavingThisPassenger_shouldSaveBaggagesCorrectly() {
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE,
-                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP);
+                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, false);
         Baggage baggage = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
         expectedPassenger.addBaggage(baggage);
 
