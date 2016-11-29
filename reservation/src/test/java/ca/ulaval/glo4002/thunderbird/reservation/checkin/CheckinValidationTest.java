@@ -15,6 +15,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class CheckinValidationTest {
     private static final UUID PASSENGER_HASH = new UUID(1L, 2L);
+    private static final boolean NOT_VIP = false;
 
     private static Validator validator;
 
@@ -26,14 +27,14 @@ public class CheckinValidationTest {
 
     @Test
     public void givenValidCheckin_shouldReturnAnId() {
-        Checkin checkin = new Checkin(PASSENGER_HASH, Checkin.SELF);
+        Checkin checkin = new Checkin(PASSENGER_HASH, Checkin.SELF, NOT_VIP);
 
         assertNotNull(checkin.getId());
     }
 
     @Test
     public void givenValidCheckin_whenValidating_shouldNotHaveErrors() {
-        Checkin checkin = new Checkin(PASSENGER_HASH, Checkin.SELF);
+        Checkin checkin = new Checkin(PASSENGER_HASH, Checkin.SELF, NOT_VIP);
 
         Set<ConstraintViolation<Checkin>> constraintViolations = validator.validate(checkin);
 
@@ -43,7 +44,7 @@ public class CheckinValidationTest {
     @Test
     public void givenCheckinWithoutPassengerHash_whenValidating_shouldHaveAnError() {
         UUID invalidPassengerHash = null;
-        Checkin checkin = new Checkin(invalidPassengerHash, Checkin.SELF);
+        Checkin checkin = new Checkin(invalidPassengerHash, Checkin.SELF, NOT_VIP);
 
         Set<ConstraintViolation<Checkin>> constraintViolations = validator.validate(checkin);
 
@@ -55,7 +56,7 @@ public class CheckinValidationTest {
     @Test
     public void givenCheckinWithoutName_whenValidating_shouldHaveAnError() {
         String invalidName = null;
-        Checkin checkin = new Checkin(PASSENGER_HASH, invalidName);
+        Checkin checkin = new Checkin(PASSENGER_HASH, invalidName, NOT_VIP);
 
         Set<ConstraintViolation<Checkin>> constraintViolations = validator.validate(checkin);
 
@@ -67,12 +68,24 @@ public class CheckinValidationTest {
     @Test
     public void givenCheckinWithEmptyName_whenValidating_shouldHaveAnError() {
         String invalidName = "  ";
-        Checkin checkin = new Checkin(PASSENGER_HASH, invalidName);
+        Checkin checkin = new Checkin(PASSENGER_HASH, invalidName, NOT_VIP);
 
         Set<ConstraintViolation<Checkin>> constraintViolations = validator.validate(checkin);
 
         assertEquals(1, constraintViolations.size());
         Object actualInvalidValue = constraintViolations.iterator().next().getInvalidValue();
         assertEquals(invalidName, actualInvalidValue);
+    }
+
+    @Test
+    public void givenCheckinWithInvalidVip_whenValidate_shouldHaveAnError() {
+        Boolean invalidVip = null;
+        Checkin checkin = new Checkin(PASSENGER_HASH, Checkin.SELF, invalidVip);
+
+        Set<ConstraintViolation<Checkin>> constraintViolations = validator.validate(checkin);
+
+        assertEquals(1, constraintViolations.size());
+        Object actualInvalidValue = constraintViolations.iterator().next().getInvalidValue();
+        assertEquals(invalidVip, actualInvalidValue);
     }
 }

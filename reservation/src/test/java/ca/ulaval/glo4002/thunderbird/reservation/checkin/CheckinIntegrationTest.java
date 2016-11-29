@@ -11,6 +11,7 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 
 public class CheckinIntegrationTest {
+    private static final boolean NOT_VIP = false;
     private static final UUID NON_EXISTENT_CHECKIN_HASH = new UUID(1L, 2L);
     private static final UUID NON_EXISTENT_PASSENGER_HASH = new UUID(3L, 4L);
 
@@ -21,7 +22,7 @@ public class CheckinIntegrationTest {
         Passenger passenger = TestConfig.getDefaultPassenger();
         passenger.save();
         UUID existentPassengerHash = passenger.getId();
-        Checkin checkin = new Checkin(existentPassengerHash, Checkin.SELF);
+        Checkin checkin = new Checkin(existentPassengerHash, Checkin.SELF, NOT_VIP);
 
         Passenger retrievedPassenger = checkin.getPassenger();
 
@@ -30,14 +31,14 @@ public class CheckinIntegrationTest {
 
     @Test(expected = PassengerNotFoundException.class)
     public void givenCheckinWithNonExistentPassenger_whenFindingPassenger_shouldThrowNotFound() {
-        Checkin checkin = new Checkin(NON_EXISTENT_PASSENGER_HASH, Checkin.SELF);
+        Checkin checkin = new Checkin(NON_EXISTENT_PASSENGER_HASH, Checkin.SELF, NOT_VIP);
 
         checkin.getPassenger();
     }
 
     @Test
     public void givenValidCheckin_whenCheckinIsSaved_shouldBeAbleToRetrieve() {
-        Checkin checkin = new Checkin(PASSENGER_HASH, Checkin.SELF);
+        Checkin checkin = new Checkin(PASSENGER_HASH, Checkin.SELF, NOT_VIP);
 
         checkin.save();
 

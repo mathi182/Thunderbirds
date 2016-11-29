@@ -17,6 +17,7 @@ public class CheckinAsAgentTest {
     private static final String AGENT_ID = "agentId";
     private static final UUID PASSENGER_HASH = new UUID(1L, 2L);
     private static final Instant TODAYS_DATE = Instant.parse("2016-09-06T13:00:00Z");
+    private static final boolean NOT_VIP = false;
 
     private Checkin checkinAsAgent;
     private Passenger passenger;
@@ -27,10 +28,8 @@ public class CheckinAsAgentTest {
         reservation = mock(Reservation.class);
         passenger = mock(Passenger.class);
         willReturn(PASSENGER_HASH).given(passenger).getId();
-        willReturn(false).given(passenger).isCheckedIn();
         willReturn(reservation).given(passenger).getReservation();
-
-        checkinAsAgent = new Checkin(PASSENGER_HASH, AGENT_ID) {
+        checkinAsAgent = new Checkin(PASSENGER_HASH, AGENT_ID, NOT_VIP) {
             @Override
             public Passenger getPassenger() {
                 return passenger;
@@ -48,7 +47,7 @@ public class CheckinAsAgentTest {
         checkinAsAgent.completeCheckin(TODAYS_DATE);
 
         verify(reservation, never()).getFlightDate();
-        verify(passenger).checkin();
+        verify(passenger).checkin(NOT_VIP);
         verify(passenger).save();
     }
 

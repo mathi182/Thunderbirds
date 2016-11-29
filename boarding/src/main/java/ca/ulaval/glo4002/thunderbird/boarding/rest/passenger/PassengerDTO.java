@@ -5,21 +5,26 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PassengerDTO {
-    public String passengerHash;
+    public UUID passengerHash;
     public String seatClass;
     public String flightNumber;
     public String flightDate;
+    public Boolean vip;
 
     @JsonCreator
-    public PassengerDTO(@JsonProperty("passenger_hash") String passengerHash,
+    public PassengerDTO(@JsonProperty("passenger_hash") UUID passengerHash,
                         @JsonProperty("seat_class") String seatClass,
                         @JsonProperty("flight_date") String flightDate,
-                        @JsonProperty("flight_number") String flightNumber) {
+                        @JsonProperty("flight_number") String flightNumber,
+                        @JsonProperty("vip") Boolean vip) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightDate = flightDate;
         this.flightNumber = flightNumber;
+        this.vip = vip;
     }
 }

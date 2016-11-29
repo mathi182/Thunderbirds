@@ -65,8 +65,7 @@ public class Reservation {
         Reservation reservation = entityManager.find(Reservation.class, reservationNumber);
 
         if (reservation == null) {
-            String reservationNumberString = Integer.toString(reservationNumber);
-            throw new ReservationNotFoundException(reservationNumberString);
+            throw new ReservationNotFoundException(reservationNumber);
         }
 
         return reservation;
