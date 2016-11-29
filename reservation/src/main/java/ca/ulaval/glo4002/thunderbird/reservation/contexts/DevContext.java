@@ -16,6 +16,7 @@ import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 public class DevContext implements Context {
     public final static int EXISTENT_RESERVATION_NUMBER = 100;
     public static UUID EXISTENT_PASSENGER_HASH;
+    public static UUID NON_CHECKIN_PASSENGER_HASH;
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
     public static final int AGE = 100;
@@ -33,11 +34,16 @@ public class DevContext implements Context {
         Reservation reservation = createReservation(passenger);
         EXISTENT_PASSENGER_HASH = passenger.getId();
 
+        Passenger nonCheckinPassenger = createPassenger();
+        Reservation nonCheckinReservation = createReservation(nonCheckinPassenger);
+        NON_CHECKIN_PASSENGER_HASH = nonCheckinPassenger.getId();
+
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityManagerProvider.setEntityManager(entityManager);
 
         reservation.save();
+        nonCheckinPassenger.save();
 
         EntityManagerProvider.clearEntityManager();
         entityManager.close();
