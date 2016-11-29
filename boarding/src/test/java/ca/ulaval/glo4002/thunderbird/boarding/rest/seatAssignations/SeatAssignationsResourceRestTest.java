@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
+import static javax.ws.rs.core.HttpHeaders.LOCATION;
 import static org.eclipse.jetty.http.HttpStatus.Code.*;
 import static org.junit.Assert.*;
 
@@ -35,7 +36,7 @@ public class SeatAssignationsResourceRestTest {
                 .and()
                 .extract().response();
 
-        Boolean locationValidity = isLocationValid(response.getHeader("Location"));
+        Boolean locationValidity = isLocationValid(response.getHeader(LOCATION));
         assertTrue(locationValidity);
         String seat = response.path("seat");
         assertNotNull(seat);

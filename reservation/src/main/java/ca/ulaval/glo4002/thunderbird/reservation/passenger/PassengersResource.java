@@ -11,17 +11,18 @@ import java.util.UUID;
 @Produces(MediaType.APPLICATION_JSON)
 public class PassengersResource {
     public static final String PATH = "/passengers/";
+    private final PassengerAssembler passengerAssembler;
+
+    public PassengersResource() {
+        passengerAssembler = new PassengerAssembler();
+    }
 
     @GET
     @Path("{passenger_hash}")
-    public PassengerDTO fetchPassenger(@PathParam("passenger_hash") UUID passenger_hash) {
-        Passenger passenger = getPassenger(passenger_hash);
-        PassengerAssembler passengerAssembler = new PassengerAssembler();
+    public PassengerDTO fetchPassenger(@PathParam("passenger_hash") UUID passengerHash) {
+        Passenger passenger = Passenger.findByPassengerHash(passengerHash);
+        PassengerAssembler passengerAssembler = this.passengerAssembler;
 
         return passengerAssembler.toDTO(passenger);
-    }
-
-    private Passenger getPassenger(UUID passenger_hash) {
-        return Passenger.findByPassengerHash(passenger_hash);
     }
 }

@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
+import static javax.ws.rs.core.HttpHeaders.LOCATION;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.eclipse.jetty.http.HttpStatus.Code.*;
 import static org.junit.Assert.*;
@@ -42,7 +43,7 @@ public class BaggageResourceRestTest {
                 .then().statusCode(CREATED.getCode())
                 .and().extract().response();
 
-        Boolean locationValidity = isLocationValid(response.getHeader("Location"), VALID_PASSENGER_HASH);
+        Boolean locationValidity = isLocationValid(response.getHeader(LOCATION), VALID_PASSENGER_HASH);
         assertTrue(locationValidity);
         Boolean allowed = response.path("allowed");
         assertTrue(allowed);

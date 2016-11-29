@@ -1,7 +1,5 @@
-package ca.ulaval.glo4002.thunderbird.reservation.persistence;
+package ca.ulaval.glo4002.thunderbird.reservation.util;
 
-import ca.ulaval.glo4002.thunderbird.reservation.util.InstantDeserializer;
-import ca.ulaval.glo4002.thunderbird.reservation.util.InstantSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -22,7 +20,7 @@ import static com.fasterxml.jackson.databind.MapperFeature.*;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class CustomJsonProvider extends JacksonJaxbJsonProvider {
+public class InstantMapperJsonProvider extends JacksonJaxbJsonProvider {
     private static ObjectMapper mapper = new ObjectMapper();
 
     static {
@@ -40,7 +38,7 @@ public class CustomJsonProvider extends JacksonJaxbJsonProvider {
         mapper.setVisibility(FIELD, ANY);
     }
 
-    public CustomJsonProvider() {
+    public InstantMapperJsonProvider() {
         super();
         setMapper(mapper);
     }
