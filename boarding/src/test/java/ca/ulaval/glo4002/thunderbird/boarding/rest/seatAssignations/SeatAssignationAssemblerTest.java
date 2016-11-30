@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class SeatAssignationRequestAssemblerTest {
+public class SeatAssignationAssemblerTest {
     private static final String INVALID_ASSIGNATION_MODE = "invalidMode";
     private static final String RANDOM_ASSIGNATION_MODE = "RANDOM";
     private static final String CHEAPEST_ASSIGNATION_MODE = "CHEAPEST";

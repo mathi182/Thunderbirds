@@ -20,7 +20,7 @@ public class PassengerServiceTest {
     private static final UUID RANDOM_UUID = UUID.randomUUID();
 
     private ClientResponse clientResponse;
-    private Passenger passenger;
+    private Passenger expectedPassenger;
 
     private PassengerService passengerServiceTest;
 
@@ -29,12 +29,12 @@ public class PassengerServiceTest {
         PassengerAssembler passengerAssembler = mock(PassengerAssembler.class);
         PassengerDTO passengerDTO = mock(PassengerDTO.class);
         clientResponse = mock(ClientResponse.class);
-        passenger = mock(Passenger.class);
+        expectedPassenger = mock(Passenger.class);
         PassengerRequest passengerRequest = mock(PassengerRequest.class);
 
         willReturn(clientResponse).given(passengerRequest).getPassengerResponse(anyString());
         willReturn(passengerDTO).given(clientResponse).getEntity(PassengerDTO.class);
-        willReturn(passenger).given(passengerAssembler).toDomain(passengerDTO);
+        willReturn(expectedPassenger).given(passengerAssembler).toDomain(passengerDTO);
 
         passengerServiceTest = new PassengerService(passengerAssembler, passengerRequest);
     }
@@ -51,8 +51,8 @@ public class PassengerServiceTest {
     public void givenNewPassengerService_whenRequestingValidPassenger_shouldBeCorrectPassenger() {
         willReturn(OK.getStatusCode()).given(clientResponse).getStatus();
 
-        Passenger passenger = passengerServiceTest.fetchPassenger(VALID_PASSENGER_HASH);
+        Passenger actualPassenger = passengerServiceTest.fetchPassenger(VALID_PASSENGER_HASH);
 
-        assertEquals(this.passenger, passenger);
+        assertEquals(expectedPassenger, actualPassenger);
     }
 }

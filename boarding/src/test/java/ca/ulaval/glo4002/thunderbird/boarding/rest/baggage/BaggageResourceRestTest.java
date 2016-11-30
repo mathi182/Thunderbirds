@@ -26,6 +26,8 @@ public class BaggageResourceRestTest {
     private static final UUID VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER.getHash();
     private static final UUID INVALID_PASSENGER_UUID = UUID.randomUUID();
     private static final String LOCATION_HEADER = "Location";
+    private static final String ALLOWED = "allowed";
+    private static final String REFUSATION_REASON = "refusation_reason";
 
     private static final String UUIDRegex = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
 
@@ -45,9 +47,9 @@ public class BaggageResourceRestTest {
 
         Boolean locationValidity = isLocationValid(response.getHeader(LOCATION_HEADER), VALID_PASSENGER_HASH);
         assertTrue(locationValidity);
-        Boolean allowed = response.path("allowed");
+        Boolean allowed = response.path(ALLOWED);
         assertTrue(allowed);
-        String deniedReason = response.path("refusationReason");
+        String deniedReason = response.path(REFUSATION_REASON);
         assertNull(deniedReason);
     }
 
@@ -79,9 +81,9 @@ public class BaggageResourceRestTest {
                 .then().statusCode(OK.getStatusCode())
                 .and().extract().response();
 
-        Boolean allowed = response.path("allowed");
+        Boolean allowed = response.path(ALLOWED);
         assertFalse(allowed);
-        String deniedReason = response.path("refusationReason");
+        String deniedReason = response.path(REFUSATION_REASON);
         assertNotNull(deniedReason);
     }
 

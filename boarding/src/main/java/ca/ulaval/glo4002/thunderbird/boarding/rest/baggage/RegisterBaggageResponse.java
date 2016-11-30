@@ -8,7 +8,7 @@ public class RegisterBaggageResponse {
     private boolean allowed;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("refusationReason")
+    @JsonProperty("refusation_reason")
     private String refusationReason;
 
     private RegisterBaggageResponse(boolean allowed, String refusationReason) {
