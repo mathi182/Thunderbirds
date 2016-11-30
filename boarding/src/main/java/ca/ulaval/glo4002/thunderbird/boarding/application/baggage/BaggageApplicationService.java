@@ -9,7 +9,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerReposito
 import java.util.UUID;
 
 public class BaggageApplicationService {
-    private final PassengerRepository repository;
+    private PassengerRepository repository;
 
     public BaggageApplicationService(PassengerRepository repository) {
         this.repository = repository;
