@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.baggage.exceptions.PassengerNotCheckedInException;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
@@ -18,8 +19,8 @@ public class HibernatePassengerRepository implements PassengerRepository {
 
     @Override
     public Passenger getPassenger(UUID passengerHash) {
-        Passenger passenger;
-        passenger = getPassengerFromHibernate(passengerHash);
+        Passenger passenger = getPassengerFromHibernate(passengerHash);
+
         if (passenger == null) {
             passenger = getPassengerFromAPI(passengerHash);
             savePassenger(passenger);
@@ -34,7 +35,11 @@ public class HibernatePassengerRepository implements PassengerRepository {
     }
 
     private Passenger getPassengerFromAPI(UUID passengerHash) {
-        return passengerService.fetchPassenger(passengerHash);
+        Passenger passenger = passengerService.fetchPassenger(passengerHash);
+        if (!passenger.isCheckin()) {
+            throw new PassengerNotCheckedInException();
+        }
+        return passenger;
     }
 
     @Override
