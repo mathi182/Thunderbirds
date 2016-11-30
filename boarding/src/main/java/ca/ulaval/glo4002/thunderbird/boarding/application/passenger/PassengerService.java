@@ -21,8 +21,8 @@ public class PassengerService {
     public Passenger fetchPassenger(UUID passengerHash) {
         int httpPort = ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt).orElse(DEFAULT_PORT);
         String url = String.format("http://%s:%d/%s/%s", DOMAIN_NAME, httpPort, PATH, passengerHash);
-        ClientResponse response = getResource(url);
 
+        ClientResponse response = getResource(url);
         validateResponse(response);
 
         PassengerDTO passengerDTO = response.getEntity(PassengerDTO.class);
