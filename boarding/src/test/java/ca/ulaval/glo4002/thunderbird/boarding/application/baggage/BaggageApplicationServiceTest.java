@@ -38,7 +38,7 @@ public class BaggageApplicationServiceTest {
         willReturn(passengerAreCheckedIn).given(passenger).isCheckin();
 
         PassengerRepository passengerRepository = mock(PassengerRepository.class);
-        willReturn(passenger).given(passengerRepository).getPassenger(any());
+        willReturn(passenger).given(passengerRepository).getPassenger(PASSENGER_HASH);
 
         return passengerRepository;
     }
