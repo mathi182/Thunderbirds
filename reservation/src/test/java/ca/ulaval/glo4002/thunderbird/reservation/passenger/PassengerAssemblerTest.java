@@ -23,21 +23,13 @@ public class PassengerAssemblerTest {
 
     @Before
     public void setup() {
-<<<<<<< HEAD
-        passengerMock = mock(Passenger.class);
-        willReturn(PASSENGER_HASH).given(passengerMock).getId();
-        willReturn(SEAT_CLASS).given(passengerMock).getSeatClass();
-        willReturn(FLIGHT_NUMBER).given(passengerMock).getFlightNumber();
-        willReturn(FLIGHT_DATE).given(passengerMock).getFlightDate();
-        willReturn(VIP).given(passengerMock).isVip();
-        willReturn(CHECKIN).given(passengerMock).isCheckedIn();
-=======
         passenger = mock(Passenger.class);
         willReturn(PASSENGER_HASH).given(passenger).getId();
         willReturn(SEAT_CLASS).given(passenger).getSeatClass();
         willReturn(FLIGHT_NUMBER).given(passenger).getFlightNumber();
         willReturn(FLIGHT_DATE).given(passenger).getFlightDate();
->>>>>>> 6b5af6d23fe6a70f327ec35b42f398034fb58ddf
+        willReturn(VIP).given(passenger).isVip();
+        willReturn(CHECKIN).given(passenger).isCheckedIn();
 
         passengerAssembler = new PassengerAssembler();
     }
