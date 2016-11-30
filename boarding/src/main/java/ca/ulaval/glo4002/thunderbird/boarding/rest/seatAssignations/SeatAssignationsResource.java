@@ -28,7 +28,7 @@ public class SeatAssignationsResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response assignSeat(SeatAssignationRequest request) {
+    public Response assignSeat(SeatAssignationDTO request) {
         Seat assignedSeat = applicationService.assignSeat(request);
 
         TakenSeatDTO takenSeatDTO = assembler.fromDomain(assignedSeat);

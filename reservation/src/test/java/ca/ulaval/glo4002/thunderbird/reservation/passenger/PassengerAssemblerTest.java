@@ -19,10 +19,11 @@ public class PassengerAssemblerTest {
     private static final boolean CHECKIN = true;
 
     private PassengerAssembler passengerAssembler;
-    private Passenger passengerMock;
+    private Passenger passenger;
 
     @Before
     public void setup() {
+<<<<<<< HEAD
         passengerMock = mock(Passenger.class);
         willReturn(PASSENGER_HASH).given(passengerMock).getId();
         willReturn(SEAT_CLASS).given(passengerMock).getSeatClass();
@@ -30,13 +31,20 @@ public class PassengerAssemblerTest {
         willReturn(FLIGHT_DATE).given(passengerMock).getFlightDate();
         willReturn(VIP).given(passengerMock).isVip();
         willReturn(CHECKIN).given(passengerMock).isCheckedIn();
+=======
+        passenger = mock(Passenger.class);
+        willReturn(PASSENGER_HASH).given(passenger).getId();
+        willReturn(SEAT_CLASS).given(passenger).getSeatClass();
+        willReturn(FLIGHT_NUMBER).given(passenger).getFlightNumber();
+        willReturn(FLIGHT_DATE).given(passenger).getFlightDate();
+>>>>>>> 6b5af6d23fe6a70f327ec35b42f398034fb58ddf
 
         passengerAssembler = new PassengerAssembler();
     }
 
     @Test
     public void givenNewPassenger_whenConvertingToDTO_shouldGetCorrectPassengerHash() {
-        PassengerDTO passengerDTO = passengerAssembler.toDTO(passengerMock);
+        PassengerDTO passengerDTO = passengerAssembler.toDTO(passenger);
         String actualValue = passengerDTO.passengerHash;
 
         String expectedValue = PASSENGER_HASH.toString();
@@ -45,7 +53,7 @@ public class PassengerAssemblerTest {
 
     @Test
     public void givenNewPassenger_whenConvertingToDTO_shouldReturnCorrectValues() {
-        PassengerDTO passengerDTO = passengerAssembler.toDTO(passengerMock);
+        PassengerDTO passengerDTO = passengerAssembler.toDTO(passenger);
         String actualPassengerHash = passengerDTO.passengerHash;
         String actualSeatClass = passengerDTO.seatClass;
         String actualFlightNumber = passengerDTO.flightNumber;

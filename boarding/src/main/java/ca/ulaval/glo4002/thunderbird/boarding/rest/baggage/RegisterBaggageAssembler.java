@@ -5,14 +5,14 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebExc
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
-public class RegisterBaggageRequestAssembler {
+public class RegisterBaggageAssembler {
 
     private static final String KILOGRAMS = "kg";
     private static final String POUNDS = "lbs";
     private static final String CENTIMETERS = "cm";
     private static final String INCHES = "lbs";
 
-    public Baggage getDomainBaggage(RegisterBaggageRequest request) {
+    public Baggage getDomainBaggage(RegisterBaggageDTO request) {
         Length dimension = getDimension(request);
         Mass weight = getWeight(request);
         String type = request.type;
@@ -20,7 +20,7 @@ public class RegisterBaggageRequestAssembler {
         return new Baggage(dimension, weight, type);
     }
 
-    private Mass getWeight(RegisterBaggageRequest request) {
+    private Mass getWeight(RegisterBaggageDTO request) {
         switch (request.weightUnit) {
             case KILOGRAMS:
                 return Mass.fromKilograms(request.weight);
@@ -31,7 +31,7 @@ public class RegisterBaggageRequestAssembler {
         }
     }
 
-    private Length getDimension(RegisterBaggageRequest request) {
+    private Length getDimension(RegisterBaggageDTO request) {
         switch (request.linearDimensionUnit) {
             case CENTIMETERS:
                 return Length.fromCentimeters(request.linearDimension);

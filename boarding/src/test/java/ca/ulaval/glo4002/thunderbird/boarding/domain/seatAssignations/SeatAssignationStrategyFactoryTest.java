@@ -16,7 +16,7 @@ public class SeatAssignationStrategyFactoryTest {
     }
 
     @Test
-    public void givenModeRandom_shouldReturnRandomSeatStrategy() {
+    public void givenModeRandom_whenGettingStrategy_shouldReturnRandomSeatStrategy() {
         SeatAssignationStrategy strategy = factory.getStrategy(SeatAssignationStrategy.AssignMode.RANDOM, Seat
                 .SeatClass.ANY);
 

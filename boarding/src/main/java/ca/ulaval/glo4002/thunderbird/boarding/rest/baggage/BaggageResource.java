@@ -21,23 +21,24 @@ public class BaggageResource {
 
     private final BaggageApplicationService baggageApplicationService;
     private final BaggagesListAssembler baggagesListAssembler;
-    private final RegisterBaggageRequestAssembler registerBaggageRequestAssembler;
+    private final RegisterBaggageAssembler registerBaggageAssembler;
 
     public BaggageResource() {
         this.baggageApplicationService = new BaggageApplicationService();
         this.baggagesListAssembler = new BaggagesListAssembler();
-        this.registerBaggageRequestAssembler = new RegisterBaggageRequestAssembler();
+        this.registerBaggageAssembler = new RegisterBaggageAssembler();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerBaggage(RegisterBaggageRequest request, @PathParam("passenger_hash") UUID passengerHash) {
-        Baggage baggage = registerBaggageRequestAssembler.getDomainBaggage(request);
+    public Response registerBaggage(RegisterBaggageDTO request, @PathParam("passenger_hash") UUID passengerHash) {
+        Baggage baggage = registerBaggageAssembler.getDomainBaggage(request);
         UUID baggageId = baggageApplicationService.registerBaggage(passengerHash, baggage);
 
         URI uri = uriInfo.getAbsolutePathBuilder().path(baggageId.toString()).build();
-        RegisterBaggageResponseBody baggageResponseBody = new RegisterBaggageResponseBody(true);
-        return Response.created(uri).entity(baggageResponseBody).build();
+        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.accepted();
+
+        return Response.created(uri).entity(registerBaggageResponse).build();
     }
 
     @GET
@@ -45,8 +46,8 @@ public class BaggageResource {
         Passenger passenger = baggageApplicationService.getPassenger(passengerHash);
         List<Baggage> baggages = passenger.getBaggages();
         float price = passenger.calculateBaggagesPrice();
-
         BaggagesListDTO baggagesListDTO = baggagesListAssembler.toDTO(price, baggages);
+
         return Response.ok(baggagesListDTO, MediaType.APPLICATION_JSON).build();
     }
 }

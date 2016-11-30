@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.expceptions.SeatAlrea
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SeatTest {
@@ -33,6 +33,7 @@ public class SeatTest {
     }
 
     @Test
+
     public void whenTakingASeat_ShouldNotBeAvailableAfterward() {
         seat.markAsUnavailable();
 
@@ -79,7 +80,7 @@ public class SeatTest {
     }
 
     @Test
-    public void givenSeatWithSameLegRoom_whenCheckinIfSeatHasSameAmountOfLegRoom_shouldReturnTrue() {
+    public void givenSeatWithSameLegRoom_whenCheckingIfSeatHasSameAmountOfLegRoom_shouldReturnTrue() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         hasSameAmount = seat.hasSameAmountOfLegRoomAs(seatToCompareWith);
@@ -88,7 +89,7 @@ public class SeatTest {
     }
 
     @Test
-    public void givenSeatWithDifferentLegRoom_whenCheckinIfSeatHasSameAmountOfLegRoom_shouldReturnFalse() {
+    public void givenSeatWithDifferentLegRoom_whenCheckingIfSeatHasSameAmountOfLegRoom_shouldReturnFalse() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, MOST_LEG_ROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         hasSameAmount = seat.hasSameAmountOfLegRoomAs(seatToCompareWith);
@@ -97,7 +98,7 @@ public class SeatTest {
     }
 
     @Test
-    public void givenSeatWithSmallerLegRoom_whenCheckinIfSeatHasSameAmountOfLegRoom_shouldReturnFalse() {
+    public void givenSeatWithSmallerLegRoom_whenCheckingIfSeatHasSameAmountOfLegRoom_shouldReturnFalse() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, SMALLER_LEG_ROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         hasSameAmount = seat.hasSameAmountOfLegRoomAs(seatToCompareWith);
@@ -106,7 +107,7 @@ public class SeatTest {
     }
 
     @Test
-    public void givenCheaperSeat_whenIfSeatHasLowerPrice_shouldReturnFalse() {
+    public void givenCheaperSeat_whenCheckingIfSeatHasLowerPrice_shouldReturnFalse() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_CHEAPER_PRICE, A_CLASS,
                 IS_EXIT_ROW, true);
 
@@ -116,7 +117,7 @@ public class SeatTest {
     }
 
     @Test
-    public void givenMostExpensiveSeat_whenIfSeatHasLowerPrice_shouldReturnTrue() {
+    public void givenMostExpensiveSeat_whenCheckingIfSeatHasLowerPrice_shouldReturnTrue() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_MORE_EXPENSIVE_PRICE,
                 A_CLASS, IS_EXIT_ROW, true);
 
@@ -126,7 +127,7 @@ public class SeatTest {
     }
 
     @Test
-    public void givenSamePriceSeat_whenIfSeatHasLowerPrice_shouldReturnFalse() {
+    public void givenSamePriceSeat_whenCheckingIfSeatHasLowerPrice_shouldReturnFalse() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS,
                 IS_EXIT_ROW, true);
 
@@ -136,7 +137,7 @@ public class SeatTest {
     }
 
     @Test
-    public void givenSameViewSeat_whenSeatHasSameView_shouldReturnTrue(){
+    public void givenSameViewSeat_whenCheckingIfSeatHasSameView_shouldReturnTrue() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasSameView = seat.hasSameViewAs(seatToCompareWith);
@@ -145,7 +146,7 @@ public class SeatTest {
     }
 
     @Test
-    public void givenDifferentHasWindowSeat_whenSeatHasSameView_shouldReturnFalse(){
+    public void givenDifferentHasWindowSeat_whenCheckingIfSeatHasSameView_shouldReturnFalse() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, !HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasSameView = seat.hasSameViewAs(seatToCompareWith);
@@ -154,7 +155,7 @@ public class SeatTest {
     }
 
     @Test
-    public void givenDifferentHasClearViewSeat_whenSeatHasSameView_shouldReturnFalse(){
+    public void givenDifferentHasClearViewSeat_whenCheckingIfSeatHasSameView_shouldReturnFalse() {
         seatToCompareWith = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, !HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
 
         boolean hasSameView = seat.hasSameViewAs(seatToCompareWith);

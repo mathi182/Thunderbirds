@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RegisterBaggageRequest {
+public class RegisterBaggageDTO {
     @JsonProperty("linear_dimension")
     public int linearDimension;
 
@@ -18,12 +18,12 @@ public class RegisterBaggageRequest {
     @JsonProperty("type")
     public String type;
 
-    public RegisterBaggageRequest() {
+    public RegisterBaggageDTO() {
         // Use for deserialization
     }
 
-    public RegisterBaggageRequest(String linearDimensionUnit, int linearDimension, String weightUnit,
-                                  int weight, String type) {
+    public RegisterBaggageDTO(String linearDimensionUnit, int linearDimension, String weightUnit,
+                              int weight, String type) {
         this.linearDimensionUnit = linearDimensionUnit;
         this.linearDimension = linearDimension;
         this.weightUnit = weightUnit;

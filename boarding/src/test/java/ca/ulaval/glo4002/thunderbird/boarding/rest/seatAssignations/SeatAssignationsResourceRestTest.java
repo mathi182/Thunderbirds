@@ -18,6 +18,7 @@ public class SeatAssignationsResourceRestTest {
     private static final UUID NON_EXISTENT_PASSENGER_HASH = UUID.randomUUID();
     private static final String VALID_MODE = "RANDOM";
     private static final String INVALID_MODE = "INVALID";
+    private static final String LOCATION_HEADER = "Location";
     private static final String UUID_REGEX = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
 
     @Test
@@ -35,7 +36,7 @@ public class SeatAssignationsResourceRestTest {
                 .and()
                 .extract().response();
 
-        Boolean locationValidity = isLocationValid(response.getHeader("Location"));
+        Boolean locationValidity = isLocationValid(response.getHeader(LOCATION_HEADER));
         assertTrue(locationValidity);
         String seat = response.path("seat");
         assertNotNull(seat);

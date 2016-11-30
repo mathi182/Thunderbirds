@@ -45,7 +45,7 @@ public class PassengerValidationTest {
     }
 
     @Test
-    public void givenAFirstNameToValidate_whenValidate_shouldBeRightResult() {
+    public void givenAFirstNameToValidate_whenValidating_shouldBeRightResult() {
         Passenger passenger = new Passenger(inputToValidate, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         Set<ConstraintViolation<Passenger>> constraintViolations = validator.validate(passenger);
@@ -54,7 +54,7 @@ public class PassengerValidationTest {
     }
 
     @Test
-    public void givenALastNameToValidate_whenValidate_shouldBeRightResult() {
+    public void givenALastNameToValidate_whenValidating_shouldBeRightResult() {
         Passenger passenger = new Passenger(FIRST_NAME, inputToValidate, AGE, PASSPORT_NUMBER, SEAT_CLASS);
 
         Set<ConstraintViolation<Passenger>> constraintViolations = validator.validate(passenger);
@@ -63,7 +63,7 @@ public class PassengerValidationTest {
     }
 
     @Test
-    public void givenAPassportNumberToValidate_whenValidate_shouldBeRightResult() {
+    public void givenAPassportNumberToValidate_whenValidating_shouldBeRightResult() {
         Passenger passenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, inputToValidate, SEAT_CLASS);
 
         Set<ConstraintViolation<Passenger>> constraintViolations = validator.validate(passenger);
@@ -72,7 +72,7 @@ public class PassengerValidationTest {
     }
 
     @Test
-    public void givenASeatClassToValidate_whenValidate_shouldBeRightResult() {
+    public void givenASeatClassToValidate_whenValidating_shouldBeRightResult() {
         Passenger passenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, inputToValidate);
 
         Set<ConstraintViolation<Passenger>> constraintViolations = validator.validate(passenger);
