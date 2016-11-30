@@ -21,12 +21,7 @@ public class BaggageApplicationService {
 
     public UUID registerBaggage(UUID passengerHash, Baggage baggage) {
         Passenger passenger = repository.getPassenger(passengerHash);
-        if (!passenger.isCheckin()) {
-            throw new PassengerNotCheckedInException();
-        }
-
         passenger.addBaggage(baggage);
-
         return baggage.getId();
     }
 
