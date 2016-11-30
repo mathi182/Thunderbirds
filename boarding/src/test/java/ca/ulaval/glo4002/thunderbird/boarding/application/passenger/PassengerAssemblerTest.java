@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding.application.passenger;
 
-
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.Test;
@@ -32,10 +31,10 @@ public class PassengerAssemblerTest {
         PassengerAssembler passengerAssembler = new PassengerAssembler();
         Passenger actualPassenger = passengerAssembler.toDomain(passengerDTO);
 
-        assertEquals(PASSENGER_HASH,actualPassenger.getHash());
-        assertEquals(Seat.SeatClass.ECONOMY,actualPassenger.getSeatClass());
-        assertEquals(FLIGHT_DATE,actualPassenger.getFlightDate());
-        assertEquals(IS_VIP,actualPassenger.isVip());
-        assertEquals(IS_CHECKIN,actualPassenger.isCheckin());
+        assertEquals(PASSENGER_HASH, actualPassenger.getHash());
+        assertEquals(Seat.SeatClass.ECONOMY, actualPassenger.getSeatClass());
+        assertEquals(FLIGHT_DATE, actualPassenger.getFlightDate());
+        assertEquals(IS_VIP, actualPassenger.isVip());
+        assertEquals(IS_CHECKIN, actualPassenger.isCheckin());
     }
 }
