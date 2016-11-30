@@ -36,7 +36,7 @@ public class HibernatePassengerRepository implements PassengerRepository {
 
     private Passenger getPassengerFromAPI(UUID passengerHash) {
         Passenger passenger = passengerService.fetchPassenger(passengerHash);
-        if (!passenger.isCheckin()) {
+        if (!passenger.isCheckedIn()) {
             throw new PassengerNotCheckedInException();
         }
         return passenger;

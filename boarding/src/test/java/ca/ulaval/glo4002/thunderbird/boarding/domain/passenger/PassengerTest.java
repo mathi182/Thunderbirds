@@ -25,6 +25,6 @@ public class PassengerTest {
         assertEquals(FLIGHT_DATE, passenger.getFlightDate());
         assertEquals(FLIGHT_NUMBER, passenger.getFlightNumber());
         assertEquals(VIP, passenger.isVip());
-        assertEquals(IS_CHECKIN, passenger.isCheckin());
+        assertEquals(IS_CHECKIN, passenger.isCheckedIn());
     }
 }

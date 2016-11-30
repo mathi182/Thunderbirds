@@ -35,6 +35,6 @@ public class PassengerAssemblerTest {
         assertEquals(Seat.SeatClass.ECONOMY, actualPassenger.getSeatClass());
         assertEquals(FLIGHT_DATE, actualPassenger.getFlightDate());
         assertEquals(IS_VIP, actualPassenger.isVip());
-        assertEquals(IS_CHECKIN, actualPassenger.isCheckin());
+        assertEquals(IS_CHECKIN, actualPassenger.isCheckedIn());
     }
 }
