@@ -14,9 +14,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlight
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneServiceGlo3000;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerRequest;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
+import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
@@ -52,9 +50,7 @@ public class DevContext implements Context {
     }
 
     private void registerPassengerRepository() {
-        PassengerAssembler assembler = new PassengerAssembler();
-        PassengerRequest request = new PassengerRequest();
-        PassengerService service = new PassengerService(assembler, request);
+        PassengerService service = new PassengerService();
         PassengerRepository passengerRepository = new HibernatePassengerRepository(service);
 
         ServiceLocator.registerSingleton(PassengerRepository.class, passengerRepository);

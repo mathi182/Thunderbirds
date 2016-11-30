@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
+package ca.ulaval.glo4002.thunderbird.boarding.application.passenger;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
