@@ -1,32 +1,45 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 
 import javax.ws.rs.core.MediaType;
+import java.util.UUID;
 
+import static com.sun.jersey.api.client.ClientResponse.Status.OK;
 import static java.util.Optional.ofNullable;
 
-public class PassengerRequest {
+public class PassengerService {
     public static final String DOMAIN_NAME = "localhost";
     public static final String PATH = "passengers";
 
     private static final String PORT_PROPERTY = "reservation.port";
     private static final int DEFAULT_PORT = 8787;
 
-    public ClientResponse getPassengerResponse(String passengerHash) {
+    public Passenger fetchPassenger(UUID passengerHash) {
         int httpPort = ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt).orElse(DEFAULT_PORT);
         String url = String.format("http://%s:%d/%s/%s", DOMAIN_NAME, httpPort, PATH, passengerHash);
+        ClientResponse response = getResource(url);
 
-        return getResource(url);
+        validateResponse(response);
+
+        PassengerDTO passengerDTO = response.getEntity(PassengerDTO.class);
+        PassengerAssembler passengerAssembler = new PassengerAssembler();
+        return passengerAssembler.toDomain(passengerDTO);
     }
 
     public ClientResponse getResource(String url) {
-        return Client
-                .create()
-                .resource(url)
+        return Client.create().resource(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("content-type", MediaType.APPLICATION_JSON)
                 .get(ClientResponse.class);
+    }
+
+    private void validateResponse(ClientResponse response) {
+        if (response.getStatus() != OK.getStatusCode()) {
+            throw new PassengerNotFoundException();
+        }
     }
 }
