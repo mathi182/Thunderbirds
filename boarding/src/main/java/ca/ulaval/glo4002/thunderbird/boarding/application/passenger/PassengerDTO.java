@@ -14,7 +14,7 @@ public class PassengerDTO {
     public String flightNumber;
     public String flightDate;
     public Boolean vip;
-    public Boolean checkin;
+    public Boolean checkedIn;
 
     @JsonCreator
     public PassengerDTO(@JsonProperty("passenger_hash") UUID passengerHash,
@@ -22,12 +22,12 @@ public class PassengerDTO {
                         @JsonProperty("flight_date") String flightDate,
                         @JsonProperty("flight_number") String flightNumber,
                         @JsonProperty("vip") Boolean vip,
-                        @JsonProperty("checkin") Boolean checkin) {
+                        @JsonProperty("checkedIn") Boolean checkedIn) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightDate = flightDate;
         this.flightNumber = flightNumber;
         this.vip = vip;
-        this.checkin = checkin;
+        this.checkedIn = checkedIn;
     }
 }

@@ -18,9 +18,9 @@ public class PassengerAssembler {
         Instant flightDate = ISO_INSTANT.parse(passengerDTO.flightDate, Instant::from);
         String flightNumber = passengerDTO.flightNumber;
         Boolean isVip = passengerDTO.vip;
-        Boolean isCheckin = passengerDTO.checkin;
+        Boolean isCheckedIn = passengerDTO.checkedIn;
 
-        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, isVip, isCheckin);
+        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, isVip, isCheckedIn);
     }
 
     private Seat.SeatClass getSeatClassFromString(String source) {
