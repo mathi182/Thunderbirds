@@ -8,9 +8,10 @@ import org.junit.Test;
 
 import java.util.UUID;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class BaggageApplicationServiceTest {
 
@@ -28,15 +29,16 @@ public class BaggageApplicationServiceTest {
 
     @Test
     public void givenCheckedInPassenger_whenRegisteringBaggage_shouldAddBaggageToPassenger() {
-        PassengerRepository passengerRepository = createPassengerRepoMock(true);
+        PassengerRepository passengerRepository = createPassengerRepoMock();
         BaggageApplicationService applicationService = new BaggageApplicationService(passengerRepository);
 
-        applicationService.registerBaggage(PASSENGER_HASH, baggage);
+        UUID actualResult = applicationService.registerBaggage(PASSENGER_HASH, baggage);
+
+        verify(passenger).addBaggage(baggage);
+        assertEquals(BAGGAGE_ID, actualResult);
     }
 
-    private PassengerRepository createPassengerRepoMock(boolean passengerAreCheckedIn) {
-        willReturn(passengerAreCheckedIn).given(passenger).isCheckin();
-
+    private PassengerRepository createPassengerRepoMock() {
         PassengerRepository passengerRepository = mock(PassengerRepository.class);
         willReturn(passenger).given(passengerRepository).getPassenger(PASSENGER_HASH);
 
