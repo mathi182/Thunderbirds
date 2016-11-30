@@ -30,7 +30,7 @@ public class PassengerService {
         return passengerAssembler.toDomain(passengerDTO);
     }
 
-    public ClientResponse getResource(String url) {
+    private ClientResponse getResource(String url) {
         return Client.create().resource(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("content-type", MediaType.APPLICATION_JSON)
