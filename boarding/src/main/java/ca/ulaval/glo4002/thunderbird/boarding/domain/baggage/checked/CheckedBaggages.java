@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -70,5 +72,15 @@ public class CheckedBaggages {
         } else {
             baggage.setPrice(checkedBaggageCost);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return EqualsBuilder.reflectionEquals(this, o);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
     }
 }
