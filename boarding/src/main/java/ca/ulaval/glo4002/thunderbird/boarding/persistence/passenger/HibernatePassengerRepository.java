@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvi
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 
 import javax.persistence.EntityManager;
 import java.util.UUID;
@@ -18,11 +19,34 @@ public class HibernatePassengerRepository implements PassengerRepository {
     }
 
     @Override
+    public Passenger getCheckedInPassenger(UUID passengerHash) {
+        Passenger passenger = getPassengerFromHibernate(passengerHash);
+        boolean passengerIsNullOrNotCheckedIn = passenger == null || !passenger.isCheckedIn();
+
+        if (passengerIsNullOrNotCheckedIn) {
+            passenger = getCheckedInPassengerFromApi(passengerHash);
+            savePassenger(passenger);
+        }
+
+        return passenger;
+    }
+
+    private Passenger getCheckedInPassengerFromApi(UUID passengerHash) {
+        Passenger passenger = passengerService.fetchPassenger(passengerHash);
+
+        if (!passenger.isCheckedIn()) {
+            throw new PassengerNotCheckedInException();
+        }
+
+        return passenger;
+    }
+
+    @Override
     public Passenger getPassenger(UUID passengerHash) {
         Passenger passenger = getPassengerFromHibernate(passengerHash);
 
         if (passenger == null) {
-            passenger = getPassengerFromAPI(passengerHash);
+            passenger = passengerService.fetchPassenger(passengerHash);
             savePassenger(passenger);
         }
 
@@ -32,14 +56,6 @@ public class HibernatePassengerRepository implements PassengerRepository {
     private Passenger getPassengerFromHibernate(UUID passengerHash) {
         EntityManager entityManager = new EntityManagerProvider().getEntityManager();
         return entityManager.find(Passenger.class, passengerHash);
-    }
-
-    private Passenger getPassengerFromAPI(UUID passengerHash) {
-        Passenger passenger = passengerService.fetchPassenger(passengerHash);
-        if (!passenger.isCheckedIn()) {
-            throw new PassengerNotCheckedInException();
-        }
-        return passenger;
     }
 
     @Override
