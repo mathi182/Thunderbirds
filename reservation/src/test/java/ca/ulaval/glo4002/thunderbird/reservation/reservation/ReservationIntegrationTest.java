@@ -23,7 +23,7 @@ public class ReservationIntegrationTest {
     }
 
     @Test
-    public void whenAReservationIsSaved_shouldBeAbleToRetrieve() {
+    public void givenAReservation_whenSavingReservation_shouldBeAbleToRetrieve() {
         reservation.save();
 
         Reservation retrievedReservation = Reservation.findByReservationNumber(reservation.getId());
@@ -34,7 +34,7 @@ public class ReservationIntegrationTest {
     }
 
     @Test(expected = ReservationNotFoundException.class)
-    public void whenFinding_shouldThrowNotFound() {
+    public void givenANonexistentReservationNumber_whenFinding_shouldThrowNotFound() {
         Reservation.findByReservationNumber(NON_EXISTENT_RESERVATION_NUMBER);
     }
 }

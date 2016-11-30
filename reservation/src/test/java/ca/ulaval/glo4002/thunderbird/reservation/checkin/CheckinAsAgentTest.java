@@ -20,20 +20,19 @@ public class CheckinAsAgentTest {
     private static final boolean NOT_VIP = false;
 
     private Checkin checkinAsAgent;
-    private Passenger passengerMock;
-    private Reservation reservationMock;
+    private Passenger passenger;
+    private Reservation reservation;
 
     @Before
     public void setup() {
-        reservationMock = mock(Reservation.class);
-        passengerMock = mock(Passenger.class);
-        willReturn(PASSENGER_HASH).given(passengerMock).getId();
-        willReturn(reservationMock).given(passengerMock).getReservation();
-
+        reservation = mock(Reservation.class);
+        passenger = mock(Passenger.class);
+        willReturn(PASSENGER_HASH).given(passenger).getId();
+        willReturn(reservation).given(passenger).getReservation();
         checkinAsAgent = new Checkin(PASSENGER_HASH, AGENT_ID, NOT_VIP) {
             @Override
             public Passenger getPassenger() {
-                return passengerMock;
+                return passenger;
             }
         };
     }
@@ -47,14 +46,14 @@ public class CheckinAsAgentTest {
     public void whenCompletingCheckin_shouldCheckinAndSavePassenger() {
         checkinAsAgent.completeCheckin(TODAYS_DATE);
 
-        verify(reservationMock, never()).getFlightDate();
-        verify(passengerMock).checkin(NOT_VIP);
-        verify(passengerMock).save();
+        verify(reservation, never()).getFlightDate();
+        verify(passenger).checkin(NOT_VIP);
+        verify(passenger).save();
     }
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenPassengerWithoutReservation_whenCompletingCheckin_shouldNotCompleteCheckin() {
-        willReturn(null).given(passengerMock).getReservation();
+        willReturn(null).given(passenger).getReservation();
 
         checkinAsAgent.completeCheckin(TODAYS_DATE);
     }

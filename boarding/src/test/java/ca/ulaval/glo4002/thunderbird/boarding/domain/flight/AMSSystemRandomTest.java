@@ -18,28 +18,28 @@ public class AMSSystemRandomTest {
     }
 
     @Test
-    public void givenFlightQK918_shouldReturnDash8Model() {
+    public void givenFlightQK918_whenGettingPlaneModel_shouldReturnDash8Model() {
         String planeModel = amsSystem.getPlaneModel(QK918_FLIGHT);
 
         assertEquals(AMSSystemRandom.DASH_8, planeModel);
     }
 
     @Test
-    public void givenFlightNK_shouldReturnA320Model() {
+    public void givenFlightNK_whenGettingPlaneModel_shouldReturnA320Model() {
         String planeModel = amsSystem.getPlaneModel(NK_FLIGHT);
 
         assertEquals(AMSSystemRandom.AIRBUS_A320, planeModel);
     }
 
     @Test
-    public void givenFlightQK432_shouldReturnBoeingModel() {
+    public void givenFlightQK432_whenGettingPlaneModel_shouldReturnBoeingModel() {
         String planeModel = amsSystem.getPlaneModel(QK432_FLIGHT);
 
         assertEquals(AMSSystemRandom.BOEING_777_300, planeModel);
     }
 
     @Test
-    public void givenOtherFlight_planeModelShouldBeConsistent() {
+    public void givenOtherFlight_whenGettingPlaneModel_planeModelShouldBeConsistent() {
         String firstCallPlaneModel = amsSystem.getPlaneModel(OTHER_FLIGHT);
         String secondCallPlaneModel = amsSystem.getPlaneModel(OTHER_FLIGHT);
 

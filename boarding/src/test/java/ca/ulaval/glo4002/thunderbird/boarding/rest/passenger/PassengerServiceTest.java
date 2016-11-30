@@ -19,32 +19,29 @@ public class PassengerServiceTest {
     private static final UUID VALID_PASSENGER_HASH = UUID.fromString("f31859ae-3630-48f0-b90e-2f226e7082b5");
     private static final UUID RANDOM_UUID = UUID.randomUUID();
 
-    private PassengerDTO passengerDTOMock;
-    private PassengerAssembler passengerAssemblerMock;
-    private PassengerRequest passengerRequestMock;
-    private ClientResponse clientResponseMock;
-    private Passenger passengerMock;
+    private ClientResponse clientResponse;
+    private Passenger expectedPassenger;
 
     private PassengerService passengerServiceTest;
 
     @Before
     public void setup() {
-        passengerAssemblerMock = mock(PassengerAssembler.class);
-        passengerDTOMock = mock(PassengerDTO.class);
-        clientResponseMock = mock(ClientResponse.class);
-        passengerMock = mock(Passenger.class);
-        passengerRequestMock = mock(PassengerRequest.class);
+        PassengerAssembler passengerAssembler = mock(PassengerAssembler.class);
+        PassengerDTO passengerDTO = mock(PassengerDTO.class);
+        clientResponse = mock(ClientResponse.class);
+        expectedPassenger = mock(Passenger.class);
+        PassengerRequest passengerRequest = mock(PassengerRequest.class);
 
-        willReturn(clientResponseMock).given(passengerRequestMock).getPassengerResponse(anyString());
-        willReturn(passengerDTOMock).given(clientResponseMock).getEntity(PassengerDTO.class);
-        willReturn(passengerMock).given(passengerAssemblerMock).toDomain(passengerDTOMock);
+        willReturn(clientResponse).given(passengerRequest).getPassengerResponse(anyString());
+        willReturn(passengerDTO).given(clientResponse).getEntity(PassengerDTO.class);
+        willReturn(expectedPassenger).given(passengerAssembler).toDomain(passengerDTO);
 
-        passengerServiceTest = new PassengerService(passengerAssemblerMock,passengerRequestMock);
+        passengerServiceTest = new PassengerService(passengerAssembler, passengerRequest);
     }
 
     @Test(expected = PassengerNotFoundException.class)
     public void givenNewPassengerService_whenRequestingNonExistingPassenger_shouldThrowPassengerNotFound() {
-        willReturn(NOT_FOUND.getStatusCode()).given(clientResponseMock).getStatus();
+        willReturn(NOT_FOUND.getStatusCode()).given(clientResponse).getStatus();
 
         passengerServiceTest.fetchPassenger(RANDOM_UUID);
     }
@@ -52,10 +49,10 @@ public class PassengerServiceTest {
     //TODO Test d'intégration
     @Test
     public void givenNewPassengerService_whenRequestingValidPassenger_shouldBeCorrectPassenger() {
-        willReturn(OK.getStatusCode()).given(clientResponseMock).getStatus();
+        willReturn(OK.getStatusCode()).given(clientResponse).getStatus();
 
-        Passenger passenger = passengerServiceTest.fetchPassenger(VALID_PASSENGER_HASH);
+        Passenger actualPassenger = passengerServiceTest.fetchPassenger(VALID_PASSENGER_HASH);
 
-        assertEquals(passengerMock, passenger);
+        assertEquals(expectedPassenger, actualPassenger);
     }
 }
