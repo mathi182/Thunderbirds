@@ -4,11 +4,11 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageD
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
-import org.hibernate.annotations.*;
 
-import javax.persistence.*;
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
@@ -66,12 +66,12 @@ public class Baggage {
         this.price = price;
     }
 
-    public void validate(int baggageDimensionLimitInMm, int baggageWeightLimitInGrams) {
-        if (weight.toGrams() > baggageWeightLimitInGrams) {
+    public void validate(Length maximumLinearDimension, Mass maximumWeight) {
+        if (weight.toGrams() > maximumWeight.toGrams()) {
             throw new BaggageWeightInvalidException();
         }
 
-        if (linearDimension.toMillimeters() > baggageDimensionLimitInMm) {
+        if (linearDimension.toMillimeters() > maximumLinearDimension.toMillimeters()) {
             throw new BaggageDimensionInvalidException();
         }
     }

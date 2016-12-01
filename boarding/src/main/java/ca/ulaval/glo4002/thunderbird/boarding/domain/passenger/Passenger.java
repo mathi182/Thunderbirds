@@ -12,6 +12,8 @@ import java.util.UUID;
 
 @Entity
 public class Passenger {
+    public static final float VIP_DISCOUNT = 0.95f;
+
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID passengerHash;
@@ -20,16 +22,27 @@ public class Passenger {
     private String flightNumber;
     private boolean isVip;
 
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private CheckedBaggages checkedBaggages;
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, boolean isVip) {
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate,
+                     String flightNumber, boolean isVip) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
         this.isVip = isVip;
-        this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(seatClass);
+        this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(this);
+    }
+
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate,
+                     String flightNumber, boolean isVip, CheckedBaggages checkedBaggages) {
+        this.passengerHash = passengerHash;
+        this.seatClass = seatClass;
+        this.flightNumber = flightNumber;
+        this.flightDate = flightDate;
+        this.isVip = isVip;
+        this.checkedBaggages = checkedBaggages;
     }
 
     protected Passenger() {
@@ -57,7 +70,8 @@ public class Passenger {
     }
 
     public float calculateBaggagesPrice() {
-        return checkedBaggages.calculatePrice();
+        float price = checkedBaggages.calculatePrice();
+        return isVip ? price * VIP_DISCOUNT : price;
     }
 
     public void addBaggage(Baggage baggage) {

@@ -1,12 +1,14 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggages;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.Test;
 
 import java.time.Instant;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class PassengerTest {
     private static final UUID HASH = UUID.randomUUID();
@@ -15,7 +17,8 @@ public class PassengerTest {
     private static final String FLIGHT_NUMBER = "QK-918";
     private static final boolean VIP = true;
 
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP);
+    private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, checkedBaggages);
 
     @Test
     public void shouldReturnRightValues() {

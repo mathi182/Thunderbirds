@@ -2,36 +2,37 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
-@Embeddable
-public class CheckedBaggages {
-    private static final float FREE = 0;
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class CheckedBaggages {
+    private static final int BAGGAGE_COST = 50;
+    private static final int BAGGAGE_COUNT_LIMIT = 3;
 
-    private int freeCheckedBaggageCount;
-    private int weightLimitInGrams;
-    private int dimensionLimitInMm;
-    private int checkedBaggageCountLimit;
-    private int checkedBaggageCost;
+    @Id
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID checkedBaggageId;
 
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<Baggage> baggages;
+    @MapsId
+    @OneToOne(mappedBy = "checkedBaggages", fetch = FetchType.EAGER)
+    @JoinColumn(name = "passenger_id")
+    private Passenger passenger;
 
-    public CheckedBaggages(int freeCheckedBaggageCount,
-                           int checkedBaggageCost,
-                           int checkedBaggageCountLimit,
-                           int weightLimitInGrams,
-                           int dimensionLimitInMm) {
-        this.baggages = new ArrayList<>();
-        this.freeCheckedBaggageCount = freeCheckedBaggageCount;
-        this.checkedBaggageCost = checkedBaggageCost;
-        this.checkedBaggageCountLimit = checkedBaggageCountLimit;
-        this.weightLimitInGrams = weightLimitInGrams;
-        this.dimensionLimitInMm = dimensionLimitInMm;
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "passenger_id")
+    private List<Baggage> baggages = new ArrayList<>();
+
+    public CheckedBaggages(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     protected CheckedBaggages() {
@@ -51,7 +52,7 @@ public class CheckedBaggages {
     }
 
     public void addBaggage(Baggage baggage) {
-        if (baggages.size() >= checkedBaggageCountLimit) {
+        if (baggages.size() >= getBaggageCountLimit()) {
             throw new BaggageAmountUnauthorizedException();
         }
         validateBaggage(baggage);
@@ -61,14 +62,29 @@ public class CheckedBaggages {
     }
 
     private void validateBaggage(Baggage baggage) {
-        baggage.validate(dimensionLimitInMm, weightLimitInGrams);
+        baggage.validate(getDimensionLimit(), getWeightLimit());
     }
 
     private void setBaggagePrice(Baggage baggage) {
-        if (baggages.size() < freeCheckedBaggageCount) {
-            baggage.setPrice(FREE);
+        if (baggages.size() < getFreeBaggageCount()) {
+            baggage.setPrice(0);
         } else {
-            baggage.setPrice(checkedBaggageCost);
+            baggage.setPrice(getBaggageCost());
         }
     }
+
+    private float getBaggageCost() {
+        //TODO: Add penalty if overweight
+        return BAGGAGE_COST;
+    }
+
+    private int getBaggageCountLimit() {
+        return passenger.isVip() ? BAGGAGE_COUNT_LIMIT + 1 : BAGGAGE_COUNT_LIMIT;
+    }
+
+    protected abstract Mass getWeightLimit();
+
+    protected abstract Length getDimensionLimit();
+
+    protected abstract int getFreeBaggageCount();
 }

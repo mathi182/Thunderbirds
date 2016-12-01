@@ -2,12 +2,14 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat.SeatClass.ECONOMY;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
@@ -16,12 +18,11 @@ import static org.mockito.Mockito.verify;
 public class CheckedBaggagesTest {
     private static final float BAGGAGE_PRICE_SUM = 3;
     private static final int CHECKED_BAGGAGE_COST = 50;
-    private static final int ECONOMIC_WEIGHT_LIMIT_IN_GRAMS = 23000;
-    private static final int ECONOMIC_DIMENSION_LIMIT_IN_MM = 1580;
 
+    private final Passenger passenger = mock(Passenger.class);
     private final Baggage baggageA = mock(Baggage.class);
     private final Baggage baggageB = mock(Baggage.class);
-    private final CheckedBaggages economicCheckedBaggages = CheckedBaggagesFactory.getCheckedBaggages(ECONOMY);
+    private final CheckedBaggages checkedBaggages = new EconomicCheckedBaggages(passenger);
 
     @Before
     public void setUp() {
@@ -33,9 +34,11 @@ public class CheckedBaggagesTest {
     public void givenABaggage_whenWeValidate_shouldValidateWithTheRightLimits() {
         Baggage baggage = mock(Baggage.class);
 
-        economicCheckedBaggages.addBaggage(baggage);
+        checkedBaggages.addBaggage(baggage);
 
-        verify(baggage).validate(ECONOMIC_DIMENSION_LIMIT_IN_MM, ECONOMIC_WEIGHT_LIMIT_IN_GRAMS);
+        Length dimensionLimit = checkedBaggages.getDimensionLimit();
+        Mass weightLimit = checkedBaggages.getWeightLimit();
+        verify(baggage).validate(dimensionLimit, weightLimit);
     }
 
     @Test
@@ -43,8 +46,8 @@ public class CheckedBaggagesTest {
         Baggage baggageA = mock(Baggage.class);
         Baggage baggageB = mock(Baggage.class);
 
-        economicCheckedBaggages.addBaggage(baggageA);
-        economicCheckedBaggages.addBaggage(baggageB);
+        checkedBaggages.addBaggage(baggageA);
+        checkedBaggages.addBaggage(baggageB);
 
         verify(baggageA).setPrice(0);
         verify(baggageB).setPrice(CHECKED_BAGGAGE_COST);
@@ -52,26 +55,26 @@ public class CheckedBaggagesTest {
 
     @Test
     public void givenAnEmptyCheckedBaggages_whenGettingAllBaggages_shouldBeEmpty() {
-        List<Baggage> baggages = economicCheckedBaggages.getBaggages();
+        List<Baggage> baggages = checkedBaggages.getBaggages();
 
         assertTrue(baggages.isEmpty());
     }
 
     @Test
     public void givenAnEmptyBaggageList_whenAddingABaggageAndRetrievingTheList_shouldNotBeEmpty() {
-        economicCheckedBaggages.addBaggage(mock(Baggage.class));
+        checkedBaggages.addBaggage(mock(Baggage.class));
 
-        List<Baggage> baggages = economicCheckedBaggages.getBaggages();
+        List<Baggage> baggages = checkedBaggages.getBaggages();
 
         assertFalse(baggages.isEmpty());
     }
 
     @Test
     public void givenTwoBaggages_whenCalculatingPrice_shouldReturnPriceSum() {
-        economicCheckedBaggages.addBaggage(baggageA);
-        economicCheckedBaggages.addBaggage(baggageB);
+        checkedBaggages.addBaggage(baggageA);
+        checkedBaggages.addBaggage(baggageB);
 
-        float price = economicCheckedBaggages.calculatePrice();
+        float price = checkedBaggages.calculatePrice();
 
         verify(baggageA).getPrice();
         verify(baggageB).getPrice();
@@ -80,10 +83,20 @@ public class CheckedBaggagesTest {
 
     @Test(expected = BaggageAmountUnauthorizedException.class)
     public void givenMaximumNumberOfBaggages_whenAddingAnother_shouldThrowAnException() {
-        economicCheckedBaggages.addBaggage(mock(Baggage.class));
-        economicCheckedBaggages.addBaggage(mock(Baggage.class));
-        economicCheckedBaggages.addBaggage(mock(Baggage.class));
+        checkedBaggages.addBaggage(mock(Baggage.class));
+        checkedBaggages.addBaggage(mock(Baggage.class));
+        checkedBaggages.addBaggage(mock(Baggage.class));
 
-        economicCheckedBaggages.addBaggage(mock(Baggage.class));
+        checkedBaggages.addBaggage(mock(Baggage.class));
+    }
+
+    @Test(expected = BaggageAmountUnauthorizedException.class)
+    public void givenMaximumNumberOfBaggagesForVip_whenAddingAnother_shouldThrowAnException() {
+        checkedBaggages.addBaggage(mock(Baggage.class));
+        checkedBaggages.addBaggage(mock(Baggage.class));
+        checkedBaggages.addBaggage(mock(Baggage.class));
+        checkedBaggages.addBaggage(mock(Baggage.class));
+
+        checkedBaggages.addBaggage(mock(Baggage.class));
     }
 }
