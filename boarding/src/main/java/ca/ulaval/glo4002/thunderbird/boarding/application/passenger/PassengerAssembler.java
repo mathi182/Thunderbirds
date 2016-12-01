@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
+package ca.ulaval.glo4002.thunderbird.boarding.application.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
@@ -18,8 +18,9 @@ public class PassengerAssembler {
         Instant flightDate = ISO_INSTANT.parse(passengerDTO.flightDate, Instant::from);
         String flightNumber = passengerDTO.flightNumber;
         Boolean isVip = passengerDTO.vip;
+        Boolean isCheckedIn = passengerDTO.checkedIn;
 
-        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, isVip);
+        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, isVip, isCheckedIn);
     }
 
     private Seat.SeatClass getSeatClassFromString(String source) {

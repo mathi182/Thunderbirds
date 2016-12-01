@@ -5,6 +5,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageA
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,7 +24,6 @@ public abstract class CheckedBaggages {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID checkedBaggageId;
 
-    @MapsId
     @OneToOne(mappedBy = "checkedBaggages", fetch = FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
@@ -32,6 +33,7 @@ public abstract class CheckedBaggages {
     private List<Baggage> baggages = new ArrayList<>();
 
     public CheckedBaggages(Passenger passenger) {
+        this.checkedBaggageId = passenger.getHash();
         this.passenger = passenger;
     }
 
@@ -87,4 +89,14 @@ public abstract class CheckedBaggages {
     protected abstract Length getDimensionLimit();
 
     protected abstract int getFreeBaggageCount();
+
+    @Override
+    public boolean equals(Object o) {
+        return EqualsBuilder.reflectionEquals(this, o);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
+    }
 }

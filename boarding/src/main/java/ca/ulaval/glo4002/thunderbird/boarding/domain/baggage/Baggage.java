@@ -4,6 +4,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageD
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -21,6 +23,7 @@ public class Baggage {
 
     @Embedded
     private Length linearDimension;
+
     @Embedded
     private Mass weight;
 
@@ -74,5 +77,15 @@ public class Baggage {
         if (linearDimension.toMillimeters() > maximumLinearDimension.toMillimeters()) {
             throw new BaggageDimensionInvalidException();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return EqualsBuilder.reflectionEquals(this, o);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
     }
 }

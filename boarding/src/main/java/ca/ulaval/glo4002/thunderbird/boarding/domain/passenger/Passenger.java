@@ -4,6 +4,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggages;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggagesFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -21,27 +23,30 @@ public class Passenger {
     private Instant flightDate;
     private String flightNumber;
     private boolean isVip;
+    private boolean isCheckedIn;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private CheckedBaggages checkedBaggages;
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate,
-                     String flightNumber, boolean isVip) {
+                     String flightNumber, boolean isVip, boolean isCheckedIn) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
         this.isVip = isVip;
+        this.isCheckedIn = isCheckedIn;
         this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(this);
     }
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate,
-                     String flightNumber, boolean isVip, CheckedBaggages checkedBaggages) {
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber,
+                     boolean isVip, boolean isCheckedIn, CheckedBaggages checkedBaggages) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
         this.isVip = isVip;
+        this.isCheckedIn = isCheckedIn;
         this.checkedBaggages = checkedBaggages;
     }
 
@@ -80,5 +85,19 @@ public class Passenger {
 
     public List<Baggage> getBaggages() {
         return checkedBaggages.getBaggages();
+    }
+
+    public boolean isCheckedIn() {
+        return isCheckedIn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return EqualsBuilder.reflectionEquals(this, o);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
     }
 }

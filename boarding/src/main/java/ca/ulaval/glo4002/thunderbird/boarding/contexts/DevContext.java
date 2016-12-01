@@ -14,9 +14,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlight
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneServiceGlo3000;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerAssembler;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerRequest;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerService;
+import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
@@ -27,6 +25,8 @@ import java.util.Date;
 import java.util.UUID;
 
 public class DevContext implements Context {
+    public static final boolean IS_CHECKED_IN = true;
+    public static final boolean IS_VIP = false;
     public static Passenger EXISTENT_BOARDING_PASSENGER;
 
     @Override
@@ -52,9 +52,7 @@ public class DevContext implements Context {
     }
 
     private void registerPassengerRepository() {
-        PassengerAssembler assembler = new PassengerAssembler();
-        PassengerRequest request = new PassengerRequest();
-        PassengerService service = new PassengerService(assembler, request);
+        PassengerService service = new PassengerService();
         PassengerRepository passengerRepository = new HibernatePassengerRepository(service);
 
         ServiceLocator.registerSingleton(PassengerRepository.class, passengerRepository);
@@ -72,9 +70,8 @@ public class DevContext implements Context {
         Seat.SeatClass seatClass = Seat.SeatClass.ECONOMY;
         Instant flightDate = Instant.ofEpochMilli(new Date().getTime());
         String flightNumber = "QK-918";
-        boolean vip = false;
-        
-        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, vip);
+
+        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, IS_VIP, IS_CHECKED_IN);
 
         Length length1 = Length.fromMillimeters(500);
         Mass mass1 = Mass.fromGrams(1000);

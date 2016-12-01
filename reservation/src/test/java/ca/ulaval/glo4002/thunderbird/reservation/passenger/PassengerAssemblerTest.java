@@ -15,6 +15,8 @@ public class PassengerAssemblerTest {
     private static final String SEAT_CLASS = "economy";
     private static final String FLIGHT_NUMBER = "flight_number";
     private static final Instant FLIGHT_DATE = Instant.now();
+    private static final boolean VIP = true;
+    private static final boolean CHECKIN = true;
 
     private PassengerAssembler passengerAssembler;
     private Passenger passenger;
@@ -26,6 +28,8 @@ public class PassengerAssemblerTest {
         willReturn(SEAT_CLASS).given(passenger).getSeatClass();
         willReturn(FLIGHT_NUMBER).given(passenger).getFlightNumber();
         willReturn(FLIGHT_DATE).given(passenger).getFlightDate();
+        willReturn(VIP).given(passenger).isVip();
+        willReturn(CHECKIN).given(passenger).isCheckedIn();
 
         passengerAssembler = new PassengerAssembler();
     }
@@ -46,10 +50,14 @@ public class PassengerAssemblerTest {
         String actualSeatClass = passengerDTO.seatClass;
         String actualFlightNumber = passengerDTO.flightNumber;
         String actualFlightDate = passengerDTO.flightDate;
+        Boolean actualVIP = passengerDTO.vip;
+        Boolean actualCheckin = passengerDTO.checkin;
 
         assertEquals(PASSENGER_HASH.toString(), actualPassengerHash);
         assertEquals(SEAT_CLASS, actualSeatClass);
         assertEquals(FLIGHT_NUMBER, actualFlightNumber);
         assertEquals(FLIGHT_DATE.toString(), actualFlightDate);
+        assertEquals(VIP,actualVIP);
+        assertEquals(CHECKIN,actualCheckin);
     }
 }

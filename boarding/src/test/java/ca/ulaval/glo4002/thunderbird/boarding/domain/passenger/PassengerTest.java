@@ -16,9 +16,10 @@ public class PassengerTest {
     private static final Instant FLIGHT_DATE = Instant.now();
     private static final String FLIGHT_NUMBER = "QK-918";
     private static final boolean VIP = true;
+    private static final boolean IS_CHECKIN = false;
 
     private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, checkedBaggages);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKIN, checkedBaggages);
 
     @Test
     public void shouldReturnRightValues() {
@@ -27,5 +28,6 @@ public class PassengerTest {
         assertEquals(FLIGHT_DATE, passenger.getFlightDate());
         assertEquals(FLIGHT_NUMBER, passenger.getFlightNumber());
         assertEquals(VIP, passenger.isVip());
+        assertEquals(IS_CHECKIN, passenger.isCheckedIn());
     }
 }
