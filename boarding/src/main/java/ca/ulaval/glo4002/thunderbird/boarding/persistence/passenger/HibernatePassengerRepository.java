@@ -33,7 +33,6 @@ public class HibernatePassengerRepository implements PassengerRepository {
 
     private Passenger getCheckedInPassengerFromApi(UUID passengerHash) {
         Passenger passenger = passengerService.fetchPassenger(passengerHash);
-
         if (!passenger.isCheckedIn()) {
             throw new PassengerNotCheckedInException();
         }
@@ -48,6 +47,21 @@ public class HibernatePassengerRepository implements PassengerRepository {
         if (passenger == null) {
             passenger = passengerService.fetchPassenger(passengerHash);
             savePassenger(passenger);
+        }
+        else{
+            passenger = updatePassenger(passenger);
+        }
+
+        return passenger;
+    }
+
+    private Passenger updatePassenger(Passenger passenger){
+        if(!passenger.isCheckedIn()){
+            Passenger updatePassenger = passengerService.fetchPassenger(passenger.getHash());
+            if(updatePassenger.isCheckedIn())
+            {
+                passenger.checkin();
+            }
         }
 
         return passenger;
