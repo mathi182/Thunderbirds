@@ -45,15 +45,6 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private PassengerRepository repository = new HibernatePassengerRepository(passengerService);
     private Passenger updatePassenger = mock(Passenger.class);
 
-    @Test(expected = PassengerNotCheckedInException.class)
-    public void givenPassengerNotCheckedIn_whenGettingCheckedInPassenger_shouldThrowException() {
-        Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID,
-                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, NOT_CHECKED_IN);
-        willReturn(expectedPassenger).given(passengerService).fetchPassenger(NON_EXISTENT_PASSENGER_UUID);
-
-        repository.getCheckedInPassenger(NON_EXISTENT_PASSENGER_UUID);
-    }
-
     @Test
     public void whenSavingPassenger_shouldBeSavedCorrectly() {
         Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID,
@@ -67,27 +58,13 @@ public class HibernatePassengerRepositoryIntegrationTest {
 
     @Test
     public void givenAPassengerPresentInReservation_whenGettingPassenger_shouldReturnThePassenger() {
-        Passenger expectedPassenger = givenACheckedInPassengerInReservation();
+        Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION,
+                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, CHECKED_IN);
+        willReturn(expectedPassenger).given(passengerService).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
         Passenger actualPassenger = repository.getPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
         assertEquals(expectedPassenger, actualPassenger);
-    }
-
-    @Test
-    public void givenACheckedInPassengerInReservation_whenGettingCheckedInPassenger_shouldReturnThePassenger() {
-        Passenger expectedPassenger = givenACheckedInPassengerInReservation();
-
-        Passenger actualPassenger = repository.getCheckedInPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
-
-        assertEquals(expectedPassenger, actualPassenger);
-    }
-
-    private Passenger givenACheckedInPassengerInReservation() {
-        Passenger passenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION,
-                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, CHECKED_IN);
-        willReturn(passenger).given(passengerService).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
-        return passenger;
     }
 
     @Test
