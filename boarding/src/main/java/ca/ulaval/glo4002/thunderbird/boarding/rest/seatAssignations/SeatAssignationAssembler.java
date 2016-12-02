@@ -14,7 +14,7 @@ public class SeatAssignationAssembler {
 
     public Passenger getDomainPassenger(SeatAssignationDTO request) {
         PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
-        return repository.getPassenger(request.passengerHash);
+        return repository.findByPassengerHash(request.passengerHash);
     }
 
     public SeatAssignationStrategy.AssignMode getMode(SeatAssignationDTO request) {

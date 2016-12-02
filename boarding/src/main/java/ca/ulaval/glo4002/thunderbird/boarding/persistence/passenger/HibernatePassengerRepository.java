@@ -19,35 +19,25 @@ public class HibernatePassengerRepository implements PassengerRepository {
     }
 
     @Override
-    public Passenger getCheckedInPassenger(UUID passengerHash) {
-        Passenger passenger = getPassengerFromHibernate(passengerHash);
-        boolean passengerIsNullOrNotCheckedIn = passenger == null || !passenger.isCheckedIn();
-
-        if (passengerIsNullOrNotCheckedIn) {
-            passenger = getCheckedInPassengerFromApi(passengerHash);
-            savePassenger(passenger);
-        }
-
-        return passenger;
-    }
-
-    private Passenger getCheckedInPassengerFromApi(UUID passengerHash) {
-        Passenger passenger = passengerService.fetchPassenger(passengerHash);
-
-        if (!passenger.isCheckedIn()) {
-            throw new PassengerNotCheckedInException();
-        }
-
-        return passenger;
-    }
-
-    @Override
-    public Passenger getPassenger(UUID passengerHash) {
+    public Passenger findByPassengerHash(UUID passengerHash) {
         Passenger passenger = getPassengerFromHibernate(passengerHash);
 
         if (passenger == null) {
             passenger = passengerService.fetchPassenger(passengerHash);
             savePassenger(passenger);
+        } else {
+            passenger = updatePassenger(passenger);
+        }
+
+        return passenger;
+    }
+
+    private Passenger updatePassenger(Passenger passenger) {
+        if (!passenger.isCheckedIn()) {
+            Passenger updatePassenger = passengerService.fetchPassenger(passenger.getHash());
+            if (updatePassenger.isCheckedIn()) {
+                passenger.setCheckedIn(true);
+            }
         }
 
         return passenger;

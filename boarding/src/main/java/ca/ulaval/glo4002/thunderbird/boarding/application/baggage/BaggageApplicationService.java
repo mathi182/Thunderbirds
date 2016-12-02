@@ -20,12 +20,16 @@ public class BaggageApplicationService {
     }
 
     public UUID registerBaggage(UUID passengerHash, Baggage baggage) {
-        Passenger passenger = repository.getPassenger(passengerHash);
+        Passenger passenger = getPassenger(passengerHash);
         passenger.addBaggage(baggage);
         return baggage.getId();
     }
 
     public Passenger getPassenger(UUID passengerHash) {
-        return repository.getPassenger(passengerHash);
+        Passenger passenger = repository.findByPassengerHash(passengerHash);
+        if (!passenger.isCheckedIn()) {
+            throw new PassengerNotCheckedInException();
+        }
+        return passenger;
     }
 }
