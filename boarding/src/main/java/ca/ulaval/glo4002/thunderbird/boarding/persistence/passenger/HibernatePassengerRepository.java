@@ -25,20 +25,18 @@ public class HibernatePassengerRepository implements PassengerRepository {
         if (passenger == null) {
             passenger = passengerService.fetchPassenger(passengerHash);
             savePassenger(passenger);
-        }
-        else{
+        } else {
             passenger = updatePassenger(passenger);
         }
 
         return passenger;
     }
 
-    private Passenger updatePassenger(Passenger passenger){
-        if(!passenger.isCheckedIn()){
+    private Passenger updatePassenger(Passenger passenger) {
+        if (!passenger.isCheckedIn()) {
             Passenger updatePassenger = passengerService.fetchPassenger(passenger.getHash());
-            if(updatePassenger.isCheckedIn())
-            {
-                passenger.checkin();
+            if (updatePassenger.isCheckedIn()) {
+                passenger.setCheckedIn(true);
             }
         }
 

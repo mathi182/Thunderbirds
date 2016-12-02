@@ -101,7 +101,7 @@ public class Passenger {
         return HashCodeBuilder.reflectionHashCode(this, false);
     }
 
-    public void checkin() {
-        isCheckedIn = true;
+    public void setCheckedIn(boolean checkedIn) {
+        isCheckedIn = checkedIn;
     }
 }
