@@ -12,7 +12,7 @@ public class ServiceLocatorTest {
     }
 
     @Test
-    public void givenTestImplementation_whenRegister_shouldResolveThisImplementation() {
+    public void givenTestImplementation_whenRegistering_shouldResolveThisImplementation() {
         TestImplementation implementation = new TestImplementation();
 
         ServiceLocator.registerSingleton(TestContract.class, implementation);
@@ -26,7 +26,7 @@ public class ServiceLocatorTest {
     }
 
     @Test(expected = CannotRegisterContractTwiceException.class)
-    public void shouldNotRegisteredSameContractTwice() {
+    public void shouldNotRegisterSameContractTwice() {
         ServiceLocator.registerSingleton(TestContract.class, new TestImplementation());
         ServiceLocator.registerSingleton(TestContract.class, new TestImplementation());
     }

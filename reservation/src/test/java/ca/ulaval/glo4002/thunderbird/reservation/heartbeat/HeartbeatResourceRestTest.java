@@ -11,13 +11,11 @@ public class HeartbeatResourceRestTest {
     private final static String TOKEN = "A_TOKEN";
 
     @Test
-    public void givenAToken_whenGetHeartbeat_shouldReturnThisToken() {
+    public void givenAToken_whenGettingHeartbeat_shouldReturnThisToken() {
         givenBaseRequest()
                 .param(PARAM_NAME, TOKEN)
-                .when()
-                .get(HeartbeatResource.PATH)
-                .then()
-                .statusCode(OK.getStatusCode())
+                .when().get(HeartbeatResource.PATH)
+                .then().statusCode(OK.getStatusCode())
                 .body("token", equalTo(TOKEN));
     }
 }

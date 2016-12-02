@@ -47,14 +47,14 @@ public class Flight {
         return flightDate;
     }
 
-    public Seat assignSeat(SeatAssignationStrategy strategy) {
+    public Seat findAvailableSeat(SeatAssignationStrategy strategy) {
         List<Seat> availableSeats = seats.stream().filter(Seat::isAvailable).collect(Collectors.toList());
 
         if (availableSeats.isEmpty()) {
             throw new SeatNotAvailableException(flightNumber);
         }
 
-        return strategy.assignSeat(availableSeats);
+        return strategy.findAvailableSeat(availableSeats);
     }
 
     public int getId() {

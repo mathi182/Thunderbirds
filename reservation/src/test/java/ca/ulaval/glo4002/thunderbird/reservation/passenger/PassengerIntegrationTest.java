@@ -20,7 +20,7 @@ public class PassengerIntegrationTest {
     }
 
     @Test
-    public void whenAPassengerIsSaved_shouldBeAbleToRetrieve() {
+    public void whenSavingPassenger_shouldBeAbleToRetrieve() {
         passenger.save();
 
         Passenger retrievedPassenger = Passenger.findByPassengerHash(passenger.getId());

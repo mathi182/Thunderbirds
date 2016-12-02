@@ -56,7 +56,7 @@ public class ReservationValidationTest {
     }
 
     @Test
-    public void givenAReservationDateToValidate_whenValidate_shouldBeRightResult() {
+    public void givenAReservationDateToValidate_whenValidating_shouldBeRightResult() {
         Passenger passenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         Reservation reservation = new Reservation(RESERVATION_NUMBER, inputToValidate, RESERVATION_CONFIRMATION,
                 FLIGHT_NUMBER, FLIGHT_DATE, PAYMENT_LOCATION, new ArrayList<>(Arrays.asList(passenger)));
@@ -67,7 +67,7 @@ public class ReservationValidationTest {
     }
 
     @Test
-    public void givenAReservationConfirmationToValidate_whenValidate_shouldBeRightResult() {
+    public void givenAReservationConfirmationToValidate_whenValidating_shouldBeRightResult() {
         Passenger passenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         Reservation reservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE, inputToValidate,
                 FLIGHT_NUMBER, FLIGHT_DATE, PAYMENT_LOCATION, new ArrayList<>(Arrays.asList(passenger)));
@@ -78,7 +78,7 @@ public class ReservationValidationTest {
     }
 
     @Test
-    public void givenAFlightNumberToValidate_whenValidate_shouldBeRightResult() {
+    public void givenAFlightNumberToValidate_whenValidating_shouldBeRightResult() {
         Passenger passenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         Reservation reservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE, RESERVATION_CONFIRMATION,
                 inputToValidate, FLIGHT_DATE, PAYMENT_LOCATION, new ArrayList<>(Arrays.asList(passenger)));
@@ -89,7 +89,7 @@ public class ReservationValidationTest {
     }
 
     @Test
-    public void givenAPaymentLocationToValidate_whenValidate_shouldBeRightResult() {
+    public void givenAPaymentLocationToValidate_whenValidating_shouldBeRightResult() {
         Passenger passenger = new Passenger(FIRST_NAME, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         Reservation reservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE, RESERVATION_CONFIRMATION,
                 FLIGHT_NUMBER, FLIGHT_DATE, inputToValidate, new ArrayList<>(Arrays.asList(passenger)));
@@ -100,7 +100,7 @@ public class ReservationValidationTest {
     }
 
     @Test
-    public void givenAPassengerToValidate_whenValidate_shouldBeRightResult() {
+    public void givenAPassengerToValidate_whenValidating_shouldBeRightResult() {
         Passenger passenger = new Passenger(inputToValidate, LAST_NAME, AGE, PASSPORT_NUMBER, SEAT_CLASS);
         Reservation reservation = new Reservation(RESERVATION_NUMBER, RESERVATION_DATE, RESERVATION_CONFIRMATION,
                 FLIGHT_NUMBER, FLIGHT_DATE, PAYMENT_LOCATION, new ArrayList<>(Arrays.asList(passenger)));

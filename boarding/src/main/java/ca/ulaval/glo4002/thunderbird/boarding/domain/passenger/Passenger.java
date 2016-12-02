@@ -1,20 +1,20 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.exceptions.BaggageAmountAuthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggages;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggagesFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 public class Passenger {
-    public static final int BAGGAGE_AMOUNT_AUTHORIZED = 3;
-    public static final float FIRST_BAGGAGE_BASE_PRICE = 0f;
-    public static final float ADDITIONAL_BAGGAGE_BASE_PRICE = 50f;
+    public static final float VIP_DISCOUNT = 0.95f;
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -22,22 +22,32 @@ public class Passenger {
     private Seat.SeatClass seatClass;
     private Instant flightDate;
     private String flightNumber;
+    private boolean isVip;
+    private boolean isCheckedIn;
 
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<Baggage> baggages;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private CheckedBaggages checkedBaggages;
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber, List<Baggage> baggages) {
-        this(passengerHash, seatClass, flightDate, flightNumber);
-        this.baggages = new ArrayList<>(baggages);
-
-    }
-
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber) {
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate,
+                     String flightNumber, boolean isVip, boolean isCheckedIn) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightNumber = flightNumber;
         this.flightDate = flightDate;
-        this.baggages = new ArrayList<>();
+        this.isVip = isVip;
+        this.isCheckedIn = isCheckedIn;
+        this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(this);
+    }
+
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber,
+                     boolean isVip, boolean isCheckedIn, CheckedBaggages checkedBaggages) {
+        this.passengerHash = passengerHash;
+        this.seatClass = seatClass;
+        this.flightNumber = flightNumber;
+        this.flightDate = flightDate;
+        this.isVip = isVip;
+        this.isCheckedIn = isCheckedIn;
+        this.checkedBaggages = checkedBaggages;
     }
 
     protected Passenger() {
@@ -48,38 +58,8 @@ public class Passenger {
         return passengerHash;
     }
 
-    public boolean isSameSeatClass(Seat.SeatClass seatClass) {
-        return seatClass.equals(seatClass);
-    }
-
-    public void addBaggage(Baggage baggage) {
-        if (getBaggageCount() < BAGGAGE_AMOUNT_AUTHORIZED) {
-            float price = getBaggageBasePrice();
-            baggage.setPrice(price);
-            baggages.add(baggage);
-        } else {
-            throw new BaggageAmountAuthorizedException();
-        }
-    }
-
-    public int getBaggageCount() {
-        return baggages.size();
-    }
-
-    public float getBaggageBasePrice() {
-        if (baggages.isEmpty()) {
-            return FIRST_BAGGAGE_BASE_PRICE;
-        } else {
-            return ADDITIONAL_BAGGAGE_BASE_PRICE;
-        }
-    }
-
     public Seat.SeatClass getSeatClass() {
         return seatClass;
-    }
-
-    public List<Baggage> getBaggages() {
-        return baggages;
     }
 
     public Instant getFlightDate() {
@@ -88,5 +68,40 @@ public class Passenger {
 
     public String getFlightNumber() {
         return flightNumber;
+    }
+
+    public boolean isVip() {
+        return isVip;
+    }
+
+    public float calculateBaggagesPrice() {
+        float price = checkedBaggages.calculatePrice();
+        return isVip ? price * VIP_DISCOUNT : price;
+    }
+
+    public void addBaggage(Baggage baggage) {
+        checkedBaggages.addBaggage(baggage);
+    }
+
+    public List<Baggage> getBaggages() {
+        return checkedBaggages.getBaggages();
+    }
+
+    public boolean isCheckedIn() {
+        return isCheckedIn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return EqualsBuilder.reflectionEquals(this, o);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
+    }
+
+    public void setCheckedIn(boolean checkedIn) {
+        isCheckedIn = checkedIn;
     }
 }

@@ -5,4 +5,6 @@ public class PassengerDTO {
     public String seatClass;
     public String flightNumber;
     public String flightDate;
+    public Boolean vip;
+    public Boolean checkin;
 }

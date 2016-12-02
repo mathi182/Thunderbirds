@@ -9,4 +9,7 @@ public class PassengerNotFoundException extends ElementNotFoundException impleme
     public PassengerNotFoundException(UUID id) {
         super("passenger with id " + id);
     }
+    public PassengerNotFoundException() {
+        super("passenger not found");
+    }
 }

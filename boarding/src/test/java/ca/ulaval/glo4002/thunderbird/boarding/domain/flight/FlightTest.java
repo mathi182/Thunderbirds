@@ -39,15 +39,15 @@ public class FlightTest {
     public void givenAllSeatsTaken_shouldThrowSeatNotAvailable() {
         willReturn(false).given(seat).isAvailable();
 
-        flight.assignSeat(strategy);
+        flight.findAvailableSeat(strategy);
     }
 
     @Test
     public void givenASeatsAvailable_shouldUseStrategy() {
         willReturn(true).given(seat).isAvailable();
 
-        flight.assignSeat(strategy);
+        flight.findAvailableSeat(strategy);
 
-        verify(strategy).assignSeat(anyListOf(Seat.class));
+        verify(strategy).findAvailableSeat(anyListOf(Seat.class));
     }
 }

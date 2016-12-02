@@ -15,24 +15,28 @@ public class PassengerAssemblerTest {
     private static final String SEAT_CLASS = "economy";
     private static final String FLIGHT_NUMBER = "flight_number";
     private static final Instant FLIGHT_DATE = Instant.now();
+    private static final boolean VIP = true;
+    private static final boolean CHECKIN = true;
 
     private PassengerAssembler passengerAssembler;
-    private Passenger passengerMock;
+    private Passenger passenger;
 
     @Before
     public void setup() {
-        passengerMock = mock(Passenger.class);
-        willReturn(PASSENGER_HASH).given(passengerMock).getId();
-        willReturn(SEAT_CLASS).given(passengerMock).getSeatClass();
-        willReturn(FLIGHT_NUMBER).given(passengerMock).getFlightNumber();
-        willReturn(FLIGHT_DATE).given(passengerMock).getFlightDate();
+        passenger = mock(Passenger.class);
+        willReturn(PASSENGER_HASH).given(passenger).getId();
+        willReturn(SEAT_CLASS).given(passenger).getSeatClass();
+        willReturn(FLIGHT_NUMBER).given(passenger).getFlightNumber();
+        willReturn(FLIGHT_DATE).given(passenger).getFlightDate();
+        willReturn(VIP).given(passenger).isVip();
+        willReturn(CHECKIN).given(passenger).isCheckedIn();
 
         passengerAssembler = new PassengerAssembler();
     }
 
     @Test
     public void givenNewPassenger_whenConvertingToDTO_shouldGetCorrectPassengerHash() {
-        PassengerDTO passengerDTO = passengerAssembler.toDTO(passengerMock);
+        PassengerDTO passengerDTO = passengerAssembler.toDTO(passenger);
         String actualValue = passengerDTO.passengerHash;
 
         String expectedValue = PASSENGER_HASH.toString();
@@ -41,15 +45,19 @@ public class PassengerAssemblerTest {
 
     @Test
     public void givenNewPassenger_whenConvertingToDTO_shouldReturnCorrectValues() {
-        PassengerDTO passengerDTO = passengerAssembler.toDTO(passengerMock);
+        PassengerDTO passengerDTO = passengerAssembler.toDTO(passenger);
         String actualPassengerHash = passengerDTO.passengerHash;
         String actualSeatClass = passengerDTO.seatClass;
         String actualFlightNumber = passengerDTO.flightNumber;
         String actualFlightDate = passengerDTO.flightDate;
+        Boolean actualVIP = passengerDTO.vip;
+        Boolean actualCheckin = passengerDTO.checkin;
 
         assertEquals(PASSENGER_HASH.toString(), actualPassengerHash);
         assertEquals(SEAT_CLASS, actualSeatClass);
         assertEquals(FLIGHT_NUMBER, actualFlightNumber);
         assertEquals(FLIGHT_DATE.toString(), actualFlightDate);
+        assertEquals(VIP,actualVIP);
+        assertEquals(CHECKIN,actualCheckin);
     }
 }

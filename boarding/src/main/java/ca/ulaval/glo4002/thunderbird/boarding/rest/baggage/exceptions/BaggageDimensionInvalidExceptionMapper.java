@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.exceptions;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageResponseBody;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageResponse;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -13,8 +13,7 @@ import static org.eclipse.jetty.http.HttpStatus.Code.OK;
 public class BaggageDimensionInvalidExceptionMapper implements ExceptionMapper<BaggageDimensionInvalidException> {
     @Override
     public Response toResponse(BaggageDimensionInvalidException e) {
-        RegisterBaggageResponseBody registerBaggageResponseBody = new RegisterBaggageResponseBody(false, "dimensions " +
-                "invalid");
-        return Response.status(OK.getCode()).entity(registerBaggageResponseBody).build();
+        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("dimension invalid");
+        return Response.status(OK.getCode()).entity(registerBaggageResponse).build();
     }
 }

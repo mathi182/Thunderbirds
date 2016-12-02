@@ -19,26 +19,25 @@ import static org.mockito.Mockito.verify;
 public class CheckinAsSelfTest {
     private static final UUID PASSENGER_HASH = new UUID(1L, 2L);
     private static final Instant FLIGHT_DATE = Instant.parse("2016-09-06T13:00:00Z");
+    private static final boolean NOT_VIP = false;
     private static final int MAX_LATE_CHECKIN_IN_HOUR = 6;
     private static final int MAX_EARLY_CHECKIN_IN_HOUR = 48;
 
     private Checkin checkinAsSelf;
-    private Passenger passengerMock;
+    private Passenger passenger;
 
     @Before
     public void setup() {
         Reservation reservationMock = mock(Reservation.class);
         willReturn(FLIGHT_DATE).given(reservationMock).getFlightDate();
 
-        passengerMock = mock(Passenger.class);
-        willReturn(PASSENGER_HASH).given(passengerMock).getId();
-        willReturn(false).given(passengerMock).isCheckedIn();
-        willReturn(reservationMock).given(passengerMock).getReservation();
-
-        checkinAsSelf = new Checkin(PASSENGER_HASH, Checkin.SELF) {
+        passenger = mock(Passenger.class);
+        willReturn(PASSENGER_HASH).given(passenger).getId();
+        willReturn(reservationMock).given(passenger).getReservation();
+        checkinAsSelf = new Checkin(PASSENGER_HASH, Checkin.SELF, NOT_VIP) {
             @Override
             public Passenger getPassenger() {
-                return passengerMock;
+                return passenger;
             }
         };
     }
@@ -54,8 +53,8 @@ public class CheckinAsSelfTest {
 
         checkinAsSelf.completeCheckin(validDate);
 
-        verify(passengerMock).checkin();
-        verify(passengerMock).save();
+        verify(passenger).checkin(NOT_VIP);
+        verify(passenger).save();
     }
 
     @Test
@@ -64,8 +63,8 @@ public class CheckinAsSelfTest {
 
         checkinAsSelf.completeCheckin(validDate);
 
-        verify(passengerMock).checkin();
-        verify(passengerMock).save();
+        verify(passenger).checkin(NOT_VIP);
+        verify(passenger).save();
     }
 
     @Test(expected = CheckinNotOnTimeException.class)
@@ -84,7 +83,7 @@ public class CheckinAsSelfTest {
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenPassengerWithoutReservation_whenCompletingCheckin_shouldNotCompleteCheckin() {
-        willReturn(null).given(passengerMock).getReservation();
+        willReturn(null).given(passenger).getReservation();
 
         checkinAsSelf.completeCheckin(FLIGHT_DATE);
     }

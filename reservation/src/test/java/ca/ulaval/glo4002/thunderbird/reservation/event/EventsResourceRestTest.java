@@ -5,7 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.ws.rs.core.UriBuilder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
@@ -25,6 +28,8 @@ public class EventsResourceRestTest {
     private static final String PASSPORT_NUMBER = "testo";
     private static final String SEAT_CLASS = "economy";
 
+    private static final String LOCATION_HEADER = "Location";
+
     private String createReservationPath;
 
     @Before
@@ -42,11 +47,9 @@ public class EventsResourceRestTest {
 
         givenBaseRequest()
                 .body(generateReservationMap())
-                .when()
-                .post(createReservationPath)
-                .then()
-                .statusCode(CREATED.getStatusCode())
-                .header("Location", buildUrl(locationExpected));
+                .when().post(createReservationPath)
+                .then().statusCode(CREATED.getStatusCode())
+                .header(LOCATION_HEADER, buildUrl(locationExpected));
     }
 
     private String createLocationExpected(String reservationNumber) {
