@@ -8,8 +8,6 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 public class PassengerTest {
@@ -18,11 +16,10 @@ public class PassengerTest {
     private static final Instant FLIGHT_DATE = Instant.now();
     private static final String FLIGHT_NUMBER = "QK-918";
     private static final boolean VIP = true;
-    private static final boolean IS_NOT_CHECKED_IN = false;
-    private static final boolean IS_CHECKED_IN = true;
+    private static final boolean IS_CHECKIN = false;
 
     private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_NOT_CHECKED_IN, checkedBaggages);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKIN, checkedBaggages);
 
     @Test
     public void shouldReturnRightValues() {
@@ -31,15 +28,6 @@ public class PassengerTest {
         assertEquals(FLIGHT_DATE, passenger.getFlightDate());
         assertEquals(FLIGHT_NUMBER, passenger.getFlightNumber());
         assertEquals(VIP, passenger.isVip());
-        assertEquals(IS_NOT_CHECKED_IN, passenger.isCheckedIn());
-    }
-
-    @Test
-    public void givenNonCheckecInPassenger_whenCheckingIn_ShouldBeCheckedIn(){
-        Passenger nonCheckedInPassenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_NOT_CHECKED_IN, checkedBaggages);
-
-        nonCheckedInPassenger.checkIn();
-
-        assertTrue(nonCheckedInPassenger.isCheckedIn());
+        assertEquals(IS_CHECKIN, passenger.isCheckedIn());
     }
 }
