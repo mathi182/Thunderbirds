@@ -33,13 +33,4 @@ public class PassengerTest {
         assertEquals(VIP, passenger.isVip());
         assertEquals(IS_CHECKED_IN, passenger.isCheckedIn());
     }
-
-    @Test
-    public void givenANonCheckedInPassenger_whenCheckingIn_shouldBeCheckedIn(){
-        Passenger nonCheckedInPassenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_NOT_CHECKED_IN);
-
-        nonCheckedInPassenger.checkin();
-
-        assertTrue(nonCheckedInPassenger.isCheckedIn());
-    }
 }

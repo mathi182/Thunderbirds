@@ -19,7 +19,7 @@ public class HibernatePassengerRepository implements PassengerRepository {
     }
 
     @Override
-    public Passenger getPassenger(UUID passengerHash) {
+    public Passenger findByPassengerHash(UUID passengerHash) {
         Passenger passenger = getPassengerFromHibernate(passengerHash);
 
         if (passenger == null) {

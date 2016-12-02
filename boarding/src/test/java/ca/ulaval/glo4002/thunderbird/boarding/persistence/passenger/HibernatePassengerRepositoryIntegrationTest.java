@@ -1,15 +1,12 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.baggage.exceptions.PassengerNotCheckedInException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.Instant;
@@ -52,7 +49,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
 
         repository.savePassenger(expectedPassenger);
 
-        Passenger actualPassenger = repository.getPassenger(VALID_PASSENGER_UUID);
+        Passenger actualPassenger = repository.findByPassengerHash(VALID_PASSENGER_UUID);
         assertEquals(expectedPassenger.getHash(), actualPassenger.getHash());
     }
 
@@ -62,7 +59,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
                 Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, CHECKED_IN);
         willReturn(expectedPassenger).given(passengerService).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
-        Passenger actualPassenger = repository.getPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
+        Passenger actualPassenger = repository.findByPassengerHash(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
         assertEquals(expectedPassenger, actualPassenger);
     }
@@ -76,7 +73,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
 
         repository.savePassenger(expectedPassenger);
 
-        Passenger actualPassenger = repository.getPassenger(PASSENGER_UUID_WITH_BAGGAGE);
+        Passenger actualPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_BAGGAGE);
         assertFalse(actualPassenger.getBaggages().isEmpty());
     }
 
@@ -86,7 +83,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
                 Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, NOT_CHECKED_IN);
         repository.savePassenger(expectedPassenger);
         willReturn(updatePassenger).given(passengerService).fetchPassenger(NOT_CHECKED_IN_PASSENGER_UUID);
-        repository.getPassenger(NOT_CHECKED_IN_PASSENGER_UUID);
+        repository.findByPassengerHash(NOT_CHECKED_IN_PASSENGER_UUID);
 
         verify(passengerService).fetchPassenger(NOT_CHECKED_IN_PASSENGER_UUID);
     }
@@ -97,7 +94,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
                 Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, NOT_CHECKED_IN);
         willReturn(expectedPassenger).given(passengerService).fetchPassenger(NOT_CHECKED_IN_AND_NOT_SAVED_PASSENGER_UUID);
 
-        repository.getPassenger(NOT_CHECKED_IN_AND_NOT_SAVED_PASSENGER_UUID);
+        repository.findByPassengerHash(NOT_CHECKED_IN_AND_NOT_SAVED_PASSENGER_UUID);
 
         verify(passengerService,times(1)).fetchPassenger(NOT_CHECKED_IN_AND_NOT_SAVED_PASSENGER_UUID);
     }
@@ -108,7 +105,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
                 Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, CHECKED_IN);
         repository.savePassenger(expectedPassenger);
 
-        repository.getPassenger(CHECKED_IN_PASSENGER_UUID);
+        repository.findByPassengerHash(CHECKED_IN_PASSENGER_UUID);
 
         verify(passengerService,never()).fetchPassenger(CHECKED_IN_PASSENGER_UUID);
     }
@@ -122,7 +119,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
         willReturn(true).given(updatePassenger).isCheckedIn();
         willReturn(updatePassenger).given(passengerService).fetchPassenger(checkedInOnReservationPassengerHash);
 
-        Passenger actualPassenger = repository.getPassenger(checkedInOnReservationPassengerHash);
+        Passenger actualPassenger = repository.findByPassengerHash(checkedInOnReservationPassengerHash);
 
         verify(passengerService,times(1)).fetchPassenger(checkedInOnReservationPassengerHash);
         assertTrue(actualPassenger.isCheckedIn());
@@ -136,7 +133,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
         willReturn(false).given(updatePassenger).isCheckedIn();
         willReturn(updatePassenger).given(passengerService).fetchPassenger(NOT_CHECKED_IN_ANYWHERE_PASSENGER_UUID);
 
-        Passenger actualPassenger = repository.getPassenger(NOT_CHECKED_IN_ANYWHERE_PASSENGER_UUID);
+        Passenger actualPassenger = repository.findByPassengerHash(NOT_CHECKED_IN_ANYWHERE_PASSENGER_UUID);
 
         assertFalse(actualPassenger.isCheckedIn());
     }
@@ -150,8 +147,8 @@ public class HibernatePassengerRepositoryIntegrationTest {
         willReturn(true).given(updatePassenger).isCheckedIn();
         willReturn(updatePassenger).given(passengerService).fetchPassenger(checkedInOnReservationPassengerHash);
 
-        repository.getPassenger(checkedInOnReservationPassengerHash);
-        Passenger actualPassenger = repository.getPassenger(checkedInOnReservationPassengerHash);
+        repository.findByPassengerHash(checkedInOnReservationPassengerHash);
+        Passenger actualPassenger = repository.findByPassengerHash(checkedInOnReservationPassengerHash);
 
         verify(passengerService,times(1)).fetchPassenger(checkedInOnReservationPassengerHash);
         assertTrue(actualPassenger.isCheckedIn());

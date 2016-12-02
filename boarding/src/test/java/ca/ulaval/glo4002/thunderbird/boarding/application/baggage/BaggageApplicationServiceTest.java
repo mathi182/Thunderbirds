@@ -50,6 +50,6 @@ public class BaggageApplicationServiceTest {
 
     private void setPassengerCheckedInInRepo(boolean checkedIn) {
         willReturn(checkedIn).given(passenger).isCheckedIn();
-        willReturn(passenger).given(passengerRepository).getPassenger(PASSENGER_HASH);
+        willReturn(passenger).given(passengerRepository).findByPassengerHash(PASSENGER_HASH);
     }
 }

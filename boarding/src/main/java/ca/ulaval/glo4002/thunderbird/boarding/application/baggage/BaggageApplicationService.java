@@ -26,7 +26,7 @@ public class BaggageApplicationService {
     }
 
     public Passenger getPassenger(UUID passengerHash) {
-        Passenger passenger = repository.getPassenger(passengerHash);
+        Passenger passenger = repository.findByPassengerHash(passengerHash);
         if (!passenger.isCheckedIn()) {
             throw new PassengerNotCheckedInException();
         }
