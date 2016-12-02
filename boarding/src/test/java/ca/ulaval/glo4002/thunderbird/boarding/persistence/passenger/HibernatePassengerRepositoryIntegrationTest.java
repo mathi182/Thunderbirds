@@ -140,4 +140,20 @@ public class HibernatePassengerRepositoryIntegrationTest {
 
         assertFalse(actualPassenger.isCheckedIn());
     }
+
+    @Test
+    public void givenAPassengerCheckedInOnReservation_whenGettingPassenger_shouldSavePassenger(){
+        UUID checkedInOnReservationPassengerHash = UUID.randomUUID();
+        Passenger expectedPassenger = new Passenger(checkedInOnReservationPassengerHash,
+                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, NOT_CHECKED_IN);
+        repository.savePassenger(expectedPassenger);
+        willReturn(true).given(updatePassenger).isCheckedIn();
+        willReturn(updatePassenger).given(passengerService).fetchPassenger(checkedInOnReservationPassengerHash);
+
+        repository.getPassenger(checkedInOnReservationPassengerHash);
+        Passenger actualPassenger = repository.getPassenger(checkedInOnReservationPassengerHash);
+
+        verify(passengerService,times(1)).fetchPassenger(checkedInOnReservationPassengerHash);
+        assertTrue(actualPassenger.isCheckedIn());
+    }
 }

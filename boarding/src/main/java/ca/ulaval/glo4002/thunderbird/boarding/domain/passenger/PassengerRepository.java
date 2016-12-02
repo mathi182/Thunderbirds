@@ -7,7 +7,5 @@ import java.util.UUID;
 public interface PassengerRepository {
     Passenger getPassenger(UUID passengerHash);
 
-    Passenger getCheckedInPassenger(UUID passengerHash);
-
     void savePassenger(Passenger passenger) throws RepositorySavingException;
 }
