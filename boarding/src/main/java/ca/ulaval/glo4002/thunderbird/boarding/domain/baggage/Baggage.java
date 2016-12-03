@@ -7,25 +7,23 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-public class Baggage {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Baggage {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID baggageHash;
-    private String type;
-    private float price;
+    protected UUID baggageHash;
+    protected String type;
+    protected float price;
 
     @Embedded
-    private Length linearDimension;
+    protected Length linearDimension;
 
     @Embedded
-    private Mass weight;
+    protected Mass weight;
 
     public Baggage(Length linearDimension, Mass weight, String type) {
         this.baggageHash = UUID.randomUUID();
@@ -44,6 +42,10 @@ public class Baggage {
     protected Baggage() {
         // for hibernate
     }
+
+    public abstract float getBasePrice(Length maximumLinearDimension, Mass maximumWeight);
+
+    public abstract boolean isChecked();
 
     public UUID getId() {
         return baggageHash;
@@ -73,7 +75,6 @@ public class Baggage {
         if (weight.isSuperiorTo(maximumWeight)) {
             throw new BaggageWeightInvalidException();
         }
-
         if (linearDimension.isSuperiorTo(maximumLinearDimension)) {
             throw new BaggageDimensionInvalidException();
         }

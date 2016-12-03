@@ -17,7 +17,6 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class CheckedBaggages {
-    private static final int BAGGAGE_COST = 50;
     private static final int BAGGAGE_COUNT_LIMIT = 3;
 
     @Id
@@ -57,27 +56,16 @@ public abstract class CheckedBaggages {
         if (baggages.size() >= getBaggageCountLimit()) {
             throw new BaggageAmountUnauthorizedException();
         }
-        validateBaggage(baggage);
         setBaggagePrice(baggage);
-
         baggages.add(baggage);
     }
 
-    private void validateBaggage(Baggage baggage) {
-        baggage.validate(getDimensionLimit(), getWeightLimit());
-    }
-
     private void setBaggagePrice(Baggage baggage) {
-        if (baggages.size() < getFreeBaggageCount()) {
-            baggage.setPrice(0);
-        } else {
-            baggage.setPrice(getBaggageCost());
+        float price = 0;
+        if (baggages.size() >= getFreeBaggageCount()) {
+            price = baggage.getBasePrice(getDimensionLimit(), getWeightLimit());
         }
-    }
-
-    private float getBaggageCost() {
-        //TODO: Add penalty if overweight
-        return BAGGAGE_COST;
+        baggage.setPrice(price);
     }
 
     private int getBaggageCountLimit() {
