@@ -8,6 +8,7 @@
         <module>boarding</module>
         <module>reservation</module>
         <module>app</module>
+        <module>acceptance-tests</module>
     </modules>
 
     <groupId>ca.ulaval.glo4002</groupId>
@@ -23,7 +24,7 @@
         <h2.version>1.4.192</h2.version>
         <jersey.version>2.24</jersey.version>
         <fasterxml.version>2.8.4</fasterxml.version>
-
+        <surefire.version>2.18.1</surefire.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
