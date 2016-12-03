@@ -1,8 +1,8 @@
 # language: fr
 Fonctionnalité: Assigner un siège
 
-En tant que compagnie aérienne
-Je veux pouvoir assigner un siège à un passager ayant une réservation à bord d'un vol
+  En tant que compagnie aérienne
+  Je veux pouvoir assigner un siège à un passager ayant une réservation à bord d'un vol
 
 Scénario: Assigner un siège dans un vol ayant des places disponibles avec le mode aléatoire
     Étant donné un passage Alice ayant une réservation à bord d'un vol
