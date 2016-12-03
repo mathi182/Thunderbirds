@@ -5,6 +5,7 @@ Fonctionnalité: Enregistrer un bagage
   Je veux pouvoir enregistrer les baggages des passagers.
   Je veux aussi pouvoir calculer les prix associés aux bagages.
 
+@niveau=medium @strategy=application
 Scénario:  Enregistrer un bagage
   Étant donné un passager Bob ayant une réservation en classe économique sur le vol AC-1234
   Et qu'il a déjà un bagage enregistré respectant les normes
