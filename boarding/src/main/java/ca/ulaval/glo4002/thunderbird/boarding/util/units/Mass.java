@@ -50,4 +50,8 @@ public class Mass {
         Mass other = (Mass) obj;
         return grams == other.grams;
     }
+
+    public boolean isSuperiorTo(Mass mass) {
+        return grams > mass.grams;
+    }
 }

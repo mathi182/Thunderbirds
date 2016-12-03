@@ -12,6 +12,8 @@ public class MassTest {
     private static final double MASS_IN_POUNDS = 1;
     private static final double MASS_IN_GRAMS = 453.592;
     private static final double MASS_IN_KILOGRAMS = 0.453592;
+    private static final double SMALLER_MASS_IN_GRAMS = MASS_IN_GRAMS - 1;
+    private static final double BIGGER_MASS_IN_GRAMS = MASS_IN_GRAMS + 1;
 
     private Mass mass;
     private double actualMass;
@@ -72,5 +74,35 @@ public class MassTest {
         boolean areEquals = mass.equals(obj);
 
         assertFalse(areEquals);
+    }
+
+    @Test
+    public void givenALength_whenCheckingIfIsSuperiorToSmallerLength_shouldReturnTrue() {
+        mass = Mass.fromGrams(MASS_IN_GRAMS);
+        Mass smallerLength = Mass.fromGrams(SMALLER_MASS_IN_GRAMS);
+
+        boolean isSuperior = mass.isSuperiorTo(smallerLength);
+
+        assertTrue(isSuperior);
+    }
+
+    @Test
+    public void givenALength_whenCheckingIfIsSuperiorToSameLength_shouldReturnFalse() {
+        mass = Mass.fromGrams(MASS_IN_GRAMS);
+        Mass sameLength = Mass.fromGrams(MASS_IN_GRAMS);
+
+        boolean isSuperior = mass.isSuperiorTo(sameLength);
+
+        assertFalse(isSuperior);
+    }
+
+    @Test
+    public void givenALength_whenCheckingIfIsSuperiorToBiggerLength_shouldReturnFalse() {
+        mass = Mass.fromGrams(MASS_IN_GRAMS);
+        Mass sameLength = Mass.fromGrams(BIGGER_MASS_IN_GRAMS);
+
+        boolean isSuperior = mass.isSuperiorTo(sameLength);
+
+        assertFalse(isSuperior);
     }
 }

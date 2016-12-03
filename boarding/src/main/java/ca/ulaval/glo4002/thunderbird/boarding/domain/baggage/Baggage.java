@@ -70,11 +70,11 @@ public class Baggage {
     }
 
     public void validate(Length maximumLinearDimension, Mass maximumWeight) {
-        if (weight.toGrams() > maximumWeight.toGrams()) {
+        if (weight.isSuperiorTo(maximumWeight)) {
             throw new BaggageWeightInvalidException();
         }
 
-        if (linearDimension.toMillimeters() > maximumLinearDimension.toMillimeters()) {
+        if (linearDimension.isSuperiorTo(maximumLinearDimension)) {
             throw new BaggageDimensionInvalidException();
         }
     }
