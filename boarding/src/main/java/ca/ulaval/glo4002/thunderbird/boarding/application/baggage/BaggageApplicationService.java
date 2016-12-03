@@ -22,6 +22,8 @@ public class BaggageApplicationService {
     public UUID registerBaggage(UUID passengerHash, Baggage baggage) {
         Passenger passenger = getPassenger(passengerHash);
         passenger.addBaggage(baggage);
+        repository.savePassenger(passenger);
+
         return baggage.getId();
     }
 

@@ -13,7 +13,8 @@ import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUr
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.eclipse.jetty.http.HttpStatus.Code.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class BaggageResourceRestTest {
     private static final String CM_UNIT_FROM_REQUEST = "cm";
@@ -65,26 +66,6 @@ public class BaggageResourceRestTest {
         givenBaseRequest()
                 .when().get("/passengers/" + INVALID_PASSENGER_UUID + "/baggages")
                 .then().statusCode(NOT_FOUND.getCode());
-    }
-
-    @Test
-    public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
-        Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
-                LINEAR_DIMENSION,
-                KG_UNIT_FROM_REQUEST,
-                INVALID_WEIGHT,
-                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
-
-        Response response = givenBaseRequest()
-                .and().body(registerBagageBody)
-                .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                .then().statusCode(OK.getStatusCode())
-                .and().extract().response();
-
-        Boolean allowed = response.path(ALLOWED);
-        assertFalse(allowed);
-        String deniedReason = response.path(REFUSATION_REASON);
-        assertNotNull(deniedReason);
     }
 
     @Test
