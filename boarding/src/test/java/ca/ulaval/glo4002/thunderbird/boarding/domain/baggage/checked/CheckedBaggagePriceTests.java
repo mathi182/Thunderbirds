@@ -83,7 +83,7 @@ public class CheckedBaggagePriceTests {
     }
 
     @Test
-    public void givenSportBaggageWithInvalidWeight_whenCalculatingPrice_shouldOnlyPaySportExcessFees() {
+    public void givenSportBaggageWithInvalidDimension_whenCalculatingPrice_shouldOnlyPaySportExcessFees() {
         Baggage validBaggage = new CheckedBaggage(invalidDimension, weightLimit, SPORT_BAGGAGE);
 
         float actualPrice = validBaggage.getBasePrice(dimensionLimit, weightLimit);
