@@ -17,10 +17,17 @@ import java.util.UUID;
 
 public class RegisterBaggageSteps implements Fr {
 
-    public static final UUID passengerHash = UUID.randomUUID();
-    public static final String BAGGAGE_TYPE = "type";
-    public static final String BAGGAGE_MASS = "poids";
-    public static final String BAGGAGE_LENGTH = "taille";
+    private static final UUID passengerHash = UUID.randomUUID();
+    private static final String BAGGAGE_TYPE = "type";
+    private static final String BAGGAGE_MASS = "poids";
+    private static final String BAGGAGE_LENGTH = "taille";
+
+    private static final int DIMENSION_VALUE = 11;
+    private static final Length LINEAR_DIMENSION = Length.fromMillimeters(DIMENSION_VALUE);
+    private static final int WEIGHT_VALUE = 22;
+    private static final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
+    private static final String CHECKED = "checked";
+
     private PassengerFixture passengerFixture;
 
     @Before
@@ -37,7 +44,8 @@ public class RegisterBaggageSteps implements Fr {
         });
 
         Étantdonné("^qu'il a déjà un bagage enregistré respectant les normes$", () -> {
-            passengerFixture.createAndAddValidBaggageToPassengerWithPassengerHash(passengerHash);
+            Baggage baggage = new Baggage(LINEAR_DIMENSION, WEIGHT, CHECKED);
+            passengerFixture.addBaggageToPassengerWithPassengerHash(baggage, passengerHash);
         });
 
         Quand("^il enregistre le bagage suivant :$", (DataTable dataTable) -> {
