@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
@@ -22,7 +23,7 @@ public class BaggageTest {
     private static final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
     private static final Mass INVALID_WEIGHT = Mass.fromGrams(WEIGHT_VALUE - 1);
 
-    private final Baggage baggage = new Baggage(BAGGAGE_HASH, LINEAR_DIMENSION, WEIGHT, TYPE);
+    private final Baggage baggage = new CheckedBaggage(BAGGAGE_HASH, LINEAR_DIMENSION, WEIGHT, TYPE);
 
     @Test
     public void shouldReturnRightValues() {

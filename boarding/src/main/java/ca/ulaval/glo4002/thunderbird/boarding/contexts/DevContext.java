@@ -3,7 +3,9 @@ package ca.ulaval.glo4002.thunderbird.boarding.contexts;
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerFactoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
+import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystemFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
@@ -14,7 +16,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlight
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneServiceGlo3000;
-import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
@@ -79,8 +80,8 @@ public class DevContext implements Context {
         Length length2 = Length.fromMillimeters(200);
         Mass mass2 = Mass.fromGrams(500);
 
-        Baggage baggage1 = new Baggage(length1, mass1, "checked");
-        Baggage baggage2 = new Baggage(length2, mass2, "checked");
+        Baggage baggage1 = new CheckedBaggage(length1, mass1, "checked");
+        Baggage baggage2 = new CheckedBaggage(length2, mass2, "checked");
         passenger.addBaggage(baggage1);
         passenger.addBaggage(baggage2);
 

@@ -1,10 +1,11 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.Test;
@@ -13,11 +14,8 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.*;
 
 public class HibernatePassengerRepositoryIntegrationTest {
@@ -68,7 +66,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     public void givenPassengerWithBaggage_whenSavingThisPassenger_shouldSaveBaggagesCorrectly() {
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE,
                 Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, CHECKED_IN);
-        Baggage baggage = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
         expectedPassenger.addBaggage(baggage);
 
         repository.savePassenger(expectedPassenger);
