@@ -51,7 +51,6 @@ public class HibernatePassengerRepository implements PassengerRepository {
     @Override
     public void savePassenger(Passenger passenger) {
         EntityManagerProvider entityManagerProvider = new EntityManagerProvider();
-        EntityManager entityManager = entityManagerProvider.getEntityManager();
-        entityManager.persist(passenger);
+        entityManagerProvider.persistInTransaction(passenger);
     }
 }
