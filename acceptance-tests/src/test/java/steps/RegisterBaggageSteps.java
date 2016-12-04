@@ -23,12 +23,6 @@ public class RegisterBaggageSteps implements Fr {
     private static final String BAGGAGE_MASS = "poids";
     private static final String BAGGAGE_LENGTH = "taille";
 
-    private static final int DIMENSION_VALUE = 11;
-    private static final Length LINEAR_DIMENSION = Length.fromMillimeters(DIMENSION_VALUE);
-    private static final int WEIGHT_VALUE = 22;
-    private static final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
-    private static final String CHECKED = "checked";
-
     private PassengerFixture passengerFixture;
 
     @Before
@@ -40,13 +34,12 @@ public class RegisterBaggageSteps implements Fr {
     public RegisterBaggageSteps() {
         Étantdonné("^un passager Bob ayant une réservation en classe économique sur le vol AC-(\\d+)$", (Integer flightNumber) -> {
             String flightNumberAsString = "AC-" + flightNumber.toString();
-            passengerFixture.createPassenger(passengerHash, flightNumberAsString,
+            passengerFixture.givenAPassenger(passengerHash, flightNumberAsString,
                     Seat.SeatClass.ECONOMY);
         });
 
         Étantdonné("^qu'il a déjà un bagage enregistré respectant les normes$", () -> {
-            Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED);
-            passengerFixture.addBaggageToPassengerWithPassengerHash(baggage, passengerHash);
+            passengerFixture.givenABaggageForPassenger(passengerHash);
         });
 
         Quand("^il enregistre le bagage suivant :$", (DataTable dataTable) -> {
@@ -61,7 +54,7 @@ public class RegisterBaggageSteps implements Fr {
             Length length = MeasureConverter.getLengthFromString(lengthAsString);
 
             Baggage baggage = new CheckedBaggage(length, mass, type);
-            passengerFixture.addBaggageToPassengerWithPassengerHash(baggage, passengerHash);
+            passengerFixture.addBaggageToPassenger(passengerHash, baggage);
         });
 
         Alors("^son total a payer est de (\\d+)\\$$", (Integer expectedTotalBaggagePrice) -> {
