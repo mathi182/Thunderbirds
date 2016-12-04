@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -27,6 +29,18 @@ public class Mass {
 
     public static Mass fromKilograms(double kilograms) {
         return new Mass(kilograms * GRAMS_IN_A_KILOGRAM);
+    }
+
+    public static Mass fromString(String massAsString) {
+        String[] lengthValueUnitTable = massAsString.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+        String unit = lengthValueUnitTable[1];
+        double value = Double.valueOf(lengthValueUnitTable[0]);
+        switch (unit) {
+            case "kg" :
+                return Mass.fromKilograms(value);
+            default:
+                throw new NotImplementedException();
+        }
     }
 
     public double toPounds() {
