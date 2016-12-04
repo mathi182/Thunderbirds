@@ -36,6 +36,7 @@ public class PassengerFixture extends HibernateBaseFixture {
             repository.savePassenger(passenger);
         });
     }
+
     public void givenABaggageForPassenger(UUID passengerHash) {
         Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED);
         addBaggageToPassenger(passengerHash, baggage);
