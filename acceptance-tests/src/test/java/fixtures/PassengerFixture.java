@@ -1,5 +1,6 @@
 package fixtures;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
@@ -15,8 +16,8 @@ public class PassengerFixture extends HibernateBaseFixture {
     public static final String FLIGHT_NUMBER = "flight_number";
     private HibernatePassengerRepository repository;
 
-    public PassengerFixture(HibernatePassengerRepository repository) {
-        this.repository = repository;
+    public PassengerFixture() {
+        this.repository = new HibernatePassengerRepository(new PassengerService());
     }
 
     public void givenAPassengerInReservation(String flightNumber, Seat.SeatClass seatClass) {
