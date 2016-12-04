@@ -1,13 +1,26 @@
 package steps;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import cucumber.api.DataTable;
 import cucumber.api.PendingException;
 import cucumber.api.java8.Fr;
+import fixtures.PassengerFixture;
+import org.junit.Before;
 
 public class RegisterBaggageSteps implements Fr {
+
+    private PassengerFixture passengerFixture;
+
+    @Before
+    public void setUp() throws Exception {
+        passengerFixture = new PassengerFixture();
+    }
+
     public RegisterBaggageSteps() {
-        Étantdonné("^un passager Bob ayant une réservation en classe économique sur le vol AC-(\\d+)$", (Integer arg1) -> {
+        Étantdonné("^un passager Bob ayant une réservation en classe économique sur le vol AC-(\\d+)$", (Integer flightNumber) -> {
             // Write code here that turns the phrase above into concrete actions
+            String flightNumberAsString = "AC-" + flightNumber.toString();
+            passengerFixture.givenAPassengerInReservation(flightNumberAsString, Seat.SeatClass.ECONOMY);
             throw new PendingException();
         });
 
