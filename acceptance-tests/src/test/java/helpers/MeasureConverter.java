@@ -7,11 +7,14 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class MeasureConverter {
     private static final String KG_AS_STRING = "kg";
     private static final String CM_AS_STRING = "cm";
+    public static final String REGEX_TO_SPLIT_NUMBERS_AND_DIGITS = "(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)";
+    public static final int UNIT_INDEX = 1;
+    public static final int VALUE_INDEX = 0;
 
     public static Length getLengthFromString(String lengthAsString) {
-        String[] lengthValueUnitTable = lengthAsString.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-        String unit = lengthValueUnitTable[1];
-        double value = Double.valueOf(lengthValueUnitTable[0]);
+        String[] lengthValueUnitTable = lengthAsString.split(REGEX_TO_SPLIT_NUMBERS_AND_DIGITS);
+        String unit = lengthValueUnitTable[UNIT_INDEX];
+        double value = Double.valueOf(lengthValueUnitTable[VALUE_INDEX]);
         switch (unit) {
             case CM_AS_STRING:
                 return Length.fromCentimeters(value);
@@ -21,9 +24,9 @@ public class MeasureConverter {
     }
 
     public static Mass getMassFromString(String massAsString) {
-        String[] lengthValueUnitTable = massAsString.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-        String unit = lengthValueUnitTable[1];
-        double value = Double.valueOf(lengthValueUnitTable[0]);
+        String[] lengthValueUnitTable = massAsString.split(REGEX_TO_SPLIT_NUMBERS_AND_DIGITS);
+        String unit = lengthValueUnitTable[UNIT_INDEX];
+        double value = Double.valueOf(lengthValueUnitTable[VALUE_INDEX]);
         switch (unit) {
             case KG_AS_STRING:
                 return Mass.fromKilograms(value);
