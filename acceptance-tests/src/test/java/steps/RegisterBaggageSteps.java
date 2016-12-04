@@ -32,9 +32,8 @@ public class RegisterBaggageSteps implements Fr {
     }
 
     public RegisterBaggageSteps() {
-        Étantdonné("^un passager Bob ayant une réservation en classe économique sur le vol AC-(\\d+)$", (Integer flightNumber) -> {
-            String flightNumberAsString = "AC-" + flightNumber.toString();
-            passengerFixture.givenAPassenger(passengerHash, flightNumberAsString,
+        Étantdonné("^un passager Bob ayant une réservation en classe économique sur le vol (.*)$", (String flightNumber) -> {
+            passengerFixture.givenAPassenger(passengerHash, flightNumber,
                     Seat.SeatClass.ECONOMY);
         });
 
