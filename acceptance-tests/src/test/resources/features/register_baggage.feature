@@ -2,7 +2,7 @@
 Fonctionnalité: Enregistrer un bagage
 
   En tant que compagnie aérienne
-  Je veux pouvoir enregistrer les baggages des passagers.
+  Je veux pouvoir enregistrer les bagages des passagers.
   Je veux aussi pouvoir calculer les prix associés aux bagages.
 
 @niveau=medium @strategy=application
