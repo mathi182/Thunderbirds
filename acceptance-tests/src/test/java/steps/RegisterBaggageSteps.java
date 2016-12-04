@@ -1,5 +1,6 @@
 package steps;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import contexts.AcceptanceContext;
 import cucumber.api.DataTable;
@@ -11,6 +12,7 @@ import fixtures.PassengerFixture;
 public class RegisterBaggageSteps implements Fr {
 
     private PassengerFixture passengerFixture;
+    private Passenger passenger;
 
     @Before
     public void setUp() throws Exception {
@@ -21,12 +23,11 @@ public class RegisterBaggageSteps implements Fr {
     public RegisterBaggageSteps() {
         Étantdonné("^un passager Bob ayant une réservation en classe économique sur le vol AC-(\\d+)$", (Integer flightNumber) -> {
             String flightNumberAsString = "AC-" + flightNumber.toString();
-            passengerFixture.givenAPassengerInReservation(flightNumberAsString, Seat.SeatClass.ECONOMY);
+            passenger = passengerFixture.givenAPassengerInReservation(flightNumberAsString, Seat.SeatClass.ECONOMY);
         });
 
         Étantdonné("^qu'il a déjà un bagage enregistré respectant les normes$", () -> {
-            // Write code here that turns the phrase above into concrete actions
-            throw new PendingException();
+            passenger = passengerFixture.addValidBaggageToPassenger(passenger);
         });
 
         Quand("^il enregistre le bagage suivant :$", (DataTable arg1) -> {
