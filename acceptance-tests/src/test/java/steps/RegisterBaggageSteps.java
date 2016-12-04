@@ -9,6 +9,7 @@ import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
 import fixtures.PassengerFixture;
+import helpers.MeasureConverter;
 
 import java.util.List;
 import java.util.Map;
@@ -45,10 +46,10 @@ public class RegisterBaggageSteps implements Fr {
             String type = (String) baggageTable.get(BAGGAGE_TYPE);
 
             String massAsString = (String) baggageTable.get(BAGGAGE_MASS);
-            Mass mass = Mass.fromString(massAsString);
+            Mass mass = MeasureConverter.getMassFromString(massAsString);
 
             String lengthAsString = (String) baggageTable.get(BAGGAGE_LENGTH);
-            Length length = Length.fromString(lengthAsString);
+            Length length = MeasureConverter.getLengthFromString(lengthAsString);
 
             Baggage baggage = new Baggage(length, mass, type);
             passengerFixture.addBaggageToPassengerWithPassengerHash(baggage, passengerHash);
