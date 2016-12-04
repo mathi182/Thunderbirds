@@ -28,7 +28,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private static final UUID NOT_CHECKED_IN_ANYWHERE_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID NOT_CHECKED_IN_AND_NOT_SAVED_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID CHECKED_IN_PASSENGER_UUID = UUID.randomUUID();
-    private static final UUID NON_EXISTENT_PASSENGER_UUID = UUID.randomUUID();
+    private static final UUID PASSENGER_UUID_WITH_NO_BAGGAGE = UUID.randomUUID();
     private static final UUID PASSENGER_UUID_WITH_BAGGAGE = UUID.randomUUID();
     private static final Instant VALID_FLIGHT_DATE = Instant.ofEpochMilli(new Date().getTime());
     private static final String VALID_FLIGHT_NUMBER = "QK-918";
@@ -74,6 +74,21 @@ public class HibernatePassengerRepositoryIntegrationTest {
         repository.savePassenger(expectedPassenger);
 
         Passenger actualPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_BAGGAGE);
+        assertFalse(actualPassenger.getBaggages().isEmpty());
+    }
+
+    @Test
+    public void givenSavedPassengerWithNoBaggage_whenAddingBaggages_shouldSavePassengerCorrectly(){
+        Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_NO_BAGGAGE,
+                Seat.SeatClass.ECONOMY, VALID_FLIGHT_DATE, VALID_FLIGHT_NUMBER, IS_VIP, CHECKED_IN);
+        repository.savePassenger(expectedPassenger);
+
+        Passenger repoPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);
+        Baggage baggage = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+        repoPassenger.addBaggage(baggage);
+        repository.savePassenger(repoPassenger);
+        Passenger actualPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);
+
         assertFalse(actualPassenger.getBaggages().isEmpty());
     }
 
@@ -153,4 +168,5 @@ public class HibernatePassengerRepositoryIntegrationTest {
         verify(passengerService,times(1)).fetchPassenger(checkedInOnReservationPassengerHash);
         assertTrue(actualPassenger.isCheckedIn());
     }
+
 }
