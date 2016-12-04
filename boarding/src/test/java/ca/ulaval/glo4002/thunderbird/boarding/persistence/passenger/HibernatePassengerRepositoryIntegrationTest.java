@@ -82,7 +82,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
         repository.savePassenger(expectedPassenger);
 
         Passenger repoPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);
-        Baggage baggage = new Baggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
         repoPassenger.addBaggage(baggage);
         repository.savePassenger(repoPassenger);
         Passenger actualPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);

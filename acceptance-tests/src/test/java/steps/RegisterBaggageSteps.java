@@ -1,6 +1,7 @@
 package steps;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
@@ -44,7 +45,7 @@ public class RegisterBaggageSteps implements Fr {
         });
 
         Étantdonné("^qu'il a déjà un bagage enregistré respectant les normes$", () -> {
-            Baggage baggage = new Baggage(LINEAR_DIMENSION, WEIGHT, CHECKED);
+            Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED);
             passengerFixture.addBaggageToPassengerWithPassengerHash(baggage, passengerHash);
         });
 
@@ -59,7 +60,7 @@ public class RegisterBaggageSteps implements Fr {
             String lengthAsString = (String) baggageTable.get(BAGGAGE_LENGTH);
             Length length = MeasureConverter.getLengthFromString(lengthAsString);
 
-            Baggage baggage = new Baggage(length, mass, type);
+            Baggage baggage = new CheckedBaggage(length, mass, type);
             passengerFixture.addBaggageToPassengerWithPassengerHash(baggage, passengerHash);
         });
 
