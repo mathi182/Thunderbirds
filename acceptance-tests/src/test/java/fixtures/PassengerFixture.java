@@ -19,10 +19,10 @@ public class PassengerFixture extends HibernateBaseFixture {
         this.repository = repository;
     }
 
-    public void givenAPassengerInReservation(int flightNumber, String passengerName, Seat.SeatClass seatClass) {
+    public void givenAPassengerInReservation(String flightNumber, Seat.SeatClass seatClass) {
         withEntityManager((Consumer<EntityTransaction>) (tx) -> {
             tx.begin();
-            Passenger passenger = new Passenger(PASSENGER_HASH, seatClass, FLIGHT_DATE, FLIGHT_NUMBER, false, true);
+            Passenger passenger = new Passenger(PASSENGER_HASH, seatClass, FLIGHT_DATE, flightNumber, false, true);
             repository.savePassenger(passenger);
             tx.commit();
         });
