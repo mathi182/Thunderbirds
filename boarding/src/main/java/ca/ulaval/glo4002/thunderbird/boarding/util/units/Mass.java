@@ -31,18 +31,6 @@ public class Mass {
         return new Mass(kilograms * GRAMS_IN_A_KILOGRAM);
     }
 
-    public static Mass fromString(String massAsString) {
-        String[] lengthValueUnitTable = massAsString.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-        String unit = lengthValueUnitTable[1];
-        double value = Double.valueOf(lengthValueUnitTable[0]);
-        switch (unit) {
-            case "kg" :
-                return Mass.fromKilograms(value);
-            default:
-                throw new NotImplementedException();
-        }
-    }
-
     public double toPounds() {
         return grams / GRAMS_IN_A_POUND;
     }
