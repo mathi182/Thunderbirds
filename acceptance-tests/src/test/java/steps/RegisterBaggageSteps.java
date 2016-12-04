@@ -1,6 +1,5 @@
 package steps;
 
-import ca.ulaval.glo4002.thunderbird.boarding.contexts.DemoContext;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import contexts.AcceptanceContext;
 import cucumber.api.DataTable;
