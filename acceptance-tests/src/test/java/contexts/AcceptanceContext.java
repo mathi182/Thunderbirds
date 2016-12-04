@@ -10,6 +10,6 @@ public class AcceptanceContext implements context{
     @Override
     public void apply(){
         ServiceLocator.reset();
-        ServiceLocator.registerSingleton(PassengerRepository.class,new HibernatePassengerRepository(new PassengerService()));
+        ServiceLocator.registerSingleton(PassengerRepository.class, new HibernatePassengerRepository(new PassengerService()));
     }
 }

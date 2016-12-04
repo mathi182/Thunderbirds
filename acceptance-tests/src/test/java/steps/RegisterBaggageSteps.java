@@ -1,6 +1,8 @@
 package steps;
 
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.DemoContext;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import contexts.AcceptanceContext;
 import cucumber.api.DataTable;
 import cucumber.api.PendingException;
 import cucumber.api.java.Before;
@@ -13,6 +15,7 @@ public class RegisterBaggageSteps implements Fr {
 
     @Before
     public void setUp() throws Exception {
+        new AcceptanceContext().apply();
         passengerFixture = new PassengerFixture();
     }
 

@@ -1,7 +1,9 @@
 package fixtures;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
 
@@ -11,7 +13,7 @@ import java.util.UUID;
 public class PassengerFixture extends HibernateBaseFixture {
     private static final UUID PASSENGER_HASH = UUID.randomUUID();
     private static final Instant FLIGHT_DATE = Instant.now();
-    private HibernatePassengerRepository repository;
+    private PassengerRepository repository;
 
     public PassengerFixture() {
         this.repository = new HibernatePassengerRepository(new PassengerService());
