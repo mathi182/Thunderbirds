@@ -5,8 +5,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class MeasureConverter {
-    private static final String KG_AS_STRING = "kg";
-    private static final String CM_AS_STRING = "cm";
+    private static final String KG = "kg";
+    private static final String CM = "cm";
     public static final String REGEX_TO_SPLIT_NUMBERS_AND_DIGITS = "(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)";
     public static final int UNIT_INDEX = 1;
     public static final int VALUE_INDEX = 0;
@@ -16,7 +16,7 @@ public class MeasureConverter {
         String unit = lengthValueUnitTable[UNIT_INDEX];
         double value = Double.valueOf(lengthValueUnitTable[VALUE_INDEX]);
         switch (unit) {
-            case CM_AS_STRING:
+            case CM:
                 return Length.fromCentimeters(value);
             default:
                 throw new NotImplementedException();
@@ -28,7 +28,7 @@ public class MeasureConverter {
         String unit = lengthValueUnitTable[UNIT_INDEX];
         double value = Double.valueOf(lengthValueUnitTable[VALUE_INDEX]);
         switch (unit) {
-            case KG_AS_STRING:
+            case KG:
                 return Mass.fromKilograms(value);
             default:
                 throw new NotImplementedException();
