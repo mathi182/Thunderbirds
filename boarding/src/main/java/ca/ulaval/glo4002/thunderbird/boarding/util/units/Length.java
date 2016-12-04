@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -29,18 +27,6 @@ public class Length {
 
     public static Length fromInches(double inches) {
         return new Length(inches * MILLIMETERS_IN_A_INCH);
-    }
-
-    public static Length fromString(String lengthAsString) {
-        String[] lengthValueUnitTable = lengthAsString.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-        String unit = lengthValueUnitTable[1];
-        double value = Double.valueOf(lengthValueUnitTable[0]);
-        switch (unit) {
-            case "cm" :
-                return Length.fromCentimeters(value);
-            default:
-                throw new NotImplementedException();
-        }
     }
 
     public double toCentimeters() {

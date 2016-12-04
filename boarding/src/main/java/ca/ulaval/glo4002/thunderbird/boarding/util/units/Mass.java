@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import javax.persistence.Embeddable;
 
 @Embeddable
