@@ -7,10 +7,9 @@ import org.junit.Test;
 import java.time.Instant;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PassengerAssemblerTest {
-
     private static final UUID PASSENGER_HASH = UUID.randomUUID();
     private static final String ECONOMY = "economy";
     private static final String BUSINESS = "business";
@@ -23,7 +22,7 @@ public class PassengerAssemblerTest {
     public void givenPassengerDTO_whenConvertingToDomain_ShouldReturnCorrectPassenger() throws Exception {
         PassengerDTO passengerDTO = new PassengerDTO(PASSENGER_HASH,
                 ECONOMY,
-                FLIGHT_DATE.toString(),
+                FLIGHT_DATE,
                 FLIGHT_NUMBER,
                 IS_VIP,
                 IS_CHECKIN);

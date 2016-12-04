@@ -11,30 +11,30 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignat
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationDTO;
 
 public class SeatAssignationApplicationService {
-
     private final SeatAssignationAssembler seatAssignationRequestAssembler;
-    private FlightRepository repository;
+    private final FlightRepository repository;
 
     public SeatAssignationApplicationService() {
-        this.repository = ServiceLocator.resolve(FlightRepository.class);
         this.seatAssignationRequestAssembler = new SeatAssignationAssembler();
+        this.repository = ServiceLocator.resolve(FlightRepository.class);
     }
 
     public Seat assignSeat(SeatAssignationDTO request) {
-        Flight flight = getFlight(request);
-        SeatAssignationStrategy strategy = getSeatAssignationStrategy(request);
+        Passenger passenger = seatAssignationRequestAssembler.getDomainPassenger(request);
+
+        Flight flight = getFlight(passenger);
+        SeatAssignationStrategy strategy = getSeatAssignationStrategy(request, passenger);
         Seat seat = flight.findAvailableSeat(strategy);
         seat.markAsUnavailable();
         return seat;
     }
 
-    private Flight getFlight(SeatAssignationDTO request) {
-        Passenger passenger = seatAssignationRequestAssembler.getDomainPassenger(request);
+    private Flight getFlight(Passenger passenger) {
         return repository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
     }
 
-    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request) {
+    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request, Passenger passenger) {
         SeatAssignationStrategy.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
-        return new SeatAssignationStrategyFactory().getStrategy(assignMode, request.seatClass);
+        return new SeatAssignationStrategyFactory().getStrategy(assignMode, passenger.getSeatClass());
     }
 }

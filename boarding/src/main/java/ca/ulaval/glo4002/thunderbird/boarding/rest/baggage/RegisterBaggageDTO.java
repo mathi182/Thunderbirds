@@ -1,27 +1,23 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Min;
 
 public class RegisterBaggageDTO {
-    @JsonProperty("linear_dimension")
+    @Min(0)
     public int linearDimension;
-
-    @JsonProperty("linear_dimension_unit")
+    @NotBlank
     public String linearDimensionUnit;
-
-    @JsonProperty("weight")
+    @Min(0)
     public int weight;
-
-    @JsonProperty("weight_unit")
+    @NotBlank
     public String weightUnit;
-
-    @JsonProperty("type")
+    @NotBlank
     public String type;
 
-    public RegisterBaggageDTO() {
-        // Use for deserialization
-    }
-
+    @JsonCreator
     public RegisterBaggageDTO(String linearDimensionUnit, int linearDimension, String weightUnit,
                               int weight, String type) {
         this.linearDimensionUnit = linearDimensionUnit;

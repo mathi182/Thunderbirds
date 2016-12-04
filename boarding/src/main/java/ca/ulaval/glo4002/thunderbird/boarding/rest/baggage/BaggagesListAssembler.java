@@ -18,7 +18,7 @@ public class BaggagesListAssembler {
             BaggageDTO baggageDTO = baggageAssembler.toDTO(baggage);
             baggagesListDTO.baggages.add(baggageDTO);
         }
-        baggagesListDTO.total_price = totalPrice;
+        baggagesListDTO.totalPrice = totalPrice;
 
         return baggagesListDTO;
     }
