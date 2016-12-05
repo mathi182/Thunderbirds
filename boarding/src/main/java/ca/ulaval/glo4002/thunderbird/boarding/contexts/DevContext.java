@@ -28,6 +28,7 @@ import java.util.UUID;
 public class DevContext implements Context {
     public static final boolean IS_CHECKED_IN = true;
     public static final boolean IS_VIP = false;
+    public static final boolean IS_NOT_A_CHILD = false;
     public static Passenger EXISTENT_BOARDING_PASSENGER;
 
     @Override
@@ -72,7 +73,7 @@ public class DevContext implements Context {
         Instant flightDate = Instant.ofEpochMilli(new Date().getTime());
         String flightNumber = "QK-918";
 
-        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, IS_VIP, IS_CHECKED_IN, false);
+        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, IS_VIP, IS_CHECKED_IN, IS_NOT_A_CHILD);
 
         Length length1 = Length.fromMillimeters(500);
         Mass mass1 = Mass.fromGrams(1000);

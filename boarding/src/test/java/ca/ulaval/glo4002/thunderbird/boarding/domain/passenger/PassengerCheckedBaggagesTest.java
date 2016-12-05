@@ -24,10 +24,11 @@ public class PassengerCheckedBaggagesTest {
     private static final boolean NOT_VIP = false;
     private static final boolean VIP = true;
     private static final boolean IS_CHECKIN = false;
+    private static final boolean IS_A_CHILD = false;
 
     private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, NOT_VIP, IS_CHECKIN, false, checkedBaggages);
-    private Passenger vipPassenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKIN, false, checkedBaggages);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, NOT_VIP, IS_CHECKIN, IS_A_CHILD, checkedBaggages);
+    private Passenger vipPassenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKIN, IS_A_CHILD, checkedBaggages);
 
     @Test
     public void whenAddingCheckedBaggage_shouldAddInCheckedBaggages() {

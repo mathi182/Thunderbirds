@@ -19,9 +19,10 @@ public class PassengerTest {
     private static final String FLIGHT_NUMBER = "QK-918";
     private static final boolean VIP = true;
     private static final boolean IS_CHECKED_IN = true;
+    private static final boolean IS_A_CHILD =false;
 
     private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKED_IN, false, checkedBaggages);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKED_IN, IS_A_CHILD, checkedBaggages);
 
     @Test
     public void shouldReturnRightValues() {

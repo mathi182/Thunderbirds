@@ -16,7 +16,7 @@ public class SeatAssignmentSteps implements Fr {
             throw new PendingException();
         });
 
-        Étantdonné("^qu'elle a fait son checkedIn$", () -> {
+        Étantdonné("^qu'elle a fait son checkin$", () -> {
             // Write code here that turns the phrase above into concrete actions
             throw new PendingException();
         });
