@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
@@ -24,6 +25,7 @@ public class FlightTest {
     private Flight flight;
     private Plane plane;
     private SeatAssignationStrategy strategy;
+    private Passenger passenger;
 
     @Before
     public void before() {
@@ -33,20 +35,23 @@ public class FlightTest {
         seats.add(seat);
         flight = new Flight(A_FLIGHT_NUMBER, A_FLIGHT_DATE, plane, seats);
         strategy = mock(SeatAssignationStrategy.class);
+        passenger = mock(Passenger.class);
     }
 
     @Test(expected = SeatNotAvailableException.class)
     public void givenAllSeatsTaken_shouldThrowSeatNotAvailable() {
         willReturn(false).given(seat).isAvailable();
+        willReturn(false).given(passenger).isAChild();
 
-        flight.findAvailableSeat(strategy);
+        flight.findAvailableSeat(strategy, passenger);
     }
 
     @Test
     public void givenASeatsAvailable_shouldUseStrategy() {
         willReturn(true).given(seat).isAvailable();
+        willReturn(false).given(passenger).isAChild();
 
-        flight.findAvailableSeat(strategy);
+        flight.findAvailableSeat(strategy, passenger);
 
         verify(strategy).findAvailableSeat(anyListOf(Seat.class));
     }
