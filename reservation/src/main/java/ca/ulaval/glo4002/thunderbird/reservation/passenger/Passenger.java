@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Entity
 public class Passenger {
-    private static final int AGE_MAJORITY = 18;
+    private static final int AGE_MAJORITY = 21;
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
