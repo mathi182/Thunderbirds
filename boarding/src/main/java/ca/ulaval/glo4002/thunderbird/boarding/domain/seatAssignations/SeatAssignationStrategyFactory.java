@@ -10,7 +10,7 @@ public class SeatAssignationStrategyFactory {
     public SeatAssignationStrategy getStrategy(SeatAssignationStrategy.AssignMode mode, Seat.SeatClass seatClass, boolean isAChild) {
         switch (mode) {
             case RANDOM:
-                return new RandomSeatAssignationStrategy(new Random());
+                return new RandomSeatAssignationStrategy(new Random(), isAChild);
             case CHEAPEST:
                 return new CheapestSeatAssignationStrategy(seatClass);
             case LANDSCAPE:
