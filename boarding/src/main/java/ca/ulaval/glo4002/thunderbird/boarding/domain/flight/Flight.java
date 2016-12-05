@@ -49,18 +49,23 @@ public class Flight {
     }
 
     public Seat findAvailableSeat(SeatAssignationStrategy strategy, Passenger passenger) {
-        List<Seat> availableSeats = seats.stream().filter(Seat::isAvailable).collect(Collectors.toList());
-
-        if(passenger.isAChild()){
-            availableSeats = availableSeats.stream().filter(seat -> !seat.isExitRow()).collect(Collectors.toList());
-        }
-
+        List<Seat> availableSeats = filterSeats(passenger);
         if (availableSeats.isEmpty()) {
             throw new SeatNotAvailableException(flightNumber);
         }
 
         return strategy.findAvailableSeat(availableSeats);
     }
+
+    private List<Seat> filterSeats(Passenger passenger){
+        List<Seat> availableSeats = seats.stream().filter(Seat::isAvailable).collect(Collectors.toList());
+        if(passenger.isAChild()){
+            availableSeats = availableSeats.stream().filter(seat -> !seat.isExitRow()).collect(Collectors.toList());
+        }
+
+        return availableSeats;
+    }
+
 
     public int getId() {
         return id;
