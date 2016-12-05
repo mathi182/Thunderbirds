@@ -77,7 +77,9 @@ public class Passenger {
         return isVip;
     }
 
-    public boolean isAChild(){return  isAChild;}
+    public boolean isAChild() {
+        return isAChild;
+    }
 
     public float calculateBaggagesPrice() {
         float price = checkedBaggages.calculatePrice();
