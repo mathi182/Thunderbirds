@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class SeatAssignationStrategyFactory {
 
-    public SeatAssignationStrategy getStrategy(SeatAssignationStrategy.AssignMode mode, Seat.SeatClass seatClass) {
+    public SeatAssignationStrategy getStrategy(SeatAssignationStrategy.AssignMode mode, Seat.SeatClass seatClass, boolean isAChild) {
         switch (mode) {
             case RANDOM:
                 return new RandomSeatAssignationStrategy(new Random());
