@@ -58,14 +58,21 @@ public class Flight {
     }
 
     private List<Seat> filterSeats(Passenger passenger){
-        List<Seat> availableSeats = seats.stream().filter(Seat::isAvailable).collect(Collectors.toList());
+        List<Seat> availableSeats = getAvailableSeats(seats);
         if(passenger.isAChild()){
-            availableSeats = availableSeats.stream().filter(seat -> !seat.isExitRow()).collect(Collectors.toList());
+            availableSeats = getNonExitRowSeats(availableSeats);
         }
 
         return availableSeats;
     }
 
+    private List<Seat> getAvailableSeats(List<Seat> seatsToFilter){
+        return seatsToFilter.stream().filter(Seat::isAvailable).collect(Collectors.toList());
+    }
+
+    private List<Seat> getNonExitRowSeats(List<Seat> seatsToFilter){
+        return seatsToFilter.stream().filter(seat -> !seat.isExitRow()).collect(Collectors.toList());
+    }
 
     public int getId() {
         return id;
