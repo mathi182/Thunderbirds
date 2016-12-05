@@ -16,7 +16,7 @@ public class SeatAssignationStrategyFactory {
             case LANDSCAPE:
                 return new LandscapeSeatAssignationStrategy(seatClass);
             case LEGS:
-                return new MostLegRoomSeatAssignationStrategy(seatClass);
+                return new MostLegRoomSeatAssignationStrategy(seatClass, isAChild);
             default:
                 throw new NoSuchStrategyException("unknown");
         }

@@ -11,9 +11,11 @@ import java.util.stream.Collectors;
 public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrategy {
 
     private Seat.SeatClass classType;
+    private boolean childSeat;
 
-    public MostLegRoomSeatAssignationStrategy(Seat.SeatClass classType) {
+    public MostLegRoomSeatAssignationStrategy(Seat.SeatClass classType, boolean childSeat) {
         this.classType = classType;
+        this.childSeat = childSeat;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrate
 
     private Seat getBestSeat(List<Seat> seats) {
         if (seats.size() > 1) {
-            CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(classType, false);
+            CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(classType, childSeat);
             return strategy.findAvailableSeat(seats);
         }
         return seats.get(0);
