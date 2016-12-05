@@ -1,8 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,7 +37,7 @@ public class RandomSeatAssignationStrategyTest {
     public void givenAListOfAvailableSeats_shouldChooseAccordingToRandom() {
         willReturn(A_RANDOM_NUMBER).given(random).nextInt(anyInt());
 
-        strategy = new RandomSeatAssignationStrategy(random, false);
+        strategy = new RandomSeatAssignationStrategy(random);
         Seat takenSeat = strategy.findAvailableSeat(seats);
 
         assertSame(seats.get(A_RANDOM_NUMBER), takenSeat);
@@ -49,31 +47,10 @@ public class RandomSeatAssignationStrategyTest {
     public void givenAListOfAvailableSeats_whenChoosing_shouldNotRandomiseHigherThanTheNumberOfSeats() {
         willReturn(A_RANDOM_NUMBER).given(random).nextInt(anyInt());
 
-        strategy = new RandomSeatAssignationStrategy(random, false);
+        strategy = new RandomSeatAssignationStrategy(random);
         strategy.findAvailableSeat(seats);
 
         verify(random).nextInt(seats.size());
     }
 
-    @Test(expected = NoMoreSeatAvailableException.class)
-    public void givenAListOfExitRowSeatsAndChildSeat_whenChoosing_shouldThrowNoMoreSeatsAvailable(){
-        willReturn(A_RANDOM_NUMBER).given(random).nextInt(anyInt());
-        willReturn(true).given(seatA).isExitRow();
-        willReturn(true).given(seatB).isExitRow();
-
-        strategy = new RandomSeatAssignationStrategy(random, true);
-        strategy.findAvailableSeat(seats);
-    }
-
-    @Test
-    public void givenAListWithOneGoodSeatAndChildSeat_whenChoosing_shouldReturnCorrectSeat(){
-        willReturn(false).given(seatA).isExitRow();
-        willReturn(true).given(seatB).isExitRow();
-
-        strategy = new RandomSeatAssignationStrategy(new Random(), true);
-        Seat actualSeat = strategy.findAvailableSeat(seats);
-
-        Seat expectedSeat = seatA;
-        assertEquals(expectedSeat,actualSeat);
-    }
 }
