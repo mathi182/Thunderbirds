@@ -51,6 +51,10 @@ public class Flight {
     public Seat findAvailableSeat(SeatAssignationStrategy strategy, Passenger passenger) {
         List<Seat> availableSeats = seats.stream().filter(Seat::isAvailable).collect(Collectors.toList());
 
+        if(passenger.isAChild()){
+            availableSeats = availableSeats.stream().filter(seat -> !seat.isExitRow()).collect(Collectors.toList());
+        }
+
         if (availableSeats.isEmpty()) {
             throw new SeatNotAvailableException(flightNumber);
         }

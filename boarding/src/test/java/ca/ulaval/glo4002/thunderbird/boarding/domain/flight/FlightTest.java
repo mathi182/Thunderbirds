@@ -7,11 +7,13 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssign
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.SeatNotAvailableException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
@@ -54,5 +56,28 @@ public class FlightTest {
         flight.findAvailableSeat(strategy, passenger);
 
         verify(strategy).findAvailableSeat(anyListOf(Seat.class));
+    }
+
+    @Test(expected = SeatNotAvailableException.class)
+    public void givenASeatListWithOnlyExitRowSeats_whenFindingAvailableSeat_ShouldThrowSeatsNotAvailable(){
+        willReturn(true).given(seat).isExitRow();
+        willReturn(true).given(seat).isAvailable();
+        willReturn(true).given(passenger).isAChild();
+
+        flight.findAvailableSeat(strategy, passenger);
+    }
+
+    @Test
+    public void givenASeatListWithNoExitRowSeats_whenFindingAvailableSeat_shouldCallStrategyWithOneSeat(){
+        willReturn(false).given(seat).isExitRow();
+        willReturn(true).given(seat).isAvailable();
+        willReturn(true).given(passenger).isAChild();
+        ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
+
+        flight.findAvailableSeat(strategy,passenger);
+
+        verify(strategy).findAvailableSeat(captor.capture());
+        int expectedSize = 1;
+        assertEquals(expectedSize,captor.getValue().size());
     }
 }
