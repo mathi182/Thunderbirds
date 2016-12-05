@@ -20,7 +20,7 @@ public class SeatAssignationStrategyFactoryTest {
     @Test
     public void givenModeRandom_whenGettingStrategy_shouldReturnRandomSeatStrategy() {
         SeatAssignationStrategy strategy = factory.getStrategy(SeatAssignationStrategy.AssignMode.RANDOM, Seat
-                .SeatClass.ANY, IS_NOT_A_CHILD);
+                .SeatClass.ANY);
 
         assertThat(strategy, instanceOf(RandomSeatAssignationStrategy.class));
     }
@@ -28,7 +28,7 @@ public class SeatAssignationStrategyFactoryTest {
     @Test
     public void givenModeCheapest_whenGettingStrategy_shouldReturnCheapestSeatStrategy() {
         SeatAssignationStrategy strategy = factory.getStrategy(SeatAssignationStrategy.AssignMode.CHEAPEST, Seat
-                .SeatClass.ANY, IS_NOT_A_CHILD);
+                .SeatClass.ANY);
 
         assertThat(strategy, instanceOf(CheapestSeatAssignationStrategy.class));
     }
@@ -36,7 +36,7 @@ public class SeatAssignationStrategyFactoryTest {
     @Test
     public void givenModeMostLegRoom_whenGettingStrategy_shouldReturnMostLegRoomSeatStrategy() {
         SeatAssignationStrategy strategy = factory.getStrategy(SeatAssignationStrategy.AssignMode.LEGS, Seat
-                .SeatClass.ANY, IS_NOT_A_CHILD);
+                .SeatClass.ANY);
 
         assertThat(strategy, instanceOf(MostLegRoomSeatAssignationStrategy.class));
     }
@@ -44,7 +44,7 @@ public class SeatAssignationStrategyFactoryTest {
     @Test
     public void givenModeBestView_whenGettingStrategy_shouldReturnMostLegRoomSeatStrategy(){
         SeatAssignationStrategy strategy = factory.getStrategy(SeatAssignationStrategy.AssignMode.LANDSCAPE, Seat
-                .SeatClass.ANY, IS_NOT_A_CHILD);
+                .SeatClass.ANY);
 
         assertThat(strategy, instanceOf(LandscapeSeatAssignationStrategy.class));
     }

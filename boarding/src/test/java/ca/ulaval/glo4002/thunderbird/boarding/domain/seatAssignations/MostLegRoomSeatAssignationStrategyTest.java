@@ -40,7 +40,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
     public void givenAValidSeatsList_whenSelectingMostLegRoom_shouldReturnMostLegRoomFromAnyCLass() {
         willReturn(SECOND_MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
         willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
-        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY, false);
+        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
 
         Seat takenSeat = strategy.findAvailableSeat(seats);
 
@@ -51,7 +51,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
     public void givenAValidSeatsList_whenSelectingMostLegRoomFromEconomic_shouldReturnMostLegRoomFromEconomicClass() {
         willReturn(SECOND_MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
         willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
-        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ECONOMY, false);
+        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
 
         Seat takenSeat = strategy.findAvailableSeat(seats);
 
@@ -62,7 +62,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
     public void
     givenAValidSeatsListWithoutBusiness_whenSelectingMostLegRoomFromBusiness_shouldThrowNoMoreSeatAvailable() {
         List<Seat> seatsWithoutBusiness = new ArrayList<>(Arrays.asList(economicCheapestSeat, economicMostLegRoomSeat));
-        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.BUSINESS, false);
+        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
 
         strategy.findAvailableSeat(seatsWithoutBusiness);
     }
@@ -74,7 +74,7 @@ public class MostLegRoomSeatAssignationStrategyTest {
         willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
         willReturn(false).given(economicCheapestSeat).hasMoreLegRoomThan(any(Seat.class));
         willReturn(true).given(economicCheapestSeat).hasSameAmountOfLegRoomAs(any(Seat.class));
-        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY, false);
+        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
 
         Seat takenSeat = strategy.findAvailableSeat(seats);
 

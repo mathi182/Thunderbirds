@@ -11,11 +11,9 @@ import java.util.stream.Collectors;
 public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrategy {
 
     private Seat.SeatClass classType;
-    private boolean childSeat;
 
-    public MostLegRoomSeatAssignationStrategy(Seat.SeatClass classType, boolean childSeat) {
+    public MostLegRoomSeatAssignationStrategy(Seat.SeatClass classType) {
         this.classType = classType;
-        this.childSeat = childSeat;
     }
 
     @Override

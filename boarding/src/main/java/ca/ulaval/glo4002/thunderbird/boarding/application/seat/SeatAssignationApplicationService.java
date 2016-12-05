@@ -35,6 +35,6 @@ public class SeatAssignationApplicationService {
 
     private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request, Passenger passenger) {
         SeatAssignationStrategy.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
-        return new SeatAssignationStrategyFactory().getStrategy(assignMode, passenger.getSeatClass(), passenger.isAChild());
+        return new SeatAssignationStrategyFactory().getStrategy(assignMode, passenger.getSeatClass());
     }
 }
