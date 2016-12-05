@@ -24,7 +24,7 @@ public class PassengersResourceRestTest {
 
     @Test
     public void givenExistingPassengerHash_whenAskingForPassenger_shouldReturnExistentPassenger() {
-        givenBaseRequest()
+         givenBaseRequest()
                 .when().get(PASSENGER_REST_FORMAT, DevContext.NON_CHECKIN_PASSENGER_HASH)
                 .then().statusCode(OK.getStatusCode())
                 .and().body("passenger_hash", equalTo(DevContext.NON_CHECKIN_PASSENGER_HASH.toString()))
@@ -32,7 +32,7 @@ public class PassengersResourceRestTest {
                 .and().body("flight_number", equalTo(DevContext.FLIGHT_NUMBER))
                 .and().body("flight_date", equalTo(DevContext.FLIGHT_DATE_STRING))
                 .and().body("vip", equalTo(false))
-                .and().body("checkedIn", equalTo(false))
+                .and().body("checked_in", equalTo(false))
                 .and().body("child",equalTo(false));
     }
 }
