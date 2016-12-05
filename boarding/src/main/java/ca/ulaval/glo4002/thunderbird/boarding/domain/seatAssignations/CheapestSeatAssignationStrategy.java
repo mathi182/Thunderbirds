@@ -9,19 +9,14 @@ import java.util.stream.Collectors;
 public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy {
 
     private Seat.SeatClass classType;
-    private boolean childSeat;
 
-    public CheapestSeatAssignationStrategy(Seat.SeatClass classType, boolean childSeat) {
+    public CheapestSeatAssignationStrategy(Seat.SeatClass classType) {
         this.classType = classType;
-        this.childSeat = childSeat;
     }
 
     @Override
     public Seat findAvailableSeat(List<Seat> availableSeats) {
         List<Seat> filteredSeats = filterBySeatClass(availableSeats);
-        if(childSeat){
-            filteredSeats = filterByExitRow(filteredSeats);
-        }
         if (filteredSeats.size() == 0) {
             throw new NoMoreSeatAvailableException();
         }
@@ -39,15 +34,6 @@ public class CheapestSeatAssignationStrategy implements SeatAssignationStrategy 
         } else {
             seats = availableSeats;
         }
-        return seats;
-    }
-
-    private List<Seat> filterByExitRow(List<Seat> availableSeats){
-        List<Seat> seats;
-        seats = availableSeats
-                .stream()
-                .filter(seat -> !seat.isExitRow())
-                .collect(Collectors.toList());
         return seats;
     }
 
