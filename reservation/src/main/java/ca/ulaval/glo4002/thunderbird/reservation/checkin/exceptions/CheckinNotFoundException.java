@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public class CheckinNotFoundException extends ElementNotFoundException implements Serializable {
     public CheckinNotFoundException(UUID id) {
-        super("checkedIn with id " + id);
+        super("checkin with id " + id);
     }
 }
