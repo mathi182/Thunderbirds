@@ -12,7 +12,7 @@ public class SeatAssignationStrategyFactory {
             case RANDOM:
                 return new RandomSeatAssignationStrategy(new Random(), isAChild);
             case CHEAPEST:
-                return new CheapestSeatAssignationStrategy(seatClass);
+                return new CheapestSeatAssignationStrategy(seatClass, isAChild);
             case LANDSCAPE:
                 return new LandscapeSeatAssignationStrategy(seatClass);
             case LEGS:

@@ -60,7 +60,7 @@ public class MostLegRoomSeatAssignationStrategy implements SeatAssignationStrate
 
     private Seat getBestSeat(List<Seat> seats) {
         if (seats.size() > 1) {
-            CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(classType);
+            CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(classType, false);
             return strategy.findAvailableSeat(seats);
         }
         return seats.get(0);

@@ -63,7 +63,7 @@ public class LandscapeSeatAssignationStrategy implements SeatAssignationStrategy
 
     private Seat chooseSeat(List<Seat> seats) {
         if (seats.size() > 1) {
-            CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(chosenSeatClass);
+            CheapestSeatAssignationStrategy strategy = new CheapestSeatAssignationStrategy(chosenSeatClass, false);
             return strategy.findAvailableSeat(seats);
         }
         return seats.get(0);

@@ -46,7 +46,7 @@ public class CheapestSeatAssignationStrategyTest {
     public void givenAValidSeatsList_whenSelectingCheapest_shouldReturnCheapestFromAnyClass() {
         willReturn(true).given(cheapestEconomicSeat).hasLowerPriceThan(any(Seat.class));
         willReturn(CHEAPEST_ECONOMIC_PRICE).given(cheapestEconomicSeat).getPrice();
-        strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.ANY);
+        strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.ANY, false);
 
         Seat takenSeat = strategy.findAvailableSeat(seats);
         double takenSeatPrice = takenSeat.getPrice();
@@ -58,7 +58,7 @@ public class CheapestSeatAssignationStrategyTest {
     public void givenAValidSeatsList_whenSelectingCheapestFromBusiness_shouldFindCorrespondingToSeatClass() {
         willReturn(true).given(cheapestBusinessSeat).hasLowerPriceThan(any(Seat.class));
         willReturn(CHEAPEST_BUSINESS_PRICE).given(cheapestBusinessSeat).getPrice();
-        strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
+        strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS, false);
 
         Seat takenSeat = strategy.findAvailableSeat(seats);
         double takenSeatPrice = takenSeat.getPrice();
@@ -69,8 +69,32 @@ public class CheapestSeatAssignationStrategyTest {
     @Test (expected = NoMoreSeatAvailableException.class)
     public void givenAValidSeatsListWithoutBusiness_whenSelectingCheapestSeatFromBusiness_shouldThrowNoMoreSeatAvailable() {
         List<Seat> seatsWithoutBusiness = new ArrayList<>(Arrays.asList(cheapestEconomicSeat, normalEconomicSeat));
-        strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
+        strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.BUSINESS, false);
 
         strategy.findAvailableSeat(seatsWithoutBusiness);
+    }
+
+    @Test(expected = NoMoreSeatAvailableException.class)
+    public void givenAnExitRowSeatsListAndChildSeat_whenSelectingCheapestSeat_shouldThrowNoMoreSeatsAvailable(){
+        willReturn(true).given(cheapestBusinessSeat).isExitRow();
+        willReturn(true).given(cheapestEconomicSeat).isExitRow();
+        willReturn(true).given(normalBusinessSeat).isExitRow();
+        willReturn(true).given(normalEconomicSeat).isExitRow();
+        strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.ANY, true);
+
+        strategy.findAvailableSeat(seats);
+    }
+    @Test
+    public void givenOneValidSeatLisAndChildSeat_whenSelectinCheapestSeat_shouldReturnCorrectSeat(){
+        willReturn(true).given(cheapestBusinessSeat).isExitRow();
+        willReturn(true).given(cheapestEconomicSeat).isExitRow();
+        willReturn(true).given(normalBusinessSeat).isExitRow();
+        willReturn(false).given(normalEconomicSeat).isExitRow();
+        strategy = new CheapestSeatAssignationStrategy(Seat.SeatClass.ANY, true);
+
+        Seat actualSeat = strategy.findAvailableSeat(seats);
+
+        Seat expectedSeat = normalEconomicSeat;
+        assertEquals(expectedSeat,actualSeat);
     }
 }
