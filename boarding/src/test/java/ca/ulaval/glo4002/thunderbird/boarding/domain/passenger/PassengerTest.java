@@ -21,7 +21,7 @@ public class PassengerTest {
     private static final boolean IS_CHECKED_IN = true;
 
     private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKED_IN, checkedBaggages);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKED_IN, false, checkedBaggages);
 
     @Test
     public void shouldReturnRightValues() {

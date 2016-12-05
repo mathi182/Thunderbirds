@@ -18,7 +18,7 @@ public class PassengerAssembler {
         Boolean isVip = passengerDTO.vip;
         Boolean isCheckedIn = passengerDTO.checkedIn;
 
-        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, isVip, isCheckedIn);
+        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, isVip, isCheckedIn, false);
     }
 
     private Seat.SeatClass getSeatClassFromString(String source) {

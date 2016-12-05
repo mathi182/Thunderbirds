@@ -72,7 +72,7 @@ public class DevContext implements Context {
         Instant flightDate = Instant.ofEpochMilli(new Date().getTime());
         String flightNumber = "QK-918";
 
-        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, IS_VIP, IS_CHECKED_IN);
+        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, IS_VIP, IS_CHECKED_IN, false);
 
         Length length1 = Length.fromMillimeters(500);
         Mass mass1 = Mass.fromGrams(1000);
