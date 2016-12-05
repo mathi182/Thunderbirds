@@ -8,8 +8,6 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
 
 public class PassengerTest {
@@ -32,5 +30,6 @@ public class PassengerTest {
         assertEquals(FLIGHT_NUMBER, passenger.getFlightNumber());
         assertEquals(VIP, passenger.isVip());
         assertEquals(IS_CHECKED_IN, passenger.isCheckedIn());
+        assertEquals(IS_A_CHILD,passenger.isAChild());
     }
 }
