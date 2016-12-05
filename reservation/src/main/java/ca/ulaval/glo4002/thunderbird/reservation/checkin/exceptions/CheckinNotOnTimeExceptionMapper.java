@@ -9,6 +9,6 @@ import javax.ws.rs.ext.Provider;
 public class CheckinNotOnTimeExceptionMapper implements ExceptionMapper<CheckinNotOnTimeException> {
     @Override
     public Response toResponse(CheckinNotOnTimeException exception) {
-        return Response.status(Status.BAD_REQUEST).entity("checkin not on time").build();
+        return Response.status(Status.BAD_REQUEST).entity("checkedIn not on time").build();
     }
 }

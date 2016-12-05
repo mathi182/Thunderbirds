@@ -32,7 +32,7 @@ public class PassengersResourceRestTest {
                 .and().body("flight_number", equalTo(DevContext.FLIGHT_NUMBER))
                 .and().body("flight_date", equalTo(DevContext.FLIGHT_DATE_STRING))
                 .and().body("vip", equalTo(false))
-                .and().body("checkin", equalTo(false))
+                .and().body("checkedIn", equalTo(false))
                 .and().body("child",equalTo(false));
     }
 }
