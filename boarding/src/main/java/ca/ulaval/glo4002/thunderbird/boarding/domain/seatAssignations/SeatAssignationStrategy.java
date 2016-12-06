@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface SeatAssignationStrategy {
     Seat findAvailableSeat(List<Seat> availableSeats);
-
-    enum AssignMode {RANDOM, CHEAPEST, LEGS, LANDSCAPE}
 }
