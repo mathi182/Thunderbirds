@@ -52,5 +52,4 @@ public class RandomSeatAssignationStrategyTest {
 
         verify(random).nextInt(seats.size());
     }
-
 }
