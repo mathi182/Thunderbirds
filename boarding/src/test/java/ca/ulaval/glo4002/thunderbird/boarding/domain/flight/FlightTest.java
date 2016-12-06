@@ -45,7 +45,7 @@ public class FlightTest {
         willReturn(false).given(seat).isAvailable();
         willReturn(false).given(passenger).isAChild();
 
-        flight.findAvailableSeat(strategy, passenger);
+        flight.findAvailableSeat(strategy, passenger.isAChild());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class FlightTest {
         willReturn(true).given(seat).isAvailable();
         willReturn(false).given(passenger).isAChild();
 
-        flight.findAvailableSeat(strategy, passenger);
+        flight.findAvailableSeat(strategy, passenger.isAChild());
 
         verify(strategy).findAvailableSeat(anyListOf(Seat.class));
     }
@@ -64,7 +64,7 @@ public class FlightTest {
         willReturn(true).given(seat).isAvailable();
         willReturn(true).given(passenger).isAChild();
 
-        flight.findAvailableSeat(strategy, passenger);
+        flight.findAvailableSeat(strategy, passenger.isAChild());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class FlightTest {
         willReturn(true).given(passenger).isAChild();
         ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
 
-        flight.findAvailableSeat(strategy,passenger);
+        flight.findAvailableSeat(strategy,passenger.isAChild());
 
         verify(strategy).findAvailableSeat(captor.capture());
         int expectedSize = 1;

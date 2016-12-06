@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
@@ -48,8 +47,8 @@ public class Flight {
         return flightDate;
     }
 
-    public Seat findAvailableSeat(SeatAssignationStrategy strategy, Passenger passenger) {
-        List<Seat> availableSeats = filterSeats(passenger);
+    public Seat findAvailableSeat(SeatAssignationStrategy strategy, boolean childSeat) {
+        List<Seat> availableSeats = filterSeats(childSeat);
         if (availableSeats.isEmpty()) {
             throw new SeatNotAvailableException(flightNumber);
         }
@@ -57,9 +56,9 @@ public class Flight {
         return strategy.findAvailableSeat(availableSeats);
     }
 
-    private List<Seat> filterSeats(Passenger passenger){
+    private List<Seat> filterSeats(boolean forChildSeat){
         List<Seat> availableSeats = getAvailableSeats(seats);
-        if(passenger.isAChild()){
+        if(forChildSeat){
             availableSeats = getNonExitRowSeats(availableSeats);
         }
 
