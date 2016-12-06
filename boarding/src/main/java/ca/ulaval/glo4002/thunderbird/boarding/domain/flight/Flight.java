@@ -66,11 +66,17 @@ public class Flight {
     }
 
     private List<Seat> getAvailableSeats(List<Seat> seatsToFilter){
-        return seatsToFilter.stream().filter(Seat::isAvailable).collect(Collectors.toList());
+        return seatsToFilter
+                .stream()
+                .filter(Seat::isAvailable)
+                .collect(Collectors.toList());
     }
 
     private List<Seat> getNonExitRowSeats(List<Seat> seatsToFilter){
-        return seatsToFilter.stream().filter(seat -> !seat.isExitRow()).collect(Collectors.toList());
+        return seatsToFilter
+                .stream()
+                .filter(seat -> !seat.isExitRow())
+                .collect(Collectors.toList());
     }
 
     public int getId() {
