@@ -27,7 +27,7 @@ public class SeatAssignationApplicationService {
 
         Flight flight = getFlight(passenger);
         SeatAssignationStrategy strategy = getSeatAssignationStrategy(request, passenger);
-        Seat seat = flight.findAvailableSeat(strategy);
+        Seat seat = flight.findAvailableSeat(strategy, passenger.isAChild());
         seat.markAsUnavailable();
         return seat;
     }

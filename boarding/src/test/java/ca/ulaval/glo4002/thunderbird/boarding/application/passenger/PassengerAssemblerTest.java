@@ -17,6 +17,7 @@ public class PassengerAssemblerTest {
     private static final Instant FLIGHT_DATE = Instant.now();
     private static final boolean IS_VIP = true;
     private static final boolean IS_CHECKIN = true;
+    private static final boolean IS_A_CHILD = false;
 
     @Test
     public void givenPassengerDTO_whenConvertingToDomain_ShouldReturnCorrectPassenger() throws Exception {
@@ -25,7 +26,8 @@ public class PassengerAssemblerTest {
                 FLIGHT_DATE,
                 FLIGHT_NUMBER,
                 IS_VIP,
-                IS_CHECKIN);
+                IS_CHECKIN,
+                IS_A_CHILD);
 
         PassengerAssembler passengerAssembler = new PassengerAssembler();
         Passenger actualPassenger = passengerAssembler.toDomain(passengerDTO);
@@ -35,5 +37,6 @@ public class PassengerAssemblerTest {
         assertEquals(FLIGHT_DATE, actualPassenger.getFlightDate());
         assertEquals(IS_VIP, actualPassenger.isVip());
         assertEquals(IS_CHECKIN, actualPassenger.isCheckedIn());
+        assertEquals(IS_A_CHILD,actualPassenger.isAChild());
     }
 }

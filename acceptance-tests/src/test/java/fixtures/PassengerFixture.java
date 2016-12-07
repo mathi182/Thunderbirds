@@ -32,7 +32,7 @@ public class PassengerFixture extends HibernateBaseFixture {
 
     public void givenAPassenger(UUID passengerHash, String flightNumber, Seat.SeatClass seatClass) {
         withEntityManager((tx) -> {
-            Passenger passenger = new Passenger(passengerHash, seatClass, FLIGHT_DATE, flightNumber, false, true);
+            Passenger passenger = new Passenger(passengerHash, seatClass, FLIGHT_DATE, flightNumber, false, true, false);
             repository.savePassenger(passenger);
         });
     }

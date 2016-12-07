@@ -8,8 +8,6 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
 
 public class PassengerTest {
@@ -19,9 +17,10 @@ public class PassengerTest {
     private static final String FLIGHT_NUMBER = "QK-918";
     private static final boolean VIP = true;
     private static final boolean IS_CHECKED_IN = true;
+    private static final boolean IS_A_CHILD =false;
 
     private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKED_IN, checkedBaggages);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKED_IN, IS_A_CHILD, checkedBaggages);
 
     @Test
     public void shouldReturnRightValues() {
@@ -31,5 +30,6 @@ public class PassengerTest {
         assertEquals(FLIGHT_NUMBER, passenger.getFlightNumber());
         assertEquals(VIP, passenger.isVip());
         assertEquals(IS_CHECKED_IN, passenger.isCheckedIn());
+        assertEquals(IS_A_CHILD,passenger.isAChild());
     }
 }

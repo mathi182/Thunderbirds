@@ -9,6 +9,8 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
 public class SeatAssignationStrategyFactoryTest {
+    private static final boolean IS_NOT_A_CHILD = false;
+
     private SeatAssignationStrategyFactory factory;
 
     @Before

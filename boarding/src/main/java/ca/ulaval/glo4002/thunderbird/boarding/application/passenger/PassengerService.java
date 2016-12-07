@@ -8,6 +8,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 
+import static com.sun.jersey.api.client.ClientResponse.Status.NOT_FOUND;
 import static com.sun.jersey.api.client.ClientResponse.Status.OK;
 import static java.util.Optional.ofNullable;
 
@@ -38,7 +39,7 @@ public class PassengerService {
     }
 
     private void validateResponse(ClientResponse response) {
-        if (response.getStatus() != OK.getStatusCode()) {
+        if (response.getStatus() == NOT_FOUND.getStatusCode()) {
             throw new PassengerNotFoundException();
         }
     }

@@ -12,6 +12,7 @@ import java.util.UUID;
 public class PassengersResource {
     public static final String PATH = "/passengers/";
 
+    //TODO create an integration test between reservaton and boarding
     @GET
     @Path("{passenger_hash}")
     public PassengerDTO fetchPassenger(@PathParam("passenger_hash") UUID passenger_hash) {

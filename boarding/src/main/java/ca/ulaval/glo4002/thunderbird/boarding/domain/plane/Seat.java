@@ -98,6 +98,10 @@ public class Seat {
         return seatClass;
     }
 
+    public boolean isExitRow() {
+        return isExitRow;
+    }
+
     public enum SeatClass {
         ANY,
         ECONOMY,
