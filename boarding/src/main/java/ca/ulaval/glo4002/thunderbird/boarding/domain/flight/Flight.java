@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.SeatNotAvailableException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -12,7 +12,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 public class Flight {
@@ -47,36 +46,10 @@ public class Flight {
         return flightDate;
     }
 
-    public Seat findAvailableSeat(SeatAssignationStrategy strategy, boolean childSeat) {
-        List<Seat> availableSeats = filterSeats(childSeat);
-        if (availableSeats.isEmpty()) {
-            throw new SeatNotAvailableException(flightNumber);
-        }
-
-        return strategy.findAvailableSeat(availableSeats);
-    }
-
-    private List<Seat> filterSeats(boolean forChildSeat){
-        List<Seat> availableSeats = getAvailableSeats(seats);
-        if(forChildSeat){
-            availableSeats = getNonExitRowSeats(availableSeats);
-        }
-
-        return availableSeats;
-    }
-
-    private List<Seat> getAvailableSeats(List<Seat> seatsToFilter){
-        return seatsToFilter
-                .stream()
-                .filter(Seat::isAvailable)
-                .collect(Collectors.toList());
-    }
-
-    private List<Seat> getNonExitRowSeats(List<Seat> seatsToFilter){
-        return seatsToFilter
-                .stream()
-                .filter(seat -> !seat.isExitRow())
-                .collect(Collectors.toList());
+    public Seat assignBestSeat(SeatAssignationStrategy strategy, Passenger passenger) {
+        Seat bestSeat = strategy.findBestSeat(seats, passenger);
+        bestSeat.markAsUnavailable();
+        return bestSeat;
     }
 
     public int getId() {

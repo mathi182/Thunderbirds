@@ -8,16 +8,19 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerReposito
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategyFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategyFactory.AssignMode;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationAssembler;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationDTO;
 
 public class SeatAssignationApplicationService {
     private final SeatAssignationAssembler seatAssignationRequestAssembler;
+    private final SeatAssignationStrategyFactory seatAssignationStrategyFactory;
     private final FlightRepository flightRepository;
     private final PassengerRepository passengerRepository;
 
     public SeatAssignationApplicationService() {
         this.seatAssignationRequestAssembler = new SeatAssignationAssembler();
+        this.seatAssignationStrategyFactory = new SeatAssignationStrategyFactory();
         this.flightRepository = ServiceLocator.resolve(FlightRepository.class);
         this.passengerRepository = ServiceLocator.resolve(PassengerRepository.class);
     }
@@ -27,8 +30,9 @@ public class SeatAssignationApplicationService {
 
         Flight flight = getFlight(passenger);
         SeatAssignationStrategy strategy = getSeatAssignationStrategy(request, passenger);
-        Seat seat = flight.findAvailableSeat(strategy, passenger.isAChild());
-        seat.markAsUnavailable();
+        Seat seat = flight.assignBestSeat(strategy, passenger);
+
+        flightRepository.saveFlight(flight);
         return seat;
     }
 
@@ -37,7 +41,7 @@ public class SeatAssignationApplicationService {
     }
 
     private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request, Passenger passenger) {
-        SeatAssignationStrategyFactory.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
-        return new SeatAssignationStrategyFactory().getStrategy(assignMode, passenger.getSeatClass());
+        AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
+        return seatAssignationStrategyFactory.getStrategy(assignMode);
     }
 }

@@ -2,21 +2,12 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 
-import java.util.List;
-import java.util.Random;
+import java.util.Optional;
+import java.util.stream.Stream;
 
-public class RandomSeatAssignationStrategy implements SeatAssignationStrategy {
-
-    private Random random;
-
-    public RandomSeatAssignationStrategy(Random random) {
-        this.random = random;
-    }
-
+public class RandomSeatAssignationStrategy extends SeatAssignationStrategy {
     @Override
-    public Seat findAvailableSeat(List<Seat> availableSeats) {
-        int chosenSeat = random.nextInt(availableSeats.size());
-
-        return availableSeats.get(chosenSeat);
+    protected Optional<Seat> applyStrategy(Stream<Seat> filteredSeats) {
+        return filteredSeats.findAny();
     }
 }

@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.application.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebException;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -30,7 +31,7 @@ public class PassengerAssembler {
             case BUSINESS:
                 return Seat.SeatClass.BUSINESS;
             default:
-                return Seat.SeatClass.ANY;
+                throw new IllegalFieldWebException();
 
         }
     }
