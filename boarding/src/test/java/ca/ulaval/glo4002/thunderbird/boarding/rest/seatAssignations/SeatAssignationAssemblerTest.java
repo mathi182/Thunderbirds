@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategyFactory.AssignMode;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,9 +27,9 @@ public class SeatAssignationAssemblerTest {
     public void givenRandomAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnRandomMode() {
         requestTest.mode = RANDOM_ASSIGNATION_MODE;
 
-        SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
+        AssignMode actualValue = assemblerTest.getMode(requestTest);
 
-        SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.RANDOM;
+        AssignMode expectedValue = AssignMode.RANDOM;
         assertEquals(expectedValue, actualValue);
     }
 
@@ -44,9 +44,9 @@ public class SeatAssignationAssemblerTest {
     public void givenCheapestAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnCheapestMode() {
         requestTest.mode = CHEAPEST_ASSIGNATION_MODE;
 
-        SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
+        AssignMode actualValue = assemblerTest.getMode(requestTest);
 
-        SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.CHEAPEST;
+        AssignMode expectedValue = AssignMode.CHEAPEST;
         assertEquals(expectedValue, actualValue);
 
     }
@@ -55,9 +55,9 @@ public class SeatAssignationAssemblerTest {
     public void givenLandscapeAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnLandscapeMode() {
         requestTest.mode = LANDSCAPE_ASSIGNATION_MODE;
 
-        SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
+        AssignMode actualValue = assemblerTest.getMode(requestTest);
 
-        SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.LANDSCAPE;
+        AssignMode expectedValue = AssignMode.LANDSCAPE;
         assertEquals(expectedValue, actualValue);
     }
 
@@ -65,9 +65,9 @@ public class SeatAssignationAssemblerTest {
     public void givenMostLegRoomAssignationModeSeatAssignationRequest_whenGettingMode_shouldReturnMostLegRoomMode() {
         requestTest.mode = MOST_LEG_ROOM_ASSIGNATION_MODE;
 
-        SeatAssignationStrategy.AssignMode actualValue = assemblerTest.getMode(requestTest);
+        AssignMode actualValue = assemblerTest.getMode(requestTest);
 
-        SeatAssignationStrategy.AssignMode expectedValue = SeatAssignationStrategy.AssignMode.LEGS;
+        AssignMode expectedValue = AssignMode.LEGS;
         assertEquals(expectedValue, actualValue);
     }
 }

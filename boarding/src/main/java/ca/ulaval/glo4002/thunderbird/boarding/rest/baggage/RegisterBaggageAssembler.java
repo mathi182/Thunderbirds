@@ -7,7 +7,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 public class RegisterBaggageAssembler {
-
     private static final String KILOGRAMS = "kg";
     private static final String POUNDS = "lbs";
     private static final String CENTIMETERS = "cm";

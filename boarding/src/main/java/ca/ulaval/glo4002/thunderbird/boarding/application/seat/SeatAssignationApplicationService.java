@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategyFactory;
@@ -11,30 +12,32 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignat
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationDTO;
 
 public class SeatAssignationApplicationService {
-
     private final SeatAssignationAssembler seatAssignationRequestAssembler;
-    private FlightRepository repository;
+    private final FlightRepository flightRepository;
+    private final PassengerRepository passengerRepository;
 
     public SeatAssignationApplicationService() {
-        this.repository = ServiceLocator.resolve(FlightRepository.class);
         this.seatAssignationRequestAssembler = new SeatAssignationAssembler();
+        this.flightRepository = ServiceLocator.resolve(FlightRepository.class);
+        this.passengerRepository = ServiceLocator.resolve(PassengerRepository.class);
     }
 
     public Seat assignSeat(SeatAssignationDTO request) {
-        Flight flight = getFlight(request);
-        SeatAssignationStrategy strategy = getSeatAssignationStrategy(request);
+        Passenger passenger = passengerRepository.findByPassengerHash(request.passengerHash);
+
+        Flight flight = getFlight(passenger);
+        SeatAssignationStrategy strategy = getSeatAssignationStrategy(request, passenger);
         Seat seat = flight.findAvailableSeat(strategy);
         seat.markAsUnavailable();
         return seat;
     }
 
-    private Flight getFlight(SeatAssignationDTO request) {
-        Passenger passenger = seatAssignationRequestAssembler.getDomainPassenger(request);
-        return repository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
+    private Flight getFlight(Passenger passenger) {
+        return flightRepository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
     }
 
-    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request) {
-        SeatAssignationStrategy.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
-        return new SeatAssignationStrategyFactory().getStrategy(assignMode, request.seatClass);
+    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request, Passenger passenger) {
+        SeatAssignationStrategyFactory.AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
+        return new SeatAssignationStrategyFactory().getStrategy(assignMode, passenger.getSeatClass());
     }
 }
