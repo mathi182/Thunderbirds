@@ -31,7 +31,7 @@ public class FlightTest {
         Seat expectedSeat = mock(Seat.class);
         willReturn(expectedSeat).given(strategy).findBestSeat(seats, passenger);
 
-        Seat actualSeat = flight.assignBestSeat(strategy,passenger);
+        Seat actualSeat = flight.reserveSeat(strategy, passenger);
 
         verify(strategy).findBestSeat(seats, passenger);
         verify(expectedSeat).markAsUnavailable();

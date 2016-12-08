@@ -12,6 +12,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 import java.time.Instant;
 import java.util.UUID;
+
 import static org.junit.Assert.assertEquals;
 
 public class PassengerFixture extends HibernateBaseFixture {
@@ -32,7 +33,7 @@ public class PassengerFixture extends HibernateBaseFixture {
 
     public void givenAPassenger(UUID passengerHash, String flightNumber, Seat.SeatClass seatClass) {
         withEntityManager((tx) -> {
-            Passenger passenger = new Passenger(passengerHash, seatClass, FLIGHT_DATE, flightNumber, false, true, false);
+            Passenger passenger = new Passenger(passengerHash, seatClass, false, true, false, null);
             repository.savePassenger(passenger);
         });
     }

@@ -33,7 +33,7 @@ public class Flight {
         return flightId;
     }
 
-    public Seat assignBestSeat(SeatAssignationStrategy strategy, Passenger passenger) {
+    public Seat reserveSeat(SeatAssignationStrategy strategy, Passenger passenger) {
         Seat bestSeat = strategy.findBestSeat(seats, passenger);
         bestSeat.markAsUnavailable();
         return bestSeat;

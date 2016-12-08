@@ -65,19 +65,19 @@ public class DevContext implements Context {
     }
 
     private void fillDatabase() {
-        Passenger passenger = createPassenger();
-        PassengerRepository passengerRepository = ServiceLocator.resolve(PassengerRepository.class);
-        passengerRepository.savePassenger(passenger);
-        EXISTENT_BOARDING_PASSENGER = passenger;
-
         Flight flight = createFlight();
         FlightRepository flightRepository = ServiceLocator.resolve(FlightRepository.class);
         flightRepository.saveFlight(flight);
+
+        Passenger passenger = createPassenger(flight);
+        PassengerRepository passengerRepository = ServiceLocator.resolve(PassengerRepository.class);
+        passengerRepository.savePassenger(passenger);
+        EXISTENT_BOARDING_PASSENGER = passenger;
     }
 
-    private Passenger createPassenger() {
-        Passenger passenger = new Passenger(UUID.randomUUID(), SeatClass.ECONOMY, FLIGHT_DATE,
-                FLIGHT_NUMBER, IS_VIP, IS_CHECKED_IN, IS_NOT_A_CHILD);
+    private Passenger createPassenger(Flight flight) {
+        Passenger passenger = new Passenger(UUID.randomUUID(), SeatClass.ECONOMY,
+                IS_VIP, IS_CHECKED_IN, IS_NOT_A_CHILD, flight);
 
         Length length1 = Length.fromMillimeters(500);
         Mass mass1 = Mass.fromGrams(1000);
