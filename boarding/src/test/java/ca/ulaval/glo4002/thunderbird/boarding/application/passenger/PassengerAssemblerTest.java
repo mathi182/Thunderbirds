@@ -21,8 +21,8 @@ public class PassengerAssemblerTest {
     private static final String FLIGHT_NUMBER = "flight_number";
     private static final Instant FLIGHT_DATE = Instant.now();
     private static final boolean IS_VIP = true;
-    private static final boolean IS_CHECKIN = true;
-    private static final boolean IS_A_CHILD = false;
+    private static final boolean IS_CHECKED_IN = true;
+    private static final boolean IS_CHILD = false;
 
     private final Flight flight = mock(Flight.class);
     private final FlightRepository flightRepository = mock(FlightRepository.class);
@@ -36,15 +36,15 @@ public class PassengerAssemblerTest {
     @Test
     public void givenPassengerDTO_whenConvertingToDomain_ShouldReturnCorrectPassenger() {
         PassengerDTO passengerDTO = new PassengerDTO(PASSENGER_HASH, ECONOMY, FLIGHT_DATE,
-                FLIGHT_NUMBER, IS_VIP, IS_CHECKIN, IS_A_CHILD);
+                FLIGHT_NUMBER, IS_VIP, IS_CHECKED_IN, IS_CHILD);
 
         Passenger actualPassenger = passengerAssembler.toDomain(passengerDTO);
 
         assertEquals(PASSENGER_HASH, actualPassenger.getHash());
         assertEquals(Seat.SeatClass.ECONOMY, actualPassenger.getSeatClass());
         assertEquals(IS_VIP, actualPassenger.isVip());
-        assertEquals(IS_CHECKIN, actualPassenger.isCheckedIn());
-        assertEquals(IS_A_CHILD,actualPassenger.isAChild());
+        assertEquals(IS_CHECKED_IN, actualPassenger.isCheckedIn());
+        assertEquals(IS_CHILD, actualPassenger.isChild());
         assertSame(flight, actualPassenger.getFlight());
     }
 }

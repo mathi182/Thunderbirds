@@ -16,12 +16,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class FlightTest {
-    private static final String A_FLIGHT_NUMBER = "QK-918";
-    private static final Instant A_FLIGHT_DATE = Instant.ofEpochMilli(123456);
+    private static final String FLIGHT_NUMBER = "QK-918";
+    private static final Instant FLIGHT_DATE = Instant.ofEpochMilli(123456);
 
     private final Plane plane = mock(Plane.class);
     private final List<Seat> seats = new ArrayList<>();
-    private final FlightId flightId = new FlightId(A_FLIGHT_NUMBER, A_FLIGHT_DATE);
+    private final FlightId flightId = new FlightId(FLIGHT_NUMBER, FLIGHT_DATE);
     private final Flight flight = new Flight(flightId, plane, seats);
     private final SeatAssignationStrategy strategy = mock(SeatAssignationStrategy.class);
     private final Passenger passenger = mock(Passenger.class);

@@ -8,20 +8,20 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SeatTest {
-    private static final int A_ROW = 1;
-    private static final String A_SEAT = "A";
-    private static final int A_LEGROOM = 54;
+    private static final int ROW = 1;
+    private static final String SEAT = "A";
+    private static final int LEGROOM = 54;
     private static final boolean HAS_WINDOW = true;
-    private static final boolean HAS_CLEARVIEW = true;
-    private static final double A_PRICE = 123.45;
-    private static final Seat.SeatClass A_CLASS = Seat.SeatClass.ECONOMY;
+    private static final boolean HAS_CLEAR_VIEW = true;
+    private static final double PRICE = 123.45;
+    private static final Seat.SeatClass SEAT_CLASS = Seat.SeatClass.ECONOMY;
     private static final boolean IS_EXIT_ROW = true;
 
     private Seat seat;
 
     @Before
     public void before() {
-        seat = new Seat(A_ROW, A_SEAT, A_LEGROOM, HAS_WINDOW, HAS_CLEARVIEW, A_PRICE, A_CLASS, IS_EXIT_ROW, true);
+        seat = new Seat(ROW, SEAT, LEGROOM, HAS_WINDOW, HAS_CLEAR_VIEW, PRICE, SEAT_CLASS, IS_EXIT_ROW, true);
     }
 
     @Test

@@ -19,12 +19,12 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 
 public class HibernateFlightRepositoryIntegrationTest {
-    private static final Plane A_PLANE = new Plane("dash-8", 1, 2000);
-    private static final Seat A_SEAT = new Seat(1, "A", 56, true, true, 123.45, Seat.SeatClass.ANY, false, true);
-    private static final String A_PLANE_MODEL = "dash-8";
-    private static final String A_FLIGHT_NUMBER = "QK-918";
+    private static final Plane PLANE = new Plane("dash-8", 1, 2000);
+    private static final Seat SEAT = new Seat(1, "A", 56, true, true, 123.45, Seat.SeatClass.ANY, false, true);
+    private static final String PLANE_MODEL = "dash-8";
+    private static final String FLIGHT_NUMBER = "QK-918";
     private static final String ANOTHER_FLIGHT_NUMBER = "AB-123";
-    private static final Instant A_FLIGHT_DATE = Instant.ofEpochMilli(1478195361);
+    private static final Instant FLIGHT_DATE = Instant.ofEpochMilli(1478195361);
 
     private AMSSystem amsSystem;
     private PlaneService planeService;
@@ -39,23 +39,23 @@ public class HibernateFlightRepositoryIntegrationTest {
 
     @Test
     public void givenAFlight_whenSaving_shouldBeAbleToRetrieve() {
-        willReturn(A_PLANE_MODEL).given(amsSystem).getPlaneModel(anyString());
-        FlightId flightId = new FlightId(A_FLIGHT_NUMBER, A_FLIGHT_DATE);
-        Flight expectedFlight = new Flight(flightId, A_PLANE, Arrays.asList(A_SEAT));
+        willReturn(PLANE_MODEL).given(amsSystem).getPlaneModel(anyString());
+        FlightId flightId = new FlightId(FLIGHT_NUMBER, FLIGHT_DATE);
+        Flight expectedFlight = new Flight(flightId, PLANE, Arrays.asList(SEAT));
 
         flightRepository.saveFlight(expectedFlight);
 
-        Flight actualFlight = flightRepository.getFlight(A_FLIGHT_NUMBER, A_FLIGHT_DATE);
+        Flight actualFlight = flightRepository.getFlight(FLIGHT_NUMBER, FLIGHT_DATE);
         assertEquals(expectedFlight.getId(), actualFlight.getId());
     }
 
     @Test
     public void givenAFlightNumber_whenFetching_shouldReturn_aFlight() {
-        willReturn(A_PLANE_MODEL).given(amsSystem).getPlaneModel(anyString());
+        willReturn(PLANE_MODEL).given(amsSystem).getPlaneModel(anyString());
 
-        Flight flight = flightRepository.getFlight(ANOTHER_FLIGHT_NUMBER, A_FLIGHT_DATE);
+        Flight flight = flightRepository.getFlight(ANOTHER_FLIGHT_NUMBER, FLIGHT_DATE);
 
-        FlightId expectedId = new FlightId(ANOTHER_FLIGHT_NUMBER, A_FLIGHT_DATE);
+        FlightId expectedId = new FlightId(ANOTHER_FLIGHT_NUMBER, FLIGHT_DATE);
         assertEquals(expectedId, flight.getId());
     }
 }

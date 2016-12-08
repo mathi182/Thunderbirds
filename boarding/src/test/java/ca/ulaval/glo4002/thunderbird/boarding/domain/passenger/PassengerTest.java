@@ -19,11 +19,11 @@ public class PassengerTest {
     private static final Seat.SeatClass SEAT_CLASS = Seat.SeatClass.ECONOMY;
     private static final boolean VIP = true;
     private static final boolean IS_CHECKED_IN = true;
-    private static final boolean IS_A_CHILD =false;
+    private static final boolean IS_CHILD = false;
 
     private Flight flight = mock(Flight.class);
     private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, VIP, IS_CHECKED_IN, IS_A_CHILD, flight, checkedBaggages);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, VIP, IS_CHECKED_IN, IS_CHILD, flight, checkedBaggages);
 
     @Test
     public void shouldReturnRightValues() {
@@ -31,7 +31,7 @@ public class PassengerTest {
         assertEquals(SEAT_CLASS, passenger.getSeatClass());
         assertEquals(VIP, passenger.isVip());
         assertEquals(IS_CHECKED_IN, passenger.isCheckedIn());
-        assertEquals(IS_A_CHILD,passenger.isAChild());
+        assertEquals(IS_CHILD, passenger.isChild());
         assertSame(flight, passenger.getFlight());
     }
 

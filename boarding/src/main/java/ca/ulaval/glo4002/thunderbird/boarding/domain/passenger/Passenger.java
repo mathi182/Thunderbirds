@@ -23,7 +23,7 @@ public class Passenger {
     private Seat.SeatClass seatClass;
     private boolean isVip;
     private boolean isCheckedIn;
-    private boolean isAChild;
+    private boolean isChild;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private CheckedBaggages checkedBaggages;
@@ -36,23 +36,23 @@ public class Passenger {
     private Seat seat;
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, boolean isVip,
-                     boolean isCheckedIn, boolean isAChild, Flight flight) {
+                     boolean isCheckedIn, boolean isChild, Flight flight) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.isVip = isVip;
         this.isCheckedIn = isCheckedIn;
-        this.isAChild = isAChild;
+        this.isChild = isChild;
         this.flight = flight;
         this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(this);
     }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, boolean isVip, boolean isCheckedIn,
-                     boolean isAChild, Flight flight, CheckedBaggages checkedBaggages) {
+                     boolean isChild, Flight flight, CheckedBaggages checkedBaggages) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.isVip = isVip;
         this.isCheckedIn = isCheckedIn;
-        this.isAChild = isAChild;
+        this.isChild = isChild;
         this.flight = flight;
         this.checkedBaggages = checkedBaggages;
     }
@@ -73,8 +73,8 @@ public class Passenger {
         return isVip;
     }
 
-    public boolean isAChild() {
-        return isAChild;
+    public boolean isChild() {
+        return isChild;
     }
 
     public float calculateBaggagesPrice() {

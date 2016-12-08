@@ -22,7 +22,7 @@ import static org.mockito.Mockito.mock;
 public class SeatAssignationStrategyTest {
     private static final boolean IS_AVAILABLE = true;
     private static final boolean IS_EXIT_ROW = true;
-    private static final boolean IS_A_CHILD = true;
+    private static final boolean IS_CHILD = true;
 
     private final Seat expectedBestSeat = mock(Seat.class);
     private final Passenger passenger = mock(Passenger.class);
@@ -43,7 +43,7 @@ public class SeatAssignationStrategyTest {
 
     @Test
     public void givenTwoSeatsAndOneAvailable_whenFindingBestSeat_shouldReturnAvailableSeat() {
-        initPassenger(SeatClass.ECONOMY, !IS_A_CHILD);
+        initPassenger(SeatClass.ECONOMY, !IS_CHILD);
         Seat availableSeat = getSeat(SeatClass.ECONOMY, IS_AVAILABLE, !IS_EXIT_ROW);
         Seat unavailableSeat = getSeat(SeatClass.ECONOMY, !IS_AVAILABLE, !IS_EXIT_ROW);
 
@@ -55,7 +55,7 @@ public class SeatAssignationStrategyTest {
 
     @Test
     public void givenTwoSeatsAndOneBusiness_whenFindingBestSeat_shouldReturnBusinessSeat() {
-        initPassenger(SeatClass.BUSINESS, !IS_A_CHILD);
+        initPassenger(SeatClass.BUSINESS, !IS_CHILD);
         Seat economyClassSeat = getSeat(SeatClass.ECONOMY, IS_AVAILABLE, !IS_EXIT_ROW);
         Seat businessClassSeat = getSeat(SeatClass.BUSINESS, IS_AVAILABLE, !IS_EXIT_ROW);
 
@@ -67,7 +67,7 @@ public class SeatAssignationStrategyTest {
 
     @Test
     public void givenAChildAndOneOfTwoSeatIsAnExistRow_whenFindingBestSeat_shouldNotReturnAnExitRow() {
-        initPassenger(SeatClass.ECONOMY, IS_A_CHILD);
+        initPassenger(SeatClass.ECONOMY, IS_CHILD);
         Seat exitRowSeat = getSeat(SeatClass.ECONOMY, IS_AVAILABLE, IS_EXIT_ROW);
         Seat seat = getSeat(SeatClass.ECONOMY, IS_AVAILABLE, !IS_EXIT_ROW);
 
@@ -99,7 +99,7 @@ public class SeatAssignationStrategyTest {
 
     private void initPassenger(SeatClass seatClass, boolean isAChild) {
         willReturn(seatClass).given(passenger).getSeatClass();
-        willReturn(isAChild).given(passenger).isAChild();
+        willReturn(isAChild).given(passenger).isChild();
     }
 
     private Seat getSeat(SeatClass seatClass, boolean isAvailable, boolean isExitRow) {
