@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding.application.passenger;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebException;
@@ -11,6 +14,16 @@ public class PassengerAssembler {
     private static final String ECONOMY = "economy";
     private static final String BUSINESS = "business";
 
+    private final FlightRepository flightRepository;
+
+    public PassengerAssembler() {
+        this.flightRepository = ServiceLocator.resolve(FlightRepository.class);
+    }
+
+    public PassengerAssembler(FlightRepository flightRepository) {
+        this.flightRepository = flightRepository;
+    }
+
     public Passenger toDomain(PassengerDTO passengerDTO) {
         Seat.SeatClass seatClass = getSeatClassFromString(passengerDTO.seatClass);
         UUID passengerHash = passengerDTO.passengerHash;
@@ -19,8 +32,9 @@ public class PassengerAssembler {
         Boolean isVip = passengerDTO.vip;
         Boolean isCheckedIn = passengerDTO.checkedIn;
         Boolean isAChild = passengerDTO.child;
+        Flight flight = flightRepository.getFlight(flightNumber, flightDate);
 
-        return new Passenger(passengerHash, seatClass, flightDate, flightNumber, isVip, isCheckedIn, isAChild);
+        return new Passenger(passengerHash, seatClass, isVip, isCheckedIn, isAChild, flight);
     }
 
     private Seat.SeatClass getSeatClassFromString(String source) {

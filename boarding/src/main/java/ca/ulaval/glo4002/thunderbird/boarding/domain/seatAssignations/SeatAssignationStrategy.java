@@ -36,7 +36,7 @@ public abstract class SeatAssignationStrategy {
     }
 
     private Stream<Seat> filterExistRows(Stream<Seat> seats, Passenger passenger) {
-        if (passenger.isAChild()) {
+        if (passenger.isChild()) {
             return seats.filter(seat -> !seat.isExitRow());
         }
         return seats;

@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.application.seat;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
@@ -28,19 +27,15 @@ public class SeatAssignationApplicationService {
     public Seat assignSeat(SeatAssignationDTO request) {
         Passenger passenger = passengerRepository.findByPassengerHash(request.passengerHash);
 
-        Flight flight = getFlight(passenger);
-        SeatAssignationStrategy strategy = getSeatAssignationStrategy(request, passenger);
-        Seat seat = flight.assignBestSeat(strategy, passenger);
+        SeatAssignationStrategy strategy = getSeatAssignationStrategy(request);
+        passenger.assignSeat(strategy);
 
-        flightRepository.saveFlight(flight);
-        return seat;
+        flightRepository.saveFlight(passenger.getFlight());
+        passengerRepository.savePassenger(passenger);
+        return passenger.getSeat();
     }
 
-    private Flight getFlight(Passenger passenger) {
-        return flightRepository.getFlight(passenger.getFlightNumber(), passenger.getFlightDate());
-    }
-
-    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request, Passenger passenger) {
+    private SeatAssignationStrategy getSeatAssignationStrategy(SeatAssignationDTO request) {
         AssignMode assignMode = seatAssignationRequestAssembler.getMode(request);
         return seatAssignationStrategyFactory.getStrategy(assignMode);
     }
