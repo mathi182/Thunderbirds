@@ -3,17 +3,13 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.flight;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightId;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
 import java.time.Instant;
 import java.util.List;
 
@@ -28,14 +24,11 @@ public class HibernateFlightRepository implements FlightRepository {
 
     @Override
     public Flight getFlight(String flightNumber, Instant flightDate) {
-        Flight flight;
-        try {
-            flight = getFlightFromDB(flightNumber, flightDate);
-        } catch (NoResultException ex) {
-            flight = createFlight(flightNumber, flightDate);
+        Flight flight = getFlightFromDB(flightNumber, flightDate);
+        if (flight != null) {
+            return flight;
         }
-
-        return flight;
+        return createFlight(flightNumber, flightDate);
     }
 
     @Override
@@ -46,24 +39,16 @@ public class HibernateFlightRepository implements FlightRepository {
 
     private Flight getFlightFromDB(String flightNumber, Instant flightDate) {
         EntityManager entityManager = new EntityManagerProvider().getEntityManager();
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Flight> criteria = builder.createQuery(Flight.class);
-        Root<Flight> from = criteria.from(Flight.class);
-        Expression<Boolean> flightNumberCriteria = builder.equal(from.get("flightNumber"), flightNumber);
-        Expression<Boolean> flightDateCriteria = builder.equal(from.get("flightDate"), flightDate);
-
-        criteria.select(from);
-        criteria.where(builder.and(flightNumberCriteria,
-                flightDateCriteria));
-
-        return entityManager.createQuery(criteria).getSingleResult();
+        FlightId flightId = new FlightId(flightNumber, flightDate);
+        return entityManager.find(Flight.class, flightId);
     }
 
     private Flight createFlight(String flightNumber, Instant flightDate) {
+        FlightId flightId = new FlightId(flightNumber, flightDate);
         String modelID = amsSystem.getPlaneModel(flightNumber);
         Plane plane = planeService.getPlaneInformation(modelID);
         List<Seat> seats = planeService.getSeats(modelID);
 
-        return new Flight(flightNumber, flightDate, plane, seats);
+        return new Flight(flightId, plane, seats);
     }
 }

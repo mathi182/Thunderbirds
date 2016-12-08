@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.flight;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightId;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
@@ -10,12 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 
 public class InMemoryFlightRepositoryTest {
@@ -38,19 +36,12 @@ public class InMemoryFlightRepositoryTest {
 
     @Test
     public void givenAFlight_whenSaving_shouldBeAbleToSaveAndFetch() {
-        willReturn(A_PLANE_MODEL).given(amsSystem).getPlaneModel(anyString());
-        List<Seat> seats = new ArrayList<>();
-        seats.add(A_SEAT);
-        Flight flight = new Flight(A_FLIGHT_NUMBER, A_FLIGHT_DATE, A_PLANE, seats);
+        FlightId flightId = new FlightId(A_FLIGHT_NUMBER, A_FLIGHT_DATE);
+        Flight expectedFlight = new Flight(flightId, A_PLANE, Arrays.asList(A_SEAT));
 
-        flightRepository.saveFlight(flight);
-        Flight fetchedFlight = flightRepository.getFlight(A_FLIGHT_NUMBER, A_FLIGHT_DATE);
+        flightRepository.saveFlight(expectedFlight);
 
-        assertFlightEquals(flight, fetchedFlight);
-    }
-
-    private void assertFlightEquals(Flight flight, Flight fetchedFlight) {
-        assertEquals(flight.getFlightNumber(), fetchedFlight.getFlightNumber());
-        assertEquals(flight.getFlightDate(), fetchedFlight.getFlightDate());
+        Flight actualFlight = flightRepository.getFlight(A_FLIGHT_NUMBER, A_FLIGHT_DATE);
+        assertEquals(expectedFlight.getId(), actualFlight.getId());
     }
 }

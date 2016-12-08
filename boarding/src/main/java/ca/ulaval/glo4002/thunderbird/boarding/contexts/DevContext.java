@@ -6,12 +6,12 @@ import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvi
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystemFactory;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.*;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat.SeatClass;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
@@ -22,7 +22,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.time.Instant;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class DevContext implements Context {
@@ -30,6 +31,9 @@ public class DevContext implements Context {
     public static final boolean IS_VIP = false;
     public static final boolean IS_NOT_A_CHILD = false;
     public static Passenger EXISTENT_BOARDING_PASSENGER;
+
+    private static final String FLIGHT_NUMBER = "QK-918";
+    private static final Instant FLIGHT_DATE = Instant.ofEpochMilli(123456);
 
     @Override
     public void apply() {
@@ -62,22 +66,21 @@ public class DevContext implements Context {
 
     private void fillDatabase() {
         Passenger passenger = createPassenger();
-        PassengerRepository repository = ServiceLocator.resolve(PassengerRepository.class);
-        repository.savePassenger(passenger);
+        PassengerRepository passengerRepository = ServiceLocator.resolve(PassengerRepository.class);
+        passengerRepository.savePassenger(passenger);
         EXISTENT_BOARDING_PASSENGER = passenger;
+
+        Flight flight = createFlight();
+        FlightRepository flightRepository = ServiceLocator.resolve(FlightRepository.class);
+        flightRepository.saveFlight(flight);
     }
 
     private Passenger createPassenger() {
-        UUID passengerHash = UUID.randomUUID();
-        Seat.SeatClass seatClass = Seat.SeatClass.ECONOMY;
-        Instant flightDate = Instant.ofEpochMilli(new Date().getTime());
-        String flightNumber = "QK-918";
-
-        Passenger passenger = new Passenger(passengerHash, seatClass, flightDate, flightNumber, IS_VIP, IS_CHECKED_IN, IS_NOT_A_CHILD);
+        Passenger passenger = new Passenger(UUID.randomUUID(), SeatClass.ECONOMY, FLIGHT_DATE,
+                FLIGHT_NUMBER, IS_VIP, IS_CHECKED_IN, IS_NOT_A_CHILD);
 
         Length length1 = Length.fromMillimeters(500);
         Mass mass1 = Mass.fromGrams(1000);
-
         Length length2 = Length.fromMillimeters(200);
         Mass mass2 = Mass.fromGrams(500);
 
@@ -87,6 +90,27 @@ public class DevContext implements Context {
         passenger.addBaggage(baggage2);
 
         return passenger;
+    }
+
+    private Flight createFlight() {
+        FlightId flightId = new FlightId(FLIGHT_NUMBER, FLIGHT_DATE);
+        Plane dash8Plane = new Plane("dash-8", 1, 0);
+        List<Seat> seats = Arrays.asList(createSeat());
+
+        return new Flight(flightId, dash8Plane, seats);
+    }
+
+    private Seat createSeat() {
+        int rowNumber = 1;
+        String seatName = "name";
+        int legRoom = 1;
+        boolean hasWindow = false;
+        boolean hasClearView = false;
+        double price = 1;
+        SeatClass seatClass = SeatClass.ECONOMY;
+        boolean isExitRow = false;
+        boolean isAvailable = true;
+        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow, isAvailable);
     }
 }
 
