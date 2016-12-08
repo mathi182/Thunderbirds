@@ -13,7 +13,7 @@ public class ReservationsResource {
     public static final String PATH = "/reservations/";
 
     @Context
-    UriInfo uriInfo;
+    private UriInfo uriInfo;
 
     @GET
     @Path("{reservation_number}")

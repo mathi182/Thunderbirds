@@ -12,17 +12,16 @@ import java.util.UUID;
 public class PassengersResource {
     public static final String PATH = "/passengers/";
 
-    //TODO create an integration test between reservaton and boarding
-    @GET
-    @Path("{passenger_hash}")
-    public PassengerDTO fetchPassenger(@PathParam("passenger_hash") UUID passenger_hash) {
-        Passenger passenger = getPassenger(passenger_hash);
-        PassengerAssembler passengerAssembler = new PassengerAssembler();
+    private final PassengerAssembler passengerAssembler;
 
-        return passengerAssembler.toDTO(passenger);
+    public PassengersResource() {
+        passengerAssembler = new PassengerAssembler();
     }
 
-    private Passenger getPassenger(UUID passenger_hash) {
-        return Passenger.findByPassengerHash(passenger_hash);
+    @GET
+    @Path("{passenger_hash}")
+    public PassengerDTO fetchPassenger(@PathParam("passenger_hash") UUID passengerHash) {
+        Passenger passenger = Passenger.findByPassengerHash(passengerHash);
+        return passengerAssembler.toDTO(passenger);
     }
 }

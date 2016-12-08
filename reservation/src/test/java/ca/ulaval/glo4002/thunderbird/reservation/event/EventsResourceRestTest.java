@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResourc
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +29,6 @@ public class EventsResourceRestTest {
     private static final String PASSPORT_NUMBER = "testo";
     private static final String SEAT_CLASS = "economy";
 
-    private static final String LOCATION_HEADER = "Location";
-
     private String createReservationPath;
 
     @Before
@@ -49,7 +48,7 @@ public class EventsResourceRestTest {
                 .body(generateReservationMap())
                 .when().post(createReservationPath)
                 .then().statusCode(CREATED.getStatusCode())
-                .header(LOCATION_HEADER, buildUrl(locationExpected));
+                .header(HttpHeaders.LOCATION, buildUrl(locationExpected));
     }
 
     private String createLocationExpected(String reservationNumber) {
