@@ -16,7 +16,7 @@ public class CheckedBaggagesFactoryTest {
     public void givenEconomicSeatClass_whenGettingCheckedBaggages_shouldReturnEconomicCheckedBaggages() {
         willReturn(Seat.SeatClass.ECONOMY).given(passenger).getSeatClass();
 
-        CheckedBaggages checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(passenger);
+        CheckedBaggages checkedBaggages = CheckedBaggagesFactory.createCheckedBaggages(passenger);
 
         Assert.assertThat(checkedBaggages, instanceOf(EconomicCheckedBaggages.class));
     }
@@ -25,7 +25,7 @@ public class CheckedBaggagesFactoryTest {
     public void givenBusinessSeatClass_whenGettingCheckedBaggages_shouldReturnBusinessCheckedBaggages() {
         willReturn(Seat.SeatClass.BUSINESS).given(passenger).getSeatClass();
 
-        CheckedBaggages checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(passenger);
+        CheckedBaggages checkedBaggages = CheckedBaggagesFactory.createCheckedBaggages(passenger);
 
         Assert.assertThat(checkedBaggages, instanceOf(BusinessCheckedBaggages.class));
     }

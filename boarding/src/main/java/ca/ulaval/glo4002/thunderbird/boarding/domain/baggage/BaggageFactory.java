@@ -1,13 +1,20 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageDTO;
+
 public class BaggageFactory {
 
-    public Baggage createBaggage(String type) {
-        switch (type) {
+    public Baggage createBaggage(Passenger passenger, RegisterBaggageDTO dto) {
+        Baggage createdBaggage = null;
+        switch (dto.type) {
             case "checked":
-                BaggageCheckedFactory()
+                //createdBaggage;
                 break;
         }
+        return createdBaggage;
 
     }
+
+
 }

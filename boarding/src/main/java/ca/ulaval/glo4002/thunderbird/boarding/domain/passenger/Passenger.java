@@ -43,7 +43,7 @@ public class Passenger {
         this.isCheckedIn = isCheckedIn;
         this.isChild = isChild;
         this.flight = flight;
-        this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(this);
+        this.checkedBaggages = CheckedBaggagesFactory.createCheckedBaggages(this);
     }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, boolean isVip, boolean isCheckedIn,
