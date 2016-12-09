@@ -32,10 +32,11 @@ public class RegisterBaggageAssemblerTest {
         Baggage actualBaggage = registerBaggageAssembler.getDomainBaggage(registerBaggage);
         double actualLength = actualBaggage.getDimension().toMillimeters();
         double actualMass = actualBaggage.getWeight().toGrams();
+        String actualSpecialityName = actualBaggage.getSpeciality().getSpecialityName();
 
         assertEquals(LINEAR_DIMENSION_CONVERTED, actualLength, UNIT_DELTA);
         assertEquals(WEIGHT_UNIT_CONVERTED, actualMass, UNIT_DELTA);
-        assertEquals(CLASSIC_SPECIALITY, actualBaggage.getSpeciality());
+        assertEquals(CLASSIC_SPECIALITY.getSpecialityName(), actualSpecialityName);
     }
 
     @Test(expected = IllegalFieldWebException.class)

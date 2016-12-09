@@ -4,14 +4,15 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Classic implements Speciality {
-
-    public final String identification = "CLASSIC";
+    private static final String SPECIALITY_NAME = "CLASSIC";
 
     @Override
-    public boolean equals(Object object) {
-        if (object instanceof Classic) {
-            return ((Classic) object).identification.equals(identification);
-        }
-        return false;
+    public float getModificator() {
+        return 0;
+    }
+
+    @Override
+    public String getSpecialityName() {
+        return SPECIALITY_NAME;
     }
 }
