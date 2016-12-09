@@ -32,8 +32,9 @@ public class BaggageResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerBaggage(RegisterBaggageDTO request, @PathParam("passenger_hash") UUID passengerHash) {
-        Baggage baggage = registerBaggageAssembler.getDomainBaggage(request);
-        UUID baggageId = baggageApplicationService.registerBaggage(passengerHash, baggage);
+        //Baggage baggage = registerBaggageAssembler.getDomainBaggage(request);
+
+        UUID baggageId = baggageApplicationService.registerBaggage(passengerHash, request);
 
         URI uri = uriInfo.getAbsolutePathBuilder().path(baggageId.toString()).build();
         RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.accepted();
