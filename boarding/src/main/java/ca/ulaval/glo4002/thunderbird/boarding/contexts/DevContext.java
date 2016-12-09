@@ -45,10 +45,16 @@ public class DevContext implements Context {
 
         registerFlightRepository();
         registerPassengerRepository();
+        registerBaggageFactory();
         fillDatabase();
 
         EntityManagerProvider.clearEntityManager();
         entityManager.close();
+    }
+
+    private void registerBaggageFactory() {
+        BaggageFactory baggageFactory = new BaggageFactory();
+        ServiceLocator.registerSingleton(BaggageFactory.class, baggageFactory);
     }
 
     private void registerFlightRepository() {
