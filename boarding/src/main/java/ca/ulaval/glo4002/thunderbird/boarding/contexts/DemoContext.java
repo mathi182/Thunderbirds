@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerFacto
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.*;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
@@ -28,13 +29,16 @@ public class DemoContext implements Context {
 
         registerFlightRepository();
         registerPassengerRepository();
-        registerBaggageFactory();
+        registerBaggageFactories();
 
         EntityManagerProvider.clearEntityManager();
         entityManager.close();
     }
 
-    private void registerBaggageFactory() {
+    private void registerBaggageFactories() {
+        //Order important to instantiate the factories
+        CheckedBaggageFactory checkedBaggageFactory = new CheckedBaggageFactory();
+        ServiceLocator.registerSingleton(CheckedBaggageFactory.class, checkedBaggageFactory);
         BaggageFactory baggageFactory = new BaggageFactory();
         ServiceLocator.registerSingleton(BaggageFactory.class, baggageFactory);
     }
