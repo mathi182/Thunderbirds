@@ -34,7 +34,7 @@ public class PassengerService {
     private ClientResponse getResource(String url) {
         return Client.create().resource(url)
                 .accept(MediaType.APPLICATION_JSON)
-                .header("content-type", MediaType.APPLICATION_JSON)
+                .header("content-speciality", MediaType.APPLICATION_JSON)
                 .get(ClientResponse.class);
     }
 

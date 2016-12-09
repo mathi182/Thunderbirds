@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Classic;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightId;
@@ -25,7 +27,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
 
 public class HibernatePassengerRepositoryIntegrationTest {
-    private static final String CHECKED = "checked";
+    private static final Speciality CLASSIC_SPECIALITY = new Classic();
     private static final UUID VALID_PASSENGER_UUID = UUID.randomUUID();
     private static final UUID VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION = UUID.randomUUID();
     private static final UUID NOT_CHECKED_IN_PASSENGER_UUID = UUID.randomUUID();
@@ -82,7 +84,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     public void givenPassengerWithBaggage_whenSavingThisPassenger_shouldSaveBaggagesCorrectly() {
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE,
                 Seat.SeatClass.ECONOMY, IS_VIP, CHECKED_IN, IS_CHILD, flight);
-        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CLASSIC_SPECIALITY);
         expectedPassenger.addBaggage(baggage);
 
         repository.savePassenger(expectedPassenger);
@@ -98,7 +100,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
         repository.savePassenger(expectedPassenger);
 
         Passenger repoPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);
-        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CLASSIC_SPECIALITY);
         repoPassenger.addBaggage(baggage);
         repository.savePassenger(repoPassenger);
         Passenger actualPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);

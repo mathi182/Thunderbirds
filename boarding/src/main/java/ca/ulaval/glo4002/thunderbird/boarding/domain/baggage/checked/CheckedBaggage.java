@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
@@ -14,12 +15,12 @@ public class CheckedBaggage extends Baggage {
     private static final float OVERWEIGHT_BAGGAGE_FEES = 1.1f;
     private static final float SPORT_BAGGAGE_FEES = 1.25f;
 
-    public CheckedBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        super(baggageHash, linearDimension, weight, type);
+    public CheckedBaggage(UUID baggageHash, Length linearDimension, Mass weight, Speciality speciality) {
+        super(baggageHash, linearDimension, weight, speciality);
     }
 
-    public CheckedBaggage(Length linearDimension, Mass weight, String type) {
-        super(linearDimension, weight, type);
+    public CheckedBaggage(Length linearDimension, Mass weight, Speciality speciality) {
+        super(linearDimension, weight, speciality);
     }
 
     protected CheckedBaggage() {
@@ -45,6 +46,6 @@ public class CheckedBaggage extends Baggage {
     }
 
     private boolean isSportType() {
-        return Objects.equals(getType(), "sport");
+        return Objects.equals(getSpeciality(), "sport");
     }
 }

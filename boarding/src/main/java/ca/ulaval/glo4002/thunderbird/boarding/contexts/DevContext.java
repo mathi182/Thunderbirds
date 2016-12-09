@@ -6,6 +6,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvi
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Classic;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.*;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
@@ -84,8 +86,9 @@ public class DevContext implements Context {
         Length length2 = Length.fromMillimeters(200);
         Mass mass2 = Mass.fromGrams(500);
 
-        Baggage baggage1 = new CheckedBaggage(length1, mass1, "checked");
-        Baggage baggage2 = new CheckedBaggage(length2, mass2, "checked");
+        Speciality speciality = new Classic();
+        Baggage baggage1 = new CheckedBaggage(length1, mass1, speciality);
+        Baggage baggage2 = new CheckedBaggage(length2, mass2, speciality);
         passenger.addBaggage(baggage1);
         passenger.addBaggage(baggage2);
 

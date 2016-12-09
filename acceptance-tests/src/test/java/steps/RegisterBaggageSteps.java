@@ -2,6 +2,8 @@ package steps;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Classic;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
@@ -19,7 +21,7 @@ import java.util.UUID;
 public class RegisterBaggageSteps implements Fr {
 
     private static final UUID passengerHash = UUID.randomUUID();
-    private static final String BAGGAGE_TYPE = "type";
+    private static final Speciality SPECIALITY = new Classic();
     private static final String BAGGAGE_MASS = "poids";
     private static final String BAGGAGE_LENGTH = "taille";
 
@@ -44,7 +46,7 @@ public class RegisterBaggageSteps implements Fr {
         Quand("^il enregistre le bagage suivant :$", (DataTable dataTable) -> {
             List<Map<String, Object>> dataTableAsMaps = dataTable.asMaps(String.class, Object.class);
             Map<String, Object> baggageTable = dataTableAsMaps.get(0);
-            String type = (String) baggageTable.get(BAGGAGE_TYPE);
+            Speciality type = (Speciality) baggageTable.get(SPECIALITY);
 
             String massAsString = (String) baggageTable.get(BAGGAGE_MASS);
             Mass mass = MeasureConverter.getMassFromString(massAsString);

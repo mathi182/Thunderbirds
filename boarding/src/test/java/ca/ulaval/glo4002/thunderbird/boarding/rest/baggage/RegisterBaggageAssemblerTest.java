@@ -1,6 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Classic;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebException;
 import org.junit.Test;
 
@@ -16,7 +18,7 @@ public class RegisterBaggageAssemblerTest {
     private static final double WEIGHT_UNIT_CONVERTED = 10000;
     private static final double LINEAR_DIMENSION_CONVERTED = 100;
     private static final double UNIT_DELTA = 0.001;
-    private static final String VALID_BAGGAGE_TYPE = "checked";
+    private static final Speciality CLASSIC_SPECIALITY = new Classic();
 
     @Test
     public void givenValidRequest_whenGetDomainBaggage_shouldReturnBaggage() {
@@ -33,7 +35,7 @@ public class RegisterBaggageAssemblerTest {
 
         assertEquals(LINEAR_DIMENSION_CONVERTED, actualLength, UNIT_DELTA);
         assertEquals(WEIGHT_UNIT_CONVERTED, actualMass, UNIT_DELTA);
-        assertEquals(VALID_BAGGAGE_TYPE, actualBaggage.getType());
+        assertEquals(CLASSIC_SPECIALITY, actualBaggage.getSpeciality());
     }
 
     @Test(expected = IllegalFieldWebException.class)

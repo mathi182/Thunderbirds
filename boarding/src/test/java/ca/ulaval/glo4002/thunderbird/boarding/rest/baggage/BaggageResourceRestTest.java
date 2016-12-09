@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Classic;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import io.restassured.response.Response;
 import org.junit.Test;
 
@@ -21,7 +23,7 @@ public class BaggageResourceRestTest {
     private static final String CM_UNIT_FROM_REQUEST = "cm";
     private static final int LINEAR_DIMENSION = 10;
     private static final String KG_UNIT_FROM_REQUEST = "kg";
-    private static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
+    private static final Speciality CLASSIC_SPECIALITY = new Classic();
     private static final int WEIGHT = 10;
     private static final String INVALID_UNIT = "invalid_unit";
     private static final UUID VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER.getHash();
@@ -37,7 +39,7 @@ public class BaggageResourceRestTest {
                 LINEAR_DIMENSION,
                 KG_UNIT_FROM_REQUEST,
                 WEIGHT,
-                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                CLASSIC_SPECIALITY);
 
         Response response = givenBaseRequest()
                 .and().body(registerBagageBody)
@@ -73,7 +75,7 @@ public class BaggageResourceRestTest {
                 LINEAR_DIMENSION,
                 INVALID_UNIT,
                 WEIGHT,
-                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                CLASSIC_SPECIALITY);
 
         givenBaseRequest()
                 .body(registerBaggageBody)
@@ -92,13 +94,13 @@ public class BaggageResourceRestTest {
                                                           int linearDimension,
                                                           String weightUnit,
                                                           int weight,
-                                                          String baggageType) {
+                                                          Speciality speciality) {
         Map<String, Object> registerBaggageBody = new HashMap<>();
         registerBaggageBody.put("linear_dimension_unit", linearDimensionUnit);
         registerBaggageBody.put("linear_dimension", linearDimension);
         registerBaggageBody.put("weight", weight);
         registerBaggageBody.put("weight_unit", weightUnit);
-        registerBaggageBody.put("type", baggageType);
+        registerBaggageBody.put("type", speciality);
         return registerBaggageBody;
     }
 }
