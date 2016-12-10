@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-@Path("/passengers/{passenger_hash}/baggages")
+@Path("/passengers/{passenger_hash}/collection")
 @Produces(MediaType.APPLICATION_JSON)
 public class BaggageResource {
     @Context

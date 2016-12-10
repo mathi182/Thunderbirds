@@ -11,13 +11,14 @@ import java.util.UUID;
 @Entity
 public class CheckedBaggage extends Baggage {
     protected static final int BAGGAGE_COST = 50;
+    protected static final String TYPE = "checked";
 
-    public CheckedBaggage(UUID baggageHash, Length linearDimension, Mass weight) {
-        super(baggageHash, linearDimension, weight);
+    public CheckedBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
+        super(baggageHash, linearDimension, weight, type);
     }
 
-    public CheckedBaggage(Length linearDimension, Mass weight) {
-        super(linearDimension, weight);
+    public CheckedBaggage(Length linearDimension, Mass weight, String type) {
+        super(linearDimension, weight, type);
     }
 
     protected CheckedBaggage() {
@@ -38,5 +39,10 @@ public class CheckedBaggage extends Baggage {
     @Override
     public boolean isChecked() {
         return true;
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 }

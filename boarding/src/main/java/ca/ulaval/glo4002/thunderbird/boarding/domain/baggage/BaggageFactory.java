@@ -7,7 +7,11 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 
 public class BaggageFactory {
-    public static final String CHECKED = "checked";
+    private static final String CHECKED = "checked";
+    private static final String STANDARD = "standard";
+    private static final String PERSONAL = "personal";
+    private static final String MEDICAL = "medical";
+    private static final String SPORT = "sport";
     CheckedBaggageFactory checkedBaggageFactory = ServiceLocator.resolve(CheckedBaggageFactory.class);
 
     public Baggage createBaggage(Passenger passenger, NormalizedBaggageDTO dto) {
@@ -15,13 +19,13 @@ public class BaggageFactory {
         switch (dto.type) {
             case CHECKED:
                 return checkedBaggageFactory.createCheckedBaggage(passenger, dto);
-            case "medical":
-                return new Medical();
-            case "personal":
-                return new Personal();
-            case "standard":
-                return new Standard();
-            case "sport":
+            case MEDICAL:
+                return new Medical(dto.length, dto.mass, MEDICAL);
+            case PERSONAL:
+                return new Personal(dto.length, dto.mass, PERSONAL);
+            case STANDARD:
+                return new Standard(dto.length, dto.mass, STANDARD);
+            case SPORT:
                 Baggage sportBaggage = checkedBaggageFactory.createCheckedBaggage(passenger, dto);
                 sportBaggage.addSpeciality(new Sport());
                 return sportBaggage;

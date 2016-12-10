@@ -41,7 +41,7 @@ public class BaggageResourceRestTest {
 
         Response response = givenBaseRequest()
                 .and().body(registerBaggageBody)
-                .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                .when().post(String.format("/passengers/%s/collection", VALID_PASSENGER_HASH))
                 .then().statusCode(CREATED.getCode())
                 .and().extract().response();
 
@@ -56,14 +56,14 @@ public class BaggageResourceRestTest {
     @Test
     public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() {
         givenBaseRequest()
-                .when().get("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
+                .when().get("/passengers/" + VALID_PASSENGER_HASH + "/collection")
                 .then().statusCode(OK.getStatusCode());
     }
 
     @Test
     public void givenAnInvalidPassenger_whenGettingBaggagesList_shouldGetNotFound() {
         givenBaseRequest()
-                .when().get("/passengers/" + INVALID_PASSENGER_UUID + "/baggages")
+                .when().get("/passengers/" + INVALID_PASSENGER_UUID + "/collection")
                 .then().statusCode(NOT_FOUND.getCode());
     }
 
@@ -77,12 +77,12 @@ public class BaggageResourceRestTest {
 
         givenBaseRequest()
                 .body(registerBaggageBody)
-                .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
+                .when().post(String.format("/passengers/%s/collection", VALID_PASSENGER_HASH))
                 .then().statusCode(BAD_REQUEST.getCode());
     }
 
     private boolean isLocationValid(String location, UUID passengerHash) {
-        String baseUrl = buildUrl("/passengers/" + passengerHash + "/baggages/");
+        String baseUrl = buildUrl("/passengers/" + passengerHash + "/collection/");
         baseUrl = baseUrl.replace("/", "\\/");
         Pattern pattern = Pattern.compile(baseUrl + UUIDRegex);
         return pattern.matcher(location).matches();

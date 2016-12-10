@@ -6,16 +6,14 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import java.util.UUID;
 
 public class Medical extends Baggage {
-    private static final int BAGGAGE_COST = 50;
-    private static final float OVERWEIGHT_BAGGAGE_FEES = 1.1f;
-    private static final float SPORT_BAGGAGE_FEES = 1.25f;
+    private static final String TYPE = "medical";
 
-    public Medical(UUID baggageHash, Length linearDimension, Mass weight) {
-        super(baggageHash, linearDimension, weight);
+    public Medical(UUID baggageHash, Length linearDimension, Mass weight, String type) {
+        super(baggageHash, linearDimension, weight, type);
     }
 
-    public Medical(Length linearDimension, Mass weight) {
-        super(linearDimension, weight);
+    public Medical(Length linearDimension, Mass weight, String type) {
+        super(linearDimension, weight, type);
     }
 
     public Medical() {
@@ -30,5 +28,10 @@ public class Medical extends Baggage {
     @Override
     public boolean isChecked() {
         return false;
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 }

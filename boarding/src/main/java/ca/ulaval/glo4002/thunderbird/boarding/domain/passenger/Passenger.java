@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggages;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggagesFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggagesCollection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
@@ -26,7 +27,7 @@ public class Passenger {
     private boolean isChild;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private CheckedBaggages checkedBaggages;
+    private PassengerBaggagesCollection baggagesCollection;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Flight flight;
@@ -43,18 +44,18 @@ public class Passenger {
         this.isCheckedIn = isCheckedIn;
         this.isChild = isChild;
         this.flight = flight;
-        this.checkedBaggages = CheckedBaggagesFactory.createCheckedBaggages(this);
+        this.baggagesCollection = new PassengerBaggagesCollection(this);
     }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, boolean isVip, boolean isCheckedIn,
-                     boolean isChild, Flight flight, CheckedBaggages checkedBaggages) {
+                     boolean isChild, Flight flight, PassengerBaggagesCollection baggagesCollection) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.isVip = isVip;
         this.isCheckedIn = isCheckedIn;
         this.isChild = isChild;
         this.flight = flight;
-        this.checkedBaggages = checkedBaggages;
+        this.baggagesCollection = baggagesCollection;
     }
 
     protected Passenger() {
@@ -78,16 +79,16 @@ public class Passenger {
     }
 
     public float calculateBaggagesPrice() {
-        float price = checkedBaggages.calculatePrice();
+        float price = baggagesCollection.calculateTotalPrice();
         return isVip ? price * VIP_DISCOUNT : price;
     }
 
     public void addBaggage(Baggage baggage) {
-        checkedBaggages.addBaggage(baggage);
+        baggagesCollection.addBaggage(baggage);
     }
 
     public List<Baggage> getBaggages() {
-        return checkedBaggages.getBaggages();
+        return baggagesCollection.getBaggages();
     }
 
     public Flight getFlight() {

@@ -7,11 +7,11 @@ import java.util.UUID;
 
 public class Business extends CheckedBaggage{
 
-    public Business(UUID baggageHash, Length linearDimension, Mass weight) {
-        super(baggageHash, linearDimension, weight);
+    public Business(UUID baggageHash, Length linearDimension, Mass weight, String type) {
+        super(baggageHash, linearDimension, weight, type);
     }
 
-    public Business(Length linearDimension, Mass weight) {
-        super(linearDimension, weight);
+    public Business(Length linearDimension, Mass weight, String type) {
+        super(linearDimension, weight, type);
     }
 }
