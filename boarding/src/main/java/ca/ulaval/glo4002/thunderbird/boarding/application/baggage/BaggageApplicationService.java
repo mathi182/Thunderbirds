@@ -32,7 +32,7 @@ public class BaggageApplicationService {
 
     public UUID registerBaggage(UUID passengerHash, RegisterBaggageDTO registerBaggageDTO) {
         Passenger passenger = getPassenger(passengerHash);
-        NormalizedBaggageDTO normalizedBaggageDTO = registerBaggageNormalizer.getDomainBaggage(registerBaggageDTO);
+        NormalizedBaggageDTO normalizedBaggageDTO = registerBaggageNormalizer.normalizeRegisterBaggageDTO(registerBaggageDTO);
         Baggage baggage = baggageFactory.createBaggage(passenger, normalizedBaggageDTO);
         passenger.addBaggage(baggage);
         repository.savePassenger(passenger);

@@ -8,9 +8,9 @@ public class RegisterBaggageNormalizer {
     private static final String KILOGRAMS = "kg";
     private static final String POUNDS = "lbs";
     private static final String CENTIMETERS = "cm";
-    private static final String INCHES = "lbs";
+    private static final String INCHES = "po";
 
-    public NormalizedBaggageDTO getDomainBaggage(RegisterBaggageDTO request) {
+    public NormalizedBaggageDTO normalizeRegisterBaggageDTO(RegisterBaggageDTO request) {
         Length length = getDimension(request);
         Mass weight = getWeight(request);
         String type = request.type;
