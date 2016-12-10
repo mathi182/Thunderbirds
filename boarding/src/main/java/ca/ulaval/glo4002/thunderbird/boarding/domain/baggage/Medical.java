@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
+import javax.persistence.Entity;
 import java.util.UUID;
 
 public class Medical extends Baggage {

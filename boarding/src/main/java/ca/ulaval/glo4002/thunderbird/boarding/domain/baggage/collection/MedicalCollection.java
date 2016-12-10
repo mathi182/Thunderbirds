@@ -2,13 +2,18 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class MedicalCollection extends BaggagesCollection {
 
     private static final int COST = 0;
     private static final String TYPE = "medical";
+
+    @OneToMany
     private List<Baggage> collection;
 
     public MedicalCollection() {

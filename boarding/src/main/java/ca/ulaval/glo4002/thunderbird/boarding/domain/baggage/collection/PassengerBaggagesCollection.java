@@ -13,19 +13,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class PassengerBaggagesCollection {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID checkedBaggageId;
 
-    @OneToOne(mappedBy = "passengerBaggagesCollection", fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
     protected Passenger passenger;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "passenger_id")
+    @OneToMany(mappedBy = "passengerBaggagesCollection", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     protected List<BaggagesCollection> collection;
 
     public PassengerBaggagesCollection(Passenger passenger) {

@@ -16,20 +16,16 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class CheckedBaggages extends BaggagesCollection {
     private static final int BAGGAGE_COUNT_LIMIT = 3;
     protected static final String TYPE = "checked";
-
-    @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID checkedBaggageId;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
     protected List<Baggage> collection = new ArrayList<>();
 
     public CheckedBaggages(Passenger passenger) {
-        this.checkedBaggageId = passenger.getHash();
         this.passenger = passenger;
     }
 
