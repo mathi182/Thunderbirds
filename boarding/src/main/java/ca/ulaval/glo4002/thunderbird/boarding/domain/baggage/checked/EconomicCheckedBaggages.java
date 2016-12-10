@@ -1,10 +1,14 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.BaggagesCollection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
+import org.hibernate.mapping.Bag;
 
 import javax.persistence.Entity;
+import java.util.List;
 
 @Entity
 public class EconomicCheckedBaggages extends CheckedBaggages {
@@ -33,5 +37,25 @@ public class EconomicCheckedBaggages extends CheckedBaggages {
     @Override
     protected int getFreeBaggageCount() {
         return FREE_BAGGAGE_COUNT;
+    }
+
+    @Override
+    protected void validate(Baggage baggage) {
+
+    }
+
+    @Override
+    public float calculateTotalCost() {
+        return 0;
+    }
+
+    @Override
+    public String getCollectionType() {
+        return TYPE;
+    }
+
+    @Override
+    public void addBaggage(Baggage baggage) {
+
     }
 }

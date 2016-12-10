@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggages;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggagesCollection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
@@ -22,8 +22,8 @@ public class PassengerTest {
     private static final boolean IS_CHILD = false;
 
     private Flight flight = mock(Flight.class);
-    private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, VIP, IS_CHECKED_IN, IS_CHILD, flight, checkedBaggages);
+    private PassengerBaggagesCollection passengerCollection = mock(PassengerBaggagesCollection.class);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, VIP, IS_CHECKED_IN, IS_CHILD, flight, passengerCollection);
 
     @Test
     public void shouldReturnRightValues() {

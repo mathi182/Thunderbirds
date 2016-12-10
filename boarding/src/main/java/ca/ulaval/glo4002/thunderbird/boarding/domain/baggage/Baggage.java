@@ -20,6 +20,7 @@ public abstract class Baggage {
     @Column(name = "id", updatable = false, nullable = false)
     protected UUID baggageHash;
     protected float price;
+    protected String type;
 
     @Embedded
     protected List<Speciality> specialities;
@@ -30,18 +31,20 @@ public abstract class Baggage {
     @Embedded
     protected Mass weight;
 
-    public Baggage(Length linearDimension, Mass weight) {
+    public Baggage(Length linearDimension, Mass weight, String type) {
         this.specialities = new ArrayList<>();
         this.baggageHash = UUID.randomUUID();
         this.linearDimension = linearDimension;
         this.weight = weight;
+        this.type = type;
     }
 
-    public Baggage(UUID baggageHash, Length linearDimension, Mass weight) {
+    public Baggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
         this.specialities = new ArrayList<>();
         this.baggageHash = baggageHash;
         this.linearDimension = linearDimension;
         this.weight = weight;
+        this.type = type;
     }
 
     protected Baggage() {
@@ -51,6 +54,8 @@ public abstract class Baggage {
     public abstract float getBasePrice(Length maximumLinearDimension, Mass maximumWeight);
 
     public abstract boolean isChecked();
+
+    public abstract String getType();
 
     public UUID getId() {
         return baggageHash;

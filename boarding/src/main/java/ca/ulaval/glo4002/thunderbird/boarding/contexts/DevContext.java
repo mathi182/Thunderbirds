@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggageFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.CollectionFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.*;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
@@ -58,6 +59,7 @@ public class DevContext implements Context {
         ServiceLocator.registerSingleton(CheckedBaggageFactory.class, checkedBaggageFactory);
         BaggageFactory baggageFactory = new BaggageFactory();
         ServiceLocator.registerSingleton(BaggageFactory.class, baggageFactory);
+        ServiceLocator.registerSingleton(CollectionFactory.class, new CollectionFactory());
     }
 
     private void registerFlightRepository() {
@@ -95,8 +97,8 @@ public class DevContext implements Context {
         Length length2 = Length.fromMillimeters(200);
         Mass mass2 = Mass.fromGrams(500);
 
-        Baggage baggage1 = new CheckedBaggage(length1, mass1);
-        Baggage baggage2 = new CheckedBaggage(length2, mass2);
+        Baggage baggage1 = new CheckedBaggage(length1, mass1, "checked");
+        Baggage baggage2 = new CheckedBaggage(length2, mass2, "checked");
         passenger.addBaggage(baggage1);
         passenger.addBaggage(baggage2);
 
