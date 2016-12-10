@@ -14,7 +14,6 @@ public class CheckedBaggagePriceTests {
     private static final float OVERWEIGHT_BAGGAGE_EXCESS_FEES = 1.1f;
     private static final float SPORT_BAGGAGE_EXCESS_FEES = 1.25f;
     private static final Speciality SPORT_SPECIALITY = new Sport();
-    private static final Speciality CLASS_SPECIALITY = new Classic();
     private static final float DELTA = 0.01f;
 
     private final Length dimensionLimit = Length.fromMillimeters(12);
@@ -24,7 +23,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenValidDimensionAndWeight_whenCalculatingPrice_shouldNotPayOverweightExcessFees() {
-        Baggage baggage = new CheckedBaggage(dimensionLimit, weightLimit, CLASS_SPECIALITY);
+        Baggage baggage = new CheckedBaggage(dimensionLimit, weightLimit);
 
         float actualPrice = baggage.getBasePrice(dimensionLimit, weightLimit);
 
@@ -33,7 +32,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenInvalidDimension_whenCalculatingPrice_shouldPayOverweightExcessFees() {
-        Baggage baggage = new CheckedBaggage(invalidDimension, weightLimit, CLASS_SPECIALITY);
+        Baggage baggage = new CheckedBaggage(invalidDimension, weightLimit);
 
         float actualPrice = baggage.getBasePrice(dimensionLimit, weightLimit);
 
@@ -43,7 +42,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenInvalidWeight_whenCalculatingPrice_shouldPayOverweightExcessFees() {
-        Baggage validBaggage = new CheckedBaggage(dimensionLimit, invalidWeight, CLASS_SPECIALITY);
+        Baggage validBaggage = new CheckedBaggage(dimensionLimit, invalidWeight);
 
         float actualPrice = validBaggage.getBasePrice(dimensionLimit, weightLimit);
 
@@ -53,7 +52,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenInvalidDimensionAndWeight_whenCalculatingPrice_shouldPayOverweightExcessFeesTwoTimes() {
-        Baggage validBaggage = new CheckedBaggage(invalidDimension, invalidWeight, CLASS_SPECIALITY);
+        Baggage validBaggage = new CheckedBaggage(invalidDimension, invalidWeight);
 
         float actualPrice = validBaggage.getBasePrice(dimensionLimit, weightLimit);
 
@@ -63,7 +62,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenSportBaggageWithValidDimensionAndWeight_whenCalculatingPrice_shouldOnlyPaySportExcessFees() {
-        Baggage validBaggage = new CheckedBaggage(dimensionLimit, weightLimit, SPORT_SPECIALITY);
+        Baggage validBaggage = new CheckedBaggage(dimensionLimit, weightLimit);
 
         float actualPrice = validBaggage.getBasePrice(dimensionLimit, weightLimit);
 
@@ -73,7 +72,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenSportBaggageWithInvalidDimension_whenCalculatingPrice_shouldOnlyPaySportExcessFees() {
-        Baggage validBaggage = new CheckedBaggage(invalidDimension, weightLimit, SPORT_SPECIALITY);
+        Baggage validBaggage = new CheckedBaggage(invalidDimension, weightLimit);
 
         float actualPrice = validBaggage.getBasePrice(dimensionLimit, weightLimit);
 
@@ -83,7 +82,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenSportBaggageWithInvalidWeight_whenCalculatingPrice_shouldPaySportAndOverweightExcessFees() {
-        Baggage validBaggage = new CheckedBaggage(dimensionLimit, invalidWeight, SPORT_SPECIALITY);
+        Baggage validBaggage = new CheckedBaggage(dimensionLimit, invalidWeight);
 
         float actualPrice = validBaggage.getBasePrice(dimensionLimit, weightLimit);
 

@@ -3,7 +3,6 @@ package fixtures;
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
@@ -22,7 +21,6 @@ public class PassengerFixture extends HibernateBaseFixture {
     private static final Length LINEAR_DIMENSION = Length.fromMillimeters(DIMENSION_VALUE);
     private static final int WEIGHT_VALUE = 22;
     private static final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
-    private static final Speciality CLASSIC_SPECIALITY = new Classic();
     private static final Flight NO_FLIGHT = null;
 
     private PassengerRepository repository;
@@ -39,7 +37,7 @@ public class PassengerFixture extends HibernateBaseFixture {
     }
 
     public void givenABaggageForPassenger(UUID passengerHash) {
-        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT, CLASSIC_SPECIALITY);
+        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT);
         addBaggageToPassenger(passengerHash, baggage);
     }
 

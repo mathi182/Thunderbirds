@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 
 public class BaggageTest {
     private static final UUID BAGGAGE_HASH = new UUID(2L, 2L);
-    private static final Speciality SPECIALITY = new Classic();
 
     private static final int DIMENSION_VALUE = 11;
     private static final Length LINEAR_DIMENSION = Length.fromMillimeters(DIMENSION_VALUE);
@@ -25,14 +24,13 @@ public class BaggageTest {
     private static final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
     private static final Mass INVALID_WEIGHT = Mass.fromGrams(WEIGHT_VALUE - 1);
 
-    private final Baggage baggage = new CheckedBaggage(BAGGAGE_HASH, LINEAR_DIMENSION, WEIGHT, SPECIALITY);
+    private final Baggage baggage = new CheckedBaggage(BAGGAGE_HASH, LINEAR_DIMENSION, WEIGHT);
 
     @Test
     public void shouldReturnRightValues() {
         assertEquals(BAGGAGE_HASH, baggage.getId());
         assertEquals(LINEAR_DIMENSION, baggage.getDimension());
         assertEquals(WEIGHT, baggage.getWeight());
-        assertTrue(baggage.hasSpeciality(SPECIALITY));
         assertEquals(0, baggage.getPrice(), 0.0f);
     }
 

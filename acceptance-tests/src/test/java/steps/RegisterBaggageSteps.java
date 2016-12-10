@@ -20,7 +20,6 @@ import java.util.UUID;
 public class RegisterBaggageSteps implements Fr {
 
     private static final UUID passengerHash = UUID.randomUUID();
-    private static final Speciality SPECIALITY = new Classic();
     private static final String BAGGAGE_MASS = "poids";
     private static final String BAGGAGE_LENGTH = "taille";
 
@@ -45,7 +44,6 @@ public class RegisterBaggageSteps implements Fr {
         Quand("^il enregistre le bagage suivant :$", (DataTable dataTable) -> {
             List<Map<String, Object>> dataTableAsMaps = dataTable.asMaps(String.class, Object.class);
             Map<String, Object> baggageTable = dataTableAsMaps.get(0);
-            Speciality type = (Speciality) baggageTable.get(SPECIALITY);
 
             String massAsString = (String) baggageTable.get(BAGGAGE_MASS);
             Mass mass = MeasureConverter.getMassFromString(massAsString);
@@ -53,7 +51,7 @@ public class RegisterBaggageSteps implements Fr {
             String lengthAsString = (String) baggageTable.get(BAGGAGE_LENGTH);
             Length length = MeasureConverter.getLengthFromString(lengthAsString);
 
-            Baggage baggage = new CheckedBaggage(length, mass, type);
+            Baggage baggage = new CheckedBaggage(length, mass);
             passengerFixture.addBaggageToPassenger(passengerHash, baggage);
         });
 
