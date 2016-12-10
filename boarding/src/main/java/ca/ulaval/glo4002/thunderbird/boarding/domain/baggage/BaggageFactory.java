@@ -1,8 +1,9 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Sport;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.strategies.OversizeBaggageStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.strategies.OverweightBaggageStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 
@@ -12,7 +13,20 @@ public class BaggageFactory {
     private static final String PERSONAL = "personal";
     private static final String MEDICAL = "medical";
     private static final String SPORT = "sport";
-    CheckedBaggageFactory checkedBaggageFactory = ServiceLocator.resolve(CheckedBaggageFactory.class);
+    private final OverweightBaggageStrategy overweightStrategy;
+    private final OversizeBaggageStrategy oversizeStrategy;
+
+    CheckedBaggageFactory checkedBaggageFactory = new CheckedBaggageFactory();
+
+    public BaggageFactory() {
+        this.overweightStrategy = new OverweightBaggageStrategy();
+        this.oversizeStrategy = new OversizeBaggageStrategy();
+    }
+
+    public BaggageFactory(OversizeBaggageStrategy oversizeStrategy, OverweightBaggageStrategy overweightStrategy) {
+        this.overweightStrategy = overweightStrategy;
+        this.oversizeStrategy = oversizeStrategy;
+    }
 
     public Baggage createBaggage(Passenger passenger, NormalizedBaggageDTO dto) {
         Baggage createdBaggage = null;
@@ -28,6 +42,7 @@ public class BaggageFactory {
             case SPORT:
                 Baggage sportBaggage = checkedBaggageFactory.createCheckedBaggage(passenger, dto);
                 sportBaggage.addSpeciality(new Sport());
+                //TODO Remove Oversize Speciality from baggage if exists
                 return sportBaggage;
         }
         return createdBaggage;

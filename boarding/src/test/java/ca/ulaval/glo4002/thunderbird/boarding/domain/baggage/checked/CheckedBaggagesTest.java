@@ -3,8 +3,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
-import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,22 +21,20 @@ public class CheckedBaggagesTest {
     private final Baggage secondBaggage = mock(Baggage.class);
 
     private final CheckedBaggages checkedBaggages = new EconomicCheckedBaggages(passenger);
-    private final Length dimensionLimit = checkedBaggages.getDimensionLimit();
-    private final Mass weightLimit = checkedBaggages.getWeightLimit();
 
     @Before
     public void setUp() {
         willReturn(1f).given(firstBaggage).getPrice();
         willReturn(2f).given(secondBaggage).getPrice();
 
-        willReturn(SECOND_BAGGAGE_PRICE).given(secondBaggage).getBasePrice(dimensionLimit, weightLimit);
+        willReturn(SECOND_BAGGAGE_PRICE).given(secondBaggage).getBasePrice();
     }
 
     @Test
     public void whenAddingFirstBaggage_shouldBeFree() {
         checkedBaggages.addBaggage(firstBaggage);
 
-        verify(firstBaggage, never()).getBasePrice(dimensionLimit, weightLimit);
+        verify(firstBaggage, never()).getBasePrice();
         verify(firstBaggage).setPrice(0.0f);
     }
 
@@ -47,7 +43,7 @@ public class CheckedBaggagesTest {
         checkedBaggages.addBaggage(firstBaggage);
         checkedBaggages.addBaggage(secondBaggage);
 
-        verify(secondBaggage).getBasePrice(dimensionLimit, weightLimit);
+        verify(secondBaggage).getBasePrice();
         verify(secondBaggage).setPrice(SECOND_BAGGAGE_PRICE);
     }
 

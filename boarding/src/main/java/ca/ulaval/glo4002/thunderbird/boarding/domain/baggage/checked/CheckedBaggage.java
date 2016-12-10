@@ -26,7 +26,7 @@ public class CheckedBaggage extends Baggage {
     }
 
     @Override
-    public float getBasePrice(Length maximumLinearDimension, Mass maximumWeight) {
+    public float getBasePrice() {
         float cost = BAGGAGE_COST;
 
         for (Speciality speciality : specialities) {

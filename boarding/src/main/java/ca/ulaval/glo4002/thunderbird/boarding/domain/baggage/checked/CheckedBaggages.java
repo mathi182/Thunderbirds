@@ -66,7 +66,7 @@ public abstract class CheckedBaggages extends BaggagesCollection {
     private void setBaggagePrice(Baggage baggage) {
         float price = 0;
         if (collection.size() >= getFreeBaggageCount()) {
-            price = baggage.getBasePrice(getDimensionLimit(), getWeightLimit());
+            price = baggage.getBasePrice();
         }
         baggage.setPrice(price);
     }

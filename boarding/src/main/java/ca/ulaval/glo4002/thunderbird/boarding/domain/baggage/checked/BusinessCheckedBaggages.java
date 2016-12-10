@@ -43,6 +43,7 @@ public class BusinessCheckedBaggages extends CheckedBaggages {
 
     @Override
     public float calculateTotalCost() {
+
         return 0;
     }
 

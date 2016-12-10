@@ -21,7 +21,7 @@ public class Standard extends Baggage {
     }
 
     @Override
-    public float getBasePrice(Length maximumLinearDimension, Mass maximumWeight) {
+    public float getBasePrice() {
         return 0;
     }
 

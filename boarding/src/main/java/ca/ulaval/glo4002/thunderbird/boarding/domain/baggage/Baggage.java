@@ -51,7 +51,7 @@ public abstract class Baggage {
         // for hibernate
     }
 
-    public abstract float getBasePrice(Length maximumLinearDimension, Mass maximumWeight);
+    public abstract float getBasePrice();
 
     public abstract boolean isChecked();
 
