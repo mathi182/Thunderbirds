@@ -32,6 +32,10 @@ public class PassengerBaggagesCollection {
         collection = new ArrayList<>();
     }
 
+    protected  PassengerBaggagesCollection() {
+        //For Hibernate
+    }
+
     public void addBaggage(Baggage baggage) {
         Optional<BaggagesCollection> baggagesCollection =
                 collection.stream()
