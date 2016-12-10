@@ -103,6 +103,10 @@ public class Passenger {
         return isCheckedIn;
     }
 
+    public void setBaggagesCollection(PassengerBaggagesCollection passengerBaggagesCollection) {
+        baggagesCollection = passengerBaggagesCollection;
+    }
+
     @Override
     public boolean equals(Object o) {
         return EqualsBuilder.reflectionEquals(this, o);

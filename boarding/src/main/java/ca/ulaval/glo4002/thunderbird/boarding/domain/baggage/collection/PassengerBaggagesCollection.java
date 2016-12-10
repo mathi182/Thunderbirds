@@ -29,6 +29,7 @@ public class PassengerBaggagesCollection {
     public PassengerBaggagesCollection(Passenger passenger) {
         this.checkedBaggageId = passenger.getHash();
         this.passenger = passenger;
+        collection = new ArrayList<>();
     }
 
     public void addBaggage(Baggage baggage) {

@@ -1,8 +1,10 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.CollectionFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightId;
@@ -54,6 +56,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
         PlaneService planeService = mock(PlaneService.class);
         HibernateFlightRepository flightRepository = new HibernateFlightRepository(amsSystem, planeService);
         flightRepository.saveFlight(flight);
+        setUpServiceLocator();
     }
 
     @Test
@@ -186,5 +189,10 @@ public class HibernatePassengerRepositoryIntegrationTest {
     public static Flight getFlight() {
         FlightId flightId = new FlightId(VALID_FLIGHT_NUMBER, VALID_FLIGHT_DATE);
         return new Flight(flightId, null, null);
+    }
+
+    private static void setUpServiceLocator() {
+        ServiceLocator.reset();
+        ServiceLocator.registerSingleton(CollectionFactory.class, new CollectionFactory());
     }
 }
