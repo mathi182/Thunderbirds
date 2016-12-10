@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -13,19 +12,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class PassengerBaggagesCollection {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID checkedBaggageId;
 
-    @OneToOne(mappedBy = "checkedBaggages", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "passengerBaggagesCollection", fetch = FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
-    private Passenger passenger;
+    protected Passenger passenger;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
-    private List<BaggagesCollection> collection;
+    protected List<BaggagesCollection> collection;
 
     public PassengerBaggagesCollection(Passenger passenger) {
         this.checkedBaggageId = passenger.getHash();

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class CheckedBaggages extends BaggagesCollection {
     private static final int BAGGAGE_COUNT_LIMIT = 3;
     protected static final String TYPE = "checked";
@@ -24,10 +23,6 @@ public abstract class CheckedBaggages extends BaggagesCollection {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID checkedBaggageId;
-
-    @OneToOne(mappedBy = "checkedBaggages", fetch = FetchType.EAGER)
-    @JoinColumn(name = "passenger_id")
-    private Passenger passenger;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
