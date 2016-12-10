@@ -8,7 +8,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggageFactory;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.*;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;

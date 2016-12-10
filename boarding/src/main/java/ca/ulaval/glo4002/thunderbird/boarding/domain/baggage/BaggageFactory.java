@@ -5,7 +5,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBagg
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Sport;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
-import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageDTO;
 
 public class BaggageFactory {
     public static final String CHECKED = "checked";

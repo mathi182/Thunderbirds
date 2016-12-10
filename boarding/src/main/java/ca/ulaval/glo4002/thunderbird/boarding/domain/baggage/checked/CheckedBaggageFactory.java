@@ -4,8 +4,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
-import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
-import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 public class CheckedBaggageFactory {
 

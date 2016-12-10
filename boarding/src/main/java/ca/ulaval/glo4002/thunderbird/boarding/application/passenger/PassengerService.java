@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 
 import static com.sun.jersey.api.client.ClientResponse.Status.NOT_FOUND;
-import static com.sun.jersey.api.client.ClientResponse.Status.OK;
 import static java.util.Optional.ofNullable;
 
 public class PassengerService {
