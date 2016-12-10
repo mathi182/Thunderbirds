@@ -83,6 +83,10 @@ public abstract class Baggage {
         specialities.add(speciality);
     }
 
+    public void removeSpeciality(Speciality speciality) {
+        specialities.remove(speciality);
+    }
+
     public float getPrice() {
         return price;
     }

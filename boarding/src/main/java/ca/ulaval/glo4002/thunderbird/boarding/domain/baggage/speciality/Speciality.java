@@ -4,4 +4,5 @@ public abstract class Speciality {
 
     public abstract float getSpecialityFee();
     public abstract String getSpecialityName();
+    public abstract boolean equals(Object obj);
 }

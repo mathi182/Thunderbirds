@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggageFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Sport;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.strategies.OversizeBaggageStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.strategies.OverweightBaggageStrategy;
@@ -42,7 +43,7 @@ public class BaggageFactory {
             case SPORT:
                 Baggage sportBaggage = checkedBaggageFactory.createCheckedBaggage(passenger, dto);
                 sportBaggage.addSpeciality(new Sport());
-                //TODO Remove Oversize Speciality from baggage if exists
+                sportBaggage.removeSpeciality(new Oversize());
                 return sportBaggage;
         }
         return createdBaggage;

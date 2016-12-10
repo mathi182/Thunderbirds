@@ -16,4 +16,13 @@ public class Sport extends Speciality {
     public float getSpecialityFee() {
         return SPECIALITY_FEE;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Sport)) {
+            return false;
+        }
+        Speciality other = (Speciality) obj;
+        return SPECIALITY_NAME.equals(other.getSpecialityName());
+    }
 }

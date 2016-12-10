@@ -16,4 +16,13 @@ public class Overweight extends Speciality {
     public String getSpecialityName() {
         return SPECIALITY_NAME;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Overweight)) {
+            return false;
+        }
+        Speciality other = (Speciality) obj;
+        return SPECIALITY_NAME.equals(other.getSpecialityName());
+    }
 }
