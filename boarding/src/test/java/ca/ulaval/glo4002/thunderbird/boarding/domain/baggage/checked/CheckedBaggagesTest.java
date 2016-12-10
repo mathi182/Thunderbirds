@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.willReturn;
@@ -49,7 +50,7 @@ public class CheckedBaggagesTest {
 
     @Test
     public void whenGettingAllBaggages_shouldBeEmpty() {
-        List<Baggage> baggages = checkedBaggages.getBaggages();
+        Set<Baggage> baggages = checkedBaggages.getBaggages();
 
         assertTrue(baggages.isEmpty());
     }
@@ -58,7 +59,7 @@ public class CheckedBaggagesTest {
     public void givenWeAddABaggage_whenRetrievingTheList_shouldNotBeEmpty() {
         checkedBaggages.addBaggage(firstBaggage);
 
-        List<Baggage> baggages = checkedBaggages.getBaggages();
+        Set<Baggage> baggages = checkedBaggages.getBaggages();
 
         assertFalse(baggages.isEmpty());
     }

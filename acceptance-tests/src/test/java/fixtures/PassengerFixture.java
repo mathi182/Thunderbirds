@@ -11,6 +11,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePas
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
+import javax.persistence.Query;
+import javax.persistence.metamodel.EntityType;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;

@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class PersonalCollection extends BaggagesCollection {
@@ -39,7 +40,7 @@ public class PersonalCollection extends BaggagesCollection {
     }
 
     @Override
-    public List<Baggage> getBaggages() {
+    public Set<Baggage> getBaggages() {
         return null;
     }
 }

@@ -7,10 +7,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 public class PassengerBaggagesCollection {
@@ -20,16 +17,15 @@ public class PassengerBaggagesCollection {
     private UUID checkedBaggageId;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "passenger_id")
     protected Passenger passenger;
 
     @OneToMany(mappedBy = "passengerBaggagesCollection", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    protected List<BaggagesCollection> collection;
+    protected Set<BaggagesCollection> collection;
 
     public PassengerBaggagesCollection(Passenger passenger) {
         this.checkedBaggageId = passenger.getHash();
         this.passenger = passenger;
-        collection = new ArrayList<>();
+        collection = new HashSet<>();
     }
 
     protected  PassengerBaggagesCollection() {
@@ -59,8 +55,8 @@ public class PassengerBaggagesCollection {
                 .reduce(0f, (a, b) -> a + b);
     }
 
-    public List<Baggage> getBaggages() {
-        List<Baggage> baggageList = new ArrayList<>();
+    public Set<Baggage> getBaggages() {
+        Set<Baggage> baggageList = new HashSet<>();
 
         for (BaggagesCollection baggagesCollection : collection) {
             baggageList.addAll(baggagesCollection.getBaggages());

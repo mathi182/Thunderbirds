@@ -6,9 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -39,10 +37,10 @@ public class PassengerCheckedBaggagesTest {
 
     @Test
     public void givenCheckedBaggages_whenGettingAllBaggages_shouldReturnTheseCheckedBaggages() {
-        List<Baggage> expectedBaggages = new ArrayList<>();
+        Set<Baggage> expectedBaggages = new HashSet<>();
         willReturn(expectedBaggages).given(baggagesCollection).getBaggages();
 
-        List<Baggage> actualBaggages = passenger.getBaggages();
+        Set<Baggage> actualBaggages = passenger.getBaggages();
 
         verify(baggagesCollection).getBaggages();
         assertSame(expectedBaggages, actualBaggages);

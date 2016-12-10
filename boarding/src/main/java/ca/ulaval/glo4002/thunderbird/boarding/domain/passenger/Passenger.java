@@ -1,8 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggages;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggagesFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggagesCollection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
@@ -11,7 +9,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -26,10 +24,10 @@ public class Passenger {
     private boolean isCheckedIn;
     private boolean isChild;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "passenger", fetch = FetchType.LAZY)
     private PassengerBaggagesCollection baggagesCollection;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Flight flight;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -87,7 +85,7 @@ public class Passenger {
         baggagesCollection.addBaggage(baggage);
     }
 
-    public List<Baggage> getBaggages() {
+    public Set<Baggage> getBaggages() {
         return baggagesCollection.getBaggages();
     }
 

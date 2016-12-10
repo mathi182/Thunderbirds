@@ -10,10 +10,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -23,7 +20,7 @@ public abstract class CheckedBaggages extends BaggagesCollection {
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
-    protected List<Baggage> collection = new ArrayList<>();
+    protected Set<Baggage> collection = new HashSet<>();
 
     public CheckedBaggages(Passenger passenger) {
         this.passenger = passenger;
@@ -33,8 +30,8 @@ public abstract class CheckedBaggages extends BaggagesCollection {
         //for hibernate
     }
 
-    public List<Baggage> getBaggages() {
-        return Collections.unmodifiableList(collection);
+    public Set<Baggage> getBaggages() {
+        return collection;
     }
 
     public float calculatePrice() {

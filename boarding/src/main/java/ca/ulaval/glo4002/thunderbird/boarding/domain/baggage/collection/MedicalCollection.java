@@ -5,7 +5,9 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class MedicalCollection extends BaggagesCollection {
@@ -14,10 +16,10 @@ public class MedicalCollection extends BaggagesCollection {
     private static final String TYPE = "medical";
 
     @OneToMany
-    private List<Baggage> collection;
+    private Set<Baggage> collection;
 
     public MedicalCollection() {
-        collection = new ArrayList<>();
+        collection = new HashSet<>();
     }
 
     @Override
@@ -41,7 +43,7 @@ public class MedicalCollection extends BaggagesCollection {
     }
 
     @Override
-    public List<Baggage> getBaggages() {
+    public Set<Baggage> getBaggages() {
         return collection;
     }
 }

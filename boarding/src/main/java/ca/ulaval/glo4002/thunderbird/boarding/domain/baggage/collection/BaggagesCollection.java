@@ -4,7 +4,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -25,5 +26,5 @@ public abstract class BaggagesCollection {
     protected abstract void validate(Baggage baggage);
     public abstract float calculateTotalCost();
     public abstract String getCollectionType();
-    public abstract List<Baggage> getBaggages();
+    public abstract Set<Baggage> getBaggages();
 }

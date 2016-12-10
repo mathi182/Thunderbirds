@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Path("/passengers/{passenger_hash}/baggages")
@@ -40,7 +41,7 @@ public class BaggageResource {
     @GET
     public Response getBaggagesList(@PathParam("passenger_hash") UUID passengerHash) {
         Passenger passenger = baggageApplicationService.getPassenger(passengerHash);
-        List<Baggage> baggages = passenger.getBaggages();
+        Set<Baggage> baggages = passenger.getBaggages();
         float price = passenger.calculateBaggagesPrice();
         BaggagesListDTO baggagesListDTO = baggagesListAssembler.toDTO(price, baggages);
 
