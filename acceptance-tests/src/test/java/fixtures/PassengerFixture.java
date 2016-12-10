@@ -22,6 +22,7 @@ public class PassengerFixture extends HibernateBaseFixture {
     private static final int WEIGHT_VALUE = 22;
     private static final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
     private static final Flight NO_FLIGHT = null;
+    private static final String CHECKED_TYPE = "checked";
 
     private PassengerRepository repository;
 
@@ -37,7 +38,7 @@ public class PassengerFixture extends HibernateBaseFixture {
     }
 
     public void givenABaggageForPassenger(UUID passengerHash) {
-        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT);
+        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
         addBaggageToPassenger(passengerHash, baggage);
     }
 

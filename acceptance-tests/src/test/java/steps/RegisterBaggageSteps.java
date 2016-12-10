@@ -21,6 +21,7 @@ public class RegisterBaggageSteps implements Fr {
     private static final UUID passengerHash = UUID.randomUUID();
     private static final String BAGGAGE_MASS = "poids";
     private static final String BAGGAGE_LENGTH = "taille";
+    private static final String CHECKED_TYPE = "checked";
 
     private PassengerFixture passengerFixture;
 
@@ -50,7 +51,7 @@ public class RegisterBaggageSteps implements Fr {
             String lengthAsString = (String) baggageTable.get(BAGGAGE_LENGTH);
             Length length = MeasureConverter.getLengthFromString(lengthAsString);
 
-            Baggage baggage = new CheckedBaggage(length, mass);
+            Baggage baggage = new CheckedBaggage(length, mass, CHECKED_TYPE);
             passengerFixture.addBaggageToPassenger(passengerHash, baggage);
         });
 
