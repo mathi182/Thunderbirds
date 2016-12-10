@@ -41,6 +41,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private static final boolean CHECKED_IN = true;
     private static final boolean NOT_CHECKED_IN = false;
     private static final boolean IS_CHILD = false;
+    public static final String CHECKED = "checked";
 
     private static Flight flight = getFlight();
     private PassengerService passengerService = mock(PassengerService.class);
@@ -81,7 +82,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     public void givenPassengerWithBaggage_whenSavingThisPassenger_shouldSaveBaggagesCorrectly() {
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE,
                 Seat.SeatClass.ECONOMY, IS_VIP, CHECKED_IN, IS_CHILD, flight);
-        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS);
+        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
         expectedPassenger.addBaggage(baggage);
 
         repository.savePassenger(expectedPassenger);
@@ -97,7 +98,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
         repository.savePassenger(expectedPassenger);
 
         Passenger repoPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);
-        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS);
+        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
         repoPassenger.addBaggage(baggage);
         repository.savePassenger(repoPassenger);
         Passenger actualPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);

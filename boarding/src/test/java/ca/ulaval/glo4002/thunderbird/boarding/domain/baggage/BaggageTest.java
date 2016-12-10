@@ -21,8 +21,9 @@ public class BaggageTest {
     private static final int WEIGHT_VALUE = 22;
     private static final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
     private static final Mass INVALID_WEIGHT = Mass.fromGrams(WEIGHT_VALUE - 1);
+    public static final String CHECKED = "checked";
 
-    private final Baggage baggage = new CheckedBaggage(BAGGAGE_HASH, LINEAR_DIMENSION, WEIGHT);
+    private final Baggage baggage = new CheckedBaggage(BAGGAGE_HASH, LINEAR_DIMENSION, WEIGHT, CHECKED);
 
     @Test
     public void shouldReturnRightValues() {
