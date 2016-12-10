@@ -18,7 +18,7 @@ public class RegisterBaggageNormalizerTest {
     private static final int WEIGHT_IN_LBS = 928;
     private static final String TYPE_SPORT = "sport";
 
-    @Test //TODO : Tester le nouveau fonctionnement de la classe : Elle normalise un DTO de baggage
+    @Test
     public void givenARegisterBaggageDTO_whenNormalizingFromInAndKg_shouldAValidNormalizedDTOBeCreated() {
         RegisterBaggageDTO registerBaggageDTO =
                 new RegisterBaggageDTO(IN_UNIT, LENGTH_IN_INCHES, KG_UNIT, WEIGHT_IN_KG, TYPE_CHECKED);
