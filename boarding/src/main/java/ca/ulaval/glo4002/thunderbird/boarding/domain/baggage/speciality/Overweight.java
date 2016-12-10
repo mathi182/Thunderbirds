@@ -3,11 +3,11 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Outstanding implements Speciality {
-    private static final String SPECIALITY_NAME = "OUTSTANDING";
+public class Overweight extends Speciality {
+    private final String SPECIALITY_NAME = "OUTSTANDING";
 
     @Override
-    public float getModificator() {
+    public float getSpecialityFee() {
         return 0;
     }
 

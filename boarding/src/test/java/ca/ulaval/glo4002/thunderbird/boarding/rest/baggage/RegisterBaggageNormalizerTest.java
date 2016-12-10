@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Classic;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RegisterBaggageAssemblerTest {
     private static final String DIMENSION_UNIT_FROM_REQUEST = "cm";
@@ -32,11 +32,10 @@ public class RegisterBaggageAssemblerTest {
         Baggage actualBaggage = registerBaggageAssembler.getDomainBaggage(registerBaggage);
         double actualLength = actualBaggage.getDimension().toMillimeters();
         double actualMass = actualBaggage.getWeight().toGrams();
-        String actualSpecialityName = actualBaggage.getSpeciality().getSpecialityName();
 
         assertEquals(LINEAR_DIMENSION_CONVERTED, actualLength, UNIT_DELTA);
         assertEquals(WEIGHT_UNIT_CONVERTED, actualMass, UNIT_DELTA);
-        assertEquals(CLASSIC_SPECIALITY.getSpecialityName(), actualSpecialityName);
+        assertTrue(actualBaggage.hasSpeciality(CLASSIC_SPECIALITY));
     }
 
     @Test(expected = IllegalFieldWebException.class)
