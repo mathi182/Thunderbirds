@@ -28,6 +28,7 @@ public class BaggageApplicationService {
     public BaggageApplicationService() {
         this.repository = ServiceLocator.resolve(PassengerRepository.class);
         this.baggageFactory = ServiceLocator.resolve(BaggageFactory.class);
+        this.registerBaggageNormalizer = new RegisterBaggageNormalizer();
     }
 
     public UUID registerBaggage(UUID passengerHash, RegisterBaggageDTO registerBaggageDTO) {

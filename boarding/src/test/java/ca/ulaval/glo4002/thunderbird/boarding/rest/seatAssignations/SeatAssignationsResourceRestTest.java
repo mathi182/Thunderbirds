@@ -65,7 +65,6 @@ public class SeatAssignationsResourceRestTest {
     public void givenAValidPassengerHashAndInvalidMode_whenAssigningSeat_shouldReturnBadRequest() {
         Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), INVALID_MODE);
 
-
         givenBaseRequest()
                 .body(seatAssignationBody)
                 .when().post(SeatAssignationsResource.PATH)
