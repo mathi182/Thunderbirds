@@ -33,14 +33,14 @@ public class BaggageResourceRestTest {
 
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
-        Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
+        Map<String, Object> registerBaggageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
                 LINEAR_DIMENSION,
                 KG_UNIT_FROM_REQUEST,
                 WEIGHT,
                 BAGGAGE_TYPE_CHECKED);
 
         Response response = givenBaseRequest()
-                .and().body(registerBagageBody)
+                .and().body(registerBaggageBody)
                 .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then().statusCode(CREATED.getCode())
                 .and().extract().response();
