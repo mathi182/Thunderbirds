@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,7 +22,7 @@ public abstract class Baggage {
     protected float price;
 
     @Embedded
-    protected Speciality speciality;
+    protected List<Speciality> specialities;
 
     @Embedded
     protected Length linearDimension;
@@ -28,18 +30,18 @@ public abstract class Baggage {
     @Embedded
     protected Mass weight;
 
-    public Baggage(Length linearDimension, Mass weight, Speciality speciality) {
+    public Baggage(Length linearDimension, Mass weight) {
+        this.specialities = new ArrayList<>();
         this.baggageHash = UUID.randomUUID();
         this.linearDimension = linearDimension;
         this.weight = weight;
-        this.speciality = speciality;
     }
 
-    public Baggage(UUID baggageHash, Length linearDimension, Mass weight, Speciality speciality) {
+    public Baggage(UUID baggageHash, Length linearDimension, Mass weight) {
+        this.specialities = new ArrayList<>();
         this.baggageHash = baggageHash;
         this.linearDimension = linearDimension;
         this.weight = weight;
-        this.speciality = speciality;
     }
 
     protected Baggage() {
@@ -62,8 +64,18 @@ public abstract class Baggage {
         return linearDimension;
     }
 
-    public Speciality getSpeciality() {
-        return speciality;
+    public boolean hasSpeciality(Speciality speciality) {
+        for (Speciality specs : specialities) {
+            if (specs.getSpecialityName().equals(speciality.getSpecialityName())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void addSpeciality(Speciality speciality) {
+        specialities.add(speciality);
     }
 
     public float getPrice() {

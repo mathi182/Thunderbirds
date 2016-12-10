@@ -3,9 +3,9 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Sport implements Speciality {
-    private static final String SPECIALITY_NAME = "SPORT";
-    private final float modificator = 1.25f;
+public class Sport extends Speciality {
+    private final String SPECIALITY_NAME = "SPORT";
+    private final float SPECIALITY_FEE = 1.25f;
 
     @Override
     public String getSpecialityName() {
@@ -13,7 +13,7 @@ public class Sport implements Speciality {
     }
 
     @Override
-    public float getModificator() {
-        return modificator;
+    public float getSpecialityFee() {
+        return SPECIALITY_FEE;
     }
 }

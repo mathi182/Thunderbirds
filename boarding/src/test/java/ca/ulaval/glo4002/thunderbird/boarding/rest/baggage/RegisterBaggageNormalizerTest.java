@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class RegisterBaggageAssemblerTest {
+public class RegisterBaggageNormalizerTest {
     private static final String DIMENSION_UNIT_FROM_REQUEST = "cm";
     private static final int LINEAR_DIMENSION = 10;
     private static final String WEIGHT_UNIT_FROM_REQUEST = "kg";
@@ -28,8 +28,8 @@ public class RegisterBaggageAssemblerTest {
                 WEIGHT,
                 CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
-        RegisterBaggageAssembler registerBaggageAssembler = new RegisterBaggageAssembler();
-        Baggage actualBaggage = registerBaggageAssembler.getDomainBaggage(registerBaggage);
+        RegisterBaggageNormalizer registerBaggageNormalizer = new RegisterBaggageNormalizer();
+        Baggage actualBaggage = registerBaggageNormalizer.getDomainBaggage(registerBaggage);
         double actualLength = actualBaggage.getDimension().toMillimeters();
         double actualMass = actualBaggage.getWeight().toGrams();
 
@@ -47,8 +47,8 @@ public class RegisterBaggageAssemblerTest {
                 WEIGHT,
                 CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
-        RegisterBaggageAssembler registerBaggageAssembler = new RegisterBaggageAssembler();
-        registerBaggageAssembler.getDomainBaggage(registerBaggage);
+        RegisterBaggageNormalizer registerBaggageNormalizer = new RegisterBaggageNormalizer();
+        registerBaggageNormalizer.getDomainBaggage(registerBaggage);
     }
 
     @Test(expected = IllegalFieldWebException.class)
@@ -59,7 +59,7 @@ public class RegisterBaggageAssemblerTest {
                 WEIGHT,
                 CHECKED_BAGGAGE_TYPE_DESCRIPTION);
 
-        RegisterBaggageAssembler registerBaggageAssembler = new RegisterBaggageAssembler();
-        registerBaggageAssembler.getDomainBaggage(registerBaggage);
+        RegisterBaggageNormalizer registerBaggageNormalizer = new RegisterBaggageNormalizer();
+        registerBaggageNormalizer.getDomainBaggage(registerBaggage);
     }
 }

@@ -6,17 +6,23 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageDTO;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageNormalizer;
 
 import java.util.UUID;
 
 public class BaggageApplicationService {
     private PassengerRepository repository;
     private BaggageFactory baggageFactory;
+    private RegisterBaggageNormalizer registerBaggageNormalizer;
 
-    public BaggageApplicationService(PassengerRepository repository, BaggageFactory baggageFactory) {
+    public BaggageApplicationService(PassengerRepository repository,
+                                     BaggageFactory baggageFactory,
+                                     RegisterBaggageNormalizer registerBaggageNormalizer) {
         this.repository = repository;
         this.baggageFactory = baggageFactory;
+        this.registerBaggageNormalizer = registerBaggageNormalizer;
     }
 
     public BaggageApplicationService() {
@@ -26,7 +32,8 @@ public class BaggageApplicationService {
 
     public UUID registerBaggage(UUID passengerHash, RegisterBaggageDTO registerBaggageDTO) {
         Passenger passenger = getPassenger(passengerHash);
-        Baggage baggage = baggageFactory.createBaggage(passenger, registerBaggageDTO);
+        NormalizedBaggageDTO normalizedBaggageDTO = registerBaggageNormalizer.getDomainBaggage(registerBaggageDTO);
+        Baggage baggage = baggageFactory.createBaggage(passenger, normalizedBaggageDTO);
         passenger.addBaggage(baggage);
         repository.savePassenger(passenger);
 

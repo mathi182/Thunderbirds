@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Classic;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
@@ -12,6 +11,7 @@ import org.junit.Test;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class BaggageTest {
     private static final UUID BAGGAGE_HASH = new UUID(2L, 2L);
@@ -32,7 +32,7 @@ public class BaggageTest {
         assertEquals(BAGGAGE_HASH, baggage.getId());
         assertEquals(LINEAR_DIMENSION, baggage.getDimension());
         assertEquals(WEIGHT, baggage.getWeight());
-        assertEquals(SPECIALITY, baggage.getSpeciality());
+        assertTrue(baggage.hasSpeciality(SPECIALITY));
         assertEquals(0, baggage.getPrice(), 0.0f);
     }
 

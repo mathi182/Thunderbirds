@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality;
 
-public interface Speciality {
-    float getModificator();
+public abstract class Speciality {
 
-    String getSpecialityName();
+    public abstract float getSpecialityFee();
+    public abstract String getSpecialityName();
 }
