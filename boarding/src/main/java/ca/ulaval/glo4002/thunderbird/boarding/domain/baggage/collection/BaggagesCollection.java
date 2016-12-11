@@ -2,11 +2,9 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -17,21 +15,20 @@ public abstract class BaggagesCollection {
     @Column(name="id",nullable=false,unique=true)
     private int id;
 
-    @OneToMany(mappedBy = "baggagesCollection", fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    protected Set<Baggage> collection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "baggagesCollection", fetch = FetchType.EAGER)
+    protected List<Baggage> collection;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     protected Passenger passenger;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     protected PassengerBaggagesCollection passengerBaggagesCollection;
 
     public abstract void addBaggage(Baggage baggage);
     protected abstract void validate(Baggage baggage);
     public abstract float calculateTotalCost();
     public abstract String getCollectionType();
-    public abstract Set<Baggage> getBaggages();
+    public abstract List<Baggage> getBaggages();
 
     public void setPassengerBaggagesCollection(PassengerBaggagesCollection passengerBaggagesCollection) {
         this.passengerBaggagesCollection = passengerBaggagesCollection;

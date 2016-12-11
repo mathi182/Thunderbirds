@@ -10,8 +10,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -20,7 +20,7 @@ public abstract class CheckedBaggages extends BaggagesCollection {
     protected static final String TYPE = "checked";
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    protected Set<Baggage> collection = new HashSet<>();
+    protected List<Baggage> collection = new ArrayList<>();
 
     public CheckedBaggages(Passenger passenger) {
         this.passenger = passenger;
@@ -28,10 +28,9 @@ public abstract class CheckedBaggages extends BaggagesCollection {
 
     protected CheckedBaggages() {
         //for hibernate
-        System.out.print("");
     }
 
-    public Set<Baggage> getBaggages() {
+    public List<Baggage> getBaggages() {
         return collection;
     }
 
@@ -49,6 +48,7 @@ public abstract class CheckedBaggages extends BaggagesCollection {
             throw new BaggageAmountUnauthorizedException();
         }
         setBaggagePrice(baggage);
+        baggage.setBaggagesCollection(this);
         collection.add(baggage);
     }
 

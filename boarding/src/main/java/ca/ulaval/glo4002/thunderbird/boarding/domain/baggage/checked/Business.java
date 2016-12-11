@@ -18,4 +18,8 @@ public class Business extends CheckedBaggage{
     public Business(Length linearDimension, Mass weight, String type) {
         super(linearDimension, weight, type);
     }
+
+    public Business() {
+        // For hibernate
+    }
 }

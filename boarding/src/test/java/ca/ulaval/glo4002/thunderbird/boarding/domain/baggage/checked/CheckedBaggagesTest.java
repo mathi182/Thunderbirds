@@ -6,7 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.willReturn;
@@ -49,7 +49,7 @@ public class CheckedBaggagesTest {
 
     @Test
     public void whenGettingAllBaggages_shouldBeEmpty() {
-        Set<Baggage> baggages = checkedBaggages.getBaggages();
+        List<Baggage> baggages = checkedBaggages.getBaggages();
 
         assertTrue(baggages.isEmpty());
     }
@@ -58,7 +58,7 @@ public class CheckedBaggagesTest {
     public void givenWeAddABaggage_whenRetrievingTheList_shouldNotBeEmpty() {
         checkedBaggages.addBaggage(firstBaggage);
 
-        Set<Baggage> baggages = checkedBaggages.getBaggages();
+        List<Baggage> baggages = checkedBaggages.getBaggages();
 
         assertFalse(baggages.isEmpty());
     }

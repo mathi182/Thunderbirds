@@ -3,20 +3,20 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 
 import javax.persistence.Entity;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class StandardCollection extends BaggagesCollection {
     private static final String TYPE = "standard";
 
     public StandardCollection() {
-        collection = new HashSet<>();
+        collection = new ArrayList<>();
     }
 
     @Override
     public void addBaggage(Baggage baggage) {
-
+        baggage.setBaggagesCollection(this);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class StandardCollection extends BaggagesCollection {
     }
 
     @Override
-    public Set<Baggage> getBaggages() {
+    public List<Baggage> getBaggages() {
         return collection;
     }
 }

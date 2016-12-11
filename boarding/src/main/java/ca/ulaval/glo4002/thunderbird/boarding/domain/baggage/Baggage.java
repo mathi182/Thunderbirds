@@ -26,7 +26,8 @@ public abstract class Baggage {
     @OneToMany(cascade = CascadeType.ALL)
     protected Set<Speciality> specialities;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn
     protected BaggagesCollection baggagesCollection;
 
     @Embedded
@@ -60,6 +61,10 @@ public abstract class Baggage {
     public abstract boolean isChecked();
 
     public abstract String getType();
+
+    public void setBaggagesCollection(BaggagesCollection baggagesCollection) {
+        this.baggagesCollection = baggagesCollection;
+    }
 
     public UUID getId() {
         return baggageHash;
