@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 
-import java.util.List;
 import java.util.Set;
 
 public class BaggagesListAssembler {

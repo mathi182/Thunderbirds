@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
@@ -9,9 +10,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -23,7 +22,7 @@ public abstract class Baggage {
     protected String type;
 
     @Embedded
-    protected List<Speciality> specialities;
+    protected Set<Speciality> specialities;
 
     @Embedded
     protected Length linearDimension;
@@ -32,7 +31,7 @@ public abstract class Baggage {
     protected Mass weight;
 
     public Baggage(Length linearDimension, Mass weight, String type) {
-        this.specialities = new ArrayList<>();
+        this.specialities = new HashSet<>();
         this.baggageHash = UUID.randomUUID();
         this.linearDimension = linearDimension;
         this.weight = weight;
@@ -40,7 +39,7 @@ public abstract class Baggage {
     }
 
     public Baggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        this.specialities = new ArrayList<>();
+        this.specialities = new HashSet<>();
         this.baggageHash = baggageHash;
         this.linearDimension = linearDimension;
         this.weight = weight;

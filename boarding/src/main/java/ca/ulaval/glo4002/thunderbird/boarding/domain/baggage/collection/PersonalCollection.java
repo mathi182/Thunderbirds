@@ -2,9 +2,11 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,10 +15,10 @@ public class PersonalCollection extends BaggagesCollection {
     private static final String TYPE = "personal";
 
     @OneToMany
-    private List<Baggage> collection;
+    private Set<Baggage> collection;
 
     public PersonalCollection() {
-        collection = new ArrayList<>();
+        collection = new HashSet<>();
     }
 
     @Override
