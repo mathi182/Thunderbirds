@@ -15,10 +15,13 @@ public abstract class BaggagesCollection {
     @Column(name="id",nullable=false,unique=true)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "baggagesCollection")
+    protected Set<Baggage> collection;
+
+    @Transient
     protected Passenger passenger;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     private PassengerBaggagesCollection passengerBaggagesCollection;
 
     public abstract void addBaggage(Baggage baggage);

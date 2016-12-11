@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.BaggagesCollection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
@@ -23,6 +24,9 @@ public abstract class Baggage {
 
     @OneToMany(cascade = CascadeType.ALL)
     protected Set<Speciality> specialities;
+
+    @ManyToOne
+    protected BaggagesCollection baggagesCollection;
 
     @Embedded
     protected Length linearDimension;

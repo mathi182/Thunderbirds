@@ -24,13 +24,13 @@ public class Passenger {
     private boolean isCheckedIn;
     private boolean isChild;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "passenger", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private PassengerBaggagesCollection baggagesCollection;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Flight flight;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seat_id")
     private Seat seat;
 

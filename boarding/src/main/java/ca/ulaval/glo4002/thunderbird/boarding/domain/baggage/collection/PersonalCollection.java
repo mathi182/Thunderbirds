@@ -14,9 +14,6 @@ import java.util.Set;
 public class PersonalCollection extends BaggagesCollection {
     private static final String TYPE = "personal";
 
-    @OneToMany
-    private Set<Baggage> collection;
-
     public PersonalCollection() {
         collection = new HashSet<>();
     }

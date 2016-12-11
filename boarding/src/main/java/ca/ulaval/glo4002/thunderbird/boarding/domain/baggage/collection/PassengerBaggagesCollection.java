@@ -19,7 +19,7 @@ public class PassengerBaggagesCollection {
     @OneToOne(fetch = FetchType.EAGER)
     protected Passenger passenger;
 
-    @OneToMany(mappedBy = "passengerBaggagesCollection", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "passengerBaggagesCollection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     protected Set<BaggagesCollection> collection;
 
     public PassengerBaggagesCollection(Passenger passenger) {

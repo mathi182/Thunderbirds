@@ -16,9 +16,6 @@ public class MedicalCollection extends BaggagesCollection {
     private static final int COST = 0;
     private static final String TYPE = "medical";
 
-    @OneToMany
-    private Set<Baggage> collection;
-
     public MedicalCollection() {
         collection = new HashSet<>();
     }
