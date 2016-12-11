@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-public class PassengerBaggagesCollection {
+public class PassengerBaggageCollections {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -24,49 +24,52 @@ public class PassengerBaggagesCollection {
     @OneToOne(fetch = FetchType.EAGER)
     protected Passenger passenger;
 
-    @OneToMany(mappedBy = "passengerBaggagesCollection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "passengerBaggageCollections", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
-    protected Set<BaggagesCollection> collection;
+    protected Set<BaggageCollection> collection;
 
-    public PassengerBaggagesCollection(Passenger passenger) {
+    public PassengerBaggageCollections(Passenger passenger) {
         this.checkedBaggageId = passenger.getHash();
         this.passenger = passenger;
         collection = new HashSet<>();
     }
 
-    protected  PassengerBaggagesCollection() {
+    protected PassengerBaggageCollections() {
         //For Hibernate
     }
 
     public void addBaggage(Baggage baggage) {
-        Optional<BaggagesCollection> baggagesCollection =
-                collection.stream()
-                .filter(x -> x.getCollectionType()
-                        .equals(baggage.getType()))
-                .findFirst();
+        Optional<BaggageCollection> baggageCollection = getBaggageCollectionForBaggage(baggage);
 
-        if (baggagesCollection.isPresent()) {
-            baggagesCollection.get().addBaggage(baggage);
+        if (baggageCollection.isPresent()) {
+            baggageCollection.get().addBaggage(baggage);
         } else {
             CollectionFactory collectionFactory = ServiceLocator.resolve(CollectionFactory.class);
-            BaggagesCollection newCollection = collectionFactory.createCollection(passenger, baggage.getType());
+            BaggageCollection newCollection = collectionFactory.createCollection(passenger, baggage.getType());
             newCollection.addBaggage(baggage);
-            newCollection.setPassengerBaggagesCollection(this);
+            newCollection.setPassengerBaggageCollections(this);
             collection.add(newCollection);
         }
     }
 
+    private Optional<BaggageCollection> getBaggageCollectionForBaggage(Baggage baggage) {
+        return collection.stream()
+        .filter(x -> x.getCollectionType()
+                .equals(baggage.getType()))
+        .findFirst();
+    }
+
     public float calculateTotalPrice() {
         return collection.stream()
-                .map(BaggagesCollection::calculateTotalCost)
+                .map(BaggageCollection::calculateTotalCost)
                 .reduce(0f, (a, b) -> a + b);
     }
 
     public Set<Baggage> getBaggages() {
         Set<Baggage> baggageList = new HashSet<>();
 
-        for (BaggagesCollection baggagesCollection : collection) {
-            baggageList.addAll(baggagesCollection.getBaggages());
+        for (BaggageCollection baggageCollection : collection) {
+            baggageList.addAll(baggageCollection.getBaggages());
         }
 
         return baggageList;

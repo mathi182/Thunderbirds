@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class StandardBaggageCollection extends BaggagesCollection {
+public class StandardBaggageCollection extends BaggageCollection {
     private static final String TYPE = "standard";
 
     public StandardBaggageCollection() {
@@ -16,7 +16,7 @@ public class StandardBaggageCollection extends BaggagesCollection {
 
     @Override
     public void addBaggage(Baggage baggage) {
-        baggage.setBaggagesCollection(this);
+        baggage.setBaggageCollection(this);
     }
 
     @Override

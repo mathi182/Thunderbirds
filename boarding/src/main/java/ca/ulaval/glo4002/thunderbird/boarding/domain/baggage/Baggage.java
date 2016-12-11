@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.BaggagesCollection;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.BaggageCollection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
@@ -28,7 +28,7 @@ public abstract class Baggage {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
-    protected BaggagesCollection baggagesCollection;
+    protected BaggageCollection baggageCollection;
 
     @Embedded
     protected Length linearDimension;
@@ -62,8 +62,8 @@ public abstract class Baggage {
 
     public abstract String getType();
 
-    public void setBaggagesCollection(BaggagesCollection baggagesCollection) {
-        this.baggagesCollection = baggagesCollection;
+    public void setBaggageCollection(BaggageCollection baggageCollection) {
+        this.baggageCollection = baggageCollection;
     }
 
     public UUID getId() {

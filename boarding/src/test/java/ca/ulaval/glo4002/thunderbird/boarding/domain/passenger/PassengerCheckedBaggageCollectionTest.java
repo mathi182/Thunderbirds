@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggagesCollection;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggageCollections;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class PassengerCheckedBaggageCollectionTest {
     private static final boolean IS_CHILD = false;
 
     private Flight flight = mock(Flight.class);
-    private PassengerBaggagesCollection baggagesCollection = mock(PassengerBaggagesCollection.class);
+    private PassengerBaggageCollections baggagesCollection = mock(PassengerBaggageCollections.class);
     private Passenger passenger = new Passenger(HASH, SEAT_CLASS, NOT_VIP, IS_CHECKED_IN, IS_CHILD, flight, baggagesCollection);
     private Passenger vipPassenger = new Passenger(HASH, SEAT_CLASS, VIP, IS_CHECKED_IN, IS_CHILD, flight, baggagesCollection);
 

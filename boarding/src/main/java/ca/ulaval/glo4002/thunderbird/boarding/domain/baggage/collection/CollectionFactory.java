@@ -9,7 +9,7 @@ public class CollectionFactory {
     private static final String MEDICAL = "medical";
     private static final String CHECKED = "checked";
 
-    public BaggagesCollection createCollection(Passenger passenger, String type) {
+    public BaggageCollection createCollection(Passenger passenger, String type) {
 
         switch (type) {
             case STANDARD:

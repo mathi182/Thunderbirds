@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggagesCollection;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggageCollections;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
@@ -22,7 +22,7 @@ public class PassengerTest {
     private static final boolean IS_CHILD = false;
 
     private Flight flight = mock(Flight.class);
-    private PassengerBaggagesCollection passengerCollection = mock(PassengerBaggagesCollection.class);
+    private PassengerBaggageCollections passengerCollection = mock(PassengerBaggageCollections.class);
     private Passenger passenger = new Passenger(HASH, SEAT_CLASS, VIP, IS_CHECKED_IN, IS_CHILD, flight, passengerCollection);
 
     @Test

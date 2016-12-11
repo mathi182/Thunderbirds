@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class CheckedBaggageCollection extends BaggagesCollection {
+public abstract class CheckedBaggageCollection extends BaggageCollection {
     private static final int BAGGAGE_COUNT_LIMIT = 3;
     protected static final String TYPE = "checked";
 
@@ -47,7 +47,7 @@ public abstract class CheckedBaggageCollection extends BaggagesCollection {
             throw new BaggageAmountUnauthorizedException();
         }
         setBaggagePrice(baggage);
-        baggage.setBaggagesCollection(this);
+        baggage.setBaggageCollection(this);
         collection.add(baggage);
     }
 

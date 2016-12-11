@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggagesCollection;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggageCollections;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
@@ -25,7 +25,7 @@ public class Passenger {
     private boolean isChild;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private PassengerBaggagesCollection baggagesCollection;
+    private PassengerBaggageCollections baggagesCollection;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Flight flight;
@@ -42,11 +42,11 @@ public class Passenger {
         this.isCheckedIn = isCheckedIn;
         this.isChild = isChild;
         this.flight = flight;
-        this.baggagesCollection = new PassengerBaggagesCollection(this);
+        this.baggagesCollection = new PassengerBaggageCollections(this);
     }
 
     public Passenger(UUID passengerHash, Seat.SeatClass seatClass, boolean isVip, boolean isCheckedIn,
-                     boolean isChild, Flight flight, PassengerBaggagesCollection baggagesCollection) {
+                     boolean isChild, Flight flight, PassengerBaggageCollections baggagesCollection) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.isVip = isVip;
@@ -101,8 +101,8 @@ public class Passenger {
         return isCheckedIn;
     }
 
-    public void setBaggagesCollection(PassengerBaggagesCollection passengerBaggagesCollection) {
-        baggagesCollection = passengerBaggagesCollection;
+    public void setBaggagesCollection(PassengerBaggageCollections passengerBaggageCollections) {
+        baggagesCollection = passengerBaggageCollections;
     }
 
     @Override

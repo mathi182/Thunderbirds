@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class MedicalBaggageCollection extends BaggagesCollection {
+public class MedicalBaggageCollection extends BaggageCollection {
     private static final int COST = 0;
     private static final String TYPE = "medical";
 
@@ -17,7 +17,7 @@ public class MedicalBaggageCollection extends BaggagesCollection {
 
     @Override
     public void addBaggage(Baggage baggage) {
-        baggage.setBaggagesCollection(this);
+        baggage.setBaggageCollection(this);
         collection.add(baggage);
     }
 
