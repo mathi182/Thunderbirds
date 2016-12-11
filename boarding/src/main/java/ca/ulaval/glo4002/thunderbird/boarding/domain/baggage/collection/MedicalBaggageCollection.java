@@ -7,26 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class PersonalCollection extends BaggagesCollection {
-    private static final String TYPE = "personal";
+public class MedicalBaggageCollection extends BaggagesCollection {
+    private static final int COST = 0;
+    private static final String TYPE = "medical";
 
-    public PersonalCollection() {
+    public MedicalBaggageCollection() {
         collection = new ArrayList<>();
     }
 
     @Override
     public void addBaggage(Baggage baggage) {
         baggage.setBaggagesCollection(this);
+        collection.add(baggage);
     }
 
     @Override
     protected void validate(Baggage baggage) {
-
+        //TODO Implement me.
     }
 
     @Override
     public float calculateTotalCost() {
-        return 0;
+        return COST;
     }
 
     @Override
@@ -36,6 +38,6 @@ public class PersonalCollection extends BaggagesCollection {
 
     @Override
     public List<Baggage> getBaggages() {
-        return null;
+        return collection;
     }
 }

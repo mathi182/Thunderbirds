@@ -40,7 +40,7 @@ public class BaggageApplicationServiceTest {
         baggage = mock(Baggage.class);
         willReturn(baggage).given(baggageFactory).createBaggage(passenger,normalizedBaggageDTO);
         willReturn(BAGGAGE_ID).given(baggage).getId();
-        willReturn(normalizedBaggageDTO).given(registerBaggageNormalizer).normalizeRegisterBaggageDTO(registerBaggageDTO);
+        willReturn(normalizedBaggageDTO).given(registerBaggageNormalizer).normalizeBaggageDTO(registerBaggageDTO);
     }
 
     @Test

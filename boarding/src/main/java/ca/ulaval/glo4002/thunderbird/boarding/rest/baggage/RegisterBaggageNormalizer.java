@@ -10,7 +10,7 @@ public class RegisterBaggageNormalizer {
     private static final String CENTIMETERS = "cm";
     private static final String INCHES = "po";
 
-    public NormalizedBaggageDTO normalizeRegisterBaggageDTO(RegisterBaggageDTO request) {
+    public NormalizedBaggageDTO normalizeBaggageDTO(RegisterBaggageDTO request) {
         Length length = getDimension(request);
         Mass weight = getWeight(request);
         String type = request.type;

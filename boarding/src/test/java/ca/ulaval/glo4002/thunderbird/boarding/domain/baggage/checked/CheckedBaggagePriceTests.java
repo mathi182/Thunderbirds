@@ -41,7 +41,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenValidDimensionAndWeight_whenCalculatingPrice_shouldNotPayOverweightExcessFees() {
-        NormalizedBaggageDTO withinLimitBaggage = new NormalizedBaggageDTO(validDimension, validWeight,CHECKED_TYPE);
+        NormalizedBaggageDTO withinLimitBaggage = new NormalizedBaggageDTO(validDimension, validWeight, CHECKED_TYPE);
         baggage = baggageFactory.createBaggage(passenger, withinLimitBaggage);
 
         float actualPrice = baggage.getBasePrice();
@@ -51,7 +51,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenOversizeDimension_whenCalculatingPrice_shouldPayOverweightExcessFees() {
-        NormalizedBaggageDTO excessLength = new NormalizedBaggageDTO(invalidDimension, validWeight,CHECKED_TYPE);
+        NormalizedBaggageDTO excessLength = new NormalizedBaggageDTO(invalidDimension, validWeight, CHECKED_TYPE);
         baggage = baggageFactory.createBaggage(passenger, excessLength);
 
         float actualPrice = baggage.getBasePrice();
@@ -62,7 +62,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenInvalidWeight_whenCalculatingPrice_shouldPayOverweightExcessFees() {
-        NormalizedBaggageDTO excessWeight = new NormalizedBaggageDTO(validDimension,invalidWeight,CHECKED_TYPE);
+        NormalizedBaggageDTO excessWeight = new NormalizedBaggageDTO(validDimension, invalidWeight, CHECKED_TYPE);
         baggage = baggageFactory.createBaggage(passenger, excessWeight);
 
         float actualPrice = baggage.getBasePrice();
@@ -73,7 +73,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenInvalidDimensionAndWeight_whenCalculatingPrice_shouldPayOverweightExcessFeesTwoTimes() {
-        NormalizedBaggageDTO excessWnL = new NormalizedBaggageDTO(invalidDimension,invalidWeight,CHECKED_TYPE);
+        NormalizedBaggageDTO excessWnL = new NormalizedBaggageDTO(invalidDimension, invalidWeight, CHECKED_TYPE);
 
         baggage = baggageFactory.createBaggage(passenger, excessWnL);
 
@@ -85,7 +85,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenSportBaggageWithValidDimensionAndWeight_whenCalculatingPrice_shouldOnlyPaySportExcessFees() {
-        NormalizedBaggageDTO sportWithinLimit = new NormalizedBaggageDTO(validDimension,validWeight,SPORT_TYPE);
+        NormalizedBaggageDTO sportWithinLimit = new NormalizedBaggageDTO(validDimension, validWeight, SPORT_TYPE);
         baggage = baggageFactory.createBaggage(passenger, sportWithinLimit);
 
         float actualPrice = baggage.getBasePrice();

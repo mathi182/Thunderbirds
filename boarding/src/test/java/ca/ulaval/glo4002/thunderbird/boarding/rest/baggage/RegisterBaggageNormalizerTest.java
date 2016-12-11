@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RegisterBaggageNormalizerTest {
 
-    private static final String IN_UNIT = "po";
+    private static final String INCH_UNIT = "po";
     private static final int LENGTH_IN_INCHES = 123;
     private static final String KG_UNIT = "kg";
     private static final int WEIGHT_IN_KG = 832;
@@ -21,10 +21,10 @@ public class RegisterBaggageNormalizerTest {
     @Test
     public void givenARegisterBaggageDTO_whenNormalizingFromInAndKg_shouldAValidNormalizedDTOBeCreated() {
         RegisterBaggageDTO registerBaggageDTO =
-                new RegisterBaggageDTO(IN_UNIT, LENGTH_IN_INCHES, KG_UNIT, WEIGHT_IN_KG, TYPE_CHECKED);
+                new RegisterBaggageDTO(INCH_UNIT, LENGTH_IN_INCHES, KG_UNIT, WEIGHT_IN_KG, TYPE_CHECKED);
         RegisterBaggageNormalizer registerBaggageNormalizer = new RegisterBaggageNormalizer();
 
-        NormalizedBaggageDTO normalisedDTO = registerBaggageNormalizer.normalizeRegisterBaggageDTO(registerBaggageDTO);
+        NormalizedBaggageDTO normalisedDTO = registerBaggageNormalizer.normalizeBaggageDTO(registerBaggageDTO);
 
         assertEquals(LENGTH_IN_INCHES,normalisedDTO.length.toInches(),DELTA);
         assertEquals(WEIGHT_IN_KG,normalisedDTO.mass.toKilograms(),DELTA);
@@ -37,7 +37,7 @@ public class RegisterBaggageNormalizerTest {
                 new RegisterBaggageDTO(CM_UNIT, LENGTH_IN_CM, LBS_UNIT, WEIGHT_IN_LBS, TYPE_SPORT);
         RegisterBaggageNormalizer registerBaggageNormalizer = new RegisterBaggageNormalizer();
 
-        NormalizedBaggageDTO normalisedDTO = registerBaggageNormalizer.normalizeRegisterBaggageDTO(registerBaggageDTO);
+        NormalizedBaggageDTO normalisedDTO = registerBaggageNormalizer.normalizeBaggageDTO(registerBaggageDTO);
 
         assertEquals(LENGTH_IN_CM,normalisedDTO.length.toCentimeters(),DELTA);
         assertEquals(WEIGHT_IN_LBS,normalisedDTO.mass.toPounds(),DELTA);

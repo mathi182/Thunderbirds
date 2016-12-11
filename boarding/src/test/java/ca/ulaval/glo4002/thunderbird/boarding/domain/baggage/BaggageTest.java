@@ -26,7 +26,7 @@ public class BaggageTest {
     private final int WEIGHT_VALUE = 22;
     private final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
     private final Mass INVALID_WEIGHT = Mass.fromGrams(WEIGHT_VALUE - 1);
-    private final String CHECKED = "checked";
+    private final String CHECKED_TYPE = "checked";
     private final Seat.SeatClass BUSINESS = Seat.SeatClass.BUSINESS;
 
     private BaggageFactory baggageFactory = new BaggageFactory();
@@ -36,7 +36,7 @@ public class BaggageTest {
     public void setup() {
         Passenger passenger = mock(Passenger.class);
         willReturn(BUSINESS).given(passenger).getSeatClass();
-        NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION, WEIGHT, CHECKED);
+        NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
         baggage = baggageFactory.createBaggage(passenger, baggageDTO);
     }
 
@@ -45,6 +45,7 @@ public class BaggageTest {
         assertEquals(LINEAR_DIMENSION, baggage.getDimension());
         assertEquals(WEIGHT, baggage.getWeight());
         assertEquals(0, baggage.getPrice(), 0.0f);
+        assertEquals(CHECKED_TYPE, baggage.getType());
     }
 
     @Test

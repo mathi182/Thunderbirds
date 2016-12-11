@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class StandardCollection extends BaggagesCollection {
+public class StandardBaggageCollection extends BaggagesCollection {
     private static final String TYPE = "standard";
 
-    public StandardCollection() {
+    public StandardBaggageCollection() {
         collection = new ArrayList<>();
     }
 
