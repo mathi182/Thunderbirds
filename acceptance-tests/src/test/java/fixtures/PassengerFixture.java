@@ -11,10 +11,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePas
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
-import steps.JPAUtil;
 
-import javax.persistence.Query;
-import javax.persistence.metamodel.EntityType;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -30,7 +27,6 @@ public class PassengerFixture extends HibernateBaseFixture {
 
     private PassengerRepository repository;
     private BaggageFactory baggageFactory;
-    JPAUtil jpaUtil = new JPAUtil();
 
     public PassengerFixture() {
         this.repository = new HibernatePassengerRepository(new PassengerService());
@@ -45,7 +41,6 @@ public class PassengerFixture extends HibernateBaseFixture {
     }
 
     public void givenABaggageForPassenger(UUID passengerHash) {
-        //Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
         NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
         addBaggageToPassenger(passengerHash, baggageDTO);
     }
@@ -57,7 +52,6 @@ public class PassengerFixture extends HibernateBaseFixture {
             passenger.addBaggage(baggage);
             repository.savePassenger(passenger);
         });
-        jpaUtil.checkData("select * from EconomicCheckedBaggages");
     }
 
     public void thenTotalBaggagePriceEquals(UUID passengerHash, float totalPriceExpected) {

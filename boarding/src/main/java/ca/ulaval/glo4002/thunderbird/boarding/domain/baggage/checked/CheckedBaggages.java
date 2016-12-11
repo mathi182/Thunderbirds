@@ -10,7 +10,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -18,8 +19,7 @@ public abstract class CheckedBaggages extends BaggagesCollection {
     private static final int BAGGAGE_COUNT_LIMIT = 3;
     protected static final String TYPE = "checked";
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "passenger_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     protected Set<Baggage> collection = new HashSet<>();
 
     public CheckedBaggages(Passenger passenger) {
@@ -28,6 +28,7 @@ public abstract class CheckedBaggages extends BaggagesCollection {
 
     protected CheckedBaggages() {
         //for hibernate
+        System.out.print("");
     }
 
     public Set<Baggage> getBaggages() {

@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,18 +17,24 @@ public abstract class BaggagesCollection {
     @Column(name="id",nullable=false,unique=true)
     private int id;
 
-    @OneToMany(mappedBy = "baggagesCollection")
+    @OneToMany(mappedBy = "baggagesCollection", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     protected Set<Baggage> collection;
 
-    @Transient
+    @ManyToOne
     protected Passenger passenger;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    private PassengerBaggagesCollection passengerBaggagesCollection;
+    protected PassengerBaggagesCollection passengerBaggagesCollection;
 
     public abstract void addBaggage(Baggage baggage);
     protected abstract void validate(Baggage baggage);
     public abstract float calculateTotalCost();
     public abstract String getCollectionType();
     public abstract Set<Baggage> getBaggages();
+
+    public void setPassengerBaggagesCollection(PassengerBaggagesCollection passengerBaggagesCollection) {
+        this.passengerBaggagesCollection = passengerBaggagesCollection;
+        this.passenger = passengerBaggagesCollection.passenger;
+    }
 }

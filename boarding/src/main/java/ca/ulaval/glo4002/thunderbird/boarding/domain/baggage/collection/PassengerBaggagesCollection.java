@@ -5,9 +5,14 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 public class PassengerBaggagesCollection {
@@ -20,6 +25,7 @@ public class PassengerBaggagesCollection {
     protected Passenger passenger;
 
     @OneToMany(mappedBy = "passengerBaggagesCollection", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     protected Set<BaggagesCollection> collection;
 
     public PassengerBaggagesCollection(Passenger passenger) {
@@ -45,6 +51,7 @@ public class PassengerBaggagesCollection {
             CollectionFactory collectionFactory = ServiceLocator.resolve(CollectionFactory.class);
             BaggagesCollection newCollection = collectionFactory.createCollection(passenger, baggage.getType());
             newCollection.addBaggage(baggage);
+            newCollection.setPassengerBaggagesCollection(this);
             collection.add(newCollection);
         }
     }
