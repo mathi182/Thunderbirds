@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
@@ -8,16 +8,16 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import javax.persistence.Entity;
 
 @Entity
-public class EconomicCheckedBaggages extends CheckedBaggages {
+public class EconomicBaggageCollection extends CheckedBaggageCollection {
     private static final int FREE_BAGGAGE_COUNT = 1;
     private static final Mass WEIGHT_LIMIT = Mass.fromKilograms(23);
     private static final Length DIMENSION_LIMIT = Length.fromCentimeters(158);
 
-    public EconomicCheckedBaggages(Passenger passenger) {
+    public EconomicBaggageCollection(Passenger passenger) {
         super(passenger);
     }
 
-    protected EconomicCheckedBaggages() {
+    protected EconomicBaggageCollection() {
         //for hibernate
     }
 
@@ -44,12 +44,12 @@ public class EconomicCheckedBaggages extends CheckedBaggages {
     @Override
     public float calculateTotalCost() {
         float cost = 0;
-        int baggageProcessed = 0;
+        int baggageNumber = 1;
         for (Baggage currentBaggage : collection) {
-            baggageProcessed++;
-            if (baggageProcessed > FREE_BAGGAGE_COUNT) {
+            if (baggageNumber > FREE_BAGGAGE_COUNT) {
                 cost += currentBaggage.getBasePrice();
             }
+            baggageNumber++;
         }
         return cost;
     }

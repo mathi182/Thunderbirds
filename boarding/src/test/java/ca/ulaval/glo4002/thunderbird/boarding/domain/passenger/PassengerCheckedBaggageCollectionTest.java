@@ -16,7 +16,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class PassengerCheckedBaggagesTest {
+public class PassengerCheckedBaggageCollectionTest {
     private static final UUID HASH = UUID.randomUUID();
     private static final Seat.SeatClass SEAT_CLASS = Seat.SeatClass.ECONOMY;
     private static final boolean NOT_VIP = false;

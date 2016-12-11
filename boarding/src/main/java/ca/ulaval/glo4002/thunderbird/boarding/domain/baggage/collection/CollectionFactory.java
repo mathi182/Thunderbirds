@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.BusinessCheckedBaggages;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.EconomicCheckedBaggages;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 
@@ -23,9 +21,9 @@ public class CollectionFactory {
             case CHECKED:
                 switch (passenger.getSeatClass()) {
                     case BUSINESS:
-                        return new BusinessCheckedBaggages(passenger);
+                        return new BusinessBaggageCollection(passenger);
                     case ECONOMY:
-                        return new EconomicCheckedBaggages(passenger);
+                        return new EconomicBaggageCollection(passenger);
                     default:
                         throw new NoSuchStrategyException("Unknown seatClass " + passenger.getSeatClass());
                 }

@@ -7,18 +7,18 @@ import javax.persistence.Entity;
 import java.util.UUID;
 
 @Entity
-public class Standard extends Baggage {
-    private static final String TYPE = "standard";
+public class PersonalBaggage extends Baggage {
+    private static final String TYPE = "personal";
 
-    public Standard(UUID baggageHash, Length linearDimension, Mass weight, String type) {
+    public PersonalBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
         super(baggageHash, linearDimension, weight, type);
     }
 
-    public Standard(Length linearDimension, Mass weight, String type) {
+    public PersonalBaggage(Length linearDimension, Mass weight, String type) {
         super(linearDimension, weight, type);
     }
 
-    public Standard() {
+    public PersonalBaggage() {
         // For hibernate
     }
 

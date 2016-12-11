@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.CollectionFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
@@ -13,6 +13,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerReposito
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.BeforeClass;
@@ -43,12 +44,13 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private static final boolean CHECKED_IN = true;
     private static final boolean NOT_CHECKED_IN = false;
     private static final boolean IS_CHILD = false;
-    public static final String CHECKED = "checked";
+    private static final String CHECKED = "checked";
 
     private static Flight flight = getFlight();
     private PassengerService passengerService = mock(PassengerService.class);
     private PassengerRepository repository = new HibernatePassengerRepository(passengerService);
     private Passenger updatePassenger = mock(Passenger.class);
+    private final BaggageFactory baggageFactory = new BaggageFactory();
 
     @BeforeClass
     public static void setUpFlight() throws Exception {
@@ -85,7 +87,9 @@ public class HibernatePassengerRepositoryIntegrationTest {
     public void givenPassengerWithBaggage_whenSavingThisPassenger_shouldSaveBaggagesCorrectly() {
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE,
                 Seat.SeatClass.ECONOMY, IS_VIP, CHECKED_IN, IS_CHILD, flight);
-        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+        NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+
+        Baggage baggage = baggageFactory.createBaggage(expectedPassenger, baggageDTO);
         expectedPassenger.addBaggage(baggage);
 
         repository.savePassenger(expectedPassenger);
@@ -101,7 +105,9 @@ public class HibernatePassengerRepositoryIntegrationTest {
         repository.savePassenger(expectedPassenger);
 
         Passenger repoPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);
-        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+        NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
+
+        Baggage baggage = baggageFactory.createBaggage(repoPassenger, baggageDTO);
         repoPassenger.addBaggage(baggage);
         repository.savePassenger(repoPassenger);
         Passenger actualPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);

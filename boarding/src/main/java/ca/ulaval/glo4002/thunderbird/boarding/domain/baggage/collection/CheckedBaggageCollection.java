@@ -1,7 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked;
+package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.BaggagesCollection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
@@ -15,18 +14,18 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class CheckedBaggages extends BaggagesCollection {
+public abstract class CheckedBaggageCollection extends BaggagesCollection {
     private static final int BAGGAGE_COUNT_LIMIT = 3;
     protected static final String TYPE = "checked";
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     protected List<Baggage> collection = new ArrayList<>();
 
-    public CheckedBaggages(Passenger passenger) {
+    public CheckedBaggageCollection(Passenger passenger) {
         this.passenger = passenger;
     }
 
-    protected CheckedBaggages() {
+    protected CheckedBaggageCollection() {
         //for hibernate
     }
 

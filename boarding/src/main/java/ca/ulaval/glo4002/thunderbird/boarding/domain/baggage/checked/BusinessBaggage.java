@@ -7,19 +7,19 @@ import javax.persistence.Entity;
 import java.util.UUID;
 
 @Entity
-public class Business extends CheckedBaggage{
+public class BusinessBaggage extends CheckedBaggage{
     public static final Mass MAX_WEIGHT = Mass.fromKilograms(30);
     public static final Length MAX_LENGTH = Length.fromCentimeters(158);
 
-    public Business(UUID baggageHash, Length linearDimension, Mass weight, String type) {
+    public BusinessBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
         super(baggageHash, linearDimension, weight, type);
     }
 
-    public Business(Length linearDimension, Mass weight, String type) {
+    public BusinessBaggage(Length linearDimension, Mass weight, String type) {
         super(linearDimension, weight, type);
     }
 
-    public Business() {
+    public BusinessBaggage() {
         // For hibernate
     }
 }

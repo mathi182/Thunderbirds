@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import java.util.UUID;
 
 @Entity
-public class CheckedBaggage extends Baggage {
+public abstract class CheckedBaggage extends Baggage {
     protected static final int BAGGAGE_COST = 50;
     protected static final String TYPE = "checked";
 

@@ -8,6 +8,7 @@ import contexts.AcceptanceContext;
 import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
+import fixtures.BaggageFixture;
 import fixtures.PassengerFixture;
 import helpers.MeasureConverter;
 
@@ -23,11 +24,13 @@ public class RegisterBaggageSteps implements Fr {
     private static final String CHECKED_TYPE = "checked";
 
     private PassengerFixture passengerFixture;
+    private BaggageFixture baggageFixture;
 
     @Before
     public void setUp() throws Exception {
         new AcceptanceContext().apply();
         passengerFixture = new PassengerFixture();
+        baggageFixture = new BaggageFixture();
     }
 
     public RegisterBaggageSteps() {
@@ -50,8 +53,8 @@ public class RegisterBaggageSteps implements Fr {
             String lengthAsString = (String) baggageTable.get(BAGGAGE_LENGTH);
             Length length = MeasureConverter.getLengthFromString(lengthAsString);
 
-            //Baggage baggage = new CheckedBaggage(length, mass, CHECKED_TYPE);
-            NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(length, mass, CHECKED_TYPE);
+            NormalizedBaggageDTO baggageDTO = baggageFixture.createBaggageDTO(length, mass, CHECKED_TYPE);
+
             passengerFixture.addBaggageToPassenger(passengerHash, baggageDTO);
         });
 

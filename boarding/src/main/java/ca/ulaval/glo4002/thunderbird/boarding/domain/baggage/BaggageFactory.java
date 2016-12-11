@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Sport;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.strategies.OversizeBaggageStrategy;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.strategies.OverweightBaggageStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 
@@ -17,7 +18,7 @@ public class BaggageFactory {
     private final OverweightBaggageStrategy overweightStrategy;
     private final OversizeBaggageStrategy oversizeStrategy;
 
-    CheckedBaggageFactory checkedBaggageFactory = new CheckedBaggageFactory();
+    private CheckedBaggageFactory checkedBaggageFactory = new CheckedBaggageFactory();
 
     public BaggageFactory() {
         this.overweightStrategy = new OverweightBaggageStrategy();
@@ -30,24 +31,23 @@ public class BaggageFactory {
     }
 
     public Baggage createBaggage(Passenger passenger, NormalizedBaggageDTO dto) {
-        Baggage createdBaggage = null;
         switch (dto.type) {
             case CHECKED:
                 return checkedBaggageFactory.createCheckedBaggage(passenger, dto);
             case MEDICAL:
-                return new Medical(dto.length, dto.mass, MEDICAL);
+                return new MedicalBaggage(dto.length, dto.mass, MEDICAL);
             case PERSONAL:
-                return new Personal(dto.length, dto.mass, PERSONAL);
+                return new PersonalBaggage(dto.length, dto.mass, PERSONAL);
             case STANDARD:
-                return new Standard(dto.length, dto.mass, STANDARD);
+                return new StandardBaggage(dto.length, dto.mass, STANDARD);
             case SPORT:
                 Baggage sportBaggage = checkedBaggageFactory.createCheckedBaggage(passenger, dto);
                 sportBaggage.addSpeciality(new Sport());
                 sportBaggage.removeSpeciality(new Oversize());
                 return sportBaggage;
+            default:
+                throw new NoSuchStrategyException("Unknown baggage type : " + dto.type);
         }
-        return createdBaggage;
-
     }
 
 

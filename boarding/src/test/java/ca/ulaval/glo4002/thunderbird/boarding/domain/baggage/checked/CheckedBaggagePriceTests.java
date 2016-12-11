@@ -24,11 +24,12 @@ public class CheckedBaggagePriceTests {
     private static final String CHECKED_TYPE = "checked";
     private BaggageFactory baggageFactory = new BaggageFactory();
 
-    private final Length validDimension = Business.MAX_LENGTH;
-    private final Length invalidDimension = Length.fromCentimeters(Business.MAX_LENGTH.toCentimeters() + 1);//TODO Make it cleaner
-    private final Mass validWeight = Business.MAX_WEIGHT;
-    private final Mass invalidWeight = Mass.fromGrams(Business.MAX_WEIGHT.toGrams() + 1);//TODO Make it cleaner
-
+    private final Length validDimension = BusinessBaggage.MAX_LENGTH;
+    //TODO Find a way to create an invalidDimension cleanly.
+    private final Length invalidDimension = Length.fromCentimeters(BusinessBaggage.MAX_LENGTH.toCentimeters() + 1);
+    private final Mass validWeight = BusinessBaggage.MAX_WEIGHT;
+    //TODO Find a way to create an invalidWeight cleanly.
+    private final Mass invalidWeight = Mass.fromGrams(BusinessBaggage.MAX_WEIGHT.toGrams() + 1);
     private Passenger passenger;
     private Baggage baggage;
 
