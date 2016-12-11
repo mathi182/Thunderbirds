@@ -1,11 +1,15 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 
-@Embeddable
+@Entity
 public class Sport extends Speciality {
     private final String SPECIALITY_NAME = "SPORT";
     private final float SPECIALITY_FEE = 1.25f;
+
+    public Sport() {
+        id = SPECIALITY_NAME;
+    }
 
     @Override
     public String getSpecialityName() {
