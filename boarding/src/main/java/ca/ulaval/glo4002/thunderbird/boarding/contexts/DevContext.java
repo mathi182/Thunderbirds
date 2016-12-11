@@ -82,7 +82,6 @@ public class DevContext implements Context {
         PassengerRepository passengerRepository = ServiceLocator.resolve(PassengerRepository.class);
         passengerRepository.savePassenger(passenger);
         EXISTENT_BOARDING_PASSENGER = passenger;
-        System.err.print("\n\n\n" + EXISTENT_BOARDING_PASSENGER.getHash() + "\n\n\n");
     }
 
     private Passenger createPassenger(Flight flight) {

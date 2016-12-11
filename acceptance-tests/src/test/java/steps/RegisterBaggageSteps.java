@@ -1,8 +1,7 @@
 package steps;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import contexts.AcceptanceContext;
@@ -51,8 +50,9 @@ public class RegisterBaggageSteps implements Fr {
             String lengthAsString = (String) baggageTable.get(BAGGAGE_LENGTH);
             Length length = MeasureConverter.getLengthFromString(lengthAsString);
 
-            Baggage baggage = new CheckedBaggage(length, mass, CHECKED_TYPE);
-            passengerFixture.addBaggageToPassenger(passengerHash, baggage);
+            //Baggage baggage = new CheckedBaggage(length, mass, CHECKED_TYPE);
+            NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(length, mass, CHECKED_TYPE);
+            passengerFixture.addBaggageToPassenger(passengerHash, baggageDTO);
         });
 
         Alors("^son total a payer est de (\\d+)\\$$", (Integer expectedTotalBaggagePrice) -> {

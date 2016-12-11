@@ -2,17 +2,16 @@ package fixtures;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
-import javax.persistence.Query;
-import javax.persistence.metamodel.EntityType;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -27,9 +26,12 @@ public class PassengerFixture extends HibernateBaseFixture {
     private static final String CHECKED_TYPE = "checked";
 
     private PassengerRepository repository;
+    private BaggageFactory baggageFactory;
 
     public PassengerFixture() {
+
         this.repository = new HibernatePassengerRepository(new PassengerService());
+        this.baggageFactory = new BaggageFactory();
     }
 
     public void givenAPassenger(UUID passengerHash, String flightNumber, Seat.SeatClass seatClass) {
@@ -40,13 +42,15 @@ public class PassengerFixture extends HibernateBaseFixture {
     }
 
     public void givenABaggageForPassenger(UUID passengerHash) {
-        Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
-        addBaggageToPassenger(passengerHash, baggage);
+        //Baggage baggage = new CheckedBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
+        NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
+        addBaggageToPassenger(passengerHash, baggageDTO);
     }
 
-    public void addBaggageToPassenger(UUID passengerHash, Baggage baggage) {
+    public void addBaggageToPassenger(UUID passengerHash, NormalizedBaggageDTO dto) {
         withEntityManager((tx) -> {
             Passenger passenger = repository.findByPassengerHash(passengerHash);
+            Baggage baggage = baggageFactory.createBaggage(passenger,dto);
             passenger.addBaggage(baggage);
             repository.savePassenger(passenger);
         });
