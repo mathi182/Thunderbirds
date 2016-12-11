@@ -38,12 +38,12 @@ public class BusinessCheckedBaggages extends CheckedBaggages {
 
     @Override
     protected void validate(Baggage baggage) {
-
+        //TODO Implement me
     }
 
     @Override
     public float calculateTotalCost() {
-
+        //TODO Implement me
         return 0;
     }
 

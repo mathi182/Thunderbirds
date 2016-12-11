@@ -38,12 +38,20 @@ public class EconomicCheckedBaggages extends CheckedBaggages {
 
     @Override
     protected void validate(Baggage baggage) {
-
+        //TODO Implement me
     }
 
     @Override
     public float calculateTotalCost() {
-        return 0;
+        float cost = 0;
+        int baggageProcessed = 0;
+        for (Baggage currentBaggage : collection) {
+            baggageProcessed++;
+            if (baggageProcessed > FREE_BAGGAGE_COUNT) {
+                cost += currentBaggage.getBasePrice();
+            }
+        }
+        return cost;
     }
 
     @Override
