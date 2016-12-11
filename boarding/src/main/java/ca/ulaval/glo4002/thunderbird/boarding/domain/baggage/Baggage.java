@@ -21,7 +21,7 @@ public abstract class Baggage {
     protected float price;
     protected String type;
 
-    @Embedded
+    @OneToMany(cascade = CascadeType.ALL)
     protected Set<Speciality> specialities;
 
     @Embedded
