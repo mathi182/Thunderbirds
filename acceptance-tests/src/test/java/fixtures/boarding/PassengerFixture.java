@@ -1,4 +1,4 @@
-package fixtures;
+package fixtures.boarding;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;

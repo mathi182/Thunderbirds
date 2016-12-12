@@ -1,18 +1,23 @@
 package steps;
 
-import contexts.AcceptanceContext;
+import contexts.boarding.BoardingContext;
+import contexts.reservation.ReservationContext;
 import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
-import fixtures.PassengerFixture;
+import fixtures.boarding.SeatAssigmentFixture;
+import fixtures.reservation.RestCheckinFixture;
 
 public class SeatAssignmentSteps implements Fr {
-    private PassengerFixture passengerFixture;
+    private SeatAssigmentFixture seatAssignmentFixture;
+    private RestCheckinFixture checkinFixture;
 
     @Before
-    public void setUp() throws Exception {
-        new AcceptanceContext().apply();
-        passengerFixture = new PassengerFixture();
+    public void beforeScenario() throws Throwable {
+        new ReservationContext().apply();
+        new BoardingContext().apply();
+        seatAssignmentFixture = new SeatAssigmentFixture();
+        checkinFixture = new RestCheckinFixture();
     }
 
     public SeatAssignmentSteps() {

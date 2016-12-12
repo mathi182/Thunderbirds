@@ -4,21 +4,18 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
-import contexts.AcceptanceContext;
+import contexts.boarding.BoardingContext;
 import cucumber.api.DataTable;
-import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
-import fixtures.BaggageFixture;
-import fixtures.PassengerFixture;
+import fixtures.boarding.BaggageFixture;
+import fixtures.boarding.PassengerFixture;
 import helpers.MeasureConverter;
-import org.junit.Ignore;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class RegisterBaggageSteps implements Fr {
-
     private static final UUID passengerHash = UUID.randomUUID();
     private static final String BAGGAGE_MASS = "poids";
     private static final String BAGGAGE_LENGTH = "taille";
@@ -28,11 +25,10 @@ public class RegisterBaggageSteps implements Fr {
     private BaggageFixture baggageFixture;
 
     public void setUp() throws Exception {
-        new AcceptanceContext().apply();
+        new BoardingContext().apply();
         passengerFixture = new PassengerFixture();
         baggageFixture = new BaggageFixture();
     }
-
 
     public RegisterBaggageSteps() {
         Étantdonné("^un passager Bob ayant une réservation en classe économique sur le vol (.*)$", (String flightNumber) -> {
