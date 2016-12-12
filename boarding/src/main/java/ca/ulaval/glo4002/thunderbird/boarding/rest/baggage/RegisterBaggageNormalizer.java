@@ -1,23 +1,21 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebException;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
-public class RegisterBaggageAssembler {
+public class RegisterBaggageNormalizer {
     private static final String KILOGRAMS = "kg";
     private static final String POUNDS = "lbs";
     private static final String CENTIMETERS = "cm";
-    private static final String INCHES = "lbs";
+    private static final String INCHES = "po";
 
-    public Baggage getDomainBaggage(RegisterBaggageDTO request) {
-        Length dimension = getDimension(request);
+    public NormalizedBaggageDTO normalizeBaggageDTO(RegisterBaggageDTO request) {
+        Length length = getDimension(request);
         Mass weight = getWeight(request);
         String type = request.type;
 
-        return new CheckedBaggage(dimension, weight, type);
+        return new NormalizedBaggageDTO(length, weight, type);
     }
 
     private Mass getWeight(RegisterBaggageDTO request) {

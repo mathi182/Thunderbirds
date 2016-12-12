@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 
 import static com.sun.jersey.api.client.ClientResponse.Status.NOT_FOUND;
-import static com.sun.jersey.api.client.ClientResponse.Status.OK;
 import static java.util.Optional.ofNullable;
 
 public class PassengerService {
@@ -34,7 +33,7 @@ public class PassengerService {
     private ClientResponse getResource(String url) {
         return Client.create().resource(url)
                 .accept(MediaType.APPLICATION_JSON)
-                .header("content-type", MediaType.APPLICATION_JSON)
+                .header("content-specialities", MediaType.APPLICATION_JSON)
                 .get(ClientResponse.class);
     }
 

@@ -5,7 +5,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerFacto
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.CollectionFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.*;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
@@ -16,6 +17,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlight
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneServiceGlo3000;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
@@ -30,6 +32,7 @@ public class DevContext implements Context {
     public static final boolean IS_CHECKED_IN = true;
     public static final boolean IS_VIP = false;
     public static final boolean IS_NOT_A_CHILD = false;
+    public static final String CHECKED = "checked";
     public static Passenger EXISTENT_BOARDING_PASSENGER;
 
     private static final String FLIGHT_NUMBER = "QK-918";
@@ -43,10 +46,17 @@ public class DevContext implements Context {
 
         registerFlightRepository();
         registerPassengerRepository();
+        registerBaggageFactories();
         fillDatabase();
 
         EntityManagerProvider.clearEntityManager();
         entityManager.close();
+    }
+
+    private void registerBaggageFactories() {
+        BaggageFactory baggageFactory = new BaggageFactory();
+        ServiceLocator.registerSingleton(BaggageFactory.class, baggageFactory);
+        ServiceLocator.registerSingleton(CollectionFactory.class, new CollectionFactory());
     }
 
     private void registerFlightRepository() {
@@ -84,8 +94,10 @@ public class DevContext implements Context {
         Length length2 = Length.fromMillimeters(200);
         Mass mass2 = Mass.fromGrams(500);
 
-        Baggage baggage1 = new CheckedBaggage(length1, mass1, "checked");
-        Baggage baggage2 = new CheckedBaggage(length2, mass2, "checked");
+        BaggageFactory baggageFactory = ServiceLocator.resolve(BaggageFactory.class);
+
+        Baggage baggage1 = baggageFactory.createBaggage(passenger, new NormalizedBaggageDTO(length1,mass1,CHECKED));
+        Baggage baggage2 = baggageFactory.createBaggage(passenger, new NormalizedBaggageDTO(length2,mass2,CHECKED));
         passenger.addBaggage(baggage1);
         passenger.addBaggage(baggage2);
 

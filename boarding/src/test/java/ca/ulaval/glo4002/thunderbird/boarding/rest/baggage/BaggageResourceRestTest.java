@@ -21,7 +21,7 @@ public class BaggageResourceRestTest {
     private static final String CM_UNIT_FROM_REQUEST = "cm";
     private static final int LINEAR_DIMENSION = 10;
     private static final String KG_UNIT_FROM_REQUEST = "kg";
-    private static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
+    private static final String BAGGAGE_TYPE_CHECKED = "checked";
     private static final int WEIGHT = 10;
     private static final String INVALID_UNIT = "invalid_unit";
     private static final UUID VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER.getHash();
@@ -33,14 +33,14 @@ public class BaggageResourceRestTest {
 
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
-        Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
+        Map<String, Object> registerBaggageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
                 LINEAR_DIMENSION,
                 KG_UNIT_FROM_REQUEST,
                 WEIGHT,
-                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                BAGGAGE_TYPE_CHECKED);
 
         Response response = givenBaseRequest()
-                .and().body(registerBagageBody)
+                .and().body(registerBaggageBody)
                 .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then().statusCode(CREATED.getCode())
                 .and().extract().response();
@@ -73,7 +73,7 @@ public class BaggageResourceRestTest {
                 LINEAR_DIMENSION,
                 INVALID_UNIT,
                 WEIGHT,
-                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                BAGGAGE_TYPE_CHECKED);
 
         givenBaseRequest()
                 .body(registerBaggageBody)

@@ -40,7 +40,7 @@ public class CheckinResourceRestTest {
 
     private Map<String, Object> getJsonAsMap(UUID passengerHash, String by, boolean vip) {
         Map<String, Object> jsonAsMap = new HashMap<>();
-        
+
         jsonAsMap.put("passenger_hash", passengerHash);
         jsonAsMap.put("by", by);
         jsonAsMap.put("vip", vip);

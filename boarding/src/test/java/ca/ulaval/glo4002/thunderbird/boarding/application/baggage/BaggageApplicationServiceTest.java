@@ -2,8 +2,12 @@ package ca.ulaval.glo4002.thunderbird.boarding.application.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.baggage.exceptions.PassengerNotCheckedInException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageDTO;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.RegisterBaggageNormalizer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,23 +22,33 @@ public class BaggageApplicationServiceTest {
     private static final UUID PASSENGER_HASH = UUID.randomUUID();
     private static final UUID BAGGAGE_ID = UUID.randomUUID();
     private Passenger passenger;
-    private Baggage baggage;
+    private NormalizedBaggageDTO normalizedBaggageDTO;
+    private RegisterBaggageDTO registerBaggageDTO;
+    private RegisterBaggageNormalizer registerBaggageNormalizer;
     private PassengerRepository passengerRepository;
+    private BaggageFactory baggageFactory;
+    private Baggage baggage;
 
     @Before
     public void setUp() throws Exception {
         passenger = mock(Passenger.class);
-        baggage = mock(Baggage.class);
+        normalizedBaggageDTO = mock(NormalizedBaggageDTO.class);
+        registerBaggageNormalizer = mock(RegisterBaggageNormalizer.class);
+        registerBaggageDTO = mock(RegisterBaggageDTO.class);
         passengerRepository = mock(PassengerRepository.class);
+        baggageFactory = mock(BaggageFactory.class);
+        baggage = mock(Baggage.class);
+        willReturn(baggage).given(baggageFactory).createBaggage(passenger,normalizedBaggageDTO);
         willReturn(BAGGAGE_ID).given(baggage).getId();
+        willReturn(normalizedBaggageDTO).given(registerBaggageNormalizer).normalizeBaggageDTO(registerBaggageDTO);
     }
 
     @Test
     public void givenCheckedInPassenger_whenRegisteringBaggage_shouldAddBaggageToPassenger() {
         setPassengerCheckedInInRepo(true);
-        BaggageApplicationService applicationService = new BaggageApplicationService(passengerRepository);
+        BaggageApplicationService applicationService = new BaggageApplicationService(passengerRepository, baggageFactory, registerBaggageNormalizer);
 
-        UUID actualResult = applicationService.registerBaggage(PASSENGER_HASH, baggage);
+        UUID actualResult = applicationService.registerBaggage(PASSENGER_HASH, registerBaggageDTO);
 
         verify(passenger).addBaggage(baggage);
         assertEquals(BAGGAGE_ID, actualResult);
@@ -43,9 +57,9 @@ public class BaggageApplicationServiceTest {
     @Test(expected = PassengerNotCheckedInException.class)
     public void givenNotCheckedInPassenger_whenRegisteringBaggge_shouldThrowException() {
         setPassengerCheckedInInRepo(false);
-        BaggageApplicationService applicationService = new BaggageApplicationService(passengerRepository);
+        BaggageApplicationService applicationService = new BaggageApplicationService(passengerRepository, baggageFactory, registerBaggageNormalizer);
 
-        applicationService.registerBaggage(PASSENGER_HASH, baggage);
+        applicationService.registerBaggage(PASSENGER_HASH, registerBaggageDTO);
     }
 
     private void setPassengerCheckedInInRepo(boolean checkedIn) {
