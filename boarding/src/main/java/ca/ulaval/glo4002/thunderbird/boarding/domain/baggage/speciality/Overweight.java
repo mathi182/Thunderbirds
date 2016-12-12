@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import javax.persistence.Entity;
 
 @Entity
@@ -23,10 +25,6 @@ public class Overweight extends Speciality {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Overweight)) {
-            return false;
-        }
-        Speciality other = (Speciality) obj;
-        return SPECIALITY_NAME.equals(other.getSpecialityName());
+        return obj instanceof Overweight && EqualsBuilder.reflectionEquals(this, obj);
     }
 }
