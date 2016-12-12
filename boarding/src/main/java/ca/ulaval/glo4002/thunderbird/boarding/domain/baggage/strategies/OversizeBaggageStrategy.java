@@ -7,7 +7,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 public class OversizeBaggageStrategy {
-    public void applyStrategy(Baggage baggage, Length maxLength) {
+
+    public void checkOversize(Baggage baggage, Length maxLength) {
         try {
             baggage.validate(maxLength, Mass.fromKilograms(Double.MAX_VALUE));
         } catch (BaggageDimensionInvalidException e) {

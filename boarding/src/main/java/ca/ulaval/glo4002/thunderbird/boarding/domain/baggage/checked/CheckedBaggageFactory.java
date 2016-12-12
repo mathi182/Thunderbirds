@@ -28,13 +28,13 @@ public class CheckedBaggageFactory {
         switch (passenger.getSeatClass()) {
             case ECONOMY:
                 EconomicBaggage economicBaggage = new EconomicBaggage(dto.length, dto.mass, CHECKED);
-                overweightStrategy.applyStrategy(economicBaggage, EconomicBaggage.MAX_WEIGHT);
-                oversizeStrategy.applyStrategy(economicBaggage, EconomicBaggage.MAX_LENGTH);
+                overweightStrategy.checkOverweight(economicBaggage, EconomicBaggage.MAX_WEIGHT);
+                oversizeStrategy.checkOversize(economicBaggage, EconomicBaggage.MAX_LENGTH);
                 return economicBaggage;
             case BUSINESS:
                 BusinessBaggage businessBaggage = new BusinessBaggage(dto.length, dto.mass, CHECKED);
-                overweightStrategy.applyStrategy(businessBaggage, BusinessBaggage.MAX_WEIGHT);
-                oversizeStrategy.applyStrategy(businessBaggage, BusinessBaggage.MAX_LENGTH);
+                overweightStrategy.checkOverweight(businessBaggage, BusinessBaggage.MAX_WEIGHT);
+                oversizeStrategy.checkOversize(businessBaggage, BusinessBaggage.MAX_LENGTH);
                 return businessBaggage;
             default:
                 throw new NoSuchStrategyException("unknown seatClass" + passenger.getSeatClass());
