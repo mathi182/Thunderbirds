@@ -7,10 +7,10 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.Collecti
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
 
-public class AcceptanceContext implements context{
+public class AcceptanceContext implements context {
 
     @Override
-    public void apply(){
+    public void apply() {
         ServiceLocator.reset();
         ServiceLocator.registerSingleton(PassengerRepository.class, new HibernatePassengerRepository(new PassengerService()));
         BaggageFactory baggageFactory = new BaggageFactory();

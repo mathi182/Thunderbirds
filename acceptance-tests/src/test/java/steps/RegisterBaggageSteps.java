@@ -11,6 +11,7 @@ import cucumber.api.java8.Fr;
 import fixtures.BaggageFixture;
 import fixtures.PassengerFixture;
 import helpers.MeasureConverter;
+import org.junit.Ignore;
 
 import java.util.List;
 import java.util.Map;
@@ -26,12 +27,12 @@ public class RegisterBaggageSteps implements Fr {
     private PassengerFixture passengerFixture;
     private BaggageFixture baggageFixture;
 
-    @Before
     public void setUp() throws Exception {
         new AcceptanceContext().apply();
         passengerFixture = new PassengerFixture();
         baggageFixture = new BaggageFixture();
     }
+
 
     public RegisterBaggageSteps() {
         Étantdonné("^un passager Bob ayant une réservation en classe économique sur le vol (.*)$", (String flightNumber) -> {
