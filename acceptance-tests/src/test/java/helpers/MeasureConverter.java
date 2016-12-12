@@ -7,9 +7,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class MeasureConverter {
     private static final String KG = "kg";
     private static final String CM = "cm";
-    public static final String REGEX_TO_SPLIT_NUMBERS_AND_DIGITS = "(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)";
-    public static final int UNIT_INDEX = 1;
-    public static final int VALUE_INDEX = 0;
+    private static final String REGEX_TO_SPLIT_NUMBERS_AND_DIGITS = "(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)";
+    private static final int UNIT_INDEX = 1;
+    private static final int VALUE_INDEX = 0;
 
     public static Length getLengthFromString(String lengthAsString) {
         String[] lengthValueUnitTable = lengthAsString.split(REGEX_TO_SPLIT_NUMBERS_AND_DIGITS);
