@@ -1,6 +1,7 @@
 package runners;
 
 import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.DemoContext;
 import ca.ulaval.glo4002.thunderbird.reservation.ReservationServer;
 import cucumber.api.java.Before;
 
@@ -23,14 +24,8 @@ public class JettyStarterHook {
     private void startJettyServer() throws Exception {
         boardingServer = new BoardingServer();
         reservationServer = new ReservationServer();
-        Thread boardingThread = new Thread(boardingServer);
-        Thread reservationThread = new Thread(reservationServer);
-
-        boardingThread.start();
-        reservationThread.start();
-
-        boardingThread.join();
-        reservationThread.join();
+        boardingServer.start(BoardingServer.DEFAULT_PORT, new DemoContext());
+        reservationServer.start(ReservationServer.DEFAULT_PORT, new ca.ulaval.glo4002.thunderbird.reservation.contexts.DemoContext());
     }
 
     private class JettyServerShutdown extends Thread {
