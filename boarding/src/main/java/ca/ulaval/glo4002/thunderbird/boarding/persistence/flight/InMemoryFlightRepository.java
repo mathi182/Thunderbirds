@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.flight;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightId;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
@@ -11,9 +12,8 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class InMemoryFlightRepository implements FlightRepository {
-    private HashMap<FlightID, Flight> flights = new HashMap<>();
+    private HashMap<FlightId, Flight> flights = new HashMap<>();
     private AMSSystem amsSystem;
     private PlaneService planeService;
 
@@ -23,8 +23,8 @@ public class InMemoryFlightRepository implements FlightRepository {
     }
 
     public Flight getFlight(String flightNumber, Instant flightDate) {
-        FlightID flightID = new FlightID(flightNumber, flightDate);
-        Flight flight = flights.get(flightID);
+        FlightId flightId = new FlightId(flightNumber, flightDate);
+        Flight flight = flights.get(flightId);
         if (flight == null) {
             flight = fetchFlight(flightNumber, flightDate);
         }
@@ -33,26 +33,17 @@ public class InMemoryFlightRepository implements FlightRepository {
     }
 
     private Flight fetchFlight(String flightNumber, Instant flightDate) {
+        FlightId flightId = new FlightId(flightNumber, flightDate);
         String modelID = amsSystem.getPlaneModel(flightNumber);
         Plane plane = planeService.getPlaneInformation(modelID);
         List<Seat> seats = planeService.getSeats(modelID);
 
-        return new Flight(flightNumber, flightDate, plane, seats);
+        return new Flight(flightId, plane, seats);
     }
 
     @Override
     public void saveFlight(Flight flight) {
-        FlightID flightID = new FlightID(flight.getFlightNumber(), flight.getFlightDate());
-        flights.put(flightID, flight);
-    }
-
-    private class FlightID {
-        private String flightNumber;
-        private Instant flightDate;
-
-        public FlightID(String flightNumber, Instant flightDate) {
-            this.flightNumber = flightNumber;
-            this.flightDate = flightDate;
-        }
+        FlightId flightId = flight.getId();
+        flights.put(flightId, flight);
     }
 }

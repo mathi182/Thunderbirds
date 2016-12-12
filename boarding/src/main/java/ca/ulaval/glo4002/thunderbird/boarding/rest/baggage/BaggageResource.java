@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Path("/passengers/{passenger_hash}/baggages")
@@ -21,20 +21,16 @@ public class BaggageResource {
 
     private final BaggageApplicationService baggageApplicationService;
     private final BaggagesListAssembler baggagesListAssembler;
-    private final RegisterBaggageAssembler registerBaggageAssembler;
 
     public BaggageResource() {
         this.baggageApplicationService = new BaggageApplicationService();
         this.baggagesListAssembler = new BaggagesListAssembler();
-        this.registerBaggageAssembler = new RegisterBaggageAssembler();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerBaggage(RegisterBaggageDTO request, @PathParam("passenger_hash") UUID passengerHash) {
-        Baggage baggage = registerBaggageAssembler.getDomainBaggage(request);
-        UUID baggageId = baggageApplicationService.registerBaggage(passengerHash, baggage);
-
+        UUID baggageId = baggageApplicationService.registerBaggage(passengerHash, request);
         URI uri = uriInfo.getAbsolutePathBuilder().path(baggageId.toString()).build();
         RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.accepted();
 
@@ -44,7 +40,7 @@ public class BaggageResource {
     @GET
     public Response getBaggagesList(@PathParam("passenger_hash") UUID passengerHash) {
         Passenger passenger = baggageApplicationService.getPassenger(passengerHash);
-        List<Baggage> baggages = passenger.getBaggages();
+        Set<Baggage> baggages = passenger.getBaggages();
         float price = passenger.calculateBaggagesPrice();
         BaggagesListDTO baggagesListDTO = baggagesListAssembler.toDTO(price, baggages);
 

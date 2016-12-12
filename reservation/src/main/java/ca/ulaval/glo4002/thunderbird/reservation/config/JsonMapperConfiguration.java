@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.reservation.persistence;
+package ca.ulaval.glo4002.thunderbird.reservation.config;
 
 import ca.ulaval.glo4002.thunderbird.reservation.util.InstantDeserializer;
 import ca.ulaval.glo4002.thunderbird.reservation.util.InstantSerializer;

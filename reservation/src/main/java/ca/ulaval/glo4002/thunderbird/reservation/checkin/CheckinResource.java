@@ -14,7 +14,7 @@ public class CheckinResource {
     public static final String PATH = "/checkins/";
 
     @Context
-    UriInfo uriInfo;
+    private UriInfo uriInfo;
 
     @POST
     public Response checkin(@Valid Checkin checkin) {

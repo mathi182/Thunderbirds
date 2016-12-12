@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 
-import java.util.List;
+import java.util.Set;
 
 public class BaggagesListAssembler {
     private BaggageAssembler baggageAssembler;
@@ -11,7 +11,7 @@ public class BaggagesListAssembler {
         this.baggageAssembler = new BaggageAssembler();
     }
 
-    public BaggagesListDTO toDTO(float totalPrice, List<Baggage> baggages) {
+    public BaggagesListDTO toDTO(float totalPrice, Set<Baggage> baggages) {
         BaggagesListDTO baggagesListDTO = new BaggagesListDTO();
 
         for (Baggage baggage : baggages) {

@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations;
 import io.restassured.response.Response;
 import org.junit.Test;
 
+import javax.ws.rs.core.HttpHeaders;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,7 +19,6 @@ public class SeatAssignationsResourceRestTest {
     private static final UUID NON_EXISTENT_PASSENGER_HASH = UUID.randomUUID();
     private static final String VALID_MODE = "RANDOM";
     private static final String INVALID_MODE = "INVALID";
-    private static final String LOCATION_HEADER = "Location";
     private static final String UUID_REGEX = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
 
     @Test
@@ -36,7 +36,7 @@ public class SeatAssignationsResourceRestTest {
                 .and()
                 .extract().response();
 
-        Boolean locationValidity = isLocationValid(response.getHeader(LOCATION_HEADER));
+        Boolean locationValidity = isLocationValid(response.getHeader(HttpHeaders.LOCATION));
         assertTrue(locationValidity);
         String seat = response.path("seat");
         assertNotNull(seat);
@@ -64,7 +64,6 @@ public class SeatAssignationsResourceRestTest {
     @Test
     public void givenAValidPassengerHashAndInvalidMode_whenAssigningSeat_shouldReturnBadRequest() {
         Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), INVALID_MODE);
-
 
         givenBaseRequest()
                 .body(seatAssignationBody)

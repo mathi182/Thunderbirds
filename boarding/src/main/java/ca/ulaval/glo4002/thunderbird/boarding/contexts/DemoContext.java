@@ -3,10 +3,10 @@ package ca.ulaval.glo4002.thunderbird.boarding.contexts;
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerFactoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystem;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.AMSSystemFactory;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.CollectionFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.*;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
@@ -14,7 +14,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlight
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneServiceGlo3000;
-import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -30,9 +29,16 @@ public class DemoContext implements Context {
 
         registerFlightRepository();
         registerPassengerRepository();
+        registerBaggageFactories();
 
         EntityManagerProvider.clearEntityManager();
         entityManager.close();
+    }
+
+    private void registerBaggageFactories() {
+        BaggageFactory baggageFactory = new BaggageFactory();
+        ServiceLocator.registerSingleton(BaggageFactory.class, baggageFactory);
+        ServiceLocator.registerSingleton(CollectionFactory.class, new CollectionFactory());
     }
 
     private void registerFlightRepository() {
@@ -66,10 +72,11 @@ public class DemoContext implements Context {
     }
 
     private Flight getFlight(AMSSystem amsSystem, PlaneService planeService, String flightNumber) {
+        FlightId flightId = new FlightId(flightNumber, Instant.now());
         String dash8Model = amsSystem.getPlaneModel(flightNumber);
         Plane dash8Plane = planeService.getPlaneInformation(dash8Model);
         List<Seat> dash8Seats = planeService.getSeats(dash8Model);
 
-        return new Flight(flightNumber, Instant.now(), dash8Plane, dash8Seats);
+        return new Flight(flightId, dash8Plane, dash8Seats);
     }
 }

@@ -1,13 +1,13 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggages;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggageCollections;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.Test;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -16,58 +16,58 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class PassengerCheckedBaggagesTest {
+public class PassengerCheckedBaggageCollectionTest {
     private static final UUID HASH = UUID.randomUUID();
     private static final Seat.SeatClass SEAT_CLASS = Seat.SeatClass.ECONOMY;
-    private static final Instant FLIGHT_DATE = Instant.now();
-    private static final String FLIGHT_NUMBER = "QK-918";
     private static final boolean NOT_VIP = false;
     private static final boolean VIP = true;
-    private static final boolean IS_CHECKIN = false;
+    private static final boolean IS_CHECKED_IN = false;
+    private static final boolean IS_CHILD = false;
 
-    private CheckedBaggages checkedBaggages = mock(CheckedBaggages.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, NOT_VIP, IS_CHECKIN, checkedBaggages);
-    private Passenger vipPassenger = new Passenger(HASH, SEAT_CLASS, FLIGHT_DATE, FLIGHT_NUMBER, VIP, IS_CHECKIN, checkedBaggages);
+    private Flight flight = mock(Flight.class);
+    private PassengerBaggageCollections baggagesCollection = mock(PassengerBaggageCollections.class);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, NOT_VIP, IS_CHECKED_IN, IS_CHILD, flight, baggagesCollection);
+    private Passenger vipPassenger = new Passenger(HASH, SEAT_CLASS, VIP, IS_CHECKED_IN, IS_CHILD, flight, baggagesCollection);
 
     @Test
     public void whenAddingCheckedBaggage_shouldAddInCheckedBaggages() {
         Baggage baggage = mock(Baggage.class);
         passenger.addBaggage(baggage);
 
-        verify(checkedBaggages).addBaggage(baggage);
+        verify(baggagesCollection).addBaggage(baggage);
     }
 
     @Test
     public void givenCheckedBaggages_whenGettingAllBaggages_shouldReturnTheseCheckedBaggages() {
-        List<Baggage> expectedBaggages = new ArrayList<>();
-        willReturn(expectedBaggages).given(checkedBaggages).getBaggages();
+        Set<Baggage> expectedBaggages = new HashSet<>();
+        willReturn(expectedBaggages).given(baggagesCollection).getBaggages();
 
-        List<Baggage> actualBaggages = passenger.getBaggages();
+        Set<Baggage> actualBaggages = passenger.getBaggages();
 
-        verify(checkedBaggages).getBaggages();
+        verify(baggagesCollection).getBaggages();
         assertSame(expectedBaggages, actualBaggages);
     }
 
     @Test
     public void givenAPrice_whenCalculatingBaggagesPrice_shouldReturnThisPrice() {
         float expectedPrice = 100;
-        willReturn(expectedPrice).given(checkedBaggages).calculatePrice();
+        willReturn(expectedPrice).given(baggagesCollection).calculateTotalPrice();
 
         float actualPrice = passenger.calculateBaggagesPrice();
 
-        verify(checkedBaggages).calculatePrice();
+        verify(baggagesCollection).calculateTotalPrice();
         assertEquals(expectedPrice, actualPrice, 0.0f);
     }
 
     @Test
     public void givenAPrice_whenCalculationBaggagesPriceForVip_shouldReturnThisPriceWithADiscount() {
         float expectedPriceWithoutDiscount = 100;
-        willReturn(expectedPriceWithoutDiscount).given(checkedBaggages).calculatePrice();
+        willReturn(expectedPriceWithoutDiscount).given(baggagesCollection).calculateTotalPrice();
 
         float actualPrice = vipPassenger.calculateBaggagesPrice();
 
         float expectedPrice = expectedPriceWithoutDiscount * 0.95f;
-        verify(checkedBaggages).calculatePrice();
+        verify(baggagesCollection).calculateTotalPrice();
         assertEquals(expectedPrice, actualPrice, 0.0f);
     }
 }

@@ -51,7 +51,7 @@ public class PassengerAssemblerTest {
         String actualFlightNumber = passengerDTO.flightNumber;
         String actualFlightDate = passengerDTO.flightDate;
         Boolean actualVIP = passengerDTO.vip;
-        Boolean actualCheckin = passengerDTO.checkin;
+        Boolean actualCheckin = passengerDTO.checkedIn;
 
         assertEquals(PASSENGER_HASH.toString(), actualPassengerHash);
         assertEquals(SEAT_CLASS, actualSeatClass);
