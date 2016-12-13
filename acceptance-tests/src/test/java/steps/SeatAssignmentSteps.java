@@ -24,22 +24,18 @@ public class SeatAssignmentSteps implements Fr {
         Étantdonné("^un passage Alice ayant une réservation à bord d'un vol$", () -> {
             throw new PendingException();
         });
-
         Étantdonné("^que des places sont disponibles sur ce vol$", () -> {
             // Write code here that turns the phrase above into concrete actions
             throw new PendingException();
         });
-
         Étantdonné("^qu'elle a fait son checkin$", () -> {
             // Write code here that turns the phrase above into concrete actions
             throw new PendingException();
         });
-
         Quand("^elle procède à l'assignation de siège en choisissant le mode aléatoire$", () -> {
             // Write code here that turns the phrase above into concrete actions
             throw new PendingException();
         });
-
         Alors("^un siège lui a été assigné à bord de ce vol$", () -> {
             // Write code here that turns the phrase above into concrete actions
             throw new PendingException();
