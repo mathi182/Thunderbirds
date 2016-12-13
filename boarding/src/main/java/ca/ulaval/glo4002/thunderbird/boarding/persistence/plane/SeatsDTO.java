@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.plane;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SeatsInformationDTO {
+public class SeatsDTO {
     static class PriceClassDTO {
         public String name;
         public int[] rows;
@@ -31,7 +31,7 @@ public class SeatsInformationDTO {
     public PriceClassDTO[] classes;
     public SeatDTO[] seats;
 
-    public SeatsInformationDTO() {
+    public SeatsDTO() {
 
     }
 }

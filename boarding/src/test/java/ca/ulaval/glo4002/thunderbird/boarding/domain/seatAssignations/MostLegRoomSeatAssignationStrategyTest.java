@@ -45,7 +45,6 @@ public class MostLegRoomSeatAssignationStrategyTest {
         boolean hasClearView = false;
         Seat.SeatClass seatClass = Seat.SeatClass.BUSINESS;
         boolean isExitRow = false;
-        boolean isAvailable = true;
-        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow, isAvailable);
+        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow);
     }
 }

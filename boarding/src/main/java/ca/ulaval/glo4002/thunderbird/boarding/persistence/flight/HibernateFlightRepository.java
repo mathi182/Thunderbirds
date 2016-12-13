@@ -6,29 +6,29 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightId;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneId;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneRepository;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
-import java.util.List;
 
 public class HibernateFlightRepository implements FlightRepository {
-    private AMSSystem amsSystem;
-    private PlaneService planeService;
+    private final AMSSystem amsSystem;
+    private final PlaneRepository planeRepository;
 
-    public HibernateFlightRepository(AMSSystem amsSystem, PlaneService planeService) {
+    public HibernateFlightRepository(AMSSystem amsSystem, PlaneRepository planeRepository) {
         this.amsSystem = amsSystem;
-        this.planeService = planeService;
+        this.planeRepository = planeRepository;
     }
 
     @Override
     public Flight getFlight(String flightNumber, Instant flightDate) {
         Flight flight = getFlightFromDB(flightNumber, flightDate);
-        if (flight != null) {
-            return flight;
+        if (flight == null) {
+            flight = createFlight(flightNumber, flightDate);
+            saveFlight(flight);
         }
-        return createFlight(flightNumber, flightDate);
+        return flight;
     }
 
     @Override
@@ -45,10 +45,9 @@ public class HibernateFlightRepository implements FlightRepository {
 
     private Flight createFlight(String flightNumber, Instant flightDate) {
         FlightId flightId = new FlightId(flightNumber, flightDate);
-        String modelID = amsSystem.getPlaneModel(flightNumber);
-        Plane plane = planeService.getPlaneInformation(modelID);
-        List<Seat> seats = planeService.getSeats(modelID);
+        String modelId = amsSystem.getPlaneModel(flightNumber);
+        Plane plane = planeRepository.getPlane(new PlaneId(modelId));
 
-        return new Flight(flightId, plane, seats);
+        return new Flight(flightId, plane);
     }
 }

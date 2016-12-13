@@ -20,7 +20,6 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
 public class SeatAssignationStrategyTest {
-    private static final boolean IS_AVAILABLE = true;
     private static final boolean IS_EXIT_ROW = true;
     private static final boolean IS_CHILD = true;
 
@@ -42,22 +41,10 @@ public class SeatAssignationStrategyTest {
     }
 
     @Test
-    public void givenTwoSeatsAndOneAvailable_whenFindingBestSeat_shouldReturnAvailableSeat() {
-        initPassenger(SeatClass.ECONOMY, !IS_CHILD);
-        Seat availableSeat = getSeat(SeatClass.ECONOMY, IS_AVAILABLE, !IS_EXIT_ROW);
-        Seat unavailableSeat = getSeat(SeatClass.ECONOMY, !IS_AVAILABLE, !IS_EXIT_ROW);
-
-        strategy.findBestSeat(Arrays.asList(availableSeat, unavailableSeat), passenger);
-
-        assertEquals(1, actualFilteredSeats.size());
-        assertEquals(availableSeat, actualFilteredSeats.get(0));
-    }
-
-    @Test
     public void givenTwoSeatsAndOneBusiness_whenFindingBestSeat_shouldReturnBusinessSeat() {
         initPassenger(SeatClass.BUSINESS, !IS_CHILD);
-        Seat economyClassSeat = getSeat(SeatClass.ECONOMY, IS_AVAILABLE, !IS_EXIT_ROW);
-        Seat businessClassSeat = getSeat(SeatClass.BUSINESS, IS_AVAILABLE, !IS_EXIT_ROW);
+        Seat economyClassSeat = getSeat(SeatClass.ECONOMY, !IS_EXIT_ROW);
+        Seat businessClassSeat = getSeat(SeatClass.BUSINESS, !IS_EXIT_ROW);
 
         strategy.findBestSeat(Arrays.asList(economyClassSeat, businessClassSeat), passenger);
 
@@ -68,8 +55,8 @@ public class SeatAssignationStrategyTest {
     @Test
     public void givenAChildAndOneOfTwoSeatIsAnExistRow_whenFindingBestSeat_shouldNotReturnAnExitRow() {
         initPassenger(SeatClass.ECONOMY, IS_CHILD);
-        Seat exitRowSeat = getSeat(SeatClass.ECONOMY, IS_AVAILABLE, IS_EXIT_ROW);
-        Seat seat = getSeat(SeatClass.ECONOMY, IS_AVAILABLE, !IS_EXIT_ROW);
+        Seat exitRowSeat = getSeat(SeatClass.ECONOMY, IS_EXIT_ROW);
+        Seat seat = getSeat(SeatClass.ECONOMY, !IS_EXIT_ROW);
 
         strategy.findBestSeat(Arrays.asList(exitRowSeat, seat), passenger);
 
@@ -102,13 +89,13 @@ public class SeatAssignationStrategyTest {
         willReturn(isAChild).given(passenger).isChild();
     }
 
-    private Seat getSeat(SeatClass seatClass, boolean isAvailable, boolean isExitRow) {
+    private Seat getSeat(SeatClass seatClass, boolean isExitRow) {
         int rowNumber = 1;
         String seatName = "name";
         int legRoom = 1;
         boolean hasWindow = false;
         boolean hasClearView = false;
         double price = 1;
-        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow, isAvailable);
+        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow);
     }
 }

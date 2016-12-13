@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightId;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneId;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import org.junit.Before;
@@ -17,8 +18,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 public class InMemoryFlightRepositoryTest {
-    private static final Plane PLANE = new Plane("dash-8", 1, 2000);
-    private static final Seat SEAT = new Seat(1, "A", 56, true, true, 123.45, Seat.SeatClass.ECONOMY, false, true);
+    private static final Seat SEAT = new Seat(1, "A", 56, true, true, 123.45, Seat.SeatClass.ECONOMY, false);
+    private static final Plane PLANE = new Plane(new PlaneId("dash-8"), 1, 2000, Arrays.asList(SEAT));
     private static final String FLIGHT_NUMBER = "QK-918";
     private static final Instant FLIGHT_DATE = Instant.ofEpochMilli(1478195361);
 
@@ -36,7 +37,7 @@ public class InMemoryFlightRepositoryTest {
     @Test
     public void givenAFlight_whenSaving_shouldBeAbleToSaveAndFetch() {
         FlightId flightId = new FlightId(FLIGHT_NUMBER, FLIGHT_DATE);
-        Flight expectedFlight = new Flight(flightId, PLANE, Arrays.asList(SEAT));
+        Flight expectedFlight = new Flight(flightId, PLANE);
 
         flightRepository.saveFlight(expectedFlight);
 

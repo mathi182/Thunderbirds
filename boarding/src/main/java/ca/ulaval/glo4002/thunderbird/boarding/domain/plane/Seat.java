@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.plane;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.expceptions.SeatAlreadyTakenException;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,10 +19,9 @@ public class Seat {
     private double price;
     private SeatClass seatClass;
     private boolean isExitRow;
-    private boolean isAvailable;
 
     public Seat(int rowNumber, String seatName, int legRoom, boolean hasWindow, boolean hasClearView, double price,
-                SeatClass seatClass, boolean isExitRow, boolean isAvailable) {
+                SeatClass seatClass, boolean isExitRow) {
         this.rowNumber = rowNumber;
         this.seatName = seatName;
         this.legRoom = legRoom;
@@ -33,22 +30,10 @@ public class Seat {
         this.price = price;
         this.seatClass = seatClass;
         this.isExitRow = isExitRow;
-        this.isAvailable = isAvailable;
     }
 
     protected Seat() {
         // for hibernate
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void markAsUnavailable() {
-        if (!isAvailable) {
-            throw new SeatAlreadyTakenException();
-        }
-        isAvailable = false;
     }
 
     public SeatClass getSeatClass() {

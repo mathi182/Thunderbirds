@@ -1,26 +1,35 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.plane;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 public class Plane {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String planeModel;
+    @EmbeddedId
+    private PlaneId planeId;
     private int numberSeats;
     private int cargoWeight;
 
-    public Plane(String model, int numberOfSeats, int cargoWeight) {
-        this.planeModel = model;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Seat> seats;
+
+    public Plane(PlaneId planeId, int numberOfSeats, int cargoWeight, List<Seat> seats) {
+        this.planeId = planeId;
         this.numberSeats = numberOfSeats;
         this.cargoWeight = cargoWeight;
+        this.seats = seats;
     }
 
     protected Plane() {
         // for hibernate
+    }
+
+    public PlaneId getId() {
+        return planeId;
+    }
+
+    public List<Seat> getSeats() {
+        return Collections.unmodifiableList(seats);
     }
 }
