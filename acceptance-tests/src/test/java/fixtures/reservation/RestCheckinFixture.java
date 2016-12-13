@@ -13,8 +13,7 @@ public class RestCheckinFixture extends ReservationBaseRestFixture {
     private Response currentRequest;
 
     public void givenPassengerCheckin(UUID passengerHash) {
-        String path = CheckinResource.PATH;
-        URI uri = UriBuilder.fromPath(path).build();
+        URI uri = UriBuilder.fromPath(CheckinResource.PATH).build();
         Map<String, Object> body = getJsonAsMap(passengerHash, "AGENT", false);
 
         currentRequest = givenRequest().body(body)

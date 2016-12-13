@@ -25,8 +25,7 @@ public class RestReservationEventsFixture extends ReservationBaseRestFixture {
     private Response currentRequest;
 
     public void givenAReservation(String flightNumber, Instant flightDate) {
-        String path = EventsResource.PATH;
-        URI uri = UriBuilder.fromPath(path).build();
+        URI uri = UriBuilder.fromPath(EventsResource.PATH).build();
         Map<String, Object> body = getReservationJsonAsMap(flightNumber, flightDate);
 
         currentRequest = givenRequest().body(body)
