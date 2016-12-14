@@ -5,12 +5,11 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightId;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneId;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.List;
 
 public class InMemoryFlightRepository implements FlightRepository {
     private HashMap<FlightId, Flight> flights = new HashMap<>();
@@ -35,10 +34,9 @@ public class InMemoryFlightRepository implements FlightRepository {
     private Flight fetchFlight(String flightNumber, Instant flightDate) {
         FlightId flightId = new FlightId(flightNumber, flightDate);
         String modelID = amsSystem.getPlaneModel(flightNumber);
-        Plane plane = planeService.getPlaneInformation(modelID);
-        List<Seat> seats = planeService.getSeats(modelID);
+        Plane plane = planeService.getPlane(new PlaneId(modelID));
 
-        return new Flight(flightId, plane, seats);
+        return new Flight(flightId, plane);
     }
 
     @Override
