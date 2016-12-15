@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.application.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
+import ca.ulaval.glo4002.thunderbird.boarding.application.baggage.exceptions.NoMoreSpaceInFlightException;
 import ca.ulaval.glo4002.thunderbird.boarding.application.baggage.exceptions.PassengerNotCheckedInException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
@@ -35,6 +36,9 @@ public class BaggageApplicationService {
         Passenger passenger = getPassenger(passengerHash);
         NormalizedBaggageDTO normalizedBaggageDTO = registerBaggageNormalizer.normalizeBaggageDTO(registerBaggageDTO);
         Baggage baggage = baggageFactory.createBaggage(passenger, normalizedBaggageDTO);
+        if (!passenger.getFlight().haveSpaceFor(baggage)) {
+            throw new NoMoreSpaceInFlightException();
+        }
         passenger.addBaggage(baggage);
         repository.savePassenger(passenger);
 
