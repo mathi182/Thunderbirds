@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,16 +14,22 @@ public class Flight {
     @EmbeddedId
     private FlightId flightId;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Seat> seats;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Plane plane;
 
-    public Flight(FlightId flightId, Plane plane, List<Seat> seats) {
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Passenger> passengers;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Seat> availableSeats;
+
+    public Flight(FlightId flightId, Plane plane) {
+        if (plane == null) {
+            throw new IllegalArgumentException("plane");
+        }
         this.flightId = flightId;
         this.plane = plane;
-        this.seats = seats;
+        this.availableSeats = plane.getSeats();
     }
 
     protected Flight() {
@@ -34,8 +41,8 @@ public class Flight {
     }
 
     public Seat reserveSeat(SeatAssignationStrategy strategy, Passenger passenger) {
-        Seat bestSeat = strategy.findBestSeat(seats, passenger);
-        bestSeat.markAsUnavailable();
+        Seat bestSeat = strategy.findBestSeat(availableSeats, passenger);
+        availableSeats.remove(bestSeat);
         return bestSeat;
     }
 }

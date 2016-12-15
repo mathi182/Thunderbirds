@@ -1,30 +1,47 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence.plane;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneId;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.exceptions.PlaneNotFoundException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 public class PlaneServiceGlo3000 implements PlaneService {
     private static final String PLANE_SERVICE_LOCATION = "http://glo3000.ift.ulaval.ca/plane-blueprint";
     private static final String PLANE_INFORMATION_PATH_FORMAT = "/planes/%1s.json";
     private static final String SEATS_INFORMATION_PATH_FORMAT = "/planes/%1s/seats.json";
 
+    private final PlaneAssembler planeAssembler;
+
+    public PlaneServiceGlo3000() {
+        this.planeAssembler = new PlaneAssembler();
+    }
+
     @Override
-    public Plane getPlaneInformation(String modelID) {
-        String url = PLANE_SERVICE_LOCATION + String.format(PLANE_INFORMATION_PATH_FORMAT, modelID);
+    public Plane getPlane(PlaneId planeId) {
+        PlaneDTO planeDto = getPlaneDto(planeId);
+        SeatsDTO seatsDto = getSeatsDto(planeId);
+
+        return planeAssembler.toDomain(planeDto, seatsDto);
+    }
+
+    private PlaneDTO getPlaneDto(PlaneId planeId) {
+        String url = PLANE_SERVICE_LOCATION + String.format(PLANE_INFORMATION_PATH_FORMAT, planeId.getModel());
         ClientResponse response = getResource(url);
-        verifyResponse(response, modelID);
+        verifyResponse(response, planeId);
 
-        PlaneDTO dto = response.getEntity(PlaneDTO.class);
-        PlaneAssembler planeAssembler = new PlaneAssembler();
+        return response.getEntity(PlaneDTO.class);
+    }
 
-        return planeAssembler.toDomain(dto);
+    private SeatsDTO getSeatsDto(PlaneId planeId) {
+        String url = PLANE_SERVICE_LOCATION + String.format(SEATS_INFORMATION_PATH_FORMAT, planeId.getModel());
+        ClientResponse response = getResource(url);
+        verifyResponse(response, planeId);
+
+        return response.getEntity(SeatsDTO.class);
     }
 
     private ClientResponse getResource(String url) {
@@ -34,23 +51,11 @@ public class PlaneServiceGlo3000 implements PlaneService {
         return resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
     }
 
-    private void verifyResponse(ClientResponse response, String modelID) {
+    private void verifyResponse(ClientResponse response, PlaneId planeId) {
         if (response.getStatus() == ClientResponse.Status.NOT_FOUND.getStatusCode()) {
-            throw new PlaneNotFoundException(modelID);
+            throw new PlaneNotFoundException(planeId);
         } else if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
             throw new RuntimeException("Failed to retrieve JSON with status : " + response.getStatus());
         }
-    }
-
-    @Override
-    public List<Seat> getSeats(String modelID) {
-        String url = PLANE_SERVICE_LOCATION + String.format(SEATS_INFORMATION_PATH_FORMAT, modelID);
-        ClientResponse response = getResource(url);
-        verifyResponse(response, modelID);
-
-        SeatsInformationDTO dto = response.getEntity(SeatsInformationDTO.class);
-
-        SeatsAssembler seatsAssembler = new SeatsAssembler();
-        return seatsAssembler.toDomain(dto);
     }
 }

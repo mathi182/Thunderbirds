@@ -11,10 +11,13 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.*;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneId;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat.SeatClass;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.HibernatePlaneRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneService;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.PlaneServiceGlo3000;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
@@ -44,6 +47,7 @@ public class DevContext implements Context {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityManagerProvider.setEntityManager(entityManager);
 
+        registerPlaneRepository();
         registerFlightRepository();
         registerPassengerRepository();
         registerBaggageFactories();
@@ -55,14 +59,22 @@ public class DevContext implements Context {
 
     private void registerBaggageFactories() {
         BaggageFactory baggageFactory = new BaggageFactory();
+
         ServiceLocator.registerSingleton(BaggageFactory.class, baggageFactory);
         ServiceLocator.registerSingleton(CollectionFactory.class, new CollectionFactory());
     }
 
+    private void registerPlaneRepository() {
+        PlaneService planeService = new PlaneServiceGlo3000();
+        PlaneRepository planeRepository = new HibernatePlaneRepository(planeService);
+
+        ServiceLocator.registerSingleton(PlaneRepository.class, planeRepository);
+    }
+
     private void registerFlightRepository() {
         AMSSystem amsSystem = new AMSSystemFactory().create();
-        PlaneService planeService = new PlaneServiceGlo3000();
-        FlightRepository flightRepository = new HibernateFlightRepository(amsSystem, planeService);
+        PlaneRepository planeRepository = ServiceLocator.resolve(PlaneRepository.class);
+        FlightRepository flightRepository = new HibernateFlightRepository(amsSystem, planeRepository);
 
         ServiceLocator.registerSingleton(FlightRepository.class, flightRepository);
     }
@@ -75,12 +87,16 @@ public class DevContext implements Context {
     }
 
     private void fillDatabase() {
-        Flight flight = createFlight();
-        FlightRepository flightRepository = ServiceLocator.resolve(FlightRepository.class);
-        flightRepository.saveFlight(flight);
-
+        Plane plane = createPlane();
+        Flight flight = createFlight(plane);
         Passenger passenger = createPassenger(flight);
+
+        PlaneRepository planeRepository = ServiceLocator.resolve(PlaneRepository.class);
+        FlightRepository flightRepository = ServiceLocator.resolve(FlightRepository.class);
         PassengerRepository passengerRepository = ServiceLocator.resolve(PassengerRepository.class);
+
+        planeRepository.savePlane(plane);
+        flightRepository.saveFlight(flight);
         passengerRepository.savePassenger(passenger);
         EXISTENT_BOARDING_PASSENGER = passenger;
     }
@@ -96,20 +112,23 @@ public class DevContext implements Context {
 
         BaggageFactory baggageFactory = ServiceLocator.resolve(BaggageFactory.class);
 
-        Baggage baggage1 = baggageFactory.createBaggage(passenger, new NormalizedBaggageDTO(length1,mass1,CHECKED));
-        Baggage baggage2 = baggageFactory.createBaggage(passenger, new NormalizedBaggageDTO(length2,mass2,CHECKED));
+        Baggage baggage1 = baggageFactory.createBaggage(passenger, new NormalizedBaggageDTO(length1, mass1, CHECKED));
+        Baggage baggage2 = baggageFactory.createBaggage(passenger, new NormalizedBaggageDTO(length2, mass2, CHECKED));
         passenger.addBaggage(baggage1);
         passenger.addBaggage(baggage2);
 
         return passenger;
     }
 
-    private Flight createFlight() {
-        FlightId flightId = new FlightId(FLIGHT_NUMBER, FLIGHT_DATE);
-        Plane dash8Plane = new Plane("dash-8", 1, 0);
+    private Plane createPlane() {
+        PlaneId planeId = new PlaneId("dash-8");
         List<Seat> seats = Arrays.asList(createSeat());
+        return new Plane(planeId, 1, 0, seats);
+    }
 
-        return new Flight(flightId, dash8Plane, seats);
+    private Flight createFlight(Plane plane) {
+        FlightId flightId = new FlightId(FLIGHT_NUMBER, FLIGHT_DATE);
+        return new Flight(flightId, plane);
     }
 
     private Seat createSeat() {
@@ -121,8 +140,6 @@ public class DevContext implements Context {
         double price = 1;
         SeatClass seatClass = SeatClass.ECONOMY;
         boolean isExitRow = false;
-        boolean isAvailable = true;
-        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow, isAvailable);
+        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow);
     }
 }
-
