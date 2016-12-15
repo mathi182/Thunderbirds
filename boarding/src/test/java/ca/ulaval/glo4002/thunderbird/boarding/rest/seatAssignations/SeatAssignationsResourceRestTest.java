@@ -19,22 +19,17 @@ public class SeatAssignationsResourceRestTest {
     private static final UUID NON_EXISTENT_PASSENGER_HASH = UUID.randomUUID();
     private static final String VALID_MODE = "RANDOM";
     private static final String INVALID_MODE = "INVALID";
-    private static final String UUID_REGEX = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
+    private static final String INT_REGEX = "\\d+";
 
     @Test
     public void givenAValidPassengerHashAndAValidMode_whenAssigningSeat_shouldAssignSeat() {
         Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), VALID_MODE);
 
         Response response;
-        response = givenBaseRequest()
-                .body(seatAssignationBody)
-                .when()
-                .post(SeatAssignationsResource.PATH)
-                .then()
-                .assertThat()
-                .statusCode(CREATED.getCode())
-                .and()
-                .extract().response();
+        response = givenBaseRequest().body(seatAssignationBody)
+                .when().post(SeatAssignationsResource.PATH)
+                .then().statusCode(CREATED.getCode())
+                .and().extract().response();
 
         Boolean locationValidity = isLocationValid(response.getHeader(HttpHeaders.LOCATION));
         assertTrue(locationValidity);
@@ -46,7 +41,7 @@ public class SeatAssignationsResourceRestTest {
     private boolean isLocationValid(String location) {
         String baseUrl = buildUrl(SeatAssignationsResource.PATH);
         baseUrl = baseUrl.replace("/", "\\/");
-        Pattern pattern = Pattern.compile(baseUrl + UUID_REGEX);
+        Pattern pattern = Pattern.compile(baseUrl + INT_REGEX);
 
         return pattern.matcher(location).matches();
     }
@@ -55,8 +50,7 @@ public class SeatAssignationsResourceRestTest {
     public void givenAnInvalidPassengerHashAndAValidMode_whenAssigningSeat_shouldReturnNotFound() {
         Map<String, Object> seatAssignationBody = createSeatAssignationBody(NON_EXISTENT_PASSENGER_HASH, VALID_MODE);
 
-        givenBaseRequest()
-                .body(seatAssignationBody)
+        givenBaseRequest().body(seatAssignationBody)
                 .when().post(SeatAssignationsResource.PATH)
                 .then().statusCode(NOT_FOUND.getCode());
     }
@@ -65,8 +59,7 @@ public class SeatAssignationsResourceRestTest {
     public void givenAValidPassengerHashAndInvalidMode_whenAssigningSeat_shouldReturnBadRequest() {
         Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), INVALID_MODE);
 
-        givenBaseRequest()
-                .body(seatAssignationBody)
+        givenBaseRequest().body(seatAssignationBody)
                 .when().post(SeatAssignationsResource.PATH)
                 .then().statusCode(BAD_REQUEST.getCode());
     }

@@ -36,6 +36,10 @@ public class Seat {
         // for hibernate
     }
 
+    public int getId() {
+        return id;
+    }
+
     public SeatClass getSeatClass() {
         return seatClass;
     }

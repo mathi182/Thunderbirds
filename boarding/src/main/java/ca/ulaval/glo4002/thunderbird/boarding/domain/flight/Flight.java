@@ -6,7 +6,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,9 +39,29 @@ public class Flight {
         return flightId;
     }
 
+    public Plane getPlane() {
+        return plane;
+    }
+
     public Seat reserveSeat(SeatAssignationStrategy strategy, Passenger passenger) {
         Seat bestSeat = strategy.findBestSeat(availableSeats, passenger);
         availableSeats.remove(bestSeat);
         return bestSeat;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Flight)) return false;
+
+        Flight flight = (Flight) obj;
+
+        return flightId.equals(flight.flightId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return flightId.hashCode();
     }
 }
