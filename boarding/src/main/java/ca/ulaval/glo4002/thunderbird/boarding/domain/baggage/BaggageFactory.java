@@ -35,7 +35,10 @@ public class BaggageFactory {
             case CHECKED:
                 return checkedBaggageFactory.createCheckedBaggage(passenger, dto);
             case MEDICAL:
-                return new MedicalBaggage(dto.length, dto.mass, MEDICAL);
+                MedicalBaggage medicalBaggage = new MedicalBaggage(dto.length, dto.mass, MEDICAL);
+                overweightStrategy.checkOverweight(medicalBaggage, MedicalBaggage.MAXIMUM_WEIGHT);
+                oversizeStrategy.checkOversize(medicalBaggage, MedicalBaggage.MAXIMUM_LENGTH);
+                return medicalBaggage;
             case PERSONAL:
                 PersonalBaggage personalBaggage = new PersonalBaggage(dto.length, dto.mass, PERSONAL);
                 overweightStrategy.checkOverweight(personalBaggage, PersonalBaggage.MAXIMUM_WEIGHT);
