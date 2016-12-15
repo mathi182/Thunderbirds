@@ -37,9 +37,15 @@ public class BaggageFactory {
             case MEDICAL:
                 return new MedicalBaggage(dto.length, dto.mass, MEDICAL);
             case PERSONAL:
-                return new PersonalBaggage(dto.length, dto.mass, PERSONAL);
+                PersonalBaggage personalBaggage = new PersonalBaggage(dto.length, dto.mass, PERSONAL);
+                overweightStrategy.checkOverweight(personalBaggage, PersonalBaggage.MAXIMUM_WEIGHT);
+                oversizeStrategy.checkOversize(personalBaggage, PersonalBaggage.MAXIMUM_LENGTH);
+                return personalBaggage;
             case STANDARD:
-                return new StandardBaggage(dto.length, dto.mass, STANDARD);
+                StandardBaggage standardBaggage = new StandardBaggage(dto.length, dto.mass, STANDARD);
+                oversizeStrategy.checkOversize(standardBaggage, StandardBaggage.MAXIMUM_LENGTH);
+                overweightStrategy.checkOverweight(standardBaggage, StandardBaggage.MAXIMUM_WEIGHT);
+                return standardBaggage;
             case SPORT:
                 Baggage sportBaggage = checkedBaggageFactory.createCheckedBaggage(passenger, dto);
                 sportBaggage.addSpeciality(new Sport());
@@ -49,6 +55,5 @@ public class BaggageFactory {
                 throw new NoSuchStrategyException("Unknown baggage type : " + dto.type);
         }
     }
-
 
 }

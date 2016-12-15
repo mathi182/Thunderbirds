@@ -84,8 +84,11 @@ public abstract class Baggage {
                 return true;
             }
         }
-
         return false;
+    }
+
+    public boolean hasSpecialities() {
+        return specialities.size() != 0;
     }
 
     public void addSpeciality(Speciality speciality) {

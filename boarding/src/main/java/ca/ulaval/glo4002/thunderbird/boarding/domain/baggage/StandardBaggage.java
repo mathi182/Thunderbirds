@@ -9,6 +9,9 @@ import java.util.UUID;
 @Entity
 public class StandardBaggage extends Baggage {
     private static final String TYPE = "standard";
+    private static final float PRICE = 30;
+    public static final Mass MAXIMUM_WEIGHT = Mass.fromKilograms(10);
+    public static final Length MAXIMUM_LENGTH = Length.fromCentimeters(118);
 
     public StandardBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
         super(baggageHash, linearDimension, weight, type);
@@ -24,7 +27,7 @@ public class StandardBaggage extends Baggage {
 
     @Override
     public float getBasePrice() {
-        return 0;
+        return PRICE;
     }
 
     @Override
