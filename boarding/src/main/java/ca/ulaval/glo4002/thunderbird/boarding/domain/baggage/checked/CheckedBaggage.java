@@ -13,9 +13,6 @@ public abstract class CheckedBaggage extends Baggage {
     protected static final int BAGGAGE_COST = 50;
     protected static final String TYPE = "checked";
 
-    public CheckedBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        super(baggageHash, linearDimension, weight, type);
-    }
 
     public CheckedBaggage(Length linearDimension, Mass weight, String type) {
         super(linearDimension, weight, type);

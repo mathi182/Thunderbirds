@@ -44,14 +44,6 @@ public abstract class Baggage {
         this.type = type;
     }
 
-    public Baggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        this.specialities = new HashSet<>();
-        this.baggageHash = baggageHash;
-        this.linearDimension = linearDimension;
-        this.weight = weight;
-        this.type = type;
-    }
-
     protected Baggage() {
         // for hibernate
     }
