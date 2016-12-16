@@ -13,7 +13,8 @@ import static org.eclipse.jetty.http.HttpStatus.Code.OK;
 public class BaggageDimensionInvalidExceptionMapper implements ExceptionMapper<BaggageDimensionInvalidException> {
     @Override
     public Response toResponse(BaggageDimensionInvalidException e) {
-        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("dimension invalid");
+        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("Flight has no more space available for baggage");
+
         return Response.status(OK.getCode()).entity(registerBaggageResponse).build();
     }
 }
