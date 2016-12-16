@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssign
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
