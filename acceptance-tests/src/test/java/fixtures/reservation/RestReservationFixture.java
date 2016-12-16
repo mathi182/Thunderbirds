@@ -2,13 +2,9 @@ package fixtures.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.event.EventsResource;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
-import io.restassured.response.Response;
-
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 public class RestReservationFixture extends ReservationBaseRestFixture {
@@ -23,7 +19,7 @@ public class RestReservationFixture extends ReservationBaseRestFixture {
     private static final String PASSPORT_NUMBER = "p1234";
     private static final String SEAT_CLASS = "economy";
     public static final int FIRST_PASSENGER = 0;
-    public static final String PASSENGER_HASH_JSON_PROPERTY = "passenger_hash";
+    public static final String PASSENGER_HASH = "passenger_hash";
 
     public static final String PASSENGERS = "passengers";
 
@@ -37,9 +33,8 @@ public class RestReservationFixture extends ReservationBaseRestFixture {
         String createReservationPath = uriBuilder.path(EventsResource.RESERVATION_CREATED).toString();
 
         Map<String, Object> body = getReservationJsonAsMap(flightNumber, flightDate);
-        Response response = givenRequest().body(body)
-                .when().post(createReservationPath).thenReturn();
-        int i = 0;
+        givenRequest().body(body)
+                .when().post(createReservationPath);
     }
 
     private Map<String, Object> getReservationJsonAsMap(String flightNumber, String flightDate) {
@@ -54,14 +49,17 @@ public class RestReservationFixture extends ReservationBaseRestFixture {
         return jsonAsMap;
     }
 
-    private Map<String, Object> getPassengerJsonAsMap() {
-        Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("first_name", FIRST_NAME);
-        jsonAsMap.put("last_name", LAST_NAME);
-        jsonAsMap.put("age", AGE);
-        jsonAsMap.put("passport_number", PASSPORT_NUMBER);
-        jsonAsMap.put("seat_class", SEAT_CLASS);
-        return jsonAsMap;
+    private List<Map> getPassengerJsonAsMap() {
+        Map<String, Object> passengerAsMap = new HashMap<>();
+        passengerAsMap.put("first_name", FIRST_NAME);
+        passengerAsMap.put("last_name", LAST_NAME);
+        passengerAsMap.put("age", AGE);
+        passengerAsMap.put("passport_number", PASSPORT_NUMBER);
+        passengerAsMap.put("seat_class", SEAT_CLASS);
+
+        List<Map> passengersList = new ArrayList<>();
+        passengersList.add(passengerAsMap);
+        return passengersList;
     }
 
     private UUID getReservationPassengerHash(int reservationNumber) {
@@ -69,9 +67,9 @@ public class RestReservationFixture extends ReservationBaseRestFixture {
         String integerNumberString = Integer.toString(reservationNumber);
         URI uri = uriBuilder.path(integerNumberString).build();
 
-        Response response = givenRequest()
+        List<Map> passengers = givenRequest()
                 .when().get(uri).thenReturn().path(PASSENGERS);
-
-        return UUID.randomUUID();
+        String passengerHashString = passengers.get(FIRST_PASSENGER).get(PASSENGER_HASH).toString();
+        return UUID.fromString(passengerHashString);
     }
 }
