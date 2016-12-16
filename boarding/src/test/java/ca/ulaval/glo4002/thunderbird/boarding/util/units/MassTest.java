@@ -103,4 +103,55 @@ public class MassTest {
 
         assertFalse(isSuperior);
     }
+
+    @Test
+    public void givenAMass_whenCheckingIfIsInferiorOrEqualToEqualMass_shouldReturnTrue() {
+        mass = Mass.fromGrams(MASS_IN_GRAMS);
+        Mass sameMass = Mass.fromGrams(MASS_IN_GRAMS);
+
+        boolean isInferiorTo = mass.isInferiorOrEqualTo(sameMass);
+
+        assertTrue(isInferiorTo);
+    }
+
+    @Test
+    public void givenAMass_whenCheckingIfIsInferiorOrEqualToSmallerMass_shouldReturnFalse() {
+        mass = Mass.fromGrams(MASS_IN_GRAMS);
+        Mass smallerMass = Mass.fromGrams(SMALLER_MASS_IN_GRAMS);
+
+        boolean isInferiorTo = mass.isInferiorOrEqualTo(smallerMass);
+
+        assertFalse(isInferiorTo);
+    }
+
+    @Test
+    public void givenAMass_whenCheckingIfInferiorOrEqualToBiggerMass_shouldReturnTrue() {
+        mass = Mass.fromGrams(MASS_IN_GRAMS);
+        Mass biggerMass = Mass.fromGrams(BIGGER_MASS_IN_GRAMS);
+
+        boolean isInferiorTo = mass.isInferiorOrEqualTo(biggerMass);
+
+        assertTrue(isInferiorTo);
+    }
+
+    @Test
+    public void givenTwoMasses_whenAdding_shouldNotModifyOriginals() {
+        Mass massA = Mass.fromGrams(MASS_IN_GRAMS);
+        Mass massB = Mass.fromGrams(MASS_IN_GRAMS);
+
+        massA.add(massB);
+
+        assertEquals(MASS_IN_GRAMS, massA.toGrams(), DELTA);
+        assertEquals(MASS_IN_GRAMS, massA.toGrams(), DELTA);
+    }
+
+    @Test
+    public void givenTwoMasses_whenAdding_resultShouldBeTheAdditionOfTheTwo() {
+        Mass massA = Mass.fromGrams(MASS_IN_GRAMS);
+        Mass massB = Mass.fromGrams(MASS_IN_GRAMS);
+
+        Mass resultingMass = massA.add(massB);
+
+        assertEquals(MASS_IN_GRAMS + MASS_IN_GRAMS, resultingMass.toGrams(), DELTA);
+    }
 }
