@@ -4,10 +4,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.StandardBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
-import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
-import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,23 +12,22 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
 
 public class StandardBaggageCollectionTest {
 
     private static final float DELTA = 0.01f;
     private static final String TYPE = "standard";
     private static final List<Baggage> EMPTY_LIST = new ArrayList<>();
-    private static final Length LINEAR_DIMENSION = Length.fromCentimeters(50);
-    private static final Mass WEIGHT = Mass.fromKilograms(5);
     private static final float BAGGAGE_TOTAL_COAST = 0;
-    private Speciality oversizeSpeciality = new Oversize();
 
     private StandardBaggageCollection baggageCollection;
     private Baggage baggage;
 
     @Before
     public void setup() {
-        baggage = new StandardBaggage(LINEAR_DIMENSION, WEIGHT, TYPE);
+        baggage = mock(StandardBaggage.class);
         baggageCollection = new StandardBaggageCollection();
     }
 
@@ -60,7 +55,7 @@ public class StandardBaggageCollectionTest {
 
     @Test(expected = BaggageFormatUnauthorizedException.class)
     public void givenABaggageWithASpeciality_whenValidating_shouldThrowException() {
-        baggage.addSpeciality(oversizeSpeciality);
+        willReturn(true).given(baggage).hasSpecialities();
 
         baggageCollection.validate(baggage);
     }
