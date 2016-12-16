@@ -30,16 +30,19 @@ public class BaggageTest {
     private BaggageFactory baggageFactory = new BaggageFactory();
     private Baggage baggage;
     private Baggage invalidBaggage;
+    private Passenger passenger;
 
     @Before
     public void setup() {
-        Passenger passenger = mock(Passenger.class);
+        passenger = mock(Passenger.class);
         willReturn(BUSINESS).given(passenger).getSeatClass();
-        NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
-        baggage = baggageFactory.createBaggage(passenger, baggageDTO);
-        NormalizedBaggageDTO invalidBaggageDTO = new NormalizedBaggageDTO(INVALID_DIMENSION, WEIGHT, CHECKED_TYPE);
-        invalidBaggage = baggageFactory.createBaggage(passenger, invalidBaggageDTO);
+        baggage = createBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
+        invalidBaggage = createBaggage(INVALID_DIMENSION, WEIGHT, CHECKED_TYPE);
+    }
 
+    private Baggage createBaggage(Length length, Mass mass, String type) {
+        NormalizedBaggageDTO dto = new NormalizedBaggageDTO(length, mass, type);
+        return baggageFactory.createBaggage(passenger, dto);
     }
 
     @Test

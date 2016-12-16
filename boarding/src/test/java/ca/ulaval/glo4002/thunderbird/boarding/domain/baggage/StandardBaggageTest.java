@@ -27,7 +27,6 @@ public class StandardBaggageTest {
     private final Seat.SeatClass BUSINESS = Seat.SeatClass.BUSINESS;
     private NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION, WEIGHT, STANDARD_TYPE);
 
-
     @Before
     public void setup() {
         Passenger passenger = mock(Passenger.class);
@@ -37,7 +36,6 @@ public class StandardBaggageTest {
 
     @Test
     public void shouldReturnRightValues() {
-
         assertEquals(30, baggage.getBasePrice(), DELTA);
         assertFalse(baggage.isChecked());
         assertEquals(STANDARD_TYPE, baggage.getType());
