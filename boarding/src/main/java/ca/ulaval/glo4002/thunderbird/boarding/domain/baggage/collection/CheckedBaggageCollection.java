@@ -43,9 +43,7 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
 
     @Override
     public void addBaggage(Baggage baggage) {
-        if (collection.size() >= getBaggageCountLimit()) {
-            throw new BaggageAmountUnauthorizedException();
-        }
+        validate(baggage);
         setBaggagePrice(baggage);
         baggage.setBaggageCollection(this);
         collection.add(baggage);
@@ -69,7 +67,10 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
 
     protected abstract int getFreeBaggageCount();
 
-    protected abstract void validate(Baggage baggage);
+    public void validate(Baggage baggage) {
+        if (collection.size() >= getBaggageCountLimit())
+            throw new BaggageAmountUnauthorizedException();
+    }
 
     public abstract float calculateTotalCost();
 

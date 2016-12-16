@@ -37,11 +37,6 @@ public class BusinessBaggageCollection extends CheckedBaggageCollection {
     }
 
     @Override
-    protected void validate(Baggage baggage) {
-        //TODO Implement me
-    }
-
-    @Override
     public float calculateTotalCost() {
         float cost = 0;
         int baggageNumber = 1;

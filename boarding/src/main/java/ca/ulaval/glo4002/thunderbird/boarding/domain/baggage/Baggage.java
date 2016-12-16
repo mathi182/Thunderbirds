@@ -70,6 +70,17 @@ public abstract class Baggage {
         return linearDimension;
     }
 
+    public boolean hasSpeciality(Speciality speciality) {
+        for (Speciality specs : specialities) {
+            if (specs.getSpecialityName().equals(speciality.getSpecialityName())) {
+                return true;
+
+            }
+        }
+
+        return false;
+    }
+
     public boolean hasSpecialities() {
         return specialities.size() != 0;
     }
