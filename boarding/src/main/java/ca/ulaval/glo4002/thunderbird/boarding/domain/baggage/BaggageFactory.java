@@ -25,11 +25,6 @@ public class BaggageFactory {
         this.oversizeStrategy = new OversizeBaggageStrategy();
     }
 
-    public BaggageFactory(OversizeBaggageStrategy oversizeStrategy, OverweightBaggageStrategy overweightStrategy) {
-        this.overweightStrategy = overweightStrategy;
-        this.oversizeStrategy = oversizeStrategy;
-    }
-
     public Baggage createBaggage(Passenger passenger, NormalizedBaggageDTO dto) {
         switch (dto.type) {
             case CHECKED:

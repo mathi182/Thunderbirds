@@ -13,12 +13,6 @@ public class PersonalBaggage extends Baggage {
     public static final Length MAXIMUM_LENGTH = Length.fromCentimeters(92);
     public static final Mass MAXIMUM_WEIGHT = Mass.fromKilograms(10);
 
-
-
-    public PersonalBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        super(baggageHash, linearDimension, weight, type);
-    }
-
     public PersonalBaggage(Length linearDimension, Mass weight, String type) {
         super(linearDimension, weight, type);
     }
