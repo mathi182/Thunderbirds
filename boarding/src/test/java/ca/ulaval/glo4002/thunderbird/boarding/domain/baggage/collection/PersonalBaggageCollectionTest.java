@@ -20,7 +20,7 @@ public class PersonalBaggageCollectionTest {
     private static final float DELTA = 0.01f;
     private static final String TYPE = "personal";
     private static final List<Baggage> EMPTY_LIST = new ArrayList<>();
-    private static final float BAGGAGE_TOTAL_COAST = 0;
+    private static final float BAGGAGE_TOTAL_COST = 0;
 
     private PersonalBaggageCollection baggageCollection;
     private Baggage baggage;
@@ -35,7 +35,13 @@ public class PersonalBaggageCollectionTest {
     public void shouldReturnRightValue() {
         assertEquals(TYPE, baggageCollection.getCollectionType());
         assertEquals(EMPTY_LIST, baggageCollection.getBaggages());
-        assertEquals(BAGGAGE_TOTAL_COAST, baggageCollection.calculateTotalCost(), DELTA);
+    }
+
+    @Test
+    public void whenCalculatingTotalCost_shouldReturnFree() {
+        float cost = baggageCollection.calculateTotalCost();
+
+        assertEquals(BAGGAGE_TOTAL_COST, cost, DELTA);
     }
 
     @Test

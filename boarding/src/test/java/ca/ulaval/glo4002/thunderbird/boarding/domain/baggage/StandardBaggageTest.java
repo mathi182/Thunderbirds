@@ -16,6 +16,7 @@ import static org.mockito.Mockito.mock;
 public class StandardBaggageTest {
 
     private static final double DELTA = 0.01f;
+    private static final float STANDARD_PRICE = 30;
     private final int DIMENSION_VALUE = 11;
     private final Length LINEAR_DIMENSION = Length.fromMillimeters(DIMENSION_VALUE);
     private final int WEIGHT_VALUE = 22;
@@ -36,7 +37,7 @@ public class StandardBaggageTest {
 
     @Test
     public void shouldReturnRightValues() {
-        assertEquals(30, baggage.getBasePrice(), DELTA);
+        assertEquals(STANDARD_PRICE, baggage.getBasePrice(), DELTA);
         assertFalse(baggage.isChecked());
         assertEquals(STANDARD_TYPE, baggage.getType());
     }
