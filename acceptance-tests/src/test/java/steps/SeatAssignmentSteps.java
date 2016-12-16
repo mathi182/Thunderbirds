@@ -15,8 +15,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class SeatAssignmentSteps implements Fr {
-    public static final Instant FLIGHT_DATE = Instant.now().plus(1, ChronoUnit.DAYS);
-    public static final String FLIGHT_NUMBER = "AC-1234";
+    private static final String FLIGHT_NUMBER = "AC1765";
+    private static final String FLIGHT_DATE = "2016-10-15T11:41:00Z";
     private RestSeatAssigmentFixture seatAssignmentFixture;
     private RestReservationFixture reservationFixture;
     private RestCheckinFixture checkinFixture;
@@ -35,7 +35,6 @@ public class SeatAssignmentSteps implements Fr {
 
         Étantdonné("^un passage Alice ayant une réservation à bord d'un vol$", () -> {
             passengerHash = reservationFixture.givenAPassengerWithAReservation(FLIGHT_NUMBER, FLIGHT_DATE);
-            int i = 0;
         });
 
         Étantdonné("^que des places sont disponibles sur ce vol$", () -> {
