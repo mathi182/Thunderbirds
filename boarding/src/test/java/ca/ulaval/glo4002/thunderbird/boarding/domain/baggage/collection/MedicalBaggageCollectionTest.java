@@ -2,8 +2,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.MedicalBaggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.PersonalBaggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
