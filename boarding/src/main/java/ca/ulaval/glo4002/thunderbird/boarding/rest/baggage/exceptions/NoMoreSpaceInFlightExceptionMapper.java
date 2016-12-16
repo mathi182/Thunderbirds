@@ -13,7 +13,7 @@ import static org.eclipse.jetty.http.HttpStatus.Code.OK;
 public class NoMoreSpaceInFlightExceptionMapper implements ExceptionMapper<NoMoreSpaceInFlightException> {
     @Override
     public Response toResponse(NoMoreSpaceInFlightException noMoreSpaceInFlightException) {
-        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("No more space in plane");
+        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("Flight has no more space available for baggage");
         return Response.status(OK.getCode()).entity(registerBaggageResponse).build();
     }
 }
