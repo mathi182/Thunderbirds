@@ -10,15 +10,11 @@ import java.util.Map;
 import java.util.UUID;
 
 public class RestCheckinFixture extends ReservationBaseRestFixture {
-    private Response currentRequest;
-
     public void givenPassengerCheckin(UUID passengerHash) {
         URI uri = UriBuilder.fromPath(CheckinResource.PATH).build();
         Map<String, Object> body = getJsonAsMap(passengerHash, "AGENT", false);
-
-        currentRequest = givenRequest().body(body)
+        givenRequest().body(body)
                 .when().post(uri);
-        int i = 0;
     }
 
     private Map<String, Object> getJsonAsMap(UUID passengerHash, String by, Boolean vip) {
