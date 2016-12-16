@@ -25,21 +25,25 @@ public class BaggageFactory {
         this.oversizeStrategy = new OversizeBaggageStrategy();
     }
 
-    public BaggageFactory(OversizeBaggageStrategy oversizeStrategy, OverweightBaggageStrategy overweightStrategy) {
-        this.overweightStrategy = overweightStrategy;
-        this.oversizeStrategy = oversizeStrategy;
-    }
-
     public Baggage createBaggage(Passenger passenger, NormalizedBaggageDTO dto) {
         switch (dto.type) {
             case CHECKED:
                 return checkedBaggageFactory.createCheckedBaggage(passenger, dto);
             case MEDICAL:
-                return new MedicalBaggage(dto.length, dto.mass, MEDICAL);
+                MedicalBaggage medicalBaggage = new MedicalBaggage(dto.length, dto.mass, MEDICAL);
+                overweightStrategy.checkOverweight(medicalBaggage, MedicalBaggage.MAXIMUM_WEIGHT);
+                oversizeStrategy.checkOversize(medicalBaggage, MedicalBaggage.MAXIMUM_LENGTH);
+                return medicalBaggage;
             case PERSONAL:
-                return new PersonalBaggage(dto.length, dto.mass, PERSONAL);
+                PersonalBaggage personalBaggage = new PersonalBaggage(dto.length, dto.mass, PERSONAL);
+                overweightStrategy.checkOverweight(personalBaggage, PersonalBaggage.MAXIMUM_WEIGHT);
+                oversizeStrategy.checkOversize(personalBaggage, PersonalBaggage.MAXIMUM_LENGTH);
+                return personalBaggage;
             case STANDARD:
-                return new StandardBaggage(dto.length, dto.mass, STANDARD);
+                StandardBaggage standardBaggage = new StandardBaggage(dto.length, dto.mass, STANDARD);
+                oversizeStrategy.checkOversize(standardBaggage, StandardBaggage.MAXIMUM_LENGTH);
+                overweightStrategy.checkOverweight(standardBaggage, StandardBaggage.MAXIMUM_WEIGHT);
+                return standardBaggage;
             case SPORT:
                 Baggage sportBaggage = checkedBaggageFactory.createCheckedBaggage(passenger, dto);
                 sportBaggage.addSpeciality(new Sport());
@@ -49,6 +53,5 @@ public class BaggageFactory {
                 throw new NoSuchStrategyException("Unknown baggage type : " + dto.type);
         }
     }
-
 
 }

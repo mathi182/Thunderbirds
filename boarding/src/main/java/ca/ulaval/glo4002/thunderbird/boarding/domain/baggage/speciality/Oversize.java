@@ -19,11 +19,6 @@ public class Oversize extends Speciality {
     }
 
     @Override
-    public String getSpecialityName() {
-        return SPECIALITY_NAME;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         return obj instanceof Oversize && EqualsBuilder.reflectionEquals(this, obj);
     }

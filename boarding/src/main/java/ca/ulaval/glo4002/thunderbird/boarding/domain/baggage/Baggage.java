@@ -44,14 +44,6 @@ public abstract class Baggage {
         this.type = type;
     }
 
-    public Baggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        this.specialities = new HashSet<>();
-        this.baggageHash = baggageHash;
-        this.linearDimension = linearDimension;
-        this.weight = weight;
-        this.type = type;
-    }
-
     protected Baggage() {
         // for hibernate
     }
@@ -78,14 +70,8 @@ public abstract class Baggage {
         return linearDimension;
     }
 
-    public boolean hasSpeciality(Speciality speciality) {
-        for (Speciality specs : specialities) {
-            if (specs.getSpecialityName().equals(speciality.getSpecialityName())) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean hasSpecialities() {
+        return specialities.size() != 0;
     }
 
     public void addSpeciality(Speciality speciality) {

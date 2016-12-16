@@ -11,10 +11,6 @@ public class BusinessBaggage extends CheckedBaggage{
     public static final Mass MAX_WEIGHT = Mass.fromKilograms(30);
     public static final Length MAX_LENGTH = Length.fromCentimeters(158);
 
-    public BusinessBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        super(baggageHash, linearDimension, weight, type);
-    }
-
     public BusinessBaggage(Length linearDimension, Mass weight, String type) {
         super(linearDimension, weight, type);
     }

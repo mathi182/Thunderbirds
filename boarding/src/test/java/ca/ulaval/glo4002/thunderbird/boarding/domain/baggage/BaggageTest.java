@@ -10,20 +10,18 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.UUID;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 
 public class BaggageTest {
-    private final UUID BAGGAGE_HASH = new UUID(2L, 2L);
 
-    private final int DIMENSION_VALUE = 11;
-    private final Length LINEAR_DIMENSION = Length.fromMillimeters(DIMENSION_VALUE);
-    private final Length INVALID_DIMENSION = Length.fromMillimeters(DIMENSION_VALUE - 1);
+    private final int DIMENSION_VALUE = 100;
+    private final int INVALID_DIMENSION_VALUE = 200;
+    private final Length LINEAR_DIMENSION = Length.fromCentimeters(DIMENSION_VALUE);
+    private final Length INVALID_DIMENSION = Length.fromCentimeters(INVALID_DIMENSION_VALUE);
 
-    private final int WEIGHT_VALUE = 22;
+    private final int WEIGHT_VALUE = 5;
     private final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
     private final Mass INVALID_WEIGHT = Mass.fromGrams(WEIGHT_VALUE - 1);
     private final String CHECKED_TYPE = "checked";
@@ -31,13 +29,20 @@ public class BaggageTest {
 
     private BaggageFactory baggageFactory = new BaggageFactory();
     private Baggage baggage;
+    private Baggage invalidBaggage;
+    private Passenger passenger;
 
     @Before
     public void setup() {
-        Passenger passenger = mock(Passenger.class);
+        passenger = mock(Passenger.class);
         willReturn(BUSINESS).given(passenger).getSeatClass();
-        NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
-        baggage = baggageFactory.createBaggage(passenger, baggageDTO);
+        baggage = createBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
+        invalidBaggage = createBaggage(INVALID_DIMENSION, WEIGHT, CHECKED_TYPE);
+    }
+
+    private Baggage createBaggage(Length length, Mass mass, String type) {
+        NormalizedBaggageDTO dto = new NormalizedBaggageDTO(length, mass, type);
+        return baggageFactory.createBaggage(passenger, dto);
     }
 
     @Test
@@ -46,6 +51,7 @@ public class BaggageTest {
         assertEquals(WEIGHT, baggage.getWeight());
         assertEquals(0, baggage.getPrice(), 0.0f);
         assertEquals(CHECKED_TYPE, baggage.getType());
+        assertTrue(baggage.equals(baggage));
     }
 
     @Test
@@ -59,13 +65,23 @@ public class BaggageTest {
     }
 
     @Test
-    public void whenDimensionAndWeightAreValid_shouldNotThrowAnException() {
-        baggage.validate(LINEAR_DIMENSION, WEIGHT);
+    public void givenBaggaggeWithSpecialities_whenCheckingIfHasSpecialities_shouldReturnTrue () {
+
+        boolean hasSpecialities = invalidBaggage.hasSpecialities();
+
+        assertTrue(hasSpecialities);
+    }
+
+    @Test
+    public void givenBaggageWithoutSpecialities_whenCheckingIfHasSpecialities_shouldReturnFalse() {
+        boolean hasSpecialities = baggage.hasSpecialities();
+
+        assertFalse(hasSpecialities);
     }
 
     @Test(expected = BaggageDimensionInvalidException.class)
     public void whenDimensionIsInvalid_shouldThrowAnException() {
-        baggage.validate(INVALID_DIMENSION, WEIGHT);
+        invalidBaggage.validate(LINEAR_DIMENSION, WEIGHT);
     }
 
     @Test(expected = BaggageWeightInvalidException.class)
