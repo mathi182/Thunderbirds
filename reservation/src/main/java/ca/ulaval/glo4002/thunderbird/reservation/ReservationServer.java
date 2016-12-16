@@ -21,7 +21,7 @@ public class ReservationServer implements Runnable {
     public static final int DEFAULT_PORT = 8787;
 
     private static final String CONTEXT_PROPERTY = "context";
-    private static final String DEFAULT_CONTEXT = "demo";
+    private static final String DEFAULT_CONTEXT = "dev";
     private Server server;
 
     public static void main(String[] args) {
