@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.Passenge
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -79,6 +80,10 @@ public class Passenger {
     public float calculateBaggagesPrice() {
         float price = baggagesCollection.calculateTotalPrice();
         return isVip ? price * VIP_DISCOUNT : price;
+    }
+
+    public Mass calculateBagageMass() {
+        return baggagesCollection.calculateBaggagesMass();
     }
 
     public void addBaggage(Baggage baggage) {

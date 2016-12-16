@@ -7,12 +7,10 @@ import javax.persistence.Entity;
 import java.util.UUID;
 
 @Entity
-public class MedicalBaggage extends Baggage {
+public class MedicalBaggage extends StandardBaggage {
     private static final String TYPE = "medical";
+    private static final float PRICE = 0;
 
-    public MedicalBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        super(baggageHash, linearDimension, weight, type);
-    }
 
     public MedicalBaggage(Length linearDimension, Mass weight, String type) {
         super(linearDimension, weight, type);
@@ -24,7 +22,7 @@ public class MedicalBaggage extends Baggage {
 
     @Override
     public float getBasePrice() {
-        return 0;
+        return PRICE;
     }
 
     @Override

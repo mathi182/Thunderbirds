@@ -11,10 +11,6 @@ public class EconomicBaggage extends CheckedBaggage{
     public static final Mass MAX_WEIGHT = Mass.fromKilograms(23);
     public static final Length MAX_LENGTH = Length.fromCentimeters(158);
 
-    public EconomicBaggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        super(baggageHash, linearDimension, weight, type);
-    }
-
     public EconomicBaggage(Length linearDimension, Mass weight, String type) {
         super(linearDimension, weight, type);
     }

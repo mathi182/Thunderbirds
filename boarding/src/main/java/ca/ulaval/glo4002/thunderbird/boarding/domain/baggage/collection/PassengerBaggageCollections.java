@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
@@ -73,6 +74,17 @@ public class PassengerBaggageCollections {
         }
 
         return baggageList;
+    }
+
+    public Mass calculateBaggagesMass() {
+        Mass mass = Mass.fromGrams(0);
+        for (BaggageCollection baggages : collection) {
+            for (Baggage baggage : baggages.getBaggages()) {
+                mass = mass.add(baggage.getWeight());
+            }
+        }
+
+        return mass;
     }
 
     @Override

@@ -14,11 +14,6 @@ public class Sport extends Speciality {
     }
 
     @Override
-    public String getSpecialityName() {
-        return SPECIALITY_NAME;
-    }
-
-    @Override
     public float getSpecialityFee() {
         return SPECIALITY_FEE;
     }

@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.plane;
 
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +35,10 @@ public class Plane {
         return Collections.unmodifiableList(seats);
     }
 
+    public Mass getMaximumCargoWeight() {
+        return Mass.fromKilograms(cargoWeight);
+    }
+  
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

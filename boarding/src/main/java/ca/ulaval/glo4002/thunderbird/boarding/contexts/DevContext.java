@@ -122,7 +122,7 @@ public class DevContext implements Context {
     private Plane createPlane() {
         PlaneId planeId = new PlaneId("dash-8");
         List<Seat> seats = Arrays.asList(createSeat());
-        return new Plane(planeId, 1, 0, seats);
+        return new Plane(planeId, 1, 1000, seats);
     }
 
     private Flight createFlight(Plane plane) {

@@ -18,11 +18,6 @@ public class CheckedBaggageFactory {
         this.oversizeStrategy = new OversizeBaggageStrategy();
     }
 
-    public CheckedBaggageFactory(OversizeBaggageStrategy oversizeStrategy, OverweightBaggageStrategy overweightStrategy) {
-        this.overweightStrategy = overweightStrategy;
-        this.oversizeStrategy = oversizeStrategy;
-    }
-
     public Baggage createCheckedBaggage(Passenger passenger, NormalizedBaggageDTO dto) {
 
         switch (passenger.getSeatClass()) {
