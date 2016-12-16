@@ -20,6 +20,7 @@ public class PersonalBaggageCollection extends BaggageCollection {
     @Override
     public void addBaggage(Baggage baggage) {
         baggage.setBaggageCollection(this);
+        collection.add(baggage);
     }
 
     @Override
@@ -44,6 +45,6 @@ public class PersonalBaggageCollection extends BaggageCollection {
 
     @Override
     public List<Baggage> getBaggages() {
-        return null;
+        return collection;
     }
 }

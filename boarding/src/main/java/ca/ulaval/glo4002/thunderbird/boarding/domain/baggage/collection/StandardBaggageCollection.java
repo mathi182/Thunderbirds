@@ -12,6 +12,7 @@ import java.util.List;
 public class StandardBaggageCollection extends BaggageCollection {
     private static final String TYPE = "standard";
     private static final int BAGGAGES_LIMIT = 1;
+    private static final float TOTAL_COST = 0;
 
     public StandardBaggageCollection() {
         collection = new ArrayList<>();
@@ -20,6 +21,7 @@ public class StandardBaggageCollection extends BaggageCollection {
     @Override
     public void addBaggage(Baggage baggage) {
         baggage.setBaggageCollection(this);
+        collection.add(baggage);
     }
 
     @Override
@@ -34,7 +36,7 @@ public class StandardBaggageCollection extends BaggageCollection {
 
     @Override
     public float calculateTotalCost() {
-        return 0;
+        return TOTAL_COST;
     }
 
     @Override
