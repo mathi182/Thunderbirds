@@ -14,6 +14,7 @@ public class BaggageDimensionInvalidExceptionMapper implements ExceptionMapper<B
     @Override
     public Response toResponse(BaggageDimensionInvalidException e) {
         RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("dimension invalid");
+
         return Response.status(OK.getCode()).entity(registerBaggageResponse).build();
     }
 }
