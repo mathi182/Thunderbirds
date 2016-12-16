@@ -49,7 +49,7 @@ public class Flight {
         return bestSeat;
     }
 
-    public boolean haveSpaceFor(Baggage baggage) {
+    public boolean hasSpaceFor(Baggage baggage) {
         Mass baggagesMass = Mass.fromGrams(0);
         for (Passenger passenger : passengers) {
             baggagesMass = baggagesMass.add(passenger.calculateBagageMass());
