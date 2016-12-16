@@ -1,7 +1,7 @@
 package contexts.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.contexts.Context;
-import fixtures.reservation.ReservationServerRunner;
+import runners.ReservationServerRunner;
 
 public class ReservationContext implements Context {
     @Override

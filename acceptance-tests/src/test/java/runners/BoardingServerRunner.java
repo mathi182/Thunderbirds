@@ -1,4 +1,4 @@
-package fixtures.boarding;
+package runners;
 
 import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
 import contexts.boarding.BoardingContext;
@@ -6,12 +6,12 @@ import contexts.boarding.BoardingContext;
 public class BoardingServerRunner {
     public static final int JETTY_TEST_PORT = 15141;
 
-    private static boolean isFirstFeature = true;
+    private static boolean isStarted = false;
     private BoardingServer server;
 
     public void startJettyServer() {
-        if (isFirstFeature) {
-            isFirstFeature = false;
+        if (!isStarted) {
+            isStarted = true;
             Runtime.getRuntime().addShutdownHook(new JettyServerShutdown());
             startMedServerInJetty();
         }

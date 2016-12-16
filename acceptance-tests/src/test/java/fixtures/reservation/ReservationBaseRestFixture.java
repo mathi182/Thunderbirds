@@ -1,6 +1,7 @@
 package fixtures.reservation;
 
 import io.restassured.specification.RequestSpecification;
+import runners.ReservationServerRunner;
 
 import javax.ws.rs.core.MediaType;
 

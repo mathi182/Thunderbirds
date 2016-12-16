@@ -1,6 +1,7 @@
 package fixtures.boarding;
 
 import io.restassured.specification.RequestSpecification;
+import runners.BoardingServerRunner;
 
 import javax.ws.rs.core.MediaType;
 

@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.CollectionFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.PassengerRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepository;
-import fixtures.boarding.BoardingServerRunner;
+import runners.BoardingServerRunner;
 
 public class BoardingContext implements Context {
     @Override

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class SeatAssigmentFixture extends BoardingBaseRestFixture {
+public class RestSeatAssigmentFixture extends BoardingBaseRestFixture {
     private Response currentRequest;
 
     public void whenAssignSeat(UUID passengerHash, String mode) {

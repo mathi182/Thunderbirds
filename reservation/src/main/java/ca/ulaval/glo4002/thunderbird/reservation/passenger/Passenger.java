@@ -21,18 +21,25 @@ public class Passenger {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private final UUID passengerHash = UUID.randomUUID();
+
     @NotBlank
     private String firstName;
+
     @NotBlank
     private String lastName;
+
     @NotBlank
     private String passportNumber;
+
     @NotBlank
     private String seatClass;
+
     @JsonIgnore
     private int age;
+
     @JsonIgnore
     private boolean isCheckedIn = false;
+
     @JsonIgnore
     private boolean isVip = false;
 

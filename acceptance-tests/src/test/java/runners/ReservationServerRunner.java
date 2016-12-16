@@ -1,4 +1,4 @@
-package fixtures.reservation;
+package runners;
 
 import ca.ulaval.glo4002.thunderbird.reservation.ReservationServer;
 import contexts.reservation.ReservationContext;
@@ -6,12 +6,12 @@ import contexts.reservation.ReservationContext;
 public class ReservationServerRunner {
     public static final int JETTY_TEST_PORT = 15146;
 
-    private static boolean isFirstFeature = true;
+    private static boolean isStarted = false;
     private ReservationServer server;
 
     public void startJettyServer() {
-        if (isFirstFeature) {
-            isFirstFeature = false;
+        if (!isStarted) {
+            isStarted = true;
             Runtime.getRuntime().addShutdownHook(new JettyServerShutdown());
             startMedServerInJetty();
         }

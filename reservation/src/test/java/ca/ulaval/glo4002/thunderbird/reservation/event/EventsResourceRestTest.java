@@ -23,12 +23,11 @@ public class EventsResourceRestTest {
     private static final String FLIGHT_NUMBER = "AC1765";
     private static final String FLIGHT_DATE = "2016-10-15T11:41:00Z";
 
-    private static final String FIRST_NAME = "Alexis";
-    private static final String LAST_NAME = "Lessard";
-    private static final int AGE = 18;
-    private static final String PASSPORT_NUMBER = "testo";
+    private static final String FIRST_NAME = "Uncle";
+    private static final String LAST_NAME = "Bob";
+    private static final String PASSPORT_NUMBER = "2564-5424";
     private static final String SEAT_CLASS = "economy";
-
+    private static final int AGE = 18;
     private String createReservationPath;
 
     @Before
@@ -85,7 +84,7 @@ public class EventsResourceRestTest {
         passengerMap.put("age", AGE);
         passengerMap.put("passport_number", PASSPORT_NUMBER);
         passengerMap.put("seat_class", SEAT_CLASS);
-        
+
         return passengerMap;
     }
 }

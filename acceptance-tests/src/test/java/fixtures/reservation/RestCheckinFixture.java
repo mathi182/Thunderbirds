@@ -18,6 +18,7 @@ public class RestCheckinFixture extends ReservationBaseRestFixture {
 
         currentRequest = givenRequest().body(body)
                 .when().post(uri);
+        int i = 0;
     }
 
     private Map<String, Object> getJsonAsMap(UUID passengerHash, String by, Boolean vip) {

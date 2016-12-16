@@ -1,41 +1,50 @@
 package fixtures.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.event.EventsResource;
+import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
 import io.restassured.response.Response;
 
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
+import java.sql.Date;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
-public class RestReservationEventsFixture extends ReservationBaseRestFixture {
+public class RestReservationFixture extends ReservationBaseRestFixture {
     private static final int RESERVATION_NUMBER = 1;
-    private static final Instant RESERVATION_DATE = Instant.now();
-    private static final String RESERVATION_CONFIRMATION = "";
-    private static final String PAYMENT_LOCATION = "";
+    private static final String RESERVATION_DATE = "2016-10-15";
     private static final String FIRST_NAME = "Alice";
     private static final String LAST_NAME = "Trembley";
     private static final int AGE = 21;
     private static final String PASSPORT_NUMBER = "1234";
     private static final String SEAT_CLASS = "economy";
+    public static final int FIRST_PASSENGER = 0;
+    public static final String PASSENGER_HASH_JSON_PROPERTY = "passenger_hash";
+    private static final String RESERVATION_CONFIRMATION = "A3833";
+    private static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
+    public UUID givenAPassengerWithAReservation(String flightNumber, Instant flightDate) {
+        createReservation(flightNumber, flightDate);
+        return getReservationPassengerHash(RESERVATION_NUMBER);
+    }
 
-    private Response currentRequest;
+    private void createReservation(String flightNumber, Instant flightDate) {
+        UriBuilder uriBuilder = UriBuilder.fromUri(EventsResource.PATH);
+        String createReservationPath = uriBuilder.path(EventsResource.RESERVATION_CREATED).toString();
 
-    public void givenAReservation(String flightNumber, Instant flightDate) {
-        URI uri = UriBuilder.fromPath(EventsResource.PATH).build();
         Map<String, Object> body = getReservationJsonAsMap(flightNumber, flightDate);
-
-        currentRequest = givenRequest().body(body)
-                .when().post(uri);
+        Response response = givenRequest().body(body)
+                .when().post(createReservationPath);
+        int i = 0;
     }
 
     private Map<String, Object> getReservationJsonAsMap(String flightNumber, Instant flightDate) {
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("reservation_number", RESERVATION_NUMBER);
-        jsonAsMap.put("reservation_date", ISO_INSTANT.format(RESERVATION_DATE));
+        jsonAsMap.put("reservation_date", RESERVATION_DATE);
         jsonAsMap.put("reservation_confirmation", RESERVATION_CONFIRMATION);
         jsonAsMap.put("flight_number", flightNumber);
         jsonAsMap.put("flight_date", ISO_INSTANT.format(flightDate));
@@ -52,5 +61,16 @@ public class RestReservationEventsFixture extends ReservationBaseRestFixture {
         jsonAsMap.put("passport_number", PASSPORT_NUMBER);
         jsonAsMap.put("seat_class", SEAT_CLASS);
         return jsonAsMap;
+    }
+
+    private UUID getReservationPassengerHash(int reservationNumber) {
+        UriBuilder uriBuilder = UriBuilder.fromPath(ReservationsResource.PATH);
+        String integerNumberString = Integer.toString(reservationNumber);
+        URI uri = uriBuilder.path(integerNumberString).build();
+
+        Response response = givenRequest()
+                .when().get(uri);
+
+        return UUID.randomUUID();
     }
 }
