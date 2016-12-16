@@ -36,7 +36,7 @@ public class BaggageApplicationService {
         Passenger passenger = getPassenger(passengerHash);
         NormalizedBaggageDTO normalizedBaggageDTO = registerBaggageNormalizer.normalizeBaggageDTO(registerBaggageDTO);
         Baggage baggage = baggageFactory.createBaggage(passenger, normalizedBaggageDTO);
-        if (!passenger.getFlight().haveSpaceFor(baggage)) {
+        if (!passenger.getFlight().hasSpaceFor(baggage)) {
             throw new NoMoreSpaceInFlightException();
         }
         passenger.addBaggage(baggage);

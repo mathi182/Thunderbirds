@@ -44,7 +44,7 @@ public class BaggageApplicationServiceTest {
         baggage = mock(Baggage.class);
         flight = mock(Flight.class);
         Flight flight = mock(Flight.class);
-        willReturn(true).given(flight).haveSpaceFor(any(Baggage.class));
+        willReturn(true).given(flight).hasSpaceFor(any(Baggage.class));
         willReturn(flight).given(passenger).getFlight();
         willReturn(baggage).given(baggageFactory).createBaggage(passenger,normalizedBaggageDTO);
         willReturn(BAGGAGE_ID).given(baggage).getId();
@@ -73,7 +73,7 @@ public class BaggageApplicationServiceTest {
     @Test(expected = NoMoreSpaceInFlightException.class)
     public void givenAFlightWithNoSpaceForBaggages_whenAddingBaggage_shouldThrowNoMoreSpaceInFlight() {
         setPassengerCheckedInInRepo(true);
-        willReturn(false).given(flight).haveSpaceFor(any(Baggage.class));
+        willReturn(false).given(flight).hasSpaceFor(any(Baggage.class));
         willReturn(flight).given(passenger).getFlight();
         BaggageApplicationService applicationService = new BaggageApplicationService(passengerRepository, baggageFactory, registerBaggageNormalizer);
 

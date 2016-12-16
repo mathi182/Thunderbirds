@@ -61,7 +61,7 @@ public class FlightTest {
         Baggage baggage = mock(Baggage.class);
         willReturn(WEIGHT_SMALLER_THAN_MAXIMUM).given(baggage).getWeight();
 
-        boolean haveEnoughSpace = flight.haveSpaceFor(baggage);
+        boolean haveEnoughSpace = flight.hasSpaceFor(baggage);
 
         assertTrue(haveEnoughSpace);
     }
@@ -71,7 +71,7 @@ public class FlightTest {
         Baggage baggage = mock(Baggage.class);
         willReturn(WEIGHT_EQUAL_TO_MAXIMUM).given(baggage).getWeight();
 
-        boolean haveEnoughSpace = flight.haveSpaceFor(baggage);
+        boolean haveEnoughSpace = flight.hasSpaceFor(baggage);
 
         assertTrue(haveEnoughSpace);
     }
@@ -81,7 +81,7 @@ public class FlightTest {
         Baggage baggage = mock(Baggage.class);
         willReturn(WEIGHT_BIGGER_THAN_MAXIMUM).given(baggage).getWeight();
 
-        boolean haveEnoughSpace = flight.haveSpaceFor(baggage);
+        boolean haveEnoughSpace = flight.hasSpaceFor(baggage);
 
         assertFalse(haveEnoughSpace);
     }
