@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.application.passenger;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -12,14 +13,16 @@ public class PassengerDTO {
     public UUID passengerHash;
     public String seatClass;
     public String flightNumber;
-    public Instant flightDate;
+    public String flightDate;
     public Boolean vip;
     public Boolean checkedIn;
     public Boolean child;
 
     @JsonCreator
-    public PassengerDTO(UUID passengerHash, String seatClass, Instant flightDate,
-                        String flightNumber, Boolean vip, Boolean checkedIn, Boolean child) {
+    public PassengerDTO(@JsonProperty("passenger_hash") UUID passengerHash, @JsonProperty("seat_class") String seatClass,
+                        @JsonProperty("flight_date") String flightDate,
+                        @JsonProperty("flight_number") String flightNumber, @JsonProperty("vip") Boolean vip,
+                        @JsonProperty("checked_in") Boolean checkedIn, @JsonProperty("child") Boolean child) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
         this.flightDate = flightDate;

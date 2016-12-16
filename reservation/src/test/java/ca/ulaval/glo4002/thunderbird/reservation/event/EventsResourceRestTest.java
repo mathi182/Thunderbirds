@@ -5,13 +5,16 @@ import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.buildUrl;
 import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.givenBaseRequest;
+import static javax.ws.rs.core.Response.Status.CREATED;
 
 public class EventsResourceRestTest {
     private static final int RESERVATION_NUMBER = 37353;
@@ -41,12 +44,11 @@ public class EventsResourceRestTest {
         String reservationNumberString = Integer.toString(RESERVATION_NUMBER);
         String locationExpected = createLocationExpected(reservationNumberString);
 
-        Response response = givenBaseRequest()
+        givenBaseRequest()
                 .body(generateReservationMap())
-                .when().post(createReservationPath).andReturn();
-        int i = 0;
-       //         .then().statusCode(CREATED.getStatusCode())
-       //         .header(HttpHeaders.LOCATION, buildUrl(locationExpected));
+                .when().post(createReservationPath)
+                .then().statusCode(CREATED.getStatusCode())
+                .header(HttpHeaders.LOCATION, buildUrl(locationExpected));
     }
 
     private String createLocationExpected(String reservationNumber) {

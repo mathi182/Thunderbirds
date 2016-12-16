@@ -17,6 +17,7 @@ import fixtures.boarding.FakeAMSSystem;
 import runners.BoardingServerRunner;
 
 public class BoardingContext implements Context {
+
     @Override
     public void apply() {
         ServiceLocator.reset();

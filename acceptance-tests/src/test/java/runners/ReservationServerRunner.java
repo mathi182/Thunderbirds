@@ -18,6 +18,9 @@ public class ReservationServerRunner {
     }
 
     private void startMedServerInJetty() {
+        // For api calls from boarding to reservation
+        System.setProperty("reservation.port", Integer.toString(JETTY_TEST_PORT));
+
         server = new ReservationServer();
         server.start(JETTY_TEST_PORT, new ReservationContext());
     }

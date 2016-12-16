@@ -19,6 +19,7 @@ public class SeatAssignmentSteps implements Fr {
 
     private static final String FLIGHT_NUMBER = "QK-918";
     private static final String FLIGHT_DATE = "2016-10-15T11:41:00Z";
+    public static final String RANDOM = "RANDOM";
     private RestSeatAssigmentFixture seatAssignmentFixture;
     private RestReservationFixture reservationFixture;
     private RestCheckinFixture checkinFixture;
@@ -41,7 +42,7 @@ public class SeatAssignmentSteps implements Fr {
         });
 
         Étantdonné("^que des places sont disponibles sur ce vol$", () -> {
-            flightFixture.createFlight(FLIGHT_NUMBER, Instant.now());
+            flightFixture.createFlight(FLIGHT_NUMBER, Instant.parse(FLIGHT_DATE));
         });
 
         Étantdonné("^qu'elle a fait son checkin$", () -> {
@@ -49,13 +50,11 @@ public class SeatAssignmentSteps implements Fr {
         });
 
         Quand("^elle procède à l'assignation de siège en choisissant le mode aléatoire$", () -> {
-            // Write code here that turns the phrase above into concrete actions
-            throw new PendingException();
+            seatAssignmentFixture.whenAssignSeat(passengerHash, RANDOM);
         });
 
         Alors("^un siège lui a été assigné à bord de ce vol$", () -> {
-            // Write code here that turns the phrase above into concrete actions
-            throw new PendingException();
+            seatAssignmentFixture.thenSeatHasBeenAsigned();
         });
     }
 }
