@@ -23,6 +23,7 @@ public class BaggageResourceRestTest {
     private static final String KG_UNIT_FROM_REQUEST = "kg";
     private static final String BAGGAGE_TYPE_CHECKED = "checked";
     private static final int WEIGHT = 10;
+    private static final int TOO_BIG_WEIGHT = 9999;
     private static final String INVALID_UNIT = "invalid_unit";
     private static final UUID VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER.getHash();
     private static final UUID INVALID_PASSENGER_UUID = UUID.randomUUID();
