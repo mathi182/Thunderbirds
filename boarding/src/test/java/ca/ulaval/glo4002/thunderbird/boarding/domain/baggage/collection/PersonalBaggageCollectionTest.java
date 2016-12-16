@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PersonalBaggageCollectionTest {
 
@@ -40,6 +41,15 @@ public class PersonalBaggageCollectionTest {
         assertEquals(TYPE, baggageCollection.getCollectionType());
         assertEquals(EMPTY_LIST, baggageCollection.getBaggages());
         assertEquals(BAGGAGE_TOTAL_COAST, baggageCollection.calculateTotalCost(), DELTA);
+    }
+
+    @Test
+    public void givenABaggage_whenAddingABaggageToTheCollection_shouldCollectionContainIt() {
+        baggageCollection.addBaggage(baggage);
+
+        boolean containBaggage = baggageCollection.collection.contains(baggage);
+
+        assertTrue(containBaggage);
     }
 
     @Test(expected = BaggageAmountUnauthorizedException.class)
