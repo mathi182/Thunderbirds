@@ -9,7 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.UUID;
 
 @Path(SeatAssignationsResource.PATH)
 @Produces(MediaType.APPLICATION_JSON)
@@ -33,12 +32,12 @@ public class SeatAssignationsResource {
 
         TakenSeatDTO takenSeatDTO = assembler.fromDomain(assignedSeat);
 
-        URI uri = buildUri();
+        URI uri = buildUri(assignedSeat);
         return Response.created(uri).entity(takenSeatDTO).build();
     }
 
-    private URI buildUri() {
-        String seatAssignationsIdString = UUID.randomUUID().toString();
+    private URI buildUri(Seat assignedSeat) {
+        String seatAssignationsIdString = Integer.toString(assignedSeat.getId());
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
         return uriBuilder.path(seatAssignationsIdString).build();
     }

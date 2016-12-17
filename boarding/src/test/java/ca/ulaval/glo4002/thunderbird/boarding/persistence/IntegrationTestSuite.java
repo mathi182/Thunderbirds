@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.persistence;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.flight.HibernateFlightRepositoryIntegrationTest;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.HibernatePassengerRepositoryIntegrationTest;
 import ca.ulaval.glo4002.thunderbird.boarding.persistence.plane.HibernatePlaneRepositoryIntegrationTest;
