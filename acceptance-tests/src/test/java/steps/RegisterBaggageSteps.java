@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import contexts.boarding.BoardingContext;
 import cucumber.api.DataTable;
+import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
 import fixtures.boarding.BaggageFixture;
 import fixtures.boarding.BoardingPassengerFixture;
@@ -24,6 +25,7 @@ public class RegisterBaggageSteps implements Fr {
     private BoardingPassengerFixture boardingPassengerFixture;
     private BaggageFixture baggageFixture;
 
+    @Before
     public void setUp() throws Exception {
         new BoardingContext().apply();
         boardingPassengerFixture = new BoardingPassengerFixture();

@@ -2,17 +2,14 @@ package steps;
 
 import contexts.boarding.BoardingContext;
 import contexts.reservation.ReservationContext;
-import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java8.Fr;
 import fixtures.boarding.FlightFixture;
 import fixtures.boarding.RestSeatAssigmentFixture;
 import fixtures.reservation.RestCheckinFixture;
 import fixtures.reservation.RestReservationFixture;
-import javafx.print.Printer;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class SeatAssignmentSteps implements Fr {

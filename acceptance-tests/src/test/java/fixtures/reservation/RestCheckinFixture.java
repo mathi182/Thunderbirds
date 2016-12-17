@@ -1,7 +1,6 @@
 package fixtures.reservation;
 
 import ca.ulaval.glo4002.thunderbird.reservation.checkin.CheckinResource;
-import io.restassured.response.Response;
 
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
