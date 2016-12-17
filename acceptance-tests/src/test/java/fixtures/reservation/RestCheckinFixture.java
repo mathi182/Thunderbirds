@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class RestCheckinFixture extends ReservationBaseRestFixture {
     public void givenPassengerCheckin(UUID passengerHash) {
-        URI uri = UriBuilder.fromPath(CheckinResource.PATH).build();
         Map<String, Object> body = getJsonAsMap(passengerHash, "AGENT", false);
+        URI uri = UriBuilder.fromPath(CheckinResource.PATH).build();
         givenRequest().body(body)
                 .when().post(uri);
     }
