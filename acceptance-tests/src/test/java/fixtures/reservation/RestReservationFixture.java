@@ -6,13 +6,11 @@ import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.*;
 
-
 public class RestReservationFixture extends ReservationBaseRestFixture {
     private static final int RESERVATION_NUMBER = 37353;
     private static final String RESERVATION_DATE = "2016-01-31";
     private static final String RESERVATION_CONFIRMATION = "A3833";
     private static final String PAYMENT_LOCATION = "/payments/da39a3ee5e6b4b0d3255bfef95601890afd80709";
-
     private static final String FIRST_NAME = "Alice";
     private static final String LAST_NAME = "Trembley";
     private static final int AGE = 21;
@@ -20,7 +18,6 @@ public class RestReservationFixture extends ReservationBaseRestFixture {
     private static final String SEAT_CLASS = "economy";
     public static final int FIRST_PASSENGER = 0;
     public static final String PASSENGER_HASH = "passenger_hash";
-
     public static final String PASSENGERS = "passengers";
 
     public UUID givenAPassengerWithAReservation(String flightNumber, String flightDate) {
