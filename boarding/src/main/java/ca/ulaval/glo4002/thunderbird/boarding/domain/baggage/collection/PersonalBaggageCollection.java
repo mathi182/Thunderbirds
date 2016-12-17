@@ -19,6 +19,7 @@ public class PersonalBaggageCollection extends BaggageCollection {
 
     @Override
     public void addBaggage(Baggage baggage) {
+        validate(baggage);
         baggage.setBaggageCollection(this);
         collection.add(baggage);
     }

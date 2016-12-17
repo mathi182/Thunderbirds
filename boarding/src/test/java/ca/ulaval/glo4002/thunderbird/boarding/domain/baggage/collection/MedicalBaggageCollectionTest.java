@@ -49,9 +49,7 @@ public class MedicalBaggageCollectionTest {
         for (int i = 0; i < NUMBER_OF_BAGGAGE; i++) {
             baggageCollection.addBaggage(baggage);
         }
-        int numberOfBaggage = baggageCollection.collection.size();
-
-        assertEquals(NUMBER_OF_BAGGAGE, numberOfBaggage);
+        baggageCollection.validate(baggage);
     }
 
     @Test
