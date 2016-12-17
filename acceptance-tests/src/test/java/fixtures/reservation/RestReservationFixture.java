@@ -67,8 +67,8 @@ public class RestReservationFixture extends ReservationBaseRestFixture {
         String integerNumberString = Integer.toString(reservationNumber);
         URI uri = uriBuilder.path(integerNumberString).build();
 
-        List<Map> passengers = givenRequest()
-                .when().get(uri).thenReturn().path(PASSENGERS);
+        List<Map> passengers = givenRequest().when().get(uri)
+                .thenReturn().path(PASSENGERS);
         String passengerHashString = passengers.get(FIRST_PASSENGER).get(PASSENGER_HASH).toString();
         return UUID.fromString(passengerHashString);
     }
