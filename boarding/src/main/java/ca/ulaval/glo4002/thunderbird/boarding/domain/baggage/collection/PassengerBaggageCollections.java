@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
@@ -55,9 +55,9 @@ public class PassengerBaggageCollections {
 
     private Optional<BaggageCollection> getBaggageCollectionForBaggage(Baggage baggage) {
         return collection.stream()
-        .filter(x -> x.getCollectionType()
+                .filter(x -> x.getCollectionType()
                 .equals(baggage.getType()))
-        .findFirst();
+                .findFirst();
     }
 
     public float calculateTotalPrice() {

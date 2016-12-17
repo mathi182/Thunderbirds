@@ -51,7 +51,8 @@ public class HibernateFlightRepositoryIntegrationTest {
         flightRepository.saveFlight(expectedFlight);
 
         Flight actualFlight = flightRepository.getFlight(flightNumber, FLIGHT_DATE);
-        assertEquals(expectedFlight.getId(), actualFlight.getId());
+        assertEquals(expectedFlight, actualFlight);
+        assertEquals(expectedFlight.getPlane(), actualFlight.getPlane());
     }
 
     @Test

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.thunderbird.boarding.application;
+package ca.ulaval.glo4002.thunderbird.boarding.contexts.exceptions;
 
 public class UnableResolveServiceException extends RuntimeException {
     private static final long serialVersionUID = 1L;

@@ -2,13 +2,15 @@ package ca.ulaval.glo4002.thunderbird.boarding.persistence.plane;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.PlaneId;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
 
@@ -33,6 +35,7 @@ public class HibernatePlaneRepositoryIntegrationTest {
 
         verify(planeService, never()).getPlane(EXISTENT_PLANE_ID);
         assertEquals(EXISTENT_PLANE_ID, plane.getId());
+        assertFalse(plane.getSeats().isEmpty());
     }
 
     @Test
@@ -41,9 +44,22 @@ public class HibernatePlaneRepositoryIntegrationTest {
 
         verify(planeService).getPlane(INEXISTENT_PLANE_ID);
         assertEquals(INEXISTENT_PLANE_ID, plane.getId());
+        assertFalse(plane.getSeats().isEmpty());
     }
 
     private static Plane createPlane(PlaneId planeId) {
-        return new Plane(planeId, NB_SEAT, CARGO_WEIGHT, new ArrayList<>());
+        return new Plane(planeId, NB_SEAT, CARGO_WEIGHT, Arrays.asList(createSeat()));
+    }
+
+    public static Seat createSeat() {
+        int rowNumber = 1;
+        String seatName = "name";
+        int legRoom = 0;
+        boolean hasWindow = false;
+        boolean hasClearView = false;
+        double price = 0;
+        Seat.SeatClass seatClass = Seat.SeatClass.BUSINESS;
+        boolean isExitRow = false;
+        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow);
     }
 }

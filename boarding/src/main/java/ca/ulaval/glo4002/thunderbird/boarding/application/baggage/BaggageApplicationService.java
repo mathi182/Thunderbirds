@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.thunderbird.boarding.application.baggage;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.application.baggage.exceptions.NoMoreSpaceInFlightException;
 import ca.ulaval.glo4002.thunderbird.boarding.application.baggage.exceptions.PassengerNotCheckedInException;
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.BaggageFactory;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;

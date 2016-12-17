@@ -12,7 +12,6 @@ public abstract class Speciality {
     protected String id;
 
     public abstract float getSpecialityFee();
-    public abstract String getSpecialityName();
     public abstract boolean equals(Object obj);
 
     @Override

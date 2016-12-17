@@ -38,4 +38,20 @@ public class Plane {
     public Mass getMaximumCargoWeight() {
         return Mass.fromKilograms(cargoWeight);
     }
+  
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Plane)) return false;
+
+        Plane plane = (Plane) obj;
+
+        return planeId.equals(plane.planeId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return planeId.hashCode();
+    }
 }

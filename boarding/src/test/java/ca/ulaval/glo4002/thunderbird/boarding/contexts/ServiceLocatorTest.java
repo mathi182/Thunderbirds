@@ -1,5 +1,7 @@
-package ca.ulaval.glo4002.thunderbird.boarding.application;
+package ca.ulaval.glo4002.thunderbird.boarding.contexts;
 
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.exceptions.CannotRegisterContractTwiceException;
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.exceptions.UnableResolveServiceException;
 import org.junit.Before;
 import org.junit.Test;
 

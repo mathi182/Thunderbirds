@@ -1,6 +1,6 @@
 package fixtures.boarding;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 
 import java.time.Instant;

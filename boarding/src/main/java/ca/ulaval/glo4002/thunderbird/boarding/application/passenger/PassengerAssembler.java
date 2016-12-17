@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.application.passenger;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
