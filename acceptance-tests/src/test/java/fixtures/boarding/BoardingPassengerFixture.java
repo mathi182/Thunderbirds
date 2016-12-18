@@ -15,7 +15,6 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class BoardingPassengerFixture extends HibernateBaseFixture {
     private static final double DELTA = 0.01;
@@ -60,14 +59,6 @@ public class BoardingPassengerFixture extends HibernateBaseFixture {
             Passenger passenger = repository.findByPassengerHash(passengerHash);
             float totalPriceActual = passenger.calculateBaggagesPrice();
             assertEquals(totalPriceExpected, totalPriceActual, DELTA);
-        });
-    }
-
-    public void thenASeatHasBeenAssigned(UUID passengerHash) {
-        withEntityManager((tx) -> {
-            Passenger passenger = repository.findByPassengerHash(passengerHash);
-            Seat assignedSeat = passenger.getSeat();
-            assertNotNull(assignedSeat);
         });
     }
 }
