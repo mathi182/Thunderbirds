@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
+@Table(name="Reservation_Passenger")
 public class Passenger {
     private static final int AGE_MAJORITY = 21;
 
