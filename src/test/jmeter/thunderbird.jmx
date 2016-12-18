@@ -40,17 +40,17 @@
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
   &quot;reservation_number&quot;: ${__counter(FALSE,ReservationId)},&#xd;
-  &quot;reservation_date&quot;: ${__time(yyyy-MM-dd,)},&#xd;
-  &quot;reservation_confirmation&quot;: &quot;A3833&quot;,&#xd;
-  &quot;flight_number&quot;: &quot;AC1765&quot;,&#xd;
-  &quot;flight_date&quot;: &quot;2016-10-30T00:00:00Z&quot;, // Note : les dates sont en GMT (d&apos;où le Z à la fin)&#xd;
+  &quot;reservation_date&quot;: &quot;${__time(yyyy-MM-dd,)}&quot;,&#xd;
+  &quot;reservation_confirmation&quot;: &quot;${__RandomString(1,ABCDEFGHIJKLMNOPQRSTUVWXYZ,)}${__RandomString(4,0123456789,)}&quot;,&#xd;
+  &quot;flight_number&quot;: &quot;${__RandomString(2,ABCDEF,)}${__RandomString(4,0123456789,)}&quot;,&#xd;
+  &quot;flight_date&quot;: &quot;2016-10-30T00:00:00Z&quot;,&#xd;
   &quot;payment_location&quot;: &quot;/payments/${__RandomString(40,0123456789abcdef,)}&quot;,&#xd;
   &quot;passengers&quot;: [&#xd;
     { &#xd;
-      &quot;first_name&quot;: ${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)},&#xd;
-      &quot;last_name&quot;: ${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)},&#xd;
+      &quot;first_name&quot;: &quot;${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}&quot;,&#xd;
+      &quot;last_name&quot;: &quot;${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}&quot;,&#xd;
       &quot;age&quot;: ${__Random(18,75,)},&#xd;
-      &quot;passport_number&quot;: &quot;&quot;,&#xd;
+      &quot;passport_number&quot;: &quot;${__RandomString(5,ABCDE1234567890,)}&quot;,&#xd;
       &quot;seat_class&quot;: &quot;economy&quot;&#xd;
     }&#xd;
   ]&#xd;
@@ -79,7 +79,7 @@
                 <stringProp name="CounterConfig.start">47653</stringProp>
                 <stringProp name="CounterConfig.end"></stringProp>
                 <stringProp name="CounterConfig.incr">1</stringProp>
-                <stringProp name="CounterConfig.name"></stringProp>
+                <stringProp name="CounterConfig.name">ReservationId</stringProp>
                 <stringProp name="CounterConfig.format"></stringProp>
                 <boolProp name="CounterConfig.per_user">false</boolProp>
               </CounterConfig>
@@ -178,49 +178,6 @@
                 <stringProp name="filename"></stringProp>
               </ResultCollector>
               <hashTree/>
-              <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
-                <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
-                  <collectionProp name="Arguments.arguments">
-                    <elementProp name="graphiteMetricsSender" elementType="Argument">
-                      <stringProp name="Argument.name">graphiteMetricsSender</stringProp>
-                      <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.graphite.TextGraphiteMetricsSender</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                    </elementProp>
-                    <elementProp name="graphiteHost" elementType="Argument">
-                      <stringProp name="Argument.name">graphiteHost</stringProp>
-                      <stringProp name="Argument.value"></stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                    </elementProp>
-                    <elementProp name="graphitePort" elementType="Argument">
-                      <stringProp name="Argument.name">graphitePort</stringProp>
-                      <stringProp name="Argument.value">2003</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                    </elementProp>
-                    <elementProp name="rootMetricsPrefix" elementType="Argument">
-                      <stringProp name="Argument.name">rootMetricsPrefix</stringProp>
-                      <stringProp name="Argument.value">jmeter.</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                    </elementProp>
-                    <elementProp name="summaryOnly" elementType="Argument">
-                      <stringProp name="Argument.name">summaryOnly</stringProp>
-                      <stringProp name="Argument.value">true</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                    </elementProp>
-                    <elementProp name="samplersList" elementType="Argument">
-                      <stringProp name="Argument.name">samplersList</stringProp>
-                      <stringProp name="Argument.value"></stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                    </elementProp>
-                    <elementProp name="percentiles" elementType="Argument">
-                      <stringProp name="Argument.name">percentiles</stringProp>
-                      <stringProp name="Argument.value">90;95;99</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                    </elementProp>
-                  </collectionProp>
-                </elementProp>
-                <stringProp name="classname">org.apache.jmeter.visualizers.backend.graphite.GraphiteBackendListenerClient</stringProp>
-              </BackendListener>
-              <hashTree/>
               <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
                 <boolProp name="ResultCollector.error_logging">false</boolProp>
                 <objProp>
@@ -255,6 +212,44 @@
                   </value>
                 </objProp>
                 <stringProp name="filename"></stringProp>
+              </ResultCollector>
+              <hashTree/>
+              <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Response Time Graph" enabled="true">
+                <boolProp name="ResultCollector.error_logging">false</boolProp>
+                <objProp>
+                  <name>saveConfig</name>
+                  <value class="SampleSaveConfiguration">
+                    <time>true</time>
+                    <latency>true</latency>
+                    <timestamp>true</timestamp>
+                    <success>true</success>
+                    <label>true</label>
+                    <code>true</code>
+                    <message>true</message>
+                    <threadName>true</threadName>
+                    <dataType>true</dataType>
+                    <encoding>false</encoding>
+                    <assertions>true</assertions>
+                    <subresults>true</subresults>
+                    <responseData>false</responseData>
+                    <samplerData>false</samplerData>
+                    <xml>false</xml>
+                    <fieldNames>true</fieldNames>
+                    <responseHeaders>false</responseHeaders>
+                    <requestHeaders>false</requestHeaders>
+                    <responseDataOnError>false</responseDataOnError>
+                    <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                    <assertionsResultsToSave>0</assertionsResultsToSave>
+                    <bytes>true</bytes>
+                    <sentBytes>true</sentBytes>
+                    <threadCounts>true</threadCounts>
+                    <idleTime>true</idleTime>
+                    <connectTime>true</connectTime>
+                  </value>
+                </objProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="RespTimeGraph.graphtitle">Response Time Graph</stringProp>
+                <stringProp name="RespTimeGraph.interval">100</stringProp>
               </ResultCollector>
               <hashTree/>
             </hashTree>
