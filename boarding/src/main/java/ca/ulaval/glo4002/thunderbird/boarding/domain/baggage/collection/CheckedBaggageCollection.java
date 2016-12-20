@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class CheckedBaggageCollection extends BaggageCollection {
-    private static final int BAGGAGE_COUNT_LIMIT = 3;
     protected static final String TYPE = "checked";
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -57,9 +56,7 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
         baggage.setPrice(price);
     }
 
-    private int getBaggageCountLimit() {
-        return passenger.isVip() ? BAGGAGE_COUNT_LIMIT + 1 : BAGGAGE_COUNT_LIMIT;
-    }
+    protected abstract int getBaggageCountLimit();
 
     protected abstract Mass getWeightLimit();
 

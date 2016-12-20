@@ -20,13 +20,17 @@ public class BusinessBaggageCollectionTest {
     private static final float FREE = 0;
     private static final float BAGGAGE_PRICE = 20;
     private static final float DELTA = 0.01f;
+    private static final String TYPE = "checked";
+    private static final int VIP_COUNT_LIMIT = 4;
+    private static final int NORMAL_COUNT_LIMI = 3;
     private BusinessBaggageCollection businessBaggageCollection;
     private Baggage baggage;
+    private Passenger passenger;
 
     @Before
     public void setup() {
         baggage = mock(BusinessBaggage.class);
-        Passenger passenger = mock(Passenger.class);
+        passenger = mock(Passenger.class);
         willReturn(false).given(passenger).isVip();
         businessBaggageCollection = new BusinessBaggageCollection(passenger);
         willReturn(BAGGAGE_PRICE).given(baggage).getBasePrice();
@@ -39,10 +43,29 @@ public class BusinessBaggageCollectionTest {
         assertEquals(WEIGHT_LIMIT, businessBaggageCollection.getWeightLimit());
         assertEquals(DIMENSION_LIMIT, businessBaggageCollection.getDimensionLimit());
         assertEquals(FREE_BAGGAGE_COUNT, businessBaggageCollection.getFreeBaggageCount());
+        assertEquals(TYPE, businessBaggageCollection.getCollectionType());
     }
 
     @Test
-    public void givenCollectionWithMoreThanOneBaggage_whenCalculingTotalCost_shouldReturnAppropriatePrice() {
+    public void givenAVipPassenger_whenGettingBaggageCountLimit_shouldReturnVipCountLimit () {
+        willReturn(true).given(passenger).isVip();
+
+        int actualBaggageCount = businessBaggageCollection.getBaggageCountLimit();
+
+        assertEquals(VIP_COUNT_LIMIT, actualBaggageCount);
+    }
+
+    @Test
+    public void givenANonVipPassenger_whenGettingBaggageCountLimit_shouldReturnCountLimit () {
+        willReturn(false).given(passenger).isVip();
+
+        int actualBaggageCount = businessBaggageCollection.getBaggageCountLimit();
+
+        assertEquals(NORMAL_COUNT_LIMI, actualBaggageCount);
+    }
+
+    @Test
+    public void givenCollectionWithMoreThanOneBaggage_whenCalculatingTotalCost_shouldReturnAppropriatePrice() {
         businessBaggageCollection.addBaggage(baggage);
 
         float actualPrice = businessBaggageCollection.calculateTotalCost();

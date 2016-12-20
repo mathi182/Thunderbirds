@@ -25,11 +25,9 @@ public class CheckedBaggagePriceTests {
     private BaggageFactory baggageFactory = new BaggageFactory();
 
     private final Length validDimension = BusinessBaggage.MAX_LENGTH;
-    //TODO Find a way to create an invalidDimension cleanly.
-    private final Length invalidDimension = Length.fromCentimeters(BusinessBaggage.MAX_LENGTH.toCentimeters() + 1);
+    private final Length invalidDimension = Length.fromCentimeters(validDimension.toCentimeters() + 1);
     private final Mass validWeight = BusinessBaggage.MAX_WEIGHT;
-    //TODO Find a way to create an invalidWeight cleanly.
-    private final Mass invalidWeight = Mass.fromGrams(BusinessBaggage.MAX_WEIGHT.toGrams() + 1);
+    private final Mass invalidWeight = Mass.fromGrams(validWeight.toGrams() + 1);
     private Passenger passenger;
     private Baggage baggage;
 
