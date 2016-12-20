@@ -25,16 +25,14 @@ public class CheckedBaggagePriceTests {
     private BaggageFactory baggageFactory = new BaggageFactory();
 
     private final Length validDimension = BusinessBaggage.MAX_LENGTH;
-    //TODO Find a way to create an invalidDimension cleanly.
     private final Length invalidDimension = Length.fromCentimeters(BusinessBaggage.MAX_LENGTH.toCentimeters() + 1);
     private final Mass validWeight = BusinessBaggage.MAX_WEIGHT;
-    //TODO Find a way to create an invalidWeight cleanly.
     private final Mass invalidWeight = Mass.fromGrams(BusinessBaggage.MAX_WEIGHT.toGrams() + 1);
     private Passenger passenger;
     private Baggage baggage;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         passenger = mock(Passenger.class);
         willReturn(Seat.SeatClass.BUSINESS).given(passenger).getSeatClass();
     }
@@ -96,7 +94,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenSportBaggageWithInvalidDimension_whenCalculatingPrice_shouldOnlyPaySportExcessFees() {
-        NormalizedBaggageDTO sportWithinLimit = new NormalizedBaggageDTO(invalidDimension,validWeight,SPORT_TYPE);
+        NormalizedBaggageDTO sportWithinLimit = new NormalizedBaggageDTO(invalidDimension, validWeight, SPORT_TYPE);
         baggage = baggageFactory.createBaggage(passenger, sportWithinLimit);
 
         float actualPrice = baggage.getBasePrice();
@@ -107,7 +105,7 @@ public class CheckedBaggagePriceTests {
 
     @Test
     public void givenSportBaggageWithInvalidWeight_whenCalculatingPrice_shouldPaySportAndOverweightExcessFees() {
-        NormalizedBaggageDTO sportWithinLimit = new NormalizedBaggageDTO(validDimension,invalidWeight,SPORT_TYPE);
+        NormalizedBaggageDTO sportWithinLimit = new NormalizedBaggageDTO(validDimension, invalidWeight, SPORT_TYPE);
         baggage = baggageFactory.createBaggage(passenger, sportWithinLimit);
 
         float actualPrice = baggage.getBasePrice();
