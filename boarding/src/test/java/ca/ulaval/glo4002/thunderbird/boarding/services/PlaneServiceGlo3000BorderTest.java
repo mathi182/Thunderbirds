@@ -11,12 +11,10 @@ import static org.junit.Assert.assertNotNull;
 
 public class PlaneServiceGlo3000BorderTest {
 
-
     private String validPlaneModel = "dash-8";
     private String invalidPlaneModel = "asimfsa";
 
     private PlaneService planeService = new PlaneServiceGlo3000();
-
 
     @Test
     public void givenAValidPlaneId_whenGettingPlaneFromService_shouldObtainAPlane() {
@@ -33,7 +31,5 @@ public class PlaneServiceGlo3000BorderTest {
 
         planeService.getPlane(invalidPlaneId);
     }
-
-
 
 }
