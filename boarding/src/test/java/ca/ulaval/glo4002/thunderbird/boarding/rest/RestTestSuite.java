@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest;
 
 import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
-import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerServiceTest;
+import ca.ulaval.glo4002.thunderbird.boarding.rest.passenger.PassengerServiceRestTest;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BaggageResourceRestTest;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationsResourceRestTest;
@@ -19,7 +19,7 @@ import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.TEST_SE
 @Suite.SuiteClasses({
         SeatAssignationsResourceRestTest.class,
         BaggageResourceRestTest.class,
-        PassengerServiceTest.class
+        PassengerServiceRestTest.class
 })
 public class RestTestSuite {
     private static ReservationServer reservationServer;
