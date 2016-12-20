@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.persistence.EntityManagerProvid
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.Reservation;
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.ReservationNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
@@ -36,7 +37,7 @@ public class Checkin {
     private Boolean vip;
 
     @JsonCreator
-    public Checkin(UUID passengerHash, String by, Boolean vip) {
+    public Checkin(@JsonProperty("passenger_hash") UUID passengerHash, @JsonProperty("by") String by, @JsonProperty("vip") Boolean vip) {
         this.passengerHash = passengerHash;
         this.by = by;
         this.vip = vip;

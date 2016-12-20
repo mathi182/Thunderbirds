@@ -24,7 +24,6 @@ public class PassengerService {
 
         ClientResponse response = getResource(url);
         validateResponse(response);
-
         PassengerDTO passengerDTO = response.getEntity(PassengerDTO.class);
         PassengerAssembler passengerAssembler = new PassengerAssembler();
         return passengerAssembler.toDomain(passengerDTO);

@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.reservation.exceptions.Reservat
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -39,13 +40,13 @@ public class Reservation {
     private List<Passenger> passengers;
 
     @JsonCreator
-    public Reservation(int reservationNumber,
-                       String reservationDate,
-                       String reservationConfirmation,
-                       String flightNumber,
-                       Instant flightDate,
-                       String paymentLocation,
-                       ArrayList<Passenger> passengers) {
+    public Reservation(@JsonProperty("reservation_number") int reservationNumber,
+                       @JsonProperty("reservation_date") String reservationDate,
+                       @JsonProperty("reservation_confirmation") String reservationConfirmation,
+                       @JsonProperty("flight_number") String flightNumber,
+                       @JsonProperty("flight_date") Instant flightDate,
+                       @JsonProperty("payment_location") String paymentLocation,
+                       @JsonProperty("passengers") ArrayList<Passenger> passengers) {
         this.reservationNumber = reservationNumber;
         this.reservationDate = reservationDate;
         this.reservationConfirmation = reservationConfirmation;
