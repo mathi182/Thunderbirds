@@ -16,6 +16,7 @@ import static org.mockito.Mockito.mock;
 
 public class BaggageTest {
 
+    private static final float DELTA = 0.01f;
     private final int DIMENSION_VALUE = 100;
     private final int INVALID_DIMENSION_VALUE = 200;
     private final Length LINEAR_DIMENSION = Length.fromCentimeters(DIMENSION_VALUE);
@@ -61,7 +62,7 @@ public class BaggageTest {
         baggage.setPrice(expectedPrice);
 
         float actualPrice = baggage.getPrice();
-        assertEquals(expectedPrice, actualPrice, 0.0f);
+        assertEquals(expectedPrice, actualPrice, DELTA);
     }
 
     @Test

@@ -30,7 +30,7 @@ public class StandardBaggageCollection extends BaggageCollection {
         if (collection.size() >= BAGGAGES_LIMIT) {
             throw new BaggageAmountUnauthorizedException();
         }
-        if ( baggage.hasSpecialities()) {
+        if (baggage.hasSpecialities()) {
             throw new BaggageFormatUnauthorizedException();
         }
     }
