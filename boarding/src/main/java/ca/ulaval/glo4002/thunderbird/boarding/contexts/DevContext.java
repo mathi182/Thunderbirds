@@ -32,8 +32,8 @@ import java.util.UUID;
 
 public class DevContext implements Context {
     public static final boolean IS_CHECKED_IN = true;
-    public static final boolean NOT_VIP = false;
-    public static final boolean NOT_CHILD = false;
+    public static final boolean IS_VIP = true;
+    public static final boolean IS_CHILD = true;
     public static final String CHECKED = "checked";
     public static Passenger EXISTENT_BOARDING_PASSENGER;
 
@@ -102,7 +102,7 @@ public class DevContext implements Context {
 
     private Passenger createPassenger(Flight flight) {
         Passenger passenger = new Passenger(UUID.randomUUID(), SeatClass.ECONOMY,
-                NOT_VIP, IS_CHECKED_IN, NOT_CHILD, flight);
+                !IS_VIP, IS_CHECKED_IN, !IS_CHILD, flight);
 
         Length length1 = Length.fromMillimeters(500);
         Mass mass1 = Mass.fromGrams(1000);
