@@ -44,6 +44,11 @@ public class EconomicBaggageCollection extends CheckedBaggageCollection {
     }
 
     @Override
+    protected void validateBaggage(Baggage baggage) {
+        //No Validation
+    }
+
+    @Override
     public float calculateTotalCost() {
         float cost = 0;
         int baggageNumber = 1;

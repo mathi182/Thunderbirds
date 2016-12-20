@@ -82,7 +82,7 @@ public class Passenger {
         return isVip ? price * VIP_DISCOUNT : price;
     }
 
-    public Mass calculateBagageMass() {
+    public Mass calculateBaggageMass() {
         return baggagesCollection.calculateBaggagesMass();
     }
 
