@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
 import contexts.boarding.BoardingContext;
 
 public class BoardingServerRunner {
-    public static final int JETTY_TEST_PORT = 15141;
+    public static final int JETTY_TEST_PORT = 49152;
 
     private static boolean isStarted = false;
     private BoardingServer server;

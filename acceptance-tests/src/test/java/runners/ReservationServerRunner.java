@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.thunderbird.reservation.ReservationServer;
 import contexts.reservation.ReservationContext;
 
 public class ReservationServerRunner {
-    public static final int JETTY_TEST_PORT = 15146;
+    public static final int JETTY_TEST_PORT = 65535;
 
     private static boolean isStarted = false;
     private ReservationServer server;
