@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.thunderbird.boarding.rest;
 
 import ca.ulaval.glo4002.thunderbird.boarding.BoardingServer;
+import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerServiceTest;
 import ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.BaggageResourceRestTest;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.seatAssignations.SeatAssignationsResourceRestTest;
@@ -14,7 +15,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         SeatAssignationsResourceRestTest.class,
-        BaggageResourceRestTest.class
+        BaggageResourceRestTest.class,
+        PassengerServiceTest.class
 })
 public class RestTestSuite {
     public static final int TEST_SERVER_PORT_BOARDING = 9292;

@@ -41,6 +41,7 @@ public class HibernateFlightRepository implements FlightRepository {
         EntityManager entityManager = new EntityManagerProvider().getEntityManager();
         FlightId flightId = new FlightId(flightNumber, flightDate);
         return entityManager.find(Flight.class, flightId);
+        //TODO lancer ElementNotFoundException
     }
 
     private Flight createFlight(String flightNumber, Instant flightDate) {
