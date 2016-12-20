@@ -74,10 +74,8 @@ public abstract class Baggage {
         for (Speciality specs : specialities) {
             if (specs.getSpecialityName().equals(speciality.getSpecialityName())) {
                 return true;
-
             }
         }
-
         return false;
     }
 
