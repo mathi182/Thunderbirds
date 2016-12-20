@@ -31,5 +31,4 @@ public class PlaneServiceGlo3000BorderTest {
 
         planeService.getPlane(invalidPlaneId);
     }
-
 }
