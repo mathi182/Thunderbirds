@@ -43,6 +43,10 @@ public class Flight {
         return flightId;
     }
 
+    public Plane getPlane() {
+        return plane;
+    }
+
     public Seat reserveSeat(SeatAssignationStrategy strategy, Passenger passenger) {
         Seat bestSeat = strategy.findBestSeat(availableSeats, passenger);
         availableSeats.remove(bestSeat);
@@ -57,5 +61,21 @@ public class Flight {
         baggagesMass = baggagesMass.add(baggage.getWeight());
 
         return baggagesMass.isInferiorOrEqualTo(plane.getMaximumCargoWeight());
+    }
+  
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Flight)) return false;
+
+        Flight flight = (Flight) obj;
+
+        return flightId.equals(flight.flightId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return flightId.hashCode();
     }
 }

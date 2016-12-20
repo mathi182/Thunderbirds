@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.thunderbird.boarding.application.passenger;
 
-import ca.ulaval.glo4002.thunderbird.boarding.application.ServiceLocator;
+import ca.ulaval.glo4002.thunderbird.boarding.contexts.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.FlightRepository;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
@@ -9,6 +9,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebExc
 
 import java.time.Instant;
 import java.util.UUID;
+
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
 public class PassengerAssembler {
     private static final String ECONOMY = "economy";
@@ -27,7 +29,7 @@ public class PassengerAssembler {
     public Passenger toDomain(PassengerDTO passengerDTO) {
         Seat.SeatClass seatClass = getSeatClassFromString(passengerDTO.seatClass);
         UUID passengerHash = passengerDTO.passengerHash;
-        Instant flightDate = passengerDTO.flightDate;
+        Instant flightDate = Instant.parse(passengerDTO.flightDate);
         String flightNumber = passengerDTO.flightNumber;
         Boolean isVip = passengerDTO.vip;
         Boolean isCheckedIn = passengerDTO.checkedIn;

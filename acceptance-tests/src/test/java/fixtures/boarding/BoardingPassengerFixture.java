@@ -1,4 +1,4 @@
-package fixtures;
+package fixtures.boarding;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
@@ -16,7 +16,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
-public class PassengerFixture extends HibernateBaseFixture {
+public class BoardingPassengerFixture extends HibernateBaseFixture {
     private static final double DELTA = 0.01;
     private static final int DIMENSION_VALUE = 11;
     private static final Length LINEAR_DIMENSION = Length.fromMillimeters(DIMENSION_VALUE);
@@ -28,7 +28,7 @@ public class PassengerFixture extends HibernateBaseFixture {
     private PassengerRepository repository;
     private BaggageFactory baggageFactory;
 
-    public PassengerFixture() {
+    public BoardingPassengerFixture() {
         this.repository = new HibernatePassengerRepository(new PassengerService());
         this.baggageFactory = new BaggageFactory();
     }
