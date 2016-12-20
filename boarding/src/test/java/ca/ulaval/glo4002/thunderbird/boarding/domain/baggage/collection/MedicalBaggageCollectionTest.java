@@ -49,7 +49,7 @@ public class MedicalBaggageCollectionTest {
         for (int i = 0; i < NUMBER_OF_BAGGAGE; i++) {
             baggageCollection.addBaggage(baggage);
         }
-        baggageCollection.validate(baggage);
+        baggageCollection.validateCollection(baggage);
     }
 
     @Test
@@ -65,11 +65,11 @@ public class MedicalBaggageCollectionTest {
     public void givenABaggageWithASpeciality_whenValidating_shouldThrowException() {
         willReturn(true).given(baggage).hasSpecialities();
 
-        baggageCollection.validate(baggage);
+        baggageCollection.validateCollection(baggage);
     }
 
     @Test
     public void givenAnEmptyCollectionAndAValidBaggage_whenValidatingBaggage_shouldNotThrowException() {
-        baggageCollection.validate(baggage);
+        baggageCollection.validateCollection(baggage);
     }
 }

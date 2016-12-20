@@ -57,18 +57,18 @@ public class PersonalBaggageCollectionTest {
     public void givenACollectionWithAlreadyABaggage_whenValidating_shouldThrowException() {
         baggageCollection.addBaggage(baggage);
 
-        baggageCollection.validate(baggage);
+        baggageCollection.validateCollection(baggage);
     }
 
     @Test(expected = BaggageFormatUnauthorizedException.class)
     public void givenABaggageWithASpeciality_whenValidating_shouldThrowException() {
         willReturn(true).given(baggage).hasSpecialities();
 
-        baggageCollection.validate(baggage);
+        baggageCollection.validateCollection(baggage);
     }
 
     @Test
     public void givenAnEmptyCollectionAndAValidBaggage_whenValidatingBaggage_shouldNotThrowException() {
-        baggageCollection.validate(baggage);
+        baggageCollection.validateCollection(baggage);
     }
 }

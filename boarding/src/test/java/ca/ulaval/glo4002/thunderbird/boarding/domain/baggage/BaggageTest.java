@@ -81,11 +81,11 @@ public class BaggageTest {
 
     @Test(expected = BaggageDimensionInvalidException.class)
     public void whenDimensionIsInvalid_shouldThrowAnException() {
-        invalidBaggage.validate(LINEAR_DIMENSION, WEIGHT);
+        invalidBaggage.validateBaggage(LINEAR_DIMENSION, WEIGHT);
     }
 
     @Test(expected = BaggageWeightInvalidException.class)
     public void whenWeightIsInvalid_shouldThrowAnException() {
-        baggage.validate(LINEAR_DIMENSION, INVALID_WEIGHT);
+        baggage.validateBaggage(LINEAR_DIMENSION, INVALID_WEIGHT);
     }
 }

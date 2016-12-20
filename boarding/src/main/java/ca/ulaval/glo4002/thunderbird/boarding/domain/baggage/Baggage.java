@@ -99,7 +99,7 @@ public abstract class Baggage {
         this.price = price;
     }
 
-    public void validate(Length maximumLinearDimension, Mass maximumWeight) {
+    public void validateBaggage(Length maximumLinearDimension, Mass maximumWeight) {
         if (weight.isSuperiorTo(maximumWeight)) {
             throw new BaggageWeightInvalidException();
         }

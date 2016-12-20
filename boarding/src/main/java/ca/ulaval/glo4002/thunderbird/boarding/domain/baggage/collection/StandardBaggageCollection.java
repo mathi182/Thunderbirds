@@ -20,13 +20,13 @@ public class StandardBaggageCollection extends BaggageCollection {
 
     @Override
     public void addBaggage(Baggage baggage) {
-        validate(baggage);
+        validateCollection(baggage);
         baggage.setBaggageCollection(this);
         collection.add(baggage);
     }
 
     @Override
-    protected void validate(Baggage baggage) {
+    protected void validateCollection(Baggage baggage) {
         if (collection.size() >= BAGGAGES_LIMIT) {
             throw new BaggageAmountUnauthorizedException();
         }
