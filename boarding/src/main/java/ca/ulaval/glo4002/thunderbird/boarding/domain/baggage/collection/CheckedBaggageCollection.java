@@ -67,6 +67,11 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
 
     protected abstract int getFreeBaggageCount();
 
+    @Override
+    public String getCollectionType() {
+        return TYPE;
+    }
+
     public void validate(Baggage baggage) {
         if (collection.size() >= getBaggageCountLimit())
             throw new BaggageAmountUnauthorizedException();

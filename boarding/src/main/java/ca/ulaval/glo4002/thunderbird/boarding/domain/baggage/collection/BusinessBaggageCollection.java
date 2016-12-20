@@ -48,14 +48,4 @@ public class BusinessBaggageCollection extends CheckedBaggageCollection {
         }
         return cost;
     }
-
-    @Override
-    public String getCollectionType() {
-        return TYPE;
-    }
-
-    @Override
-    public void addBaggage(Baggage baggage) {
-
-    }
 }

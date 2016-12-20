@@ -48,9 +48,4 @@ public class EconomicBaggageCollection extends CheckedBaggageCollection {
         }
         return cost;
     }
-
-    @Override
-    public String getCollectionType() {
-        return TYPE;
-    }
 }
