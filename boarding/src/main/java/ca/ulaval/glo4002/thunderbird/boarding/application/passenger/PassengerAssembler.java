@@ -10,6 +10,8 @@ import ca.ulaval.glo4002.thunderbird.boarding.rest.exceptions.IllegalFieldWebExc
 import java.time.Instant;
 import java.util.UUID;
 
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
+
 public class PassengerAssembler {
     private static final String ECONOMY = "economy";
     private static final String BUSINESS = "business";
@@ -27,14 +29,14 @@ public class PassengerAssembler {
     public Passenger toDomain(PassengerDTO passengerDTO) {
         Seat.SeatClass seatClass = getSeatClassFromString(passengerDTO.seatClass);
         UUID passengerHash = passengerDTO.passengerHash;
-        Instant flightDate = passengerDTO.flightDate;
+        Instant flightDate = Instant.parse(passengerDTO.flightDate);
         String flightNumber = passengerDTO.flightNumber;
         Boolean isVip = passengerDTO.vip;
         Boolean isCheckedIn = passengerDTO.checkedIn;
-        Boolean isAChild = passengerDTO.child;
+        Boolean isChild = passengerDTO.child;
         Flight flight = flightRepository.getFlight(flightNumber, flightDate);
 
-        return new Passenger(passengerHash, seatClass, isVip, isCheckedIn, isAChild, flight);
+        return new Passenger(passengerHash, seatClass, isVip, isCheckedIn, isChild, flight);
     }
 
     private Seat.SeatClass getSeatClassFromString(String source) {

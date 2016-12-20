@@ -84,9 +84,9 @@ public class SeatAssignationStrategyTest {
         brokenStrategy.findBestSeat(new ArrayList<>(), passenger);
     }
 
-    private void initPassenger(SeatClass seatClass, boolean isAChild) {
+    private void initPassenger(SeatClass seatClass, boolean isChild) {
         willReturn(seatClass).given(passenger).getSeatClass();
-        willReturn(isAChild).given(passenger).isChild();
+        willReturn(isChild).given(passenger).isChild();
     }
 
     private Seat getSeat(SeatClass seatClass, boolean isExitRow) {
