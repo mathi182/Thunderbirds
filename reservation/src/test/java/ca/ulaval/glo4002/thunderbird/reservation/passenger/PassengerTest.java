@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PassengerTest {
-    private static boolean NOT_VIP = false;
+    private static boolean IS_VIP = true;
     
     private Passenger passenger = TestConfig.getDefaultPassenger();
 
@@ -56,8 +56,8 @@ public class PassengerTest {
 
     @Test(expected = PassengerAlreadyCheckedInException.class)
     public void givenPassengerAlreadyCheckin_whenCheckin_shouldThrowAnException() {
-        passenger.checkin(NOT_VIP);
+        passenger.checkin(!IS_VIP);
 
-        passenger.checkin(NOT_VIP);
+        passenger.checkin(!IS_VIP);
     }
 }
