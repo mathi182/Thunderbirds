@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
-import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequestBoarding;
 import static org.eclipse.jetty.http.HttpStatus.Code.*;
 import static org.junit.Assert.*;
 
@@ -26,7 +26,7 @@ public class SeatAssignationsResourceRestTest {
         Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), VALID_MODE);
 
         Response response;
-        response = givenBaseRequest().body(seatAssignationBody)
+        response = givenBaseRequestBoarding().body(seatAssignationBody)
                 .when().post(SeatAssignationsResource.PATH)
                 .then().statusCode(CREATED.getCode())
                 .and().extract().response();
@@ -50,7 +50,7 @@ public class SeatAssignationsResourceRestTest {
     public void givenAnInvalidPassengerHashAndAValidMode_whenAssigningSeat_shouldReturnNotFound() {
         Map<String, Object> seatAssignationBody = createSeatAssignationBody(NON_EXISTENT_PASSENGER_HASH, VALID_MODE);
 
-        givenBaseRequest().body(seatAssignationBody)
+        givenBaseRequestBoarding().body(seatAssignationBody)
                 .when().post(SeatAssignationsResource.PATH)
                 .then().statusCode(NOT_FOUND.getCode());
     }
@@ -59,7 +59,7 @@ public class SeatAssignationsResourceRestTest {
     public void givenAValidPassengerHashAndInvalidMode_whenAssigningSeat_shouldReturnBadRequest() {
         Map<String, Object> seatAssignationBody = createSeatAssignationBody(EXISTENT_BOARDING_PASSENGER.getHash(), INVALID_MODE);
 
-        givenBaseRequest().body(seatAssignationBody)
+        givenBaseRequestBoarding().body(seatAssignationBody)
                 .when().post(SeatAssignationsResource.PATH)
                 .then().statusCode(BAD_REQUEST.getCode());
     }
