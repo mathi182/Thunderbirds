@@ -31,6 +31,11 @@ Les story de sièges ont un bug qui fait retourner des erreur 500 lors de l'appe
 
 ##Utilisation
 
+###Exécution via Intellij
+
+D'abord, il faut ajouter le paramètres de ligne de commande suivant : -parameters
+Ensuite, on peut lancer les serveurs avec le main du module app.
+
 ###Exécution via Maven
 
 Pour lancer les serveurs (par défaut sur les ports 8787 pour reservation et 8888 pour boarding) :
