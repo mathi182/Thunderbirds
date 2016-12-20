@@ -19,7 +19,7 @@ public class MedicalBaggageCollectionTest {
     private static final float DELTA = 0.01f;
     private static final String TYPE = "medical";
     private static final List<Baggage> EMPTY_LIST = new ArrayList<>();
-    private static final float BAGGAGE_TOTAL_COAST = 0;
+    private static final float BAGGAGE_TOTAL_COST = 0;
 
     private MedicalBaggageCollection baggageCollection;
     private Baggage baggage;
@@ -34,7 +34,22 @@ public class MedicalBaggageCollectionTest {
     public void shouldReturnRightValue() {
         assertEquals(TYPE, baggageCollection.getCollectionType());
         assertEquals(EMPTY_LIST, baggageCollection.getBaggages());
-        assertEquals(BAGGAGE_TOTAL_COAST, baggageCollection.calculateTotalCost(), DELTA);
+    }
+
+    @Test
+    public void whenCalculatingTotalCost_shouldReturnFree() {
+        float cost = baggageCollection.calculateTotalCost();
+
+        assertEquals(BAGGAGE_TOTAL_COST, cost, DELTA);
+    }
+
+    @Test
+    public void givenACollection_whenAddingMultipleBaggage_shouldNotStopFromAmountLimit() {
+        int NUMBER_OF_BAGGAGE = 10;
+        for (int i = 0; i < NUMBER_OF_BAGGAGE; i++) {
+            baggageCollection.addBaggage(baggage);
+        }
+        baggageCollection.validate(baggage);
     }
 
     @Test

@@ -21,13 +21,12 @@ public class MedicalBaggageTest {
     private final int WEIGHT_VALUE = 22;
     private final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
     private final String PERSONNAL_TYPE = "medical";
-    private final float PRICE = 0;
+    private final float MEDICAL_PRICE = 0;
 
     private BaggageFactory baggageFactory = new BaggageFactory();
     private Baggage baggage;
     private final Seat.SeatClass BUSINESS = Seat.SeatClass.BUSINESS;
     private NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION, WEIGHT, PERSONNAL_TYPE);
-
 
     @Before
     public void setup() {
@@ -38,8 +37,7 @@ public class MedicalBaggageTest {
 
     @Test
     public void shouldReturnRightValues() {
-
-        assertEquals(PRICE, baggage.getBasePrice(), DELTA);
+        assertEquals(MEDICAL_PRICE, baggage.getBasePrice(), DELTA);
         assertFalse(baggage.isChecked());
         assertEquals(PERSONNAL_TYPE, baggage.getType());
     }

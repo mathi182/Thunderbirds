@@ -13,7 +13,7 @@ import static org.eclipse.jetty.http.HttpStatus.Code.OK;
 public class BaggageFormatUnauthorizedExceptionMapper implements ExceptionMapper<BaggageFormatUnauthorizedException> {
     @Override
     public Response toResponse(BaggageFormatUnauthorizedException e) {
-        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("baggage format authorized is reached");
+        RegisterBaggageResponse registerBaggageResponse = RegisterBaggageResponse.refused("baggage format unauthorized");
         return Response.status(OK.getCode()).entity(registerBaggageResponse).build();
     }
 }
