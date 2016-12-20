@@ -1,5 +1,6 @@
-package ca.ulaval.glo4002.thunderbird.boarding.application.passenger;
+package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
+import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig;
 import org.junit.Test;
@@ -11,7 +12,7 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 import static ca.ulaval.glo4002.thunderbird.reservation.contexts.DevContext.EXISTENT_RESERVATION_NUMBER;
 
-public class PassengerServiceTest {
+public class PassengerServiceRestTest {
 
     @Test
     public void givenAValidPassengerHashOnReservation_whenFetchingPassenger_shouldReturnPassenger(){
