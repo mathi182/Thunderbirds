@@ -21,13 +21,21 @@ public class BoardingContext implements Context {
     @Override
     public void apply() {
         ServiceLocator.reset();
+        registerServices();
+        new BoardingServerRunner().startJettyServer();
+    }
+
+    private void registerServices() {
         ServiceLocator.registerSingleton(PassengerRepository.class, new HibernatePassengerRepository(new PassengerService()));
+        registerBaggageFactories();
+        registerPlaneRepository();
+        registerFlightRepository();
+    }
+
+    private void registerBaggageFactories() {
         BaggageFactory baggageFactory = new BaggageFactory();
         ServiceLocator.registerSingleton(BaggageFactory.class, baggageFactory);
         ServiceLocator.registerSingleton(CollectionFactory.class, new CollectionFactory());
-        registerPlaneRepository();
-        registerFlightRepository();
-        new BoardingServerRunner().startJettyServer();
     }
 
     private void registerPlaneRepository() {
