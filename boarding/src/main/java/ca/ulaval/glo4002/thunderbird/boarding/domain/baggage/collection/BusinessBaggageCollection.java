@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 @Entity
 public class BusinessBaggageCollection extends CheckedBaggageCollection {
     private static final int FREE_BAGGAGE_COUNT = 2;
+    private static final int BAGGAGE_COUNT_LIMIT = 3;
     private static final Mass WEIGHT_LIMIT = Mass.fromKilograms(30);
     private static final Length DIMENSION_LIMIT = Length.fromCentimeters(158);
 
@@ -19,6 +20,11 @@ public class BusinessBaggageCollection extends CheckedBaggageCollection {
 
     protected BusinessBaggageCollection() {
         //for hibernate
+    }
+
+    @Override
+    protected int getBaggageCountLimit() {
+        return passenger.isVip() ? BAGGAGE_COUNT_LIMIT + 1 : BAGGAGE_COUNT_LIMIT;
     }
 
     @Override
@@ -37,11 +43,6 @@ public class BusinessBaggageCollection extends CheckedBaggageCollection {
     }
 
     @Override
-    protected void validate(Baggage baggage) {
-        //TODO Implement me
-    }
-
-    @Override
     public float calculateTotalCost() {
         float cost = 0;
         int baggageNumber = 1;
@@ -52,15 +53,5 @@ public class BusinessBaggageCollection extends CheckedBaggageCollection {
             baggageNumber++;
         }
         return cost;
-    }
-
-    @Override
-    public String getCollectionType() {
-        return TYPE;
-    }
-
-    @Override
-    public void addBaggage(Baggage baggage) {
-
     }
 }

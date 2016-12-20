@@ -70,6 +70,15 @@ public abstract class Baggage {
         return linearDimension;
     }
 
+    public boolean hasSpeciality(Speciality speciality) {
+        for (Speciality specs : specialities) {
+            if (specs.getSpecialityName().equals(speciality.getSpecialityName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean hasSpecialities() {
         return specialities.size() != 0;
     }
@@ -90,7 +99,7 @@ public abstract class Baggage {
         this.price = price;
     }
 
-    public void validate(Length maximumLinearDimension, Mass maximumWeight) {
+    public void validateBaggage(Length maximumLinearDimension, Mass maximumWeight) {
         if (weight.isSuperiorTo(maximumWeight)) {
             throw new BaggageWeightInvalidException();
         }

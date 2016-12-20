@@ -10,7 +10,7 @@ public class OverweightBaggageStrategy {
 
     public void checkOverweight(Baggage baggage, Mass maxSize) {
         try {
-            baggage.validate(Length.fromInches(Double.MAX_VALUE), maxSize);
+            baggage.validateBaggage(Length.fromInches(Double.MAX_VALUE), maxSize);
         } catch (BaggageWeightInvalidException e) {
             baggage.addSpeciality(new Overweight());
         }

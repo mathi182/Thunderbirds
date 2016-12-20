@@ -21,7 +21,7 @@ public class PersonalBaggageTest {
     private final int WEIGHT_VALUE = 22;
     private final Mass WEIGHT = Mass.fromGrams(WEIGHT_VALUE);
     private final String PERSONNAL_TYPE = "personal";
-    private final float PRICE = 0;
+    private final float PERSONNAL_PRICE = 0;
 
     private BaggageFactory baggageFactory = new BaggageFactory();
     private Baggage baggage;
@@ -37,7 +37,7 @@ public class PersonalBaggageTest {
 
     @Test
     public void shouldReturnRightValues() {
-        assertEquals(PRICE, baggage.getBasePrice(), DELTA);
+        assertEquals(PERSONNAL_PRICE, baggage.getBasePrice(), DELTA);
         assertFalse(baggage.isChecked());
         assertEquals(PERSONNAL_TYPE, baggage.getType());
     }

@@ -29,7 +29,6 @@ public abstract class CheckedBaggage extends Baggage {
         for (Speciality speciality : specialities) {
             cost *= speciality.getSpecialityFee();
         }
-
         return cost;
     }
 

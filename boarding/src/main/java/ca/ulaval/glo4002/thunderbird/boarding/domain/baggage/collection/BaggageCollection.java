@@ -25,7 +25,7 @@ public abstract class BaggageCollection {
     protected PassengerBaggageCollections passengerBaggageCollections;
 
     public abstract void addBaggage(Baggage baggage);
-    protected abstract void validate(Baggage baggage);
+    protected abstract void validateCollection(Baggage baggage);
     public abstract float calculateTotalCost();
     public abstract String getCollectionType();
     public abstract List<Baggage> getBaggages();

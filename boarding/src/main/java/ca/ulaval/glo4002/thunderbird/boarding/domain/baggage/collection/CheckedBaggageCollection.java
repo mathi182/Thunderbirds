@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class CheckedBaggageCollection extends BaggageCollection {
-    private static final int BAGGAGE_COUNT_LIMIT = 3;
     protected static final String TYPE = "checked";
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -43,9 +42,7 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
 
     @Override
     public void addBaggage(Baggage baggage) {
-        if (collection.size() >= getBaggageCountLimit()) {
-            throw new BaggageAmountUnauthorizedException();
-        }
+        validateCollection(baggage);
         setBaggagePrice(baggage);
         baggage.setBaggageCollection(this);
         collection.add(baggage);
@@ -59,9 +56,7 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
         baggage.setPrice(price);
     }
 
-    private int getBaggageCountLimit() {
-        return passenger.isVip() ? BAGGAGE_COUNT_LIMIT + 1 : BAGGAGE_COUNT_LIMIT;
-    }
+    protected abstract int getBaggageCountLimit();
 
     protected abstract Mass getWeightLimit();
 
@@ -69,7 +64,15 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
 
     protected abstract int getFreeBaggageCount();
 
-    protected abstract void validate(Baggage baggage);
+    @Override
+    public String getCollectionType() {
+        return TYPE;
+    }
+
+    public void validateCollection(Baggage baggage) {
+        if (collection.size() >= getBaggageCountLimit())
+            throw new BaggageAmountUnauthorizedException();
+    }
 
     public abstract float calculateTotalCost();
 
