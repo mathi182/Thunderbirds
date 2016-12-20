@@ -45,9 +45,6 @@ public class DevContext implements Context {
 
         reservation.save();
         nonCheckinReservation.save();
-
-        EntityManagerProvider.clearEntityManager();
-        entityManager.close();
     }
 
     private Passenger createPassenger() {

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
-import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequestBoarding;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.eclipse.jetty.http.HttpStatus.Code.*;
 import static org.junit.Assert.assertNull;
@@ -39,7 +39,7 @@ public class BaggageResourceRestTest {
                 WEIGHT,
                 BAGGAGE_TYPE_CHECKED);
 
-        Response response = givenBaseRequest()
+        Response response = givenBaseRequestBoarding()
                 .and().body(registerBaggageBody)
                 .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 //.then().statusCode(CREATED.getCode())
@@ -56,14 +56,14 @@ public class BaggageResourceRestTest {
 
     @Test
     public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() {
-        givenBaseRequest()
+        givenBaseRequestBoarding()
                 .when().get("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
                 .then().statusCode(OK.getStatusCode());
     }
 
     @Test
     public void givenAnInvalidPassenger_whenGettingBaggagesList_shouldGetNotFound() {
-        givenBaseRequest()
+        givenBaseRequestBoarding()
                 .when().get("/passengers/" + INVALID_PASSENGER_UUID + "/baggages")
                 .then().statusCode(NOT_FOUND.getCode());
     }
@@ -76,7 +76,7 @@ public class BaggageResourceRestTest {
                 WEIGHT,
                 BAGGAGE_TYPE_CHECKED);
 
-        givenBaseRequest()
+        givenBaseRequestBoarding()
                 .body(registerBaggageBody)
                 .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then().statusCode(BAD_REQUEST.getCode());

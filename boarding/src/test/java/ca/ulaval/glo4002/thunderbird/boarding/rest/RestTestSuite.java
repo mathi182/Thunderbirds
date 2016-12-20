@@ -11,6 +11,9 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.TEST_SERVER_PORT_BOARDING;
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.TEST_SERVER_PORT_RESERVATION;
+
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -19,8 +22,6 @@ import org.junit.runners.Suite;
         PassengerServiceTest.class
 })
 public class RestTestSuite {
-    public static final int TEST_SERVER_PORT_BOARDING = 9292;
-    public static final int TEST_SERVER_PORT_RESERVATION = 8787;
     private static ReservationServer reservationServer;
     private static BoardingServer boardingServer;
 

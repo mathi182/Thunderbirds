@@ -51,9 +51,6 @@ public class DevContext implements Context {
         registerPassengerRepository();
         registerBaggageFactories();
         fillDatabase();
-
-        EntityManagerProvider.clearEntityManager();
-        entityManager.close();
     }
 
     private void registerBaggageFactories() {
