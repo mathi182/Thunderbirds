@@ -20,14 +20,14 @@ public class PassengerCheckedBaggageCollectionTest {
     private static final UUID HASH = UUID.randomUUID();
     private static final Seat.SeatClass SEAT_CLASS = Seat.SeatClass.ECONOMY;
     private static final boolean NOT_VIP = false;
-    private static final boolean VIP = true;
-    private static final boolean IS_CHECKED_IN = false;
-    private static final boolean IS_CHILD = false;
+    private static final boolean IS_VIP = true;
+    private static final boolean NOT_CHECKED_IN = false;
+    private static final boolean NOT_CHILD = false;
 
     private Flight flight = mock(Flight.class);
     private PassengerBaggageCollections baggagesCollection = mock(PassengerBaggageCollections.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, NOT_VIP, IS_CHECKED_IN, IS_CHILD, flight, baggagesCollection);
-    private Passenger vipPassenger = new Passenger(HASH, SEAT_CLASS, VIP, IS_CHECKED_IN, IS_CHILD, flight, baggagesCollection);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, NOT_VIP, NOT_CHECKED_IN, NOT_CHILD, flight, baggagesCollection);
+    private Passenger vipPassenger = new Passenger(HASH, SEAT_CLASS, IS_VIP, NOT_CHECKED_IN, NOT_CHILD, flight, baggagesCollection);
 
     @Test
     public void whenAddingCheckedBaggage_shouldAddInCheckedBaggages() {

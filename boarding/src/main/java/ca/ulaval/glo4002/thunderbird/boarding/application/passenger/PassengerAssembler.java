@@ -31,10 +31,10 @@ public class PassengerAssembler {
         String flightNumber = passengerDTO.flightNumber;
         Boolean isVip = passengerDTO.vip;
         Boolean isCheckedIn = passengerDTO.checkedIn;
-        Boolean isAChild = passengerDTO.child;
+        Boolean isChild = passengerDTO.child;
         Flight flight = flightRepository.getFlight(flightNumber, flightDate);
 
-        return new Passenger(passengerHash, seatClass, isVip, isCheckedIn, isAChild, flight);
+        return new Passenger(passengerHash, seatClass, isVip, isCheckedIn, isChild, flight);
     }
 
     private Seat.SeatClass getSeatClassFromString(String source) {

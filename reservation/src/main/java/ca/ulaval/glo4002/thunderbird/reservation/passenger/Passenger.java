@@ -70,7 +70,7 @@ public class Passenger {
     }
 
     @JsonProperty("child")
-    public boolean isAChild() {
+    public boolean isChild() {
         return age < AGE_MAJORITY;
     }
 

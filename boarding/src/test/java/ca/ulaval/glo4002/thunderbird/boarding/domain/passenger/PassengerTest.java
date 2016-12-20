@@ -17,21 +17,21 @@ import static org.mockito.Mockito.verify;
 public class PassengerTest {
     private static final UUID HASH = UUID.randomUUID();
     private static final Seat.SeatClass SEAT_CLASS = Seat.SeatClass.ECONOMY;
-    private static final boolean VIP = true;
+    private static final boolean IS_VIP = true;
     private static final boolean IS_CHECKED_IN = true;
-    private static final boolean IS_CHILD = false;
+    private static final boolean NOT_CHILD = false;
 
     private Flight flight = mock(Flight.class);
     private PassengerBaggageCollections passengerCollection = mock(PassengerBaggageCollections.class);
-    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, VIP, IS_CHECKED_IN, IS_CHILD, flight, passengerCollection);
+    private Passenger passenger = new Passenger(HASH, SEAT_CLASS, IS_VIP, IS_CHECKED_IN, NOT_CHILD, flight, passengerCollection);
 
     @Test
     public void shouldReturnRightValues() {
         assertEquals(HASH, passenger.getHash());
         assertEquals(SEAT_CLASS, passenger.getSeatClass());
-        assertEquals(VIP, passenger.isVip());
+        assertEquals(IS_VIP, passenger.isVip());
         assertEquals(IS_CHECKED_IN, passenger.isCheckedIn());
-        assertEquals(IS_CHILD, passenger.isChild());
+        assertEquals(NOT_CHILD, passenger.isChild());
         assertSame(flight, passenger.getFlight());
     }
 
