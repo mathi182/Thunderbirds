@@ -12,7 +12,7 @@ public class PassengerAssembler {
         passengerDTO.flightDate = ISO_INSTANT.format(passenger.getFlightDate());
         passengerDTO.vip = passenger.isVip();
         passengerDTO.checkedIn = passenger.isCheckedIn();
-        passengerDTO.child = passenger.isAChild();
+        passengerDTO.child = passenger.isChild();
 
         return passengerDTO;
     }

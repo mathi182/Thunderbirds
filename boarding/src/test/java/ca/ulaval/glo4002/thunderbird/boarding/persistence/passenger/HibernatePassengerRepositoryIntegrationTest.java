@@ -33,9 +33,8 @@ public class HibernatePassengerRepositoryIntegrationTest {
     private static final boolean IS_VIP = true;
     private static final Length LINEAR_DIMENSION_IN_MM = Length.fromMillimeters(10);
     private static final Mass WEIGHT_IN_KGS = Mass.fromKilograms(10);
-    private static final boolean CHECKED_IN = true;
-    private static final boolean NOT_CHECKED_IN = false;
-    private static final boolean IS_CHILD = false;
+    private static final boolean IS_CHECKED_IN = true;
+    private static final boolean IS_CHILD = true;
     private static final Flight NO_FLIGHT = null;
     private static final String CHECKED = "checked";
 
@@ -53,7 +52,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void whenSavingPassenger_shouldBeSavedCorrectly() {
         Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID,
-                Seat.SeatClass.ECONOMY, IS_VIP, CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
         repository.savePassenger(expectedPassenger);
 
         Passenger actualPassenger = repository.findByPassengerHash(VALID_PASSENGER_UUID);
@@ -63,7 +62,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenAPassengerPresentInReservation_whenGettingPassenger_shouldReturnThePassenger() {
         Passenger expectedPassenger = new Passenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION,
-                Seat.SeatClass.ECONOMY, IS_VIP, CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
         willReturn(expectedPassenger).given(passengerService).fetchPassenger(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
 
         Passenger actualPassenger = repository.findByPassengerHash(VALID_PASSENGER_UUID_PRESENT_IN_RESERVATION);
@@ -74,7 +73,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenPassengerWithBaggage_whenSavingThisPassenger_shouldSaveBaggagesCorrectly() {
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_BAGGAGE,
-                Seat.SeatClass.ECONOMY, IS_VIP, CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
 
         NormalizedBaggageDTO baggageDTO = new NormalizedBaggageDTO(LINEAR_DIMENSION_IN_MM, WEIGHT_IN_KGS, CHECKED);
 
@@ -90,7 +89,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenSavedPassengerWithNoBaggage_whenAddingBaggages_shouldSavePassengerCorrectly() {
         Passenger expectedPassenger = new Passenger(PASSENGER_UUID_WITH_NO_BAGGAGE,
-                Seat.SeatClass.ECONOMY, IS_VIP, CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
         repository.savePassenger(expectedPassenger);
 
         Passenger repoPassenger = repository.findByPassengerHash(PASSENGER_UUID_WITH_NO_BAGGAGE);
@@ -107,7 +106,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenNonCheckedInAndSavedPassenger_whenGettingPassenger_shouldCheckForUpdates() {
         Passenger expectedPassenger = new Passenger(NOT_CHECKED_IN_PASSENGER_UUID,
-                Seat.SeatClass.ECONOMY, IS_VIP, NOT_CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, !IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
         repository.savePassenger(expectedPassenger);
         willReturn(updatePassenger).given(passengerService).fetchPassenger(NOT_CHECKED_IN_PASSENGER_UUID);
         repository.findByPassengerHash(NOT_CHECKED_IN_PASSENGER_UUID);
@@ -118,7 +117,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenNonCheckedInAndNotSavedPassenger_whenGettingPassenger_shouldCallServiceOnlyOnce() {
         Passenger expectedPassenger = new Passenger(NOT_CHECKED_IN_AND_NOT_SAVED_PASSENGER_UUID,
-                Seat.SeatClass.ECONOMY, IS_VIP, NOT_CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, !IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
         willReturn(expectedPassenger).given(passengerService).fetchPassenger(NOT_CHECKED_IN_AND_NOT_SAVED_PASSENGER_UUID);
 
         repository.findByPassengerHash(NOT_CHECKED_IN_AND_NOT_SAVED_PASSENGER_UUID);
@@ -129,7 +128,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenCheckedInAndSavedPassenger_whenGettingPassenger_shouldNotCheckForUpdates() {
         Passenger expectedPassenger = new Passenger(CHECKED_IN_PASSENGER_UUID,
-                Seat.SeatClass.ECONOMY, IS_VIP, CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
         repository.savePassenger(expectedPassenger);
 
         repository.findByPassengerHash(CHECKED_IN_PASSENGER_UUID);
@@ -141,7 +140,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     public void givenAPassengerCheckedInOnReservation_whenGettingPassenger_shouldCheckInPassenger() {
         UUID checkedInOnReservationPassengerHash = UUID.randomUUID();
         Passenger expectedPassenger = new Passenger(checkedInOnReservationPassengerHash,
-                Seat.SeatClass.ECONOMY, IS_VIP, NOT_CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, !IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
         repository.savePassenger(expectedPassenger);
         willReturn(true).given(updatePassenger).isCheckedIn();
         willReturn(updatePassenger).given(passengerService).fetchPassenger(checkedInOnReservationPassengerHash);
@@ -155,7 +154,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     @Test
     public void givenAPassengerNotCheckedInAnywhere_whenGettingPassenger_shouldNotCheckIn() {
         Passenger expectedPassenger = new Passenger(NOT_CHECKED_IN_ANYWHERE_PASSENGER_UUID,
-                Seat.SeatClass.ECONOMY, IS_VIP, NOT_CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, !IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
         repository.savePassenger(expectedPassenger);
         willReturn(false).given(updatePassenger).isCheckedIn();
         willReturn(updatePassenger).given(passengerService).fetchPassenger(NOT_CHECKED_IN_ANYWHERE_PASSENGER_UUID);
@@ -169,7 +168,7 @@ public class HibernatePassengerRepositoryIntegrationTest {
     public void givenAPassengerCheckedInOnReservation_whenGettingPassenger_shouldSavePassenger() {
         UUID checkedInOnReservationPassengerHash = UUID.randomUUID();
         Passenger expectedPassenger = new Passenger(checkedInOnReservationPassengerHash,
-                Seat.SeatClass.ECONOMY, IS_VIP, NOT_CHECKED_IN, IS_CHILD, NO_FLIGHT);
+                Seat.SeatClass.ECONOMY, IS_VIP, !IS_CHECKED_IN, !IS_CHILD, NO_FLIGHT);
         repository.savePassenger(expectedPassenger);
         willReturn(true).given(updatePassenger).isCheckedIn();
         willReturn(updatePassenger).given(passengerService).fetchPassenger(checkedInOnReservationPassengerHash);
