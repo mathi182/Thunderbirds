@@ -1,4 +1,4 @@
-package fixtures;
+package fixtures.boarding;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerFactoryProvider;
 import ca.ulaval.glo4002.thunderbird.boarding.application.jpa.EntityManagerProvider;

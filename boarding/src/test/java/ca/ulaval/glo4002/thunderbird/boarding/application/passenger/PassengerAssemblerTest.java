@@ -19,7 +19,7 @@ public class PassengerAssemblerTest {
     private static final UUID PASSENGER_HASH = UUID.randomUUID();
     private static final String ECONOMY = "economy";
     private static final String FLIGHT_NUMBER = "flight_number";
-    private static final Instant FLIGHT_DATE = Instant.now();
+    private static final String FLIGHT_DATE = Instant.now().toString();
     private static final boolean IS_VIP = true;
     private static final boolean IS_CHECKED_IN = true;
     private static final boolean NOT_CHILD = false;
@@ -30,7 +30,7 @@ public class PassengerAssemblerTest {
 
     @Before
     public void setUp() {
-        willReturn(flight).given(flightRepository).getFlight(FLIGHT_NUMBER, FLIGHT_DATE);
+        willReturn(flight).given(flightRepository).getFlight(FLIGHT_NUMBER, Instant.parse(FLIGHT_DATE));
     }
 
     @Test

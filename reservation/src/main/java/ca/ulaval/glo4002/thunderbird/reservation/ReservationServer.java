@@ -18,7 +18,7 @@ import static java.util.Optional.ofNullable;
 
 public class ReservationServer implements Runnable {
     private static final String PORT_PROPERTY = "reservation.port";
-    private static final int DEFAULT_PORT = 8787;
+    public static final int DEFAULT_PORT = 65535;
 
     private static final String CONTEXT_PROPERTY = "context";
     private static final String DEFAULT_CONTEXT = "demo";
