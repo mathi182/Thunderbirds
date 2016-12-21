@@ -11,6 +11,8 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import static ca.ulaval.glo4002.thunderbird.reservation.RestTestConfig.TEST_SERVER_PORT;
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         CheckinResourceRestTest.class,
@@ -20,7 +22,6 @@ import org.junit.runners.Suite;
         PassengersResourceRestTest.class
 })
 public class RestTestSuite {
-    public static final int TEST_SERVER_PORT = 9292;
 
     private static ReservationServer reservationServer;
 

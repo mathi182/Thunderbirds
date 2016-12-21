@@ -3,7 +3,10 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.StandardBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Overweight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +17,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 
 public class StandardBaggageCollectionTest {
@@ -75,9 +77,16 @@ public class StandardBaggageCollectionTest {
         baggageCollection.validateCollection(baggage);
     }
 
-    @Test(expected = BaggageFormatUnauthorizedException.class)
+    @Test(expected = BaggageDimensionInvalidException.class)
     public void givenABaggageWithASpeciality_whenValidating_shouldThrowException() {
-        willReturn(true).given(baggage).hasSpeciality(any());
+        willReturn(true).given(baggage).hasSpeciality(new Oversize());
+
+        baggageCollection.validateCollection(baggage);
+    }
+
+    @Test(expected = BaggageWeightInvalidException.class)
+    public void givenABaggageWithOversize_whenValidating_shouldThrowException() {
+        willReturn(true).given(baggage).hasSpeciality(new Overweight());
 
         baggageCollection.validateCollection(baggage);
     }

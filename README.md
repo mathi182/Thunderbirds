@@ -21,13 +21,23 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 - Checkin: Enregistrement en ligne (Terminé)
 - Siège: Assignation du siège d'un passager (aléatoire) (Terminé)
 - Bagage enregistré: Classe économique (Terminé)
-- Bagages: Obtenir la liste par passager (En cours, 90% complété)
+- Bagages: Obtenir la liste par passager (Terminé)
 - Siège: Assigner le siège le moins cher (Terminé)
 - Siège: Assigner le siège en fonction du dégagement (Terminé)
+- Bagage cabine: Article standard (Terminé)
+- Bagage enregistré: Classe affaires (Terminé)
+- Siège: Assigner le siège ayant une bonne vue (Terminé)
+- Bagages: Passager VIP (Terminé)
+- Siège: Ne pas assigner de sièges dans l'allée de secours à un enfant (Terminé)
+- Bagage enregistré: Hors normes (Terminé)
+- Bagage cabine: Article personnel (Terminé)
+- Bagages: Respecter la limite de l'avion (Terminé)
+- Bagage enregistré: Équipement de sport (Terminé)
+- Bagage cabine: Article médical (Terminé)
 
+##Notes de design
 
-###Known Issues
-Les story de sièges ont un bug qui fait retourner des erreur 500 lors de l'appel.
+Les méthodes validate() des collections de baggages enregistrés sont volontairement laissé vide. Dans le contexte actuel des stories, on n'a pas à faire d'autres validation car tous les bagages enregistrés peuvent être Oversize par exemple. Mais advenant le cas d'une nouvelle règle d'affaire, on pourrait ajouter la logique de validation à cet endroit.
 
 ##Utilisation
 
