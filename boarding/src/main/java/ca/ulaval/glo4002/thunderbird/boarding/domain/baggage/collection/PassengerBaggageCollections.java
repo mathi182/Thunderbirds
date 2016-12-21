@@ -45,7 +45,7 @@ public class PassengerBaggageCollections {
         if (baggageCollection.isPresent()) {
             baggageCollection.get().addBaggage(baggage);
         } else {
-            CollectionFactory collectionFactory = ServiceLocator.resolve(CollectionFactory.class);
+            CollectionFactory collectionFactory = new CollectionFactory();
             BaggageCollection newCollection = collectionFactory.createCollection(passenger, baggage.getType());
             newCollection.addBaggage(baggage);
             newCollection.setPassengerBaggageCollections(this);
@@ -72,7 +72,6 @@ public class PassengerBaggageCollections {
         for (BaggageCollection baggageCollection : collection) {
             baggageList.addAll(baggageCollection.getBaggages());
         }
-
         return baggageList;
     }
 
@@ -83,7 +82,6 @@ public class PassengerBaggageCollections {
                 mass = mass.add(baggage.getWeight());
             }
         }
-
         return mass;
     }
 
