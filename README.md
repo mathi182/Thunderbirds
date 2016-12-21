@@ -21,13 +21,20 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 - Checkin: Enregistrement en ligne (Terminé)
 - Siège: Assignation du siège d'un passager (aléatoire) (Terminé)
 - Bagage enregistré: Classe économique (Terminé)
-- Bagages: Obtenir la liste par passager (En cours, 90% complété)
+- Bagages: Obtenir la liste par passager (Terminé)
 - Siège: Assigner le siège le moins cher (Terminé)
 - Siège: Assigner le siège en fonction du dégagement (Terminé)
+- Bagage cabine: Article standard (Terminé)
+- Bagage enregistré: Classe affaires (Terminé)
+- Siège: Assigner le siège ayant une bonne vue (Terminé)
+- Bagages: Passager VIP (Terminé)
+- Siège: Ne pas assigner de sièges dans l'allée de secours à un enfant (Terminé)
+- Bagage enregistré: Hors normes (Terminé)
+- Bagage cabine: Article personnel (Terminé)
+- Bagages: Respecter la limite de l'avion (Terminé)
+- Bagage enregistré: Équipement de sport (Terminé)
+- Bagage cabine: Article médical (Terminé)
 
-
-###Known Issues
-Les story de sièges ont un bug qui fait retourner des erreur 500 lors de l'appel.
 
 ##Utilisation
 

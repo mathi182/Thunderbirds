@@ -16,10 +16,9 @@ public class PassengerService {
     private static final String PATH = "passengers";
 
     private static final String PORT_PROPERTY = "reservation.port";
-    private static final int DEFAULT_PORT = 8787;
 
     public Passenger fetchPassenger(UUID passengerHash) {
-        int httpPort = ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt).orElse(DEFAULT_PORT);
+        int httpPort = Integer.parseInt(System.getProperty(PORT_PROPERTY));
         String url = String.format("http://%s:%d/%s/%s", DOMAIN_NAME, httpPort, PATH, passengerHash);
 
         ClientResponse response = getResource(url);
