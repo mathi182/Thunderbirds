@@ -6,9 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.Economic
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
@@ -19,8 +17,7 @@ import static org.mockito.Mockito.mock;
 public class CheckedBaggageCollectionTest {
     private static final double SECOND_BAGGAGE_PRICE = 3;
     private static final int BAGGAGE_COUNT_LIMIT = 3;
-    private static final int BAGGAGE_VIP_COUNT_LIMIT = BAGGAGE_COUNT_LIMIT + 1;
-
+    private static final int BAGGAGE_VIP_COUNT_LIMIT = 4;
 
     private final Passenger passenger = mock(Passenger.class);
     private final Baggage firstBaggage = mock(Baggage.class);
@@ -35,9 +32,6 @@ public class CheckedBaggageCollectionTest {
 
         willReturn(SECOND_BAGGAGE_PRICE).given(secondBaggage).getPrice();
     }
-
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void whenGettingAllBaggages_shouldBeEmpty() {
@@ -57,25 +51,34 @@ public class CheckedBaggageCollectionTest {
 
     @Test
     public void givenMaximumNumberOfBaggages_whenAddingAnother_shouldThrowAnException() {
-        exception.expect(BaggageAmountUnauthorizedException.class);
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
 
-        for (int i = 0; i < BAGGAGE_COUNT_LIMIT + 1; i++) {
+        try {
             checkedBaggageCollection.addBaggage(firstBaggage);
+            fail();
+        } catch (BaggageAmountUnauthorizedException e) {
+            int actualSize = checkedBaggageCollection.getBaggages().size();
+            assertEquals(BAGGAGE_COUNT_LIMIT, actualSize);
         }
-
-        assertEquals(3, checkedBaggageCollection.getBaggages().size());
     }
 
     @Test
     public void givenMaximumNumberOfBaggagesForVip_whenAddingAnother_shouldThrowAnException() {
         willReturn(true).given(passenger).isVip();
-        exception.expect(BaggageAmountUnauthorizedException.class);
 
-        for (int i = 0; i < BAGGAGE_VIP_COUNT_LIMIT + 1; i++) {
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
+
+        try {
             checkedBaggageCollection.addBaggage(firstBaggage);
+            fail();
+        } catch (BaggageAmountUnauthorizedException e) {
+            int actualSize = checkedBaggageCollection.getBaggages().size();
+            assertEquals(BAGGAGE_VIP_COUNT_LIMIT, actualSize);
         }
-
-        assertEquals(3, checkedBaggageCollection.getBaggages().size());
-
     }
 }
