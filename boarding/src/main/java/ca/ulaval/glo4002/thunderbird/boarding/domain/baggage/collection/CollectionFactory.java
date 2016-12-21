@@ -13,11 +13,11 @@ public class CollectionFactory {
 
         switch (type) {
             case STANDARD:
-                return new StandardBaggageCollection();
+                return new StandardBaggageCollection(passenger);
             case PERSONAL:
-                return new PersonalBaggageCollection();
+                return new PersonalBaggageCollection(passenger);
             case MEDICAL:
-                return new MedicalBaggageCollection();
+                return new MedicalBaggageCollection(passenger);
             case CHECKED:
                 switch (passenger.getSeatClass()) {
                     case BUSINESS:

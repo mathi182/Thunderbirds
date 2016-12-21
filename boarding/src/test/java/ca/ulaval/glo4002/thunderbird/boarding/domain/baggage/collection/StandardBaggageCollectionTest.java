@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.StandardBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,8 +29,10 @@ public class StandardBaggageCollectionTest {
 
     @Before
     public void setup() {
+        Passenger passenger = mock(Passenger.class);
+        willReturn(false).given(passenger).isVip();
         baggage = mock(StandardBaggage.class);
-        baggageCollection = new StandardBaggageCollection();
+        baggageCollection = new StandardBaggageCollection(passenger);
     }
 
     @Test

@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.MedicalBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,8 +28,9 @@ public class MedicalBaggageCollectionTest {
 
     @Before
     public void setup() {
+        Passenger passenger = mock(Passenger.class);
         baggage = mock(MedicalBaggage.class);
-        baggageCollection = new MedicalBaggageCollection();
+        baggageCollection = new MedicalBaggageCollection(passenger);
     }
 
     @Test
