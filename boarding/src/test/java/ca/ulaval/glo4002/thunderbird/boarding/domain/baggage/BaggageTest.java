@@ -51,19 +51,7 @@ public class BaggageTest {
     public void shouldReturnRightValues() {
         assertEquals(LINEAR_DIMENSION, baggage.getDimension());
         assertEquals(WEIGHT, baggage.getWeight());
-        assertEquals(0, baggage.getPrice(), 0.0f);
         assertEquals(CHECKED_TYPE, baggage.getType());
-        assertTrue(baggage.equals(baggage));
-    }
-
-    @Test
-    public void givenAPrice_whenSettingThisPrice_shouldBeSaved() {
-        float expectedPrice = 5342;
-
-        baggage.setPrice(expectedPrice);
-
-        float actualPrice = baggage.getPrice();
-        assertEquals(expectedPrice, actualPrice, DELTA);
     }
 
     @Test

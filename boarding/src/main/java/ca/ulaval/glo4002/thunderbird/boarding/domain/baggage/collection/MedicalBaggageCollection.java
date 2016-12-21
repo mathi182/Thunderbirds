@@ -36,7 +36,7 @@ public class MedicalBaggageCollection extends BaggageCollection {
     }
 
     @Override
-    public float calculateTotalCost() {
+    public double calculateTotalCost() {
         return COST;
     }
 

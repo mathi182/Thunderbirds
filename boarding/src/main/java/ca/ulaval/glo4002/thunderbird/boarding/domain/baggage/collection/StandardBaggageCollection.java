@@ -41,7 +41,7 @@ public class StandardBaggageCollection extends BaggageCollection {
     }
 
     @Override
-    public float calculateTotalCost() {
+    public double calculateTotalCost() {
         return TOTAL_COST;
     }
 

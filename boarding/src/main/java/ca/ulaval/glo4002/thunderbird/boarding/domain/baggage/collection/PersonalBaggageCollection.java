@@ -40,7 +40,7 @@ public class PersonalBaggageCollection extends BaggageCollection {
     }
 
     @Override
-    public float calculateTotalCost() {
+    public double calculateTotalCost() {
         return 0;
     }
 

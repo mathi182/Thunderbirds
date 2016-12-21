@@ -15,8 +15,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
 
 public class CheckedBaggageCollectionTest {
-    private static final float BAGGAGE_PRICE_SUM = 3;
-    private static final float SECOND_BAGGAGE_PRICE = 3;
+    private static final double SECOND_BAGGAGE_PRICE = 3;
 
     private final Passenger passenger = mock(Passenger.class);
     private final Baggage firstBaggage = mock(Baggage.class);
@@ -26,27 +25,10 @@ public class CheckedBaggageCollectionTest {
 
     @Before
     public void setUp() {
-        willReturn(1f).given(firstBaggage).getPrice();
-        willReturn(2f).given(secondBaggage).getPrice();
+        willReturn(1d).given(firstBaggage).getPrice();
+        willReturn(2d).given(secondBaggage).getPrice();
 
-        willReturn(SECOND_BAGGAGE_PRICE).given(secondBaggage).getBasePrice();
-    }
-
-    @Test
-    public void whenAddingFirstBaggage_shouldBeFree() {
-        checkedBaggageCollection.addBaggage(firstBaggage);
-
-        verify(firstBaggage, never()).getBasePrice();
-        verify(firstBaggage).setPrice(0.0f);
-    }
-
-    @Test
-    public void whenAddingSecondBaggage_shouldNotBeFree() {
-        checkedBaggageCollection.addBaggage(firstBaggage);
-        checkedBaggageCollection.addBaggage(secondBaggage);
-
-        verify(secondBaggage).getBasePrice();
-        verify(secondBaggage).setPrice(SECOND_BAGGAGE_PRICE);
+        willReturn(SECOND_BAGGAGE_PRICE).given(secondBaggage).getPrice();
     }
 
     @Test
@@ -65,34 +47,23 @@ public class CheckedBaggageCollectionTest {
         assertFalse(baggages.isEmpty());
     }
 
-    @Test
-    public void givenTwoBaggages_whenCalculatingPrice_shouldReturnPriceSum() {
-        checkedBaggageCollection.addBaggage(firstBaggage);
-        checkedBaggageCollection.addBaggage(secondBaggage);
-
-        float price = checkedBaggageCollection.calculatePrice();
-
-        verify(firstBaggage).getPrice();
-        verify(secondBaggage).getPrice();
-        assertEquals(BAGGAGE_PRICE_SUM, price, 0.0f);
-    }
-
     @Test(expected = BaggageAmountUnauthorizedException.class)
     public void givenMaximumNumberOfBaggages_whenAddingAnother_shouldThrowAnException() {
-        checkedBaggageCollection.addBaggage(mock(Baggage.class));
-        checkedBaggageCollection.addBaggage(mock(Baggage.class));
-        checkedBaggageCollection.addBaggage(mock(Baggage.class));
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
 
-        checkedBaggageCollection.addBaggage(mock(Baggage.class));
+        checkedBaggageCollection.addBaggage(firstBaggage);
     }
 
     @Test(expected = BaggageAmountUnauthorizedException.class)
     public void givenMaximumNumberOfBaggagesForVip_whenAddingAnother_shouldThrowAnException() {
-        checkedBaggageCollection.addBaggage(mock(Baggage.class));
-        checkedBaggageCollection.addBaggage(mock(Baggage.class));
-        checkedBaggageCollection.addBaggage(mock(Baggage.class));
-        checkedBaggageCollection.addBaggage(mock(Baggage.class));
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
+        checkedBaggageCollection.addBaggage(firstBaggage);
 
-        checkedBaggageCollection.addBaggage(mock(Baggage.class));
+        checkedBaggageCollection.addBaggage(firstBaggage);
+
     }
 }

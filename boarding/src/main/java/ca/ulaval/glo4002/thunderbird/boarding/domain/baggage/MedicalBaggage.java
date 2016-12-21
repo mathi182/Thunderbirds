@@ -4,12 +4,11 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 import javax.persistence.Entity;
-import java.util.UUID;
 
 @Entity
 public class MedicalBaggage extends StandardBaggage {
     private static final String TYPE = "medical";
-    private static final float PRICE = 0;
+    private static final double PRICE = 0;
 
 
     public MedicalBaggage(Length linearDimension, Mass weight, String type) {
@@ -21,7 +20,7 @@ public class MedicalBaggage extends StandardBaggage {
     }
 
     @Override
-    public float getBasePrice() {
+    public double getPrice() {
         return PRICE;
     }
 

@@ -4,12 +4,11 @@ import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 import javax.persistence.Entity;
-import java.util.UUID;
 
 @Entity
 public class PersonalBaggage extends Baggage {
     private static final String TYPE = "personal";
-    private static final float PRICE = 0;
+    private static final double PRICE = 0;
     public static final Length MAXIMUM_LENGTH = Length.fromCentimeters(92);
     public static final Mass MAXIMUM_WEIGHT = Mass.fromKilograms(10);
 
@@ -22,7 +21,7 @@ public class PersonalBaggage extends Baggage {
     }
 
     @Override
-    public float getBasePrice() {
+    public double getPrice() {
         return PRICE;
     }
 

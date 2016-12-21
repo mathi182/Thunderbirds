@@ -48,7 +48,7 @@ public abstract class Baggage {
         // for hibernate
     }
 
-    public abstract float getBasePrice();
+    public abstract double getPrice();
 
     public abstract boolean isChecked();
 
@@ -85,14 +85,6 @@ public abstract class Baggage {
 
     public void removeSpeciality(Speciality speciality) {
         specialities.remove(speciality);
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
     }
 
     public void validateBaggage(Length maximumLinearDimension, Mass maximumWeight) {

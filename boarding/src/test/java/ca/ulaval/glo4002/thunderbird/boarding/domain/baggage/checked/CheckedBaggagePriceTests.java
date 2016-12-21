@@ -17,9 +17,9 @@ import static org.mockito.Mockito.mock;
 
 public class CheckedBaggagePriceTests {
     private static final int BAGGAGE_COST = 50;
-    private static final float OVERWEIGHT_BAGGAGE_EXCESS_FEES = 1.1f;
-    private static final float SPORT_BAGGAGE_EXCESS_FEES = 1.25f;
-    private static final float DELTA = 0.01f;
+    private static final double OVERWEIGHT_BAGGAGE_EXCESS_FEES = 1.1f;
+    private static final double SPORT_BAGGAGE_EXCESS_FEES = 1.25f;
+    private static final double DELTA = 0.01f;
     private static final String SPORT_TYPE = "sport";
     private static final String CHECKED_TYPE = "checked";
     private BaggageFactory baggageFactory = new BaggageFactory();
@@ -42,7 +42,7 @@ public class CheckedBaggagePriceTests {
         NormalizedBaggageDTO withinLimitBaggage = new NormalizedBaggageDTO(validDimension, validWeight, CHECKED_TYPE);
         baggage = baggageFactory.createBaggage(passenger, withinLimitBaggage);
 
-        float actualPrice = baggage.getBasePrice();
+        double actualPrice = baggage.getPrice();
 
         assertEquals(BAGGAGE_COST, actualPrice, DELTA);
     }
@@ -52,9 +52,9 @@ public class CheckedBaggagePriceTests {
         NormalizedBaggageDTO excessLength = new NormalizedBaggageDTO(invalidDimension, validWeight, CHECKED_TYPE);
         baggage = baggageFactory.createBaggage(passenger, excessLength);
 
-        float actualPrice = baggage.getBasePrice();
+        double actualPrice = baggage.getPrice();
 
-        float expectedPrice = BAGGAGE_COST * OVERWEIGHT_BAGGAGE_EXCESS_FEES;
+        double expectedPrice = BAGGAGE_COST * OVERWEIGHT_BAGGAGE_EXCESS_FEES;
         assertEquals(expectedPrice, actualPrice, DELTA);
     }
 
@@ -63,9 +63,9 @@ public class CheckedBaggagePriceTests {
         NormalizedBaggageDTO excessWeight = new NormalizedBaggageDTO(validDimension, invalidWeight, CHECKED_TYPE);
         baggage = baggageFactory.createBaggage(passenger, excessWeight);
 
-        float actualPrice = baggage.getBasePrice();
+        double actualPrice = baggage.getPrice();
 
-        float expectedPrice = BAGGAGE_COST * OVERWEIGHT_BAGGAGE_EXCESS_FEES;
+        double expectedPrice = BAGGAGE_COST * OVERWEIGHT_BAGGAGE_EXCESS_FEES;
         assertEquals(expectedPrice, actualPrice, DELTA);
     }
 
@@ -75,9 +75,9 @@ public class CheckedBaggagePriceTests {
 
         baggage = baggageFactory.createBaggage(passenger, excessWnL);
 
-        float actualPrice = baggage.getBasePrice();
+        double actualPrice = baggage.getPrice();
 
-        float expectedPrice = BAGGAGE_COST * OVERWEIGHT_BAGGAGE_EXCESS_FEES * OVERWEIGHT_BAGGAGE_EXCESS_FEES;
+        double expectedPrice = BAGGAGE_COST * OVERWEIGHT_BAGGAGE_EXCESS_FEES * OVERWEIGHT_BAGGAGE_EXCESS_FEES;
         assertEquals(expectedPrice, actualPrice, DELTA);
     }
 
@@ -86,9 +86,9 @@ public class CheckedBaggagePriceTests {
         NormalizedBaggageDTO sportWithinLimit = new NormalizedBaggageDTO(validDimension, validWeight, SPORT_TYPE);
         baggage = baggageFactory.createBaggage(passenger, sportWithinLimit);
 
-        float actualPrice = baggage.getBasePrice();
+        double actualPrice = baggage.getPrice();
 
-        float expectedPrice = BAGGAGE_COST * SPORT_BAGGAGE_EXCESS_FEES;
+        double expectedPrice = BAGGAGE_COST * SPORT_BAGGAGE_EXCESS_FEES;
         assertEquals(expectedPrice, actualPrice, DELTA);
     }
 
@@ -97,9 +97,9 @@ public class CheckedBaggagePriceTests {
         NormalizedBaggageDTO sportWithinLimit = new NormalizedBaggageDTO(invalidDimension,validWeight,SPORT_TYPE);
         baggage = baggageFactory.createBaggage(passenger, sportWithinLimit);
 
-        float actualPrice = baggage.getBasePrice();
+        double actualPrice = baggage.getPrice();
 
-        float expectedPrice = BAGGAGE_COST * SPORT_BAGGAGE_EXCESS_FEES;
+        double expectedPrice = BAGGAGE_COST * SPORT_BAGGAGE_EXCESS_FEES;
         assertEquals(expectedPrice, actualPrice, DELTA);
     }
 
@@ -108,9 +108,9 @@ public class CheckedBaggagePriceTests {
         NormalizedBaggageDTO sportWithinLimit = new NormalizedBaggageDTO(validDimension,invalidWeight,SPORT_TYPE);
         baggage = baggageFactory.createBaggage(passenger, sportWithinLimit);
 
-        float actualPrice = baggage.getBasePrice();
+        double actualPrice = baggage.getPrice();
 
-        float expectedPrice = BAGGAGE_COST * SPORT_BAGGAGE_EXCESS_FEES * OVERWEIGHT_BAGGAGE_EXCESS_FEES;
+        double expectedPrice = BAGGAGE_COST * SPORT_BAGGAGE_EXCESS_FEES * OVERWEIGHT_BAGGAGE_EXCESS_FEES;
         assertEquals(expectedPrice, actualPrice, DELTA);
     }
 }

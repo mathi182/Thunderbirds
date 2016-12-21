@@ -39,7 +39,7 @@ public class MedicalBaggageCollectionTest {
 
     @Test
     public void whenCalculatingTotalCost_shouldReturnFree() {
-        float cost = baggageCollection.calculateTotalCost();
+        double cost = baggageCollection.calculateTotalCost();
 
         assertEquals(BAGGAGE_TOTAL_COST, cost, DELTA);
     }
