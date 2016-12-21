@@ -23,7 +23,7 @@ public abstract class CheckedBaggage extends Baggage {
     }
 
     @Override
-    public float getBasePrice() {
+    public double getPrice() {
         float cost = BAGGAGE_COST;
 
         for (Speciality speciality : specialities) {

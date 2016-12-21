@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
-import ca.ulaval.glo4002.thunderbird.boarding.contexts.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
@@ -45,12 +44,18 @@ public class PassengerBaggageCollections {
         if (baggageCollection.isPresent()) {
             baggageCollection.get().addBaggage(baggage);
         } else {
-            CollectionFactory collectionFactory = ServiceLocator.resolve(CollectionFactory.class);
-            BaggageCollection newCollection = collectionFactory.createCollection(passenger, baggage.getType());
-            newCollection.addBaggage(baggage);
-            newCollection.setPassengerBaggageCollections(this);
-            collection.add(newCollection);
+            addNewCollection(baggage);
         }
+    }
+
+    private void addNewCollection(Baggage baggage) {
+        CollectionFactory collectionFactory = new CollectionFactory();
+        BaggageCollection newCollection = collectionFactory.createCollection(passenger, baggage.getType());
+
+        newCollection.addBaggage(baggage);
+        newCollection.setPassengerBaggageCollections(this);
+
+        collection.add(newCollection);
     }
 
     private Optional<BaggageCollection> getBaggageCollectionForBaggage(Baggage baggage) {
@@ -60,10 +65,10 @@ public class PassengerBaggageCollections {
                 .findFirst();
     }
 
-    public float calculateTotalPrice() {
+    public double calculateTotalPrice() {
         return collection.stream()
                 .map(BaggageCollection::calculateTotalCost)
-                .reduce(0f, (a, b) -> a + b);
+                .reduce(0.0d, (a, b) -> a + b);
     }
 
     public Set<Baggage> getBaggages() {
@@ -72,7 +77,6 @@ public class PassengerBaggageCollections {
         for (BaggageCollection baggageCollection : collection) {
             baggageList.addAll(baggageCollection.getBaggages());
         }
-
         return baggageList;
     }
 
@@ -83,7 +87,6 @@ public class PassengerBaggageCollections {
                 mass = mass.add(baggage.getWeight());
             }
         }
-
         return mass;
     }
 

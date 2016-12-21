@@ -26,9 +26,15 @@ public abstract class BaggageCollection {
 
     public abstract void addBaggage(Baggage baggage);
     protected abstract void validateCollection(Baggage baggage);
-    public abstract float calculateTotalCost();
+    public abstract double calculateTotalCost();
     public abstract String getCollectionType();
     public abstract List<Baggage> getBaggages();
+
+    protected double modifyPriceForVip(double price) {
+        if (passenger.isVip())
+            return price * 0.95;
+        return price;
+    }
 
     public void setPassengerBaggageCollections(PassengerBaggageCollections passengerBaggageCollections) {
         this.passengerBaggageCollections = passengerBaggageCollections;

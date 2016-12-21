@@ -57,7 +57,7 @@ public class BoardingPassengerFixture extends HibernateBaseFixture {
     public void thenTotalBaggagePriceEquals(UUID passengerHash, float totalPriceExpected) {
         withEntityManager((tx) -> {
             Passenger passenger = repository.findByPassengerHash(passengerHash);
-            float totalPriceActual = passenger.calculateBaggagesPrice();
+            double totalPriceActual = passenger.calculateBaggagesPrice();
             assertEquals(totalPriceExpected, totalPriceActual, DELTA);
         });
     }

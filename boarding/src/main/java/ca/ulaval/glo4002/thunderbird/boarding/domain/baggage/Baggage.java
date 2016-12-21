@@ -48,7 +48,7 @@ public abstract class Baggage {
         // for hibernate
     }
 
-    public abstract float getBasePrice();
+    public abstract double getPrice();
 
     public abstract boolean isChecked();
 
@@ -70,8 +70,13 @@ public abstract class Baggage {
         return linearDimension;
     }
 
-    public boolean hasSpecialities() {
-        return specialities.size() != 0;
+    public boolean hasSpeciality(Speciality speciality) {
+        for (Speciality specs : specialities) {
+            if (specs.getSpecialityName().equals(speciality.getSpecialityName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void addSpeciality(Speciality speciality) {
@@ -80,14 +85,6 @@ public abstract class Baggage {
 
     public void removeSpeciality(Speciality speciality) {
         specialities.remove(speciality);
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
     }
 
     public void validateBaggage(Length maximumLinearDimension, Mass maximumWeight) {

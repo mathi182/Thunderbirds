@@ -56,7 +56,7 @@ public class Flight {
     public boolean hasSpaceFor(Baggage baggage) {
         Mass baggagesMass = Mass.fromGrams(0);
         for (Passenger passenger : passengers) {
-            baggagesMass = baggagesMass.add(passenger.calculateBagageMass());
+            baggagesMass = baggagesMass.add(passenger.calculateBaggageMass());
         }
         baggagesMass = baggagesMass.add(baggage.getWeight());
 

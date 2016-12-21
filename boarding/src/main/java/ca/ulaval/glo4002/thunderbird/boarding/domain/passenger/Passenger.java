@@ -78,12 +78,12 @@ public class Passenger {
         return isChild;
     }
 
-    public float calculateBaggagesPrice() {
-        float price = baggagesCollection.calculateTotalPrice();
+    public double calculateBaggagesPrice() {
+        double price = baggagesCollection.calculateTotalPrice();
         return isVip ? price * VIP_DISCOUNT : price;
     }
 
-    public Mass calculateBagageMass() {
+    public Mass calculateBaggageMass() {
         return baggagesCollection.calculateBaggagesMass();
     }
 

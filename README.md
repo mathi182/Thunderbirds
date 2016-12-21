@@ -35,6 +35,9 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 - Bagage enregistré: Équipement de sport (Terminé)
 - Bagage cabine: Article médical (Terminé)
 
+##Notes de design
+
+Les méthodes validate() des collections de baggages enregistrés sont volontairement laissé vide. Dans le contexte actuel des stories, on n'a pas à faire d'autres validation car tous les bagages enregistrés peuvent être Oversize par exemple. Mais advenant le cas d'une nouvelle règle d'affaire, on pourrait ajouter la logique de validation à cet endroit.
 
 ##Utilisation
 

@@ -2,7 +2,12 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Overweight;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 
 import javax.persistence.Entity;
 import java.util.ArrayList;
@@ -12,8 +17,10 @@ import java.util.List;
 public class PersonalBaggageCollection extends BaggageCollection {
     private static final String TYPE = "personal";
     private static final int BAGGAGES_LIMIT = 1;
+    private static final double COST = 0;
 
-    public PersonalBaggageCollection() {
+    public PersonalBaggageCollection(Passenger passenger) {
+        this.passenger = passenger;
         collection = new ArrayList<>();
     }
 
@@ -29,14 +36,17 @@ public class PersonalBaggageCollection extends BaggageCollection {
         if (collection.size() >= BAGGAGES_LIMIT) {
             throw new BaggageAmountUnauthorizedException();
         }
-        if (baggage.hasSpecialities()) {
-            throw new BaggageFormatUnauthorizedException();
+        if (baggage.hasSpeciality(new Oversize())) {
+            throw new BaggageDimensionInvalidException();
+        }
+        if (baggage.hasSpeciality(new Overweight())) {
+            throw new BaggageWeightInvalidException();
         }
     }
 
     @Override
-    public float calculateTotalCost() {
-        return 0;
+    public double calculateTotalCost() {
+        return modifyPriceForVip(COST);
     }
 
     @Override
