@@ -29,8 +29,6 @@ public class PassengerBaggageCollectionsTest {
     private Baggage medicalBaggage;
     private Baggage personalBaggage;
     private Baggage businessBaggage;
-    private Mass expectedMass = Mass.fromKilograms(MEDICAL_WEIGHT.toKilograms() + BUSINESS_WEIGHT.toKilograms() +
-            PERSO_WEIGHT.toKilograms());
 
     @Before
     public void setup() {
@@ -102,6 +100,8 @@ public class PassengerBaggageCollectionsTest {
 
         Mass actualMass = collections.calculateBaggagesMass();
 
+        Mass expectedMass = Mass.fromKilograms(MEDICAL_WEIGHT.toKilograms() + BUSINESS_WEIGHT.toKilograms() +
+                PERSO_WEIGHT.toKilograms());
         assertEquals(expectedMass, actualMass);
     }
 

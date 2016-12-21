@@ -3,7 +3,11 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.PersonalBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Overweight;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,9 +65,16 @@ public class PersonalBaggageCollectionTest {
         baggageCollection.validateCollection(baggage);
     }
 
-    @Test(expected = BaggageFormatUnauthorizedException.class)
-    public void givenABaggageWithASpeciality_whenValidating_shouldThrowException() {
-        willReturn(true).given(baggage).hasSpeciality(any());
+    @Test(expected = BaggageWeightInvalidException.class)
+    public void givenABaggageWithOverweight_whenValidating_shouldThrowException() {
+        willReturn(true).given(baggage).hasSpeciality(new Overweight());
+
+        baggageCollection.validateCollection(baggage);
+    }
+
+    @Test(expected = BaggageDimensionInvalidException.class)
+    public void givenABaggageWithOversize_whenValidating_shouldThrowException() {
+        willReturn(true).given(baggage).hasSpeciality(new Oversize());
 
         baggageCollection.validateCollection(baggage);
     }
