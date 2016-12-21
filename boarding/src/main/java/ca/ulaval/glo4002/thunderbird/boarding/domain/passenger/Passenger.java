@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name="Boarding_Passenger")
+@Table(name = "Boarding_Passenger")
 public class Passenger {
     public static final float VIP_DISCOUNT = 0.95f;
 
@@ -105,10 +105,6 @@ public class Passenger {
 
     public boolean isCheckedIn() {
         return isCheckedIn;
-    }
-
-    public void setBaggagesCollection(PassengerBaggageCollections passengerBaggageCollections) {
-        baggagesCollection = passengerBaggageCollections;
     }
 
     @Override
