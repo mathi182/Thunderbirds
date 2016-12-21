@@ -36,10 +36,6 @@ ul-glo4002-a16-equipe5 created agentId GitHub Classroom
 - Bagage cabine: Article médical (Terminé)
 
 
-
-###Known Issues
-Les story de sièges ont un bug qui fait retourner des erreur 500 lors de l'appel.
-
 ##Utilisation
 
 ###Exécution via Intellij
