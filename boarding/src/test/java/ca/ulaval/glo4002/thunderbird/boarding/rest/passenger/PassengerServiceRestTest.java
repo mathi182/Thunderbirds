@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.application.passenger.PassengerService;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.persistence.passenger.exceptions.PassengerNotFoundException;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig;
 import org.junit.Test;
 
@@ -24,6 +25,14 @@ public class PassengerServiceRestTest {
         UUID expectedUUID = validUUID;
         UUID actualUUID = passenger.getHash();
         assertEquals(expectedUUID,actualUUID);
+    }
+
+    @Test(expected = PassengerNotFoundException.class)
+    public void givenAnInvalidPassengerHashOnReservation_whenFetchingPassenger_shouldThrowPassengerNotFound(){
+        UUID invalidUUID = UUID.randomUUID();
+        PassengerService passengerService = new PassengerService();
+
+        passengerService.fetchPassenger(invalidUUID);
     }
 
     private UUID getValidPassengerUUID(){
