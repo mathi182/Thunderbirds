@@ -76,16 +76,18 @@ public class EconomicBaggageCollectionTest {
     public void givenCollectionForAVip_whenCalculatingTotalCost_shouldReturnAppropriatePrice() {
         willReturn(true).given(passenger).isVip();
         economicBaggageCollection.addBaggage(baggage);
+        economicBaggageCollection.addBaggage(baggage);
+        economicBaggageCollection.addBaggage(baggage);
 
         double actualPrice = economicBaggageCollection.calculateTotalCost();
 
-        double expectedPrice = BAGGAGE_PRICE * VIP_DISCOUNT;
+        double expectedPrice = BAGGAGE_PRICE * 3 * VIP_DISCOUNT;
         assertEquals(expectedPrice, actualPrice, DELTA);
     }
 
     @Test
     public void givenCollectionWithOnlyOneBaggage_whenCalculatingTotalCost_shouldBeFree() {
-        float actualPrice = economicBaggageCollection.calculatePrice();
+        double actualPrice = economicBaggageCollection.calculateTotalCost();
 
         assertEquals(FREE, actualPrice, DELTA);
     }

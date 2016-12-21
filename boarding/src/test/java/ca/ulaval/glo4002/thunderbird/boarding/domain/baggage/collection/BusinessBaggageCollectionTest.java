@@ -87,7 +87,7 @@ public class BusinessBaggageCollectionTest {
 
     @Test
     public void givenCollectionWithOnlyOneBaggage_whenCalculatingTotalCost_shouldBeFree() {
-        float actualPrice = businessBaggageCollection.calculatePrice();
+        double actualPrice = businessBaggageCollection.calculateTotalCost();
 
         assertEquals(FREE, actualPrice, DELTA);
     }

@@ -32,16 +32,6 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
         return collection;
     }
 
-    public float calculatePrice() {
-        float price = 0;
-        Baggage baggage;
-        for (int i = getFreeBaggageCount(); i < collection.size(); i++) {
-            baggage = collection.get(i);
-            price += baggage.getPrice();
-        }
-        return price;
-    }
-
     @Override
     public void addBaggage(Baggage baggage) {
         validateBaggage(baggage);
