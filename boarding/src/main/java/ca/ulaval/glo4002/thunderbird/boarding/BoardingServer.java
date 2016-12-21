@@ -43,6 +43,7 @@ public class BoardingServer implements Runnable {
     @Override
     public void run() {
         int httpPort = ofNullable(System.getProperty(PORT_PROPERTY)).map(Integer::parseInt).orElse(DEFAULT_PORT);
+        System.setProperty("boarding.port", Integer.toString(httpPort));
         Context context = resolveContext(ofNullable(System.getProperty(CONTEXT_PROPERTY)).orElse(DEFAULT_CONTEXT));
 
         start(httpPort, context);
@@ -50,6 +51,7 @@ public class BoardingServer implements Runnable {
     }
 
     public void start(int httpPort, Context context) {
+        System.setProperty("boarding.port", Integer.toString(httpPort));
         context.apply();
 
         server = new Server(httpPort);
