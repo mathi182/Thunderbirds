@@ -13,6 +13,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 
 public class PersonalBaggageCollectionTest {
@@ -62,7 +63,7 @@ public class PersonalBaggageCollectionTest {
 
     @Test(expected = BaggageFormatUnauthorizedException.class)
     public void givenABaggageWithASpeciality_whenValidating_shouldThrowException() {
-        willReturn(true).given(baggage).hasSpecialities();
+        willReturn(true).given(baggage).hasSpeciality(any());
 
         baggageCollection.validateCollection(baggage);
     }

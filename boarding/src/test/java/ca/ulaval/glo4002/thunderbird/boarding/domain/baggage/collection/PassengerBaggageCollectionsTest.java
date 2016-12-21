@@ -25,7 +25,7 @@ public class PassengerBaggageCollectionsTest {
 
 
         Baggage baggage = mock(MedicalBaggage.class);
-        willReturn(false).given(baggage).hasSpecialities();
+        //willReturn(false).given(baggage).hasSpecialities();
         willReturn("medical").given(baggage).getType();
 
         collections.addBaggage(baggage);

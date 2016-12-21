@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Overweight;
 
 import javax.persistence.Entity;
 import java.util.ArrayList;
@@ -25,7 +27,10 @@ public class MedicalBaggageCollection extends BaggageCollection {
 
     @Override
     protected void validateCollection(Baggage baggage) {
-        if (baggage.hasSpecialities()) {
+        if (baggage.hasSpeciality(new Oversize())) {
+            throw new BaggageFormatUnauthorizedException();
+        }
+        if (baggage.hasSpeciality(new Overweight())) {
             throw new BaggageFormatUnauthorizedException();
         }
     }

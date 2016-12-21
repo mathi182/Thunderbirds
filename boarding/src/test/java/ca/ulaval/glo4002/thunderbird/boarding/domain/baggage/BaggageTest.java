@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.rest.baggage.NormalizedBaggageDTO;
@@ -30,7 +31,7 @@ public class BaggageTest {
 
     private BaggageFactory baggageFactory = new BaggageFactory();
     private Baggage baggage;
-    private Baggage invalidBaggage;
+    private Baggage oversizeBaggage;
     private Passenger passenger;
 
     @Before
@@ -38,7 +39,7 @@ public class BaggageTest {
         passenger = mock(Passenger.class);
         willReturn(BUSINESS).given(passenger).getSeatClass();
         baggage = createBaggage(LINEAR_DIMENSION, WEIGHT, CHECKED_TYPE);
-        invalidBaggage = createBaggage(INVALID_DIMENSION, WEIGHT, CHECKED_TYPE);
+        oversizeBaggage = createBaggage(INVALID_DIMENSION, WEIGHT, CHECKED_TYPE);
     }
 
     private Baggage createBaggage(Length length, Mass mass, String type) {
@@ -66,23 +67,23 @@ public class BaggageTest {
     }
 
     @Test
-    public void givenBaggaggeWithSpecialities_whenCheckingIfHasSpecialities_shouldReturnTrue () {
+    public void givenOversizeBaggagge_whenCheckingIfHasSpecialityOversize_shouldReturnTrue () {
 
-        boolean hasSpecialities = invalidBaggage.hasSpecialities();
+        boolean expectedOversize = oversizeBaggage.hasSpeciality(new Oversize());
 
-        assertTrue(hasSpecialities);
+        assertTrue(expectedOversize);
     }
 
     @Test
-    public void givenBaggageWithoutSpecialities_whenCheckingIfHasSpecialities_shouldReturnFalse() {
-        boolean hasSpecialities = baggage.hasSpecialities();
+    public void givenBaggage_whenCheckingIfHasSpecialityOversize_shouldReturnFalse() {
+        boolean hasSpecialities = baggage.hasSpeciality(new Oversize());
 
         assertFalse(hasSpecialities);
     }
 
     @Test(expected = BaggageDimensionInvalidException.class)
     public void whenDimensionIsInvalid_shouldThrowAnException() {
-        invalidBaggage.validateBaggage(LINEAR_DIMENSION, WEIGHT);
+        oversizeBaggage.validateBaggage(LINEAR_DIMENSION, WEIGHT);
     }
 
     @Test(expected = BaggageWeightInvalidException.class)
