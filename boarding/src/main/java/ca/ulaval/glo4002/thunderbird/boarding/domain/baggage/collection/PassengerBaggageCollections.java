@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
-import ca.ulaval.glo4002.thunderbird.boarding.contexts.ServiceLocator;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
@@ -52,8 +51,10 @@ public class PassengerBaggageCollections {
     private void addNewCollection(Baggage baggage) {
         CollectionFactory collectionFactory = new CollectionFactory();
         BaggageCollection newCollection = collectionFactory.createCollection(passenger, baggage.getType());
+
         newCollection.addBaggage(baggage);
         newCollection.setPassengerBaggageCollections(this);
+
         collection.add(newCollection);
     }
 

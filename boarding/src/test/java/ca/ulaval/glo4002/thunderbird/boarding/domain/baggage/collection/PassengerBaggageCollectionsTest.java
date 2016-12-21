@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.PersonalBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.BusinessBaggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +34,7 @@ public class PassengerBaggageCollectionsTest {
     @Before
     public void setup() {
         Passenger passenger = mock(Passenger.class);
+        willReturn(Seat.SeatClass.BUSINESS).given(passenger).getSeatClass();
         collections = new PassengerBaggageCollections(passenger);
         baggage = mock(MedicalBaggage.class);
         personalBaggage = mock(PersonalBaggage.class);
@@ -41,11 +43,13 @@ public class PassengerBaggageCollectionsTest {
         willReturn(Mass.fromKilograms(BUSINESS_WEIGHT)).given(businessBaggage).getWeight();
         willReturn(Mass.fromKilograms(MEDICAL_WEIGHT)).given(baggage).getWeight();
         willReturn(false).given(baggage).hasSpeciality(any(Speciality.class));
+        willReturn("medical").given(baggage).getType();
+        willReturn("checked").given(businessBaggage).getType();
+        willReturn("personal").given(personalBaggage).getType();
     }
 
     @Test
     public void givenABaggageCollections_whenAddingANewTypeOfBaggage_shouldAddANewCollection() {
-        willReturn("medical").given(baggage).getType();
         int collectionSizeBefore = collections.collection.size();
 
         collections.addBaggage(baggage);
@@ -57,7 +61,6 @@ public class PassengerBaggageCollectionsTest {
 
     @Test
     public void givenABaggageCollections_whenAddingASecondBaggageOfAType_shouldNotAddANewCollection() {
-        willReturn("medical").given(baggage).getType();
         collections.addBaggage(baggage);
         int expectedSize = collections.collection.size();
 
@@ -70,8 +73,8 @@ public class PassengerBaggageCollectionsTest {
     @Test
     public void givenACollectionsWithThreeBaggages_whenCalculatingMass_shouldReturnCorrectMass() {
         collections.addBaggage(baggage);
-        collections.addBaggage(businessBaggage);
         collections.addBaggage(personalBaggage);
+        collections.addBaggage(businessBaggage);
 
         Mass actualMass = collections.calculateBaggagesMass();
 
