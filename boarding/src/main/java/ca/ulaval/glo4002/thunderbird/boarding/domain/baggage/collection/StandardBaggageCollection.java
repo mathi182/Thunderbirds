@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Overweight;
@@ -17,7 +16,7 @@ import java.util.List;
 public class StandardBaggageCollection extends BaggageCollection {
     private static final String TYPE = "standard";
     private static final int BAGGAGES_LIMIT = 1;
-    private static final float TOTAL_COST = 0;
+    private static final float COST = 0;
 
     public StandardBaggageCollection(Passenger passenger) {
         this.passenger = passenger;
@@ -46,7 +45,7 @@ public class StandardBaggageCollection extends BaggageCollection {
 
     @Override
     public double calculateTotalCost() {
-        return modifyPriceForVip(TOTAL_COST);
+        return modifyPriceForVip(COST);
     }
 
     @Override
