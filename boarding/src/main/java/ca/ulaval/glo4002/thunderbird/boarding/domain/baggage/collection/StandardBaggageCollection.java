@@ -2,7 +2,11 @@ package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageAmountUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageFormatUnauthorizedException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Oversize;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Overweight;
 
 import javax.persistence.Entity;
 import java.util.ArrayList;
@@ -30,8 +34,11 @@ public class StandardBaggageCollection extends BaggageCollection {
         if (collection.size() >= BAGGAGES_LIMIT) {
             throw new BaggageAmountUnauthorizedException();
         }
-        if ( baggage.hasSpecialities()) {
-            throw new BaggageFormatUnauthorizedException();
+        if (baggage.hasSpeciality(new Oversize())) {
+            throw new BaggageDimensionInvalidException();
+        }
+        if (baggage.hasSpeciality(new Overweight())) {
+            throw new BaggageWeightInvalidException();
         }
     }
 

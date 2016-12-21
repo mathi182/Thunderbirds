@@ -83,7 +83,7 @@ public class Passenger {
         return isVip ? price * VIP_DISCOUNT : price;
     }
 
-    public Mass calculateBagageMass() {
+    public Mass calculateBaggageMass() {
         return baggagesCollection.calculateBaggagesMass();
     }
 
@@ -105,10 +105,6 @@ public class Passenger {
 
     public boolean isCheckedIn() {
         return isCheckedIn;
-    }
-
-    public void setBaggagesCollection(PassengerBaggageCollections passengerBaggageCollections) {
-        baggagesCollection = passengerBaggageCollections;
     }
 
     @Override
