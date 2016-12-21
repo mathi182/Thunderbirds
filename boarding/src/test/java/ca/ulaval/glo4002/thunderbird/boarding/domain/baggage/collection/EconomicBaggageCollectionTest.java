@@ -23,6 +23,7 @@ public class EconomicBaggageCollectionTest {
     private static final String TYPE = "checked";
     private static final int VIP_COUNT_LIMIT = 4;
     private static final int NORMAL_COUNT_LIMI = 3;
+    private static final double VIP_DISCOUNT = 0.95;
     private EconomicBaggageCollection economicBaggageCollection;
     private Baggage baggage;
     private Passenger passenger;
@@ -69,6 +70,17 @@ public class EconomicBaggageCollectionTest {
         double actualPrice = economicBaggageCollection.calculateTotalCost();
 
         assertEquals(BAGGAGE_PRICE, actualPrice, DELTA);
+    }
+
+    @Test
+    public void givenCollectionForAVip_whenCalculatingTotalCost_shouldReturnAppropriatePrice() {
+        willReturn(true).given(passenger).isVip();
+        economicBaggageCollection.addBaggage(baggage);
+
+        double actualPrice = economicBaggageCollection.calculateTotalCost();
+
+        double expectedPrice = BAGGAGE_PRICE * VIP_DISCOUNT;
+        assertEquals(expectedPrice, actualPrice, DELTA);
     }
 
     @Test

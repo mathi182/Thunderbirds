@@ -23,13 +23,15 @@ public class StandardBaggageCollectionTest {
     private static final String TYPE = "standard";
     private static final List<Baggage> EMPTY_LIST = new ArrayList<>();
     private static final double BAGGAGE_TOTAL_COST = 0;
+    private static final double VIP_DISCOUNT = 0.95;
 
     private StandardBaggageCollection baggageCollection;
     private Baggage baggage;
+    private Passenger passenger;
 
     @Before
     public void setup() {
-        Passenger passenger = mock(Passenger.class);
+        passenger = mock(Passenger.class);
         willReturn(false).given(passenger).isVip();
         baggage = mock(StandardBaggage.class);
         baggageCollection = new StandardBaggageCollection(passenger);
@@ -46,6 +48,16 @@ public class StandardBaggageCollectionTest {
         double cost = baggageCollection.calculateTotalCost();
 
         assertEquals(BAGGAGE_TOTAL_COST, cost, DELTA);
+    }
+
+    @Test
+    public void givenAVipPassenger_whenCalculatingTotalCost_shouldReturnCorrectPrice() {
+        willReturn(true).given(passenger).isVip();
+
+        double cost = baggageCollection.calculateTotalCost();
+
+        double expectedPrice = BAGGAGE_TOTAL_COST * VIP_DISCOUNT;
+        assertEquals(expectedPrice, cost, DELTA);
     }
 
     @Test
