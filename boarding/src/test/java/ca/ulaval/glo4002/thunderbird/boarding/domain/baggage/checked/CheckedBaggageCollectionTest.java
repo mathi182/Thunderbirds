@@ -16,6 +16,8 @@ import static org.mockito.Mockito.mock;
 
 public class CheckedBaggageCollectionTest {
     private static final double SECOND_BAGGAGE_PRICE = 3;
+    private static final int BAGGAGE_COUNT_LIMIT = 3;
+    private static final int BAGGAGE_VIP_COUNT_LIMIT = 4;
 
     private final Passenger passenger = mock(Passenger.class);
     private final Baggage firstBaggage = mock(Baggage.class);
@@ -57,7 +59,8 @@ public class CheckedBaggageCollectionTest {
             checkedBaggageCollection.addBaggage(firstBaggage);
             fail();
         } catch (BaggageAmountUnauthorizedException e) {
-            assertTrue(true);
+            int actualSize = checkedBaggageCollection.getBaggages().size();
+            assertEquals(BAGGAGE_COUNT_LIMIT, actualSize);
         }
     }
 
@@ -74,7 +77,8 @@ public class CheckedBaggageCollectionTest {
             checkedBaggageCollection.addBaggage(firstBaggage);
             fail();
         } catch (BaggageAmountUnauthorizedException e) {
-            assertTrue(true);
+            int actualSize = checkedBaggageCollection.getBaggages().size();
+            assertEquals(BAGGAGE_VIP_COUNT_LIMIT, actualSize);
         }
     }
 }
