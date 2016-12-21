@@ -13,7 +13,7 @@ public class BaggageAssembler {
         Length length = baggage.getDimension();
 
         baggageDTO.weight = (int) weight.toGrams();
-        baggageDTO.linear_dimension = (int) length.toMillimeters();
+        baggageDTO.linearDimension = (int) length.toMillimeters();
         baggageDTO.price = baggage.getPrice();
 
         return baggageDTO;

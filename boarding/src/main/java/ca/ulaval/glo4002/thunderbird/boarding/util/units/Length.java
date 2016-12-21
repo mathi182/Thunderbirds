@@ -50,4 +50,8 @@ public class Length {
         Length other = (Length) obj;
         return millimeters == other.millimeters;
     }
+
+    public boolean isSuperiorTo(Length length) {
+        return millimeters > length.millimeters;
+    }
 }

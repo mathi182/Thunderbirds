@@ -1,104 +1,61 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertSame;
 
 public class LandscapeSeatAssignationStrategyTest {
+    private static final double CHEAPEST_PRICE = 1.0;
+    private static final double NORMAL_PRICE = 2.0;
+    private static final boolean HAS_WINDOW = true;
+    private static final boolean HAS_CLEAR_VIEW = true;
 
-    private LandscapeSeatAssignationStrategy strategy;
-    private List<Seat> seats;
-    private List<Seat> businessSeats;
-    private Seat bestViewBusinessSeat;
-    private Seat bestViewEconomicSeat;
-    private Seat goodViewBusinessSeat;
-    private Seat goodViewEconomicSeat;
-    private Seat expensiveSeatMock;
-    private Seat cheapSeatMock;
+    private final SeatAssignationStrategy strategy = new LandscapeSeatAssignationStrategy();
 
-    @Before
-    public void before() {
-        seats = new ArrayList<>();
-        businessSeats = new ArrayList<>();
+    @Test
+    public void givenOneSeatWithWindow_whenApplyingStrategy_shouldReturnThisSeat() {
+        Seat seatWithoutWindow = getSeat(!HAS_WINDOW, !HAS_CLEAR_VIEW, NORMAL_PRICE);
+        Seat seatWithWindow = getSeat(HAS_WINDOW, !HAS_CLEAR_VIEW, NORMAL_PRICE);
+        List<Seat> seats = Arrays.asList(seatWithoutWindow, seatWithWindow);
 
-        bestViewBusinessSeat = mock(Seat.class);
-        bestViewEconomicSeat = mock(Seat.class);
-        goodViewBusinessSeat = mock(Seat.class);
-        goodViewEconomicSeat = mock(Seat.class);
-        expensiveSeatMock = mock(Seat.class);
-        cheapSeatMock = mock(Seat.class);
-        givenAValidSeatsList();
-    }
+        Optional<Seat> actualSeat = strategy.applyStrategy(seats.stream());
 
-    private void givenAValidSeatsList() {
-        willReturn(Seat.SeatClass.BUSINESS).given(bestViewBusinessSeat).getSeatClass();
-        willReturn(Seat.SeatClass.BUSINESS).given(goodViewBusinessSeat).getSeatClass();
-        willReturn(Seat.SeatClass.ECONOMY).given(bestViewEconomicSeat).getSeatClass();
-        willReturn(Seat.SeatClass.ECONOMY).given(goodViewEconomicSeat).getSeatClass();
-
-        seats.addAll(Arrays.asList(bestViewBusinessSeat, bestViewEconomicSeat,
-                goodViewBusinessSeat, goodViewEconomicSeat));
-        businessSeats.addAll(Arrays.asList(bestViewBusinessSeat, goodViewBusinessSeat));
+        assertSame(seatWithWindow, actualSeat.get());
     }
 
     @Test
-    public void givenAValidSeatsList_whenSelectingBestLandscape_shouldReturnBestFromAnyClass() {
-        willReturn(true).given(bestViewEconomicSeat).hasBetterViewThan(bestViewBusinessSeat);
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
+    public void givenTwoSeatsWithWindows_whenApplyingStrategy_shouldReturnSeatWithClearView() {
+        Seat seatWithWindow = getSeat(HAS_WINDOW, !HAS_CLEAR_VIEW, NORMAL_PRICE);
+        Seat seatWithWindowAndClearView = getSeat(HAS_WINDOW, HAS_CLEAR_VIEW, NORMAL_PRICE);
+        List<Seat> seats = Arrays.asList(seatWithWindow, seatWithWindowAndClearView);
 
-        Seat actualSeat = strategy.findAvailableSeat(seats);
+        Optional<Seat> actualSeat = strategy.applyStrategy(seats.stream());
 
-        assertEquals(bestViewEconomicSeat, actualSeat);
+        assertSame(seatWithWindowAndClearView, actualSeat.get());
     }
 
     @Test
-    public void givenAValidSeatsList_whenSelectingBestLandscapeFromBusiness_shouldReturnBestFromBusiness() {
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
-        Seat actualSeat = strategy.findAvailableSeat(seats);
+    public void givenTwoSeatsWithWindowsAndClearViews_whenApplyingStrategy_shouldReturnCheapestSeat() {
+        Seat cheapestSeatWithWindowAndClearView = getSeat(HAS_WINDOW, HAS_CLEAR_VIEW, CHEAPEST_PRICE);
+        Seat seatWithWindowAndClearView = getSeat(HAS_WINDOW, HAS_CLEAR_VIEW, NORMAL_PRICE);
+        List<Seat> seats = Arrays.asList(cheapestSeatWithWindowAndClearView, seatWithWindowAndClearView);
 
-        assertEquals(bestViewBusinessSeat, actualSeat);
+        Optional<Seat> actualSeat = strategy.applyStrategy(seats.stream());
+
+        assertSame(cheapestSeatWithWindowAndClearView, actualSeat.get());
     }
 
-    @Test(expected = NoMoreSeatAvailableException.class)
-    public void givenAnEmptyList_whenSelectingBestLandscape_shouldThrowNoMoreSeatException() {
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
-        seats.clear();
-
-        strategy.findAvailableSeat(seats);
-    }
-
-    @Test(expected = NoMoreSeatAvailableException.class)
-    public void
-    givenAValidListWithoutEconomicSeat_whenSelectingBestLandscapeFromEconomic_shouldThrowNoMoreSeatException() {
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
-
-        strategy.findAvailableSeat(businessSeats);
-    }
-
-    @Test
-    public void givenAValidListWithSameView_whenSelectingBestLandscapeFromEconomic_shouldReturnCheapestSeat() {
-        willReturn(true).given(cheapSeatMock).hasSameViewAs(expensiveSeatMock);
-        willReturn(false).given(cheapSeatMock).hasBetterViewThan(expensiveSeatMock);
-        willReturn(true).given(cheapSeatMock).hasLowerPriceThan(any(Seat.class));
-
-        seats.clear();
-        seats.add(expensiveSeatMock);
-        seats.add(cheapSeatMock);
-        strategy = new LandscapeSeatAssignationStrategy(Seat.SeatClass.ANY);
-
-        Seat actualSeat = strategy.findAvailableSeat(seats);
-
-        Seat expectedSeat = cheapSeatMock;
-        assertEquals(expectedSeat, actualSeat);
+    public Seat getSeat(boolean hasWindow, boolean hasClearView, double price) {
+        int rowNumber = 1;
+        String seatName = "name";
+        int legRoom = 1;
+        Seat.SeatClass seatClass = Seat.SeatClass.BUSINESS;
+        boolean isExitRow = false;
+        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow);
     }
 }

@@ -1,18 +1,20 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.passenger;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggages;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.checked.CheckedBaggagesFactory;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.PassengerBaggageCollections;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.flight.Flight;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
-import java.time.Instant;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
+@Table(name = "Boarding_Passenger")
 public class Passenger {
     public static final float VIP_DISCOUNT = 0.95f;
 
@@ -20,34 +22,40 @@ public class Passenger {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID passengerHash;
     private Seat.SeatClass seatClass;
-    private Instant flightDate;
-    private String flightNumber;
     private boolean isVip;
     private boolean isCheckedIn;
+    private boolean isChild;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private CheckedBaggages checkedBaggages;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private PassengerBaggageCollections baggagesCollection;
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate,
-                     String flightNumber, boolean isVip, boolean isCheckedIn) {
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Flight flight;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "seat_id")
+    private Seat seat;
+
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, boolean isVip,
+                     boolean isCheckedIn, boolean isChild, Flight flight) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
-        this.flightNumber = flightNumber;
-        this.flightDate = flightDate;
         this.isVip = isVip;
         this.isCheckedIn = isCheckedIn;
-        this.checkedBaggages = CheckedBaggagesFactory.getCheckedBaggages(this);
+        this.isChild = isChild;
+        this.flight = flight;
+        this.baggagesCollection = new PassengerBaggageCollections(this);
     }
 
-    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, Instant flightDate, String flightNumber,
-                     boolean isVip, boolean isCheckedIn, CheckedBaggages checkedBaggages) {
+    public Passenger(UUID passengerHash, Seat.SeatClass seatClass, boolean isVip, boolean isCheckedIn,
+                     boolean isChild, Flight flight, PassengerBaggageCollections baggagesCollection) {
         this.passengerHash = passengerHash;
         this.seatClass = seatClass;
-        this.flightNumber = flightNumber;
-        this.flightDate = flightDate;
         this.isVip = isVip;
         this.isCheckedIn = isCheckedIn;
-        this.checkedBaggages = checkedBaggages;
+        this.isChild = isChild;
+        this.flight = flight;
+        this.baggagesCollection = baggagesCollection;
     }
 
     protected Passenger() {
@@ -62,29 +70,37 @@ public class Passenger {
         return seatClass;
     }
 
-    public Instant getFlightDate() {
-        return flightDate;
-    }
-
-    public String getFlightNumber() {
-        return flightNumber;
-    }
-
     public boolean isVip() {
         return isVip;
     }
 
-    public float calculateBaggagesPrice() {
-        float price = checkedBaggages.calculatePrice();
+    public boolean isChild() {
+        return isChild;
+    }
+
+    public double calculateBaggagesPrice() {
+        double price = baggagesCollection.calculateTotalPrice();
         return isVip ? price * VIP_DISCOUNT : price;
     }
 
-    public void addBaggage(Baggage baggage) {
-        checkedBaggages.addBaggage(baggage);
+    public Mass calculateBaggageMass() {
+        return baggagesCollection.calculateBaggagesMass();
     }
 
-    public List<Baggage> getBaggages() {
-        return checkedBaggages.getBaggages();
+    public void addBaggage(Baggage baggage) {
+        baggagesCollection.addBaggage(baggage);
+    }
+
+    public Set<Baggage> getBaggages() {
+        return baggagesCollection.getBaggages();
+    }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public Seat getSeat() {
+        return seat;
     }
 
     public boolean isCheckedIn() {
@@ -101,7 +117,11 @@ public class Passenger {
         return HashCodeBuilder.reflectionHashCode(this, false);
     }
 
-    public void setCheckedIn(boolean checkedIn) {
-        isCheckedIn = checkedIn;
+    public void setCheckedIn() {
+        isCheckedIn = true;
+    }
+
+    public void assignSeat(SeatAssignationStrategy strategy) {
+        seat = flight.reserveSeat(strategy, this);
     }
 }

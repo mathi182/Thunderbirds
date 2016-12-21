@@ -1,63 +1,81 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.flight;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.Baggage;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.passenger.Passenger;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Plane;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.SeatAssignationStrategy;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.SeatNotAvailableException;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 public class Flight {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String flightNumber;
-    private Instant flightDate;
-    @OneToMany
-    @Cascade({CascadeType.ALL})
-    private List<Seat> seats;
-    @OneToOne
-    @Cascade({CascadeType.ALL})
+    @EmbeddedId
+    private FlightId flightId;
+
+    @OneToOne(fetch = FetchType.LAZY)
     private Plane plane;
 
-    public Flight(String flightNumber, Instant flightDate, Plane plane, Collection<Seat> seats) {
-        this.flightNumber = flightNumber;
-        this.flightDate = flightDate;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Passenger> passengers;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Seat> availableSeats;
+
+    public Flight(FlightId flightId, Plane plane) {
+        if (plane == null) {
+            throw new IllegalArgumentException("plane");
+        }
+        this.flightId = flightId;
         this.plane = plane;
-        this.seats = new ArrayList<>(seats);
+        this.availableSeats = plane.getSeats();
+        this.passengers = new ArrayList<>();
     }
 
     protected Flight() {
         // for hibernate
     }
 
-    public String getFlightNumber() {
-        return flightNumber;
+    public FlightId getId() {
+        return flightId;
     }
 
-    public Instant getFlightDate() {
-        return flightDate;
+    public Plane getPlane() {
+        return plane;
     }
 
-    public Seat findAvailableSeat(SeatAssignationStrategy strategy) {
-        List<Seat> availableSeats = seats.stream().filter(Seat::isAvailable).collect(Collectors.toList());
+    public Seat reserveSeat(SeatAssignationStrategy strategy, Passenger passenger) {
+        Seat bestSeat = strategy.findBestSeat(availableSeats, passenger);
+        availableSeats.remove(bestSeat);
+        return bestSeat;
+    }
 
-        if (availableSeats.isEmpty()) {
-            throw new SeatNotAvailableException(flightNumber);
+    public boolean hasSpaceFor(Baggage baggage) {
+        Mass baggagesMass = Mass.fromGrams(0);
+        for (Passenger passenger : passengers) {
+            baggagesMass = baggagesMass.add(passenger.calculateBaggageMass());
         }
+        baggagesMass = baggagesMass.add(baggage.getWeight());
 
-        return strategy.findAvailableSeat(availableSeats);
+        return baggagesMass.isInferiorOrEqualTo(plane.getMaximumCargoWeight());
+    }
+  
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Flight)) return false;
+
+        Flight flight = (Flight) obj;
+
+        return flightId.equals(flight.flightId);
+
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public int hashCode() {
+        return flightId.hashCode();
     }
 }

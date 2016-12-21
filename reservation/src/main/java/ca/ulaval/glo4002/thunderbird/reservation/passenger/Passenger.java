@@ -15,24 +15,32 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
+@Table(name="Reservation_Passenger")
 public class Passenger {
-    private static final int AGE_MAJORITY = 18;
+    private static final int AGE_MAJORITY = 21;
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private final UUID passengerHash = UUID.randomUUID();
+
     @NotBlank
     private String firstName;
+
     @NotBlank
     private String lastName;
+
     @NotBlank
     private String passportNumber;
+
     @NotBlank
     private String seatClass;
+
     @JsonIgnore
     private int age;
+
     @JsonIgnore
     private boolean isCheckedIn = false;
+
     @JsonIgnore
     private boolean isVip = false;
 
@@ -42,7 +50,9 @@ public class Passenger {
     private Reservation reservation;
 
     @JsonCreator
-    public Passenger(String firstName, String lastName, int age, String passportNumber, String seatClass) {
+    public Passenger(@JsonProperty("first_name") String firstName, @JsonProperty("last_name") String lastName,
+                     @JsonProperty("age") int age, @JsonProperty("passport_number") String passportNumber,
+                     @JsonProperty("seat_class") String seatClass) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -70,7 +80,7 @@ public class Passenger {
     }
 
     @JsonProperty("child")
-    public boolean isAChild() {
+    public boolean isChild() {
         return age < AGE_MAJORITY;
     }
 

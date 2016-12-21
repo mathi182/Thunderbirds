@@ -1,83 +1,50 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
 import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
-import ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations.exceptions.NoMoreSeatAvailableException;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertSame;
 
 public class MostLegRoomSeatAssignationStrategyTest {
+    private static final double CHEAPEST_PRICE = 1.0;
+    private static final double NORMAL_PRICE = 2.0;
+    private static final int LEG_ROOM = 2;
 
-    private static final int MOST_LEG_ROOM = 100;
-    private static final int SECOND_MOST_LEG_ROOM = 90;
-    private static final int THIRD_MOST_LEG_ROOM = 50;
-    private MostLegRoomSeatAssignationStrategy strategy;
-    private Seat economicMostLegRoomSeat = mock(Seat.class);
-    private Seat economicCheapestSeat = mock(Seat.class);
-    private Seat businessSeat = mock(Seat.class);
+    private final SeatAssignationStrategy strategy = new MostLegRoomSeatAssignationStrategy();
 
-    private List<Seat> seats = new ArrayList<>(Arrays.asList(economicMostLegRoomSeat, economicCheapestSeat,
-            businessSeat));
+    @Test
+    public void givenTwoSeats_whenApplyingStrategy_shouldFindSeatWithMoreLegRoom() {
+        Seat seat = getSeat(LEG_ROOM, NORMAL_PRICE);
+        Seat seatWithMoreLegRoom = getSeat(LEG_ROOM + 1, NORMAL_PRICE);
+        List<Seat> seats = Arrays.asList(seat, seatWithMoreLegRoom);
 
-    @Before
-    public void setUp() {
-        willReturn(Seat.SeatClass.ECONOMY).given(economicMostLegRoomSeat).getSeatClass();
-        willReturn(Seat.SeatClass.ECONOMY).given(economicCheapestSeat).getSeatClass();
-        willReturn(Seat.SeatClass.BUSINESS).given(businessSeat).getSeatClass();
-        willReturn(MOST_LEG_ROOM).given(economicMostLegRoomSeat).getLegRoom();
-        willReturn(THIRD_MOST_LEG_ROOM).given(businessSeat).getLegRoom();
+        Optional<Seat> actualSeat = strategy.applyStrategy(seats.stream());
+
+        assertSame(seatWithMoreLegRoom, actualSeat.get());
     }
 
     @Test
-    public void givenAValidSeatsList_whenSelectingMostLegRoom_shouldReturnMostLegRoomFromAnyCLass() {
-        willReturn(SECOND_MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
-        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
-        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
+    public void givenTwoSeatsWithSameLegRoom_whenApplyingStrategy_shouldFindCheapestSeat() {
+        Seat seat = getSeat(LEG_ROOM, NORMAL_PRICE);
+        Seat cheapestSeat = getSeat(LEG_ROOM, CHEAPEST_PRICE);
+        List<Seat> seats = Arrays.asList(cheapestSeat, seat);
 
-        Seat takenSeat = strategy.findAvailableSeat(seats);
+        Optional<Seat> actualSeat = strategy.applyStrategy(seats.stream());
 
-        assertEquals(economicMostLegRoomSeat, takenSeat);
+        assertSame(cheapestSeat, actualSeat.get());
     }
 
-    @Test
-    public void givenAValidSeatsList_whenSelectingMostLegRoomFromEconomic_shouldReturnMostLegRoomFromEconomicClass() {
-        willReturn(SECOND_MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
-        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
-        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ECONOMY);
-
-        Seat takenSeat = strategy.findAvailableSeat(seats);
-
-        assertEquals(economicMostLegRoomSeat, takenSeat);
-    }
-
-    @Test(expected = NoMoreSeatAvailableException.class)
-    public void
-    givenAValidSeatsListWithoutBusiness_whenSelectingMostLegRoomFromBusiness_shouldThrowNoMoreSeatAvailable() {
-        List<Seat> seatsWithoutBusiness = new ArrayList<>(Arrays.asList(economicCheapestSeat, economicMostLegRoomSeat));
-        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.BUSINESS);
-
-        strategy.findAvailableSeat(seatsWithoutBusiness);
-    }
-
-    @Test
-    public void givenAValidSeatsList_whenSelectionMostLegRoomWithMultipleResult_shouldReturnSeatWithLowestPrice() {
-        willReturn(MOST_LEG_ROOM).given(economicCheapestSeat).getLegRoom();
-        willReturn(true).given(economicCheapestSeat).hasLowerPriceThan(any(Seat.class));
-        willReturn(true).given(economicMostLegRoomSeat).hasMoreLegRoomThan(any(Seat.class));
-        willReturn(false).given(economicCheapestSeat).hasMoreLegRoomThan(any(Seat.class));
-        willReturn(true).given(economicCheapestSeat).hasSameAmountOfLegRoomAs(any(Seat.class));
-        strategy = new MostLegRoomSeatAssignationStrategy(Seat.SeatClass.ANY);
-
-        Seat takenSeat = strategy.findAvailableSeat(seats);
-
-        assertEquals(economicCheapestSeat, takenSeat);
+    public Seat getSeat(int legRoom, double price) {
+        int rowNumber = 1;
+        String seatName = "name";
+        boolean hasWindow = false;
+        boolean hasClearView = false;
+        Seat.SeatClass seatClass = Seat.SeatClass.BUSINESS;
+        boolean isExitRow = false;
+        return new Seat(rowNumber, seatName, legRoom, hasWindow, hasClearView, price, seatClass, isExitRow);
     }
 }

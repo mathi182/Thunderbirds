@@ -21,7 +21,7 @@ public class DevContext implements Context {
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
     public static final int AGE = 100;
-    public static final String SEAT_CLASS = "seatClass";
+    public static final String SEAT_CLASS = "economy";
     public static final String FLIGHT_NUMBER = "AC1765";
     public static final String FLIGHT_DATE_STRING = "2016-09-06T13:00:00Z";
 
@@ -45,9 +45,6 @@ public class DevContext implements Context {
 
         reservation.save();
         nonCheckinReservation.save();
-
-        EntityManagerProvider.clearEntityManager();
-        entityManager.close();
     }
 
     private Passenger createPassenger() {

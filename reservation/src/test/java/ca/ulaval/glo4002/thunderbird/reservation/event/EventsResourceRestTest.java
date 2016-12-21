@@ -1,9 +1,11 @@
 package ca.ulaval.glo4002.thunderbird.reservation.event;
 
 import ca.ulaval.glo4002.thunderbird.reservation.reservation.ReservationsResource;
+import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,14 +24,11 @@ public class EventsResourceRestTest {
     private static final String FLIGHT_NUMBER = "AC1765";
     private static final String FLIGHT_DATE = "2016-10-15T11:41:00Z";
 
-    private static final String FIRST_NAME = "Alexis";
-    private static final String LAST_NAME = "Lessard";
-    private static final int AGE = 18;
-    private static final String PASSPORT_NUMBER = "testo";
+    private static final String FIRST_NAME = "Uncle";
+    private static final String LAST_NAME = "Bob";
+    private static final String PASSPORT_NUMBER = "2564-5424";
     private static final String SEAT_CLASS = "economy";
-
-    private static final String LOCATION_HEADER = "Location";
-
+    private static final int AGE = 18;
     private String createReservationPath;
 
     @Before
@@ -49,7 +48,7 @@ public class EventsResourceRestTest {
                 .body(generateReservationMap())
                 .when().post(createReservationPath)
                 .then().statusCode(CREATED.getStatusCode())
-                .header(LOCATION_HEADER, buildUrl(locationExpected));
+                .header(HttpHeaders.LOCATION, buildUrl(locationExpected));
     }
 
     private String createLocationExpected(String reservationNumber) {
@@ -67,7 +66,7 @@ public class EventsResourceRestTest {
         reservationMap.put("flight_date", FLIGHT_DATE);
         reservationMap.put("payment_location", PAYMENT_LOCATION);
         reservationMap.put("passengers", generatePassengerList());
-
+        String map = reservationMap.toString();
         return reservationMap;
     }
 
@@ -86,7 +85,7 @@ public class EventsResourceRestTest {
         passengerMap.put("age", AGE);
         passengerMap.put("passport_number", PASSPORT_NUMBER);
         passengerMap.put("seat_class", SEAT_CLASS);
-        
+
         return passengerMap;
     }
 }

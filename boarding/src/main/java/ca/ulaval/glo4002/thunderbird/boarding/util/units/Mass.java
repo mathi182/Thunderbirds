@@ -41,6 +41,10 @@ public class Mass {
         return grams / GRAMS_IN_A_KILOGRAM;
     }
 
+    public Mass add(Mass otherMass) {
+        return Mass.fromGrams(grams + otherMass.grams);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Mass)) {
@@ -49,5 +53,13 @@ public class Mass {
 
         Mass other = (Mass) obj;
         return grams == other.grams;
+    }
+
+    public boolean isSuperiorTo(Mass mass) {
+        return grams > mass.grams;
+    }
+
+    public boolean isInferiorOrEqualTo(Mass mass) {
+        return grams <= mass.grams;
     }
 }

@@ -1,24 +1,27 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.seatAssignations;
 
-import ca.ulaval.glo4002.thunderbird.boarding.domain.plane.Seat;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.exceptions.NoSuchStrategyException;
 
-import java.util.Random;
-
 public class SeatAssignationStrategyFactory {
-
-    public SeatAssignationStrategy getStrategy(SeatAssignationStrategy.AssignMode mode, Seat.SeatClass seatClass) {
+    public SeatAssignationStrategy getStrategy(AssignMode mode) {
         switch (mode) {
             case RANDOM:
-                return new RandomSeatAssignationStrategy(new Random());
+                return new RandomSeatAssignationStrategy();
             case CHEAPEST:
-                return new CheapestSeatAssignationStrategy(seatClass);
+                return new CheapestSeatAssignationStrategy();
             case LANDSCAPE:
-                return new LandscapeSeatAssignationStrategy(seatClass);
+                return new LandscapeSeatAssignationStrategy();
             case LEGS:
-                return new MostLegRoomSeatAssignationStrategy(seatClass);
+                return new MostLegRoomSeatAssignationStrategy();
             default:
                 throw new NoSuchStrategyException("unknown");
         }
+    }
+
+    public enum AssignMode {
+        RANDOM,
+        CHEAPEST,
+        LANDSCAPE,
+        LEGS
     }
 }

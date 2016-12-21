@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.rest.baggage;
 import io.restassured.response.Response;
 import org.junit.Test;
 
+import javax.ws.rs.core.HttpHeaders;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -10,22 +11,21 @@ import java.util.regex.Pattern;
 
 import static ca.ulaval.glo4002.thunderbird.boarding.contexts.DevContext.EXISTENT_BOARDING_PASSENGER;
 import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.buildUrl;
-import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequest;
+import static ca.ulaval.glo4002.thunderbird.boarding.rest.RestTestConfig.givenBaseRequestBoarding;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.eclipse.jetty.http.HttpStatus.Code.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class BaggageResourceRestTest {
     private static final String CM_UNIT_FROM_REQUEST = "cm";
     private static final int LINEAR_DIMENSION = 10;
     private static final String KG_UNIT_FROM_REQUEST = "kg";
-    private static final String CHECKED_BAGGAGE_TYPE_DESCRIPTION = "checked";
+    private static final String BAGGAGE_TYPE_CHECKED = "checked";
     private static final int WEIGHT = 10;
-    private static final int INVALID_WEIGHT = 4000;
     private static final String INVALID_UNIT = "invalid_unit";
     private static final UUID VALID_PASSENGER_HASH = EXISTENT_BOARDING_PASSENGER.getHash();
     private static final UUID INVALID_PASSENGER_UUID = UUID.randomUUID();
-    private static final String LOCATION_HEADER = "Location";
     private static final String ALLOWED = "allowed";
     private static final String REFUSATION_REASON = "refusation_reason";
 
@@ -33,19 +33,20 @@ public class BaggageResourceRestTest {
 
     @Test
     public void givenAValidBaggageAndExistentPassenger_whenRegisteringValidBaggage_shouldRegisterBaggage() {
-        Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
+        Map<String, Object> registerBaggageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
                 LINEAR_DIMENSION,
                 KG_UNIT_FROM_REQUEST,
                 WEIGHT,
-                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                BAGGAGE_TYPE_CHECKED);
 
-        Response response = givenBaseRequest()
-                .and().body(registerBagageBody)
+        Response response = givenBaseRequestBoarding()
+                .and().body(registerBaggageBody)
                 .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then().statusCode(CREATED.getCode())
                 .and().extract().response();
 
-        Boolean locationValidity = isLocationValid(response.getHeader(LOCATION_HEADER), VALID_PASSENGER_HASH);
+
+        Boolean locationValidity = isLocationValid(response.getHeader(HttpHeaders.LOCATION), VALID_PASSENGER_HASH);
         assertTrue(locationValidity);
         Boolean allowed = response.path(ALLOWED);
         assertTrue(allowed);
@@ -55,36 +56,16 @@ public class BaggageResourceRestTest {
 
     @Test
     public void givenAValidPassengerWithBaggages_whenGettingBaggagesList_shouldReturnBaggagesList() {
-        givenBaseRequest()
+        givenBaseRequestBoarding()
                 .when().get("/passengers/" + VALID_PASSENGER_HASH + "/baggages")
                 .then().statusCode(OK.getStatusCode());
     }
 
     @Test
     public void givenAnInvalidPassenger_whenGettingBaggagesList_shouldGetNotFound() {
-        givenBaseRequest()
+        givenBaseRequestBoarding()
                 .when().get("/passengers/" + INVALID_PASSENGER_UUID + "/baggages")
                 .then().statusCode(NOT_FOUND.getCode());
-    }
-
-    @Test
-    public void givenAnInvalidWeightBaggage_whenRegisteringBaggage_shouldReturnOk() {
-        Map<String, Object> registerBagageBody = createRegisterBaggageBody(CM_UNIT_FROM_REQUEST,
-                LINEAR_DIMENSION,
-                KG_UNIT_FROM_REQUEST,
-                INVALID_WEIGHT,
-                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
-
-        Response response = givenBaseRequest()
-                .and().body(registerBagageBody)
-                .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                .then().statusCode(OK.getStatusCode())
-                .and().extract().response();
-
-        Boolean allowed = response.path(ALLOWED);
-        assertFalse(allowed);
-        String deniedReason = response.path(REFUSATION_REASON);
-        assertNotNull(deniedReason);
     }
 
     @Test
@@ -93,9 +74,9 @@ public class BaggageResourceRestTest {
                 LINEAR_DIMENSION,
                 INVALID_UNIT,
                 WEIGHT,
-                CHECKED_BAGGAGE_TYPE_DESCRIPTION);
+                BAGGAGE_TYPE_CHECKED);
 
-        givenBaseRequest()
+        givenBaseRequestBoarding()
                 .body(registerBaggageBody)
                 .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
                 .then().statusCode(BAD_REQUEST.getCode());

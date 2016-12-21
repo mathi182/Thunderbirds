@@ -2,9 +2,7 @@ package ca.ulaval.glo4002.thunderbird.boarding.util.units;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class LengthTest {
 
@@ -12,6 +10,8 @@ public class LengthTest {
     private static final double LENGTH_IN_MILLIMETERS = 25.4;
     private static final double LENGTH_IN_INCHES = 1;
     private static final double LENGTH_IN_CENTIMETERS = 2.54;
+    private static final double SMALLER_LENGTH_IN_CENTIMETERS = LENGTH_IN_CENTIMETERS - 1;
+    private static final double BIGGER_LENGTH_IN_CENTIMETERS = LENGTH_IN_CENTIMETERS + 1;
     private Length length;
     private double actualLength;
 
@@ -73,4 +73,33 @@ public class LengthTest {
         assertFalse(areEquals);
     }
 
+    @Test
+    public void givenALength_whenCheckingIfIsSuperiorToSmallerLength_shouldReturnTrue() {
+        length = Length.fromCentimeters(LENGTH_IN_CENTIMETERS);
+        Length smallerLength = Length.fromCentimeters(SMALLER_LENGTH_IN_CENTIMETERS);
+
+        boolean isSuperior = length.isSuperiorTo(smallerLength);
+
+        assertTrue(isSuperior);
+    }
+
+    @Test
+    public void givenALength_whenCheckingIfIsSuperiorToSameLength_shouldReturnFalse() {
+        length = Length.fromCentimeters(LENGTH_IN_CENTIMETERS);
+        Length sameLength = Length.fromCentimeters(LENGTH_IN_CENTIMETERS);
+
+        boolean isSuperior = length.isSuperiorTo(sameLength);
+
+        assertFalse(isSuperior);
+    }
+
+    @Test
+    public void givenALength_whenCheckingIfIsSuperiorToBiggerLength_shouldReturnFalse() {
+        length = Length.fromCentimeters(LENGTH_IN_CENTIMETERS);
+        Length sameLength = Length.fromCentimeters(BIGGER_LENGTH_IN_CENTIMETERS);
+
+        boolean isSuperior = length.isSuperiorTo(sameLength);
+
+        assertFalse(isSuperior);
+    }
 }

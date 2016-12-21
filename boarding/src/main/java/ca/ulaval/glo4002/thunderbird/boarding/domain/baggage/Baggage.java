@@ -1,41 +1,44 @@
 package ca.ulaval.glo4002.thunderbird.boarding.domain.baggage;
 
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.collection.BaggageCollection;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageDimensionInvalidException;
 import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.exceptions.BaggageWeightInvalidException;
+import ca.ulaval.glo4002.thunderbird.boarding.domain.baggage.speciality.Speciality;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Length;
 import ca.ulaval.glo4002.thunderbird.boarding.util.units.Mass;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-public class Baggage {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Baggage {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID baggageHash;
-    private String type;
-    private float price;
+    protected UUID baggageHash;
+    protected float price;
+    protected String type;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    protected Set<Speciality> specialities;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn
+    protected BaggageCollection baggageCollection;
 
     @Embedded
-    private Length linearDimension;
+    protected Length linearDimension;
 
     @Embedded
-    private Mass weight;
+    protected Mass weight;
 
     public Baggage(Length linearDimension, Mass weight, String type) {
+        this.specialities = new HashSet<>();
         this.baggageHash = UUID.randomUUID();
-        this.linearDimension = linearDimension;
-        this.weight = weight;
-        this.type = type;
-    }
-
-    public Baggage(UUID baggageHash, Length linearDimension, Mass weight, String type) {
-        this.baggageHash = baggageHash;
         this.linearDimension = linearDimension;
         this.weight = weight;
         this.type = type;
@@ -43,6 +46,16 @@ public class Baggage {
 
     protected Baggage() {
         // for hibernate
+    }
+
+    public abstract double getPrice();
+
+    public abstract boolean isChecked();
+
+    public abstract String getType();
+
+    public void setBaggageCollection(BaggageCollection baggageCollection) {
+        this.baggageCollection = baggageCollection;
     }
 
     public UUID getId() {
@@ -57,24 +70,28 @@ public class Baggage {
         return linearDimension;
     }
 
-    public String getType() {
-        return type;
+    public boolean hasSpeciality(Speciality speciality) {
+        for (Speciality specs : specialities) {
+            if (specs.getSpecialityName().equals(speciality.getSpecialityName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public float getPrice() {
-        return price;
+    public void addSpeciality(Speciality speciality) {
+        specialities.add(speciality);
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    public void removeSpeciality(Speciality speciality) {
+        specialities.remove(speciality);
     }
 
-    public void validate(Length maximumLinearDimension, Mass maximumWeight) {
-        if (weight.toGrams() > maximumWeight.toGrams()) {
+    public void validateBaggage(Length maximumLinearDimension, Mass maximumWeight) {
+        if (weight.isSuperiorTo(maximumWeight)) {
             throw new BaggageWeightInvalidException();
         }
-
-        if (linearDimension.toMillimeters() > maximumLinearDimension.toMillimeters()) {
+        if (linearDimension.isSuperiorTo(maximumLinearDimension)) {
             throw new BaggageDimensionInvalidException();
         }
     }
