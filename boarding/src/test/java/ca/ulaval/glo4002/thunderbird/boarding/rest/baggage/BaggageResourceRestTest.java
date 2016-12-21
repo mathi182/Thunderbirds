@@ -42,8 +42,8 @@ public class BaggageResourceRestTest {
         Response response = givenBaseRequestBoarding()
                 .and().body(registerBaggageBody)
                 .when().post(String.format("/passengers/%s/baggages", VALID_PASSENGER_HASH))
-                //.then().statusCode(CREATED.getCode())
-                .then().extract().response();
+                .then().statusCode(CREATED.getCode())
+                .and().extract().response();
 
 
         Boolean locationValidity = isLocationValid(response.getHeader(HttpHeaders.LOCATION), VALID_PASSENGER_HASH);
