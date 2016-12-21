@@ -45,12 +45,16 @@ public class PassengerBaggageCollections {
         if (baggageCollection.isPresent()) {
             baggageCollection.get().addBaggage(baggage);
         } else {
-            CollectionFactory collectionFactory = new CollectionFactory();
-            BaggageCollection newCollection = collectionFactory.createCollection(passenger, baggage.getType());
-            newCollection.addBaggage(baggage);
-            newCollection.setPassengerBaggageCollections(this);
-            collection.add(newCollection);
+            addNewCollection(baggage);
         }
+    }
+
+    private void addNewCollection(Baggage baggage) {
+        CollectionFactory collectionFactory = new CollectionFactory();
+        BaggageCollection newCollection = collectionFactory.createCollection(passenger, baggage.getType());
+        newCollection.addBaggage(baggage);
+        newCollection.setPassengerBaggageCollections(this);
+        collection.add(newCollection);
     }
 
     private Optional<BaggageCollection> getBaggageCollectionForBaggage(Baggage baggage) {
