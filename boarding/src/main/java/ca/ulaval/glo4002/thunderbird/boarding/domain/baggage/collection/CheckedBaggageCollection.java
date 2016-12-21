@@ -32,29 +32,12 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
         return collection;
     }
 
-    public float calculatePrice() {
-        float price = 0;
-        for (Baggage baggage : collection) {
-            price += baggage.getPrice();
-        }
-        return price;
-    }
-
     @Override
     public void addBaggage(Baggage baggage) {
         validateBaggage(baggage);
         validateCollection(baggage);
-        setBaggagePrice(baggage);
         baggage.setBaggageCollection(this);
         collection.add(baggage);
-    }
-
-    private void setBaggagePrice(Baggage baggage) {
-        float price = 0;
-        if (collection.size() >= getFreeBaggageCount()) {
-            price = baggage.getBasePrice();
-        }
-        baggage.setPrice(price);
     }
 
     protected abstract int getBaggageCountLimit();
@@ -77,7 +60,7 @@ public abstract class CheckedBaggageCollection extends BaggageCollection {
             throw new BaggageAmountUnauthorizedException();
     }
 
-    public abstract float calculateTotalCost();
+    public abstract double calculateTotalCost();
 
     @Override
     public boolean equals(Object o) {

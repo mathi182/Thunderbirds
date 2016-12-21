@@ -4,6 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaggagesListDTO {
-    public float totalPrice;
+    public double totalPrice;
     public List<BaggageDTO> baggages = new ArrayList<>();
 }

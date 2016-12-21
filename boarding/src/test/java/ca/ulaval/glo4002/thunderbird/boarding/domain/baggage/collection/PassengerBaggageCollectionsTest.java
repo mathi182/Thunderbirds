@@ -51,9 +51,9 @@ public class PassengerBaggageCollectionsTest {
         willReturn("medical").given(medicalBaggage).getType();
         willReturn("checked").given(businessBaggage).getType();
         willReturn("personal").given(personalBaggage).getType();
-        willReturn(0.0f).given(medicalBaggage).getBasePrice();
-        willReturn(50.0f).given(businessBaggage).getBasePrice();
-        willReturn(0.0f).given(personalBaggage).getBasePrice();
+        willReturn(0.0d).given(medicalBaggage).getPrice();
+        willReturn(50.0d).given(businessBaggage).getPrice();
+        willReturn(0.0d).given(personalBaggage).getPrice();
     }
 
     @Test
@@ -112,9 +112,9 @@ public class PassengerBaggageCollectionsTest {
         collections.addBaggage(businessBaggage);
         collections.addBaggage(businessBaggage);
 
-        float actualPrice = collections.calculateTotalPrice();
+        double actualPrice = collections.calculateTotalPrice();
 
-        float expectedPrice = 50;
+        double expectedPrice = 50;
         assertEquals(expectedPrice, actualPrice, DELTA);
     }
 }

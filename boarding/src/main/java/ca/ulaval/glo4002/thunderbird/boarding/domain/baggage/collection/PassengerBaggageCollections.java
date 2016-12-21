@@ -65,10 +65,10 @@ public class PassengerBaggageCollections {
                 .findFirst();
     }
 
-    public float calculateTotalPrice() {
+    public double calculateTotalPrice() {
         return collection.stream()
                 .map(BaggageCollection::calculateTotalCost)
-                .reduce(0f, (a, b) -> a + b);
+                .reduce(0.0d, (a, b) -> a + b);
     }
 
     public Set<Baggage> getBaggages() {

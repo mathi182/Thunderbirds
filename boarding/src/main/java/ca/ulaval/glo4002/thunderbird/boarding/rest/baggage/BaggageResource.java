@@ -41,7 +41,7 @@ public class BaggageResource {
     public Response getBaggagesList(@PathParam("passenger_hash") UUID passengerHash) {
         Passenger passenger = baggageApplicationService.getPassenger(passengerHash);
         Set<Baggage> baggages = passenger.getBaggages();
-        float price = passenger.calculateBaggagesPrice();
+        double price = passenger.calculateBaggagesPrice();
         BaggagesListDTO baggagesListDTO = baggagesListAssembler.toDTO(price, baggages);
 
         return Response.ok(baggagesListDTO, MediaType.APPLICATION_JSON).build();

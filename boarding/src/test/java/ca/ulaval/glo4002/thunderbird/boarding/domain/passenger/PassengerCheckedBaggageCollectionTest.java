@@ -49,10 +49,10 @@ public class PassengerCheckedBaggageCollectionTest {
 
     @Test
     public void givenAPrice_whenCalculatingBaggagesPrice_shouldReturnThisPrice() {
-        float expectedPrice = 100;
+        double expectedPrice = 100;
         willReturn(expectedPrice).given(baggagesCollection).calculateTotalPrice();
 
-        float actualPrice = passenger.calculateBaggagesPrice();
+        double actualPrice = passenger.calculateBaggagesPrice();
 
         verify(baggagesCollection).calculateTotalPrice();
         assertEquals(expectedPrice, actualPrice, 0.0f);
@@ -60,12 +60,12 @@ public class PassengerCheckedBaggageCollectionTest {
 
     @Test
     public void givenAPrice_whenCalculationBaggagesPriceForVip_shouldReturnThisPriceWithADiscount() {
-        float expectedPriceWithoutDiscount = 100;
+        double expectedPriceWithoutDiscount = 100;
         willReturn(expectedPriceWithoutDiscount).given(baggagesCollection).calculateTotalPrice();
 
-        float actualPrice = vipPassenger.calculateBaggagesPrice();
+        double actualPrice = vipPassenger.calculateBaggagesPrice();
 
-        float expectedPrice = expectedPriceWithoutDiscount * 0.95f;
+        double expectedPrice = expectedPriceWithoutDiscount * 0.95f;
         verify(baggagesCollection).calculateTotalPrice();
         assertEquals(expectedPrice, actualPrice, 0.0f);
     }

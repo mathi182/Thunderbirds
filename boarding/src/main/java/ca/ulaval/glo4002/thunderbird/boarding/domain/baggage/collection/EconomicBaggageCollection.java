@@ -49,15 +49,15 @@ public class EconomicBaggageCollection extends CheckedBaggageCollection {
     }
 
     @Override
-    public float calculateTotalCost() {
+    public double calculateTotalCost() {
         float cost = 0;
         int baggageNumber = 1;
         for (Baggage currentBaggage : collection) {
             if (baggageNumber > FREE_BAGGAGE_COUNT) {
-                cost += currentBaggage.getBasePrice();
+                cost += currentBaggage.getPrice();
             }
             baggageNumber++;
         }
-        return cost;
+        return modifyPriceForVip(cost);
     }
 }

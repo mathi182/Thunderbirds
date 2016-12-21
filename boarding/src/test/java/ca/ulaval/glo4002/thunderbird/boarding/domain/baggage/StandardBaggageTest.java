@@ -37,7 +37,7 @@ public class StandardBaggageTest {
 
     @Test
     public void shouldReturnRightValues() {
-        assertEquals(STANDARD_PRICE, baggage.getBasePrice(), DELTA);
+        assertEquals(STANDARD_PRICE, baggage.getPrice(), DELTA);
         assertFalse(baggage.isChecked());
         assertEquals(STANDARD_TYPE, baggage.getType());
     }
