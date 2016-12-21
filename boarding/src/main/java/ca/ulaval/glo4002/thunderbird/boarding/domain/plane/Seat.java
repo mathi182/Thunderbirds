@@ -54,11 +54,8 @@ public class Seat {
     }
 
     public enum SeatClass {
-        ANY,
         ECONOMY,
-        BUSINESS,
-        BIG_FRONT,
-        PREMIUM_ECONOMY
+        BUSINESS
     }
 
     public static Comparator<Seat> LANDSCAPE_COMPARATOR = Comparator
