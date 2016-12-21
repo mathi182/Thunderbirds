@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,32 +21,41 @@ import static org.mockito.Mockito.mock;
 
 public class PassengerBaggageCollectionsTest {
 
-    private static final UUID PASSENGER_UUID = UUID.randomUUID();
-    private static final int PERSO_WEIGHT = 8;
-    private static final int BUSINESS_WEIGHT = 45;
-    private static final int MEDICAL_WEIGHT = 3;
+    private static final Mass PERSO_WEIGHT = Mass.fromKilograms(8);
+    private static final Mass BUSINESS_WEIGHT = Mass.fromKilograms(20);
+    private static final Mass MEDICAL_WEIGHT = Mass.fromKilograms(3);
+    private static final float DELTA = 0.01f;
     private PassengerBaggageCollections collections;
     private Baggage medicalBaggage;
     private Baggage personalBaggage;
     private Baggage businessBaggage;
-    private Mass expectedMass = Mass.fromKilograms(MEDICAL_WEIGHT + BUSINESS_WEIGHT + PERSO_WEIGHT);
-
+    private Mass expectedMass = Mass.fromKilograms(MEDICAL_WEIGHT.toKilograms() + BUSINESS_WEIGHT.toKilograms() +
+            PERSO_WEIGHT.toKilograms());
 
     @Before
     public void setup() {
         Passenger passenger = mock(Passenger.class);
         willReturn(Seat.SeatClass.BUSINESS).given(passenger).getSeatClass();
         collections = new PassengerBaggageCollections(passenger);
+        mockBaggages();
+    }
+
+    private void mockBaggages() {
         medicalBaggage = mock(MedicalBaggage.class);
         personalBaggage = mock(PersonalBaggage.class);
         businessBaggage = mock(BusinessBaggage.class);
-        willReturn(Mass.fromKilograms(PERSO_WEIGHT)).given(personalBaggage).getWeight();
-        willReturn(Mass.fromKilograms(BUSINESS_WEIGHT)).given(businessBaggage).getWeight();
-        willReturn(Mass.fromKilograms(MEDICAL_WEIGHT)).given(medicalBaggage).getWeight();
+
+        willReturn(PERSO_WEIGHT).given(personalBaggage).getWeight();
+        willReturn(BUSINESS_WEIGHT).given(businessBaggage).getWeight();
+        willReturn(MEDICAL_WEIGHT).given(medicalBaggage).getWeight();
+
         willReturn(false).given(medicalBaggage).hasSpeciality(any(Speciality.class));
         willReturn("medical").given(medicalBaggage).getType();
         willReturn("checked").given(businessBaggage).getType();
         willReturn("personal").given(personalBaggage).getType();
+        willReturn(0.0f).given(medicalBaggage).getBasePrice();
+        willReturn(50.0f).given(businessBaggage).getBasePrice();
+        willReturn(0.0f).given(personalBaggage).getBasePrice();
     }
 
     @Test
@@ -94,6 +102,19 @@ public class PassengerBaggageCollectionsTest {
 
         Mass actualMass = collections.calculateBaggagesMass();
 
-        assertEquals(expectedMass,actualMass);
+        assertEquals(expectedMass, actualMass);
+    }
+
+    @Test
+    public void givenACollectionsWithThreeBaggages_whenCalculatingTotalPrice_shouldReturnCorrectPrice() {
+        collections.addBaggage(medicalBaggage);
+        collections.addBaggage(businessBaggage);
+        collections.addBaggage(businessBaggage);
+        collections.addBaggage(businessBaggage);
+
+        float actualPrice = collections.calculateTotalPrice();
+
+        float expectedPrice = 50;
+        assertEquals(expectedPrice, actualPrice, DELTA);
     }
 }
